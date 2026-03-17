@@ -1,0 +1,158 @@
+[
+  {
+    "id": "n1",
+    "topic": "Algorithms",
+    "title": "Sorting Algorithms Overview",
+    "summary": "Comparison of common sorting algorithms including their time and space complexities, stability, and best use cases.",
+    "key_points": [
+      "Bubble Sort: O(n²) average, stable, in-place — good for educational purposes",
+      "Merge Sort: O(n log n) guaranteed, stable, requires O(n) extra space",
+      "Quick Sort: O(n log n) average, O(n²) worst case, in-place but unstable",
+      "Heap Sort: O(n log n) guaranteed, in-place but unstable",
+      "Counting Sort: O(n+k) for integers with limited range — not comparison-based"
+    ]
+  },
+  {
+    "id": "n2",
+    "topic": "Algorithms",
+    "title": "Dynamic Programming Techniques",
+    "summary": "Core dynamic programming strategies including memoization vs tabulation, identifying overlapping subproblems, and optimal substructure.",
+    "key_points": [
+      "Memoization (top-down): cache results of recursive calls",
+      "Tabulation (bottom-up): iteratively fill a table from base cases",
+      "Key indicators: overlapping subproblems + optimal substructure",
+      "Classic problems: Fibonacci, Knapsack, LCS, Matrix Chain Multiplication",
+      "Always define the state and transition before coding"
+    ]
+  },
+  {
+    "id": "n3",
+    "topic": "Algorithms",
+    "title": "Graph Algorithms & Traversals",
+    "summary": "Fundamental graph traversal and shortest path algorithms used frequently in exams.",
+    "key_points": [
+      "BFS: Level-order traversal, uses queue, O(V+E), finds shortest path in unweighted graphs",
+      "DFS: Depth-first, uses stack/recursion, O(V+E), used for cycle detection and topological sort",
+      "Dijkstra: Shortest path for non-negative weights, uses priority queue, O((V+E) log V)",
+      "Bellman-Ford: Handles negative weights, O(VE), detects negative cycles",
+      "Kruskal/Prim: Minimum spanning tree algorithms"
+    ]
+  },
+  {
+    "id": "n4",
+    "topic": "Operating Systems",
+    "title": "Process Scheduling Algorithms",
+    "summary": "Overview of CPU scheduling algorithms, their characteristics, and trade-offs in operating system design.",
+    "key_points": [
+      "FCFS: Simple, non-preemptive, suffers from convoy effect",
+      "SJF: Optimal average wait time, but requires knowing burst time in advance",
+      "Round Robin: Preemptive, fair, performance depends on time quantum",
+      "Priority Scheduling: Can cause starvation — solved by aging",
+      "Multilevel Queue: Different queues for different process types"
+    ]
+  },
+  {
+    "id": "n5",
+    "topic": "Operating Systems",
+    "title": "Memory Management & Paging",
+    "summary": "How operating systems manage memory allocation, paging, and virtual memory concepts.",
+    "key_points": [
+      "Paging: Divides memory into fixed-size pages, eliminates external fragmentation",
+      "Page Table: Maps virtual pages to physical frames",
+      "TLB (Translation Lookaside Buffer): Cache for page table entries — speeds up address translation",
+      "Page Replacement: FIFO, LRU, Optimal — each with different trade-offs",
+      "Thrashing: Excessive paging that severely degrades performance"
+    ]
+  },
+  {
+    "id": "n6",
+    "topic": "Operating Systems",
+    "title": "Deadlock Conditions & Prevention",
+    "summary": "Understanding deadlock, its necessary conditions, and strategies for handling it.",
+    "key_points": [
+      "Four conditions (all must hold): Mutual Exclusion, Hold & Wait, No Preemption, Circular Wait",
+      "Prevention: Negate one of the four conditions",
+      "Avoidance: Banker's Algorithm — check safe state before allocation",
+      "Detection: Resource Allocation Graph (RAG) — look for cycles",
+      "Recovery: Process termination or resource preemption"
+    ]
+  },
+  {
+    "id": "n7",
+    "topic": "Database Systems",
+    "title": "Normalization Forms",
+    "summary": "Database normalization process from 1NF to BCNF with practical examples and guidelines.",
+    "key_points": [
+      "1NF: Atomic values, no repeating groups",
+      "2NF: 1NF + no partial dependencies (all non-key attributes depend on entire primary key)",
+      "3NF: 2NF + no transitive dependencies",
+      "BCNF: Every determinant is a candidate key — stricter than 3NF",
+      "Denormalization: Sometimes used for performance at the cost of redundancy"
+    ]
+  },
+  {
+    "id": "n8",
+    "topic": "Database Systems",
+    "title": "SQL Joins & Subqueries",
+    "summary": "Essential SQL join types and subquery patterns commonly tested in database exams.",
+    "key_points": [
+      "INNER JOIN: Returns matching rows from both tables",
+      "LEFT JOIN: All rows from left table + matched rows from right",
+      "RIGHT JOIN: All rows from right table + matched rows from left",
+      "FULL OUTER JOIN: All rows from both tables, NULL for non-matches",
+      "Correlated Subquery: References outer query — executes once per outer row"
+    ]
+  },
+  {
+    "id": "n9",
+    "topic": "Database Systems",
+    "title": "Transaction Management & ACID",
+    "summary": "How databases ensure reliable transactions through ACID properties and concurrency control.",
+    "key_points": [
+      "Atomicity: Transaction is all-or-nothing",
+      "Consistency: Database moves from one valid state to another",
+      "Isolation: Concurrent transactions don't interfere (levels: Read Uncommitted → Serializable)",
+      "Durability: Committed changes survive system failures",
+      "Concurrency control: Locks (2PL), timestamps, MVCC"
+    ]
+  },
+  {
+    "id": "n10",
+    "topic": "Networking",
+    "title": "OSI Model Layers",
+    "summary": "Complete breakdown of the 7-layer OSI networking model with protocols and functions at each layer.",
+    "key_points": [
+      "Layer 7 (Application): HTTP, FTP, SMTP, DNS — user-facing services",
+      "Layer 4 (Transport): TCP (reliable) vs UDP (fast) — port-based multiplexing",
+      "Layer 3 (Network): IP addressing, routing (OSPF, BGP), packet forwarding",
+      "Layer 2 (Data Link): MAC addressing, Ethernet, switches, error detection",
+      "Layer 1 (Physical): Bits on wire, cables, hubs, signal encoding"
+    ]
+  },
+  {
+    "id": "n11",
+    "topic": "Networking",
+    "title": "TCP/IP Protocol Suite",
+    "summary": "Deep dive into TCP/IP protocols, the three-way handshake, and reliable data transfer mechanisms.",
+    "key_points": [
+      "Three-way handshake: SYN → SYN-ACK → ACK establishes connection",
+      "Flow Control: Sliding window protocol prevents receiver buffer overflow",
+      "Congestion Control: Slow start, congestion avoidance, fast retransmit",
+      "IP Addressing: IPv4 (32-bit) vs IPv6 (128-bit), CIDR notation",
+      "NAT: Translates private IPs to public IPs for internet access"
+    ]
+  },
+  {
+    "id": "n12",
+    "topic": "Networking",
+    "title": "Network Security Fundamentals",
+    "summary": "Core network security concepts including encryption, authentication, and common attacks.",
+    "key_points": [
+      "Symmetric encryption: Same key for encrypt/decrypt (AES, DES) — fast",
+      "Asymmetric encryption: Public/private key pairs (RSA) — slower but more secure",
+      "TLS/SSL: Encrypts HTTP traffic, uses certificates for authentication",
+      "Common attacks: Man-in-the-middle, DDoS, SQL injection, XSS",
+      "Firewalls: Packet filtering, stateful inspection, application-layer gateway"
+    ]
+  }
+]

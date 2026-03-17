@@ -1,0 +1,322 @@
+[
+  {
+    "id": "q1",
+    "question": "What is the time complexity of binary search?",
+    "options": ["O(n)", "O(log n)", "O(n²)", "O(1)"],
+    "answer": "O(log n)",
+    "explanation": "Binary search divides the search interval in half each time, resulting in logarithmic time complexity O(log n).",
+    "topic": "Algorithms",
+    "difficulty": "easy",
+    "source": "past_exam"
+  },
+  {
+    "id": "q2",
+    "question": "Which sorting algorithm has the best average-case time complexity?",
+    "options": ["Bubble Sort", "Merge Sort", "Selection Sort", "Insertion Sort"],
+    "answer": "Merge Sort",
+    "explanation": "Merge Sort has O(n log n) average-case time complexity, which is optimal for comparison-based sorting algorithms.",
+    "topic": "Algorithms",
+    "difficulty": "easy",
+    "source": "resource"
+  },
+  {
+    "id": "q3",
+    "question": "What is the worst-case time complexity of QuickSort?",
+    "options": ["O(n log n)", "O(n²)", "O(n)", "O(log n)"],
+    "answer": "O(n²)",
+    "explanation": "QuickSort degrades to O(n²) when the pivot selection consistently results in unbalanced partitions, such as when the array is already sorted.",
+    "topic": "Algorithms",
+    "difficulty": "medium",
+    "source": "past_exam"
+  },
+  {
+    "id": "q4",
+    "question": "Which data structure uses LIFO (Last In, First Out) principle?",
+    "options": ["Queue", "Stack", "Array", "Linked List"],
+    "answer": "Stack",
+    "explanation": "A stack follows the LIFO principle where the last element added is the first one to be removed.",
+    "topic": "Algorithms",
+    "difficulty": "easy",
+    "source": "resource"
+  },
+  {
+    "id": "q5",
+    "question": "What is dynamic programming?",
+    "options": [
+      "A method for solving problems by breaking them into overlapping subproblems",
+      "A technique for dynamic memory allocation",
+      "A programming paradigm for runtime code generation",
+      "A method for parallel processing"
+    ],
+    "answer": "A method for solving problems by breaking them into overlapping subproblems",
+    "explanation": "Dynamic programming solves complex problems by breaking them down into simpler overlapping subproblems and storing results to avoid redundant computation (memoization).",
+    "topic": "Algorithms",
+    "difficulty": "medium",
+    "source": "past_exam"
+  },
+  {
+    "id": "q6",
+    "question": "In a Red-Black Tree, what is the maximum height for n nodes?",
+    "options": ["O(n)", "O(log n)", "O(2 log n)", "O(n log n)"],
+    "answer": "O(2 log n)",
+    "explanation": "A Red-Black tree guarantees that the height is at most 2*log₂(n+1), ensuring O(log n) operations. The constant factor of 2 comes from the red-black properties.",
+    "topic": "Algorithms",
+    "difficulty": "hard",
+    "source": "past_exam"
+  },
+  {
+    "id": "q7",
+    "question": "What is a deadlock in operating systems?",
+    "options": [
+      "When a process runs infinitely",
+      "When two or more processes are waiting for each other to release resources",
+      "When the CPU is overloaded",
+      "When memory is full"
+    ],
+    "answer": "When two or more processes are waiting for each other to release resources",
+    "explanation": "A deadlock occurs when two or more processes are blocked, each waiting for a resource held by another, creating a circular dependency.",
+    "topic": "Operating Systems",
+    "difficulty": "medium",
+    "source": "past_exam"
+  },
+  {
+    "id": "q8",
+    "question": "Which scheduling algorithm gives the minimum average waiting time?",
+    "options": ["FCFS", "SJF", "Round Robin", "Priority"],
+    "answer": "SJF",
+    "explanation": "Shortest Job First (SJF) is proven to give the minimum average waiting time among non-preemptive scheduling algorithms.",
+    "topic": "Operating Systems",
+    "difficulty": "medium",
+    "source": "resource"
+  },
+  {
+    "id": "q9",
+    "question": "What is the purpose of virtual memory?",
+    "options": [
+      "To increase CPU speed",
+      "To extend physical memory using disk space",
+      "To improve network performance",
+      "To compress files"
+    ],
+    "answer": "To extend physical memory using disk space",
+    "explanation": "Virtual memory allows the system to use disk space as an extension of RAM, enabling programs that require more memory than physically available to run.",
+    "topic": "Operating Systems",
+    "difficulty": "easy",
+    "source": "past_exam"
+  },
+  {
+    "id": "q10",
+    "question": "Which page replacement algorithm suffers from Bélády's anomaly?",
+    "options": ["LRU", "FIFO", "Optimal", "Clock"],
+    "answer": "FIFO",
+    "explanation": "FIFO page replacement can exhibit Bélády's anomaly where increasing the number of page frames results in more page faults, which is counterintuitive.",
+    "topic": "Operating Systems",
+    "difficulty": "hard",
+    "source": "past_exam"
+  },
+  {
+    "id": "q11",
+    "question": "What does I/O scheduling optimize for?",
+    "options": [
+      "CPU utilization only",
+      "Disk access time and throughput",
+      "Network bandwidth",
+      "Memory allocation"
+    ],
+    "answer": "Disk access time and throughput",
+    "explanation": "I/O scheduling algorithms like SCAN and C-SCAN optimize the order of disk access requests to minimize seek time and maximize throughput.",
+    "topic": "Operating Systems",
+    "difficulty": "medium",
+    "source": "resource"
+  },
+  {
+    "id": "q12",
+    "question": "What is normalization in databases?",
+    "options": [
+      "Making data normal",
+      "Process of organizing data to reduce redundancy",
+      "Encrypting database records",
+      "Compressing table sizes"
+    ],
+    "answer": "Process of organizing data to reduce redundancy",
+    "explanation": "Normalization is the process of structuring a relational database to reduce data redundancy and improve data integrity through a series of normal forms.",
+    "topic": "Database Systems",
+    "difficulty": "easy",
+    "source": "past_exam"
+  },
+  {
+    "id": "q13",
+    "question": "What is the difference between DELETE and TRUNCATE in SQL?",
+    "options": [
+      "No difference",
+      "DELETE is DML and can be rolled back; TRUNCATE is DDL and cannot",
+      "TRUNCATE is slower than DELETE",
+      "DELETE removes the table; TRUNCATE removes rows"
+    ],
+    "answer": "DELETE is DML and can be rolled back; TRUNCATE is DDL and cannot",
+    "explanation": "DELETE is a DML command that removes rows one by one and can be rolled back. TRUNCATE is a DDL command that removes all rows at once and typically cannot be rolled back.",
+    "topic": "Database Systems",
+    "difficulty": "medium",
+    "source": "past_exam"
+  },
+  {
+    "id": "q14",
+    "question": "What is ACID in database transactions?",
+    "options": [
+      "A programming language",
+      "Atomicity, Consistency, Isolation, Durability",
+      "A type of database index",
+      "A query optimization technique"
+    ],
+    "answer": "Atomicity, Consistency, Isolation, Durability",
+    "explanation": "ACID properties ensure reliable database transactions: Atomicity (all or nothing), Consistency (valid state), Isolation (concurrent independence), Durability (permanent once committed).",
+    "topic": "Database Systems",
+    "difficulty": "medium",
+    "source": "resource"
+  },
+  {
+    "id": "q15",
+    "question": "What is a B+ Tree used for in databases?",
+    "options": [
+      "Data encryption",
+      "Indexing for efficient range queries",
+      "Memory management",
+      "Network routing"
+    ],
+    "answer": "Indexing for efficient range queries",
+    "explanation": "B+ Trees are balanced tree structures used for database indexing. They support efficient range queries because all data is stored in leaf nodes which are linked together.",
+    "topic": "Database Systems",
+    "difficulty": "hard",
+    "source": "past_exam"
+  },
+  {
+    "id": "q16",
+    "question": "What is the purpose of the DNS protocol?",
+    "options": [
+      "To encrypt web traffic",
+      "To translate domain names to IP addresses",
+      "To manage email delivery",
+      "To compress data packets"
+    ],
+    "answer": "To translate domain names to IP addresses",
+    "explanation": "DNS (Domain Name System) translates human-readable domain names (like google.com) into IP addresses that computers use to communicate.",
+    "topic": "Networking",
+    "difficulty": "easy",
+    "source": "resource"
+  },
+  {
+    "id": "q17",
+    "question": "What layer of the OSI model does TCP operate at?",
+    "options": ["Network Layer", "Transport Layer", "Application Layer", "Data Link Layer"],
+    "answer": "Transport Layer",
+    "explanation": "TCP (Transmission Control Protocol) operates at Layer 4 (Transport Layer) of the OSI model, providing reliable, ordered, and error-checked delivery of data.",
+    "topic": "Networking",
+    "difficulty": "easy",
+    "source": "past_exam"
+  },
+  {
+    "id": "q18",
+    "question": "What is the difference between TCP and UDP?",
+    "options": [
+      "TCP is faster than UDP",
+      "TCP is connection-oriented and reliable; UDP is connectionless and unreliable",
+      "UDP provides encryption; TCP does not",
+      "They are the same protocol"
+    ],
+    "answer": "TCP is connection-oriented and reliable; UDP is connectionless and unreliable",
+    "explanation": "TCP provides reliable, ordered data delivery with error checking and flow control. UDP is faster but provides no guarantees of delivery, ordering, or duplicate protection.",
+    "topic": "Networking",
+    "difficulty": "medium",
+    "source": "past_exam"
+  },
+  {
+    "id": "q19",
+    "question": "What is subnetting used for?",
+    "options": [
+      "To encrypt network traffic",
+      "To divide a network into smaller logical segments",
+      "To increase internet speed",
+      "To compress data"
+    ],
+    "answer": "To divide a network into smaller logical segments",
+    "explanation": "Subnetting divides a large network into smaller, more manageable sub-networks, improving efficiency, security, and reducing broadcast traffic.",
+    "topic": "Networking",
+    "difficulty": "medium",
+    "source": "resource"
+  },
+  {
+    "id": "q20",
+    "question": "What does HTTPS provide that HTTP does not?",
+    "options": [
+      "Faster loading",
+      "Encryption via TLS/SSL",
+      "Better SEO",
+      "Cookie support"
+    ],
+    "answer": "Encryption via TLS/SSL",
+    "explanation": "HTTPS uses TLS (Transport Layer Security) to encrypt communication between client and server, providing confidentiality, integrity, and authentication that HTTP lacks.",
+    "topic": "Networking",
+    "difficulty": "easy",
+    "source": "online"
+  },
+  {
+    "id": "q21",
+    "question": "What is the Halting Problem?",
+    "options": [
+      "A problem with computer hardware freezing",
+      "The undecidable problem of determining if a program will halt or run forever",
+      "A scheduling problem in operating systems",
+      "A network routing issue"
+    ],
+    "answer": "The undecidable problem of determining if a program will halt or run forever",
+    "explanation": "The Halting Problem, proven undecidable by Alan Turing, shows that no general algorithm can determine whether an arbitrary program will eventually halt or run forever.",
+    "topic": "Algorithms",
+    "difficulty": "hard",
+    "source": "past_exam"
+  },
+  {
+    "id": "q22",
+    "question": "What is a semaphore in operating systems?",
+    "options": [
+      "A type of file system",
+      "A synchronization mechanism to control access to shared resources",
+      "A memory allocation technique",
+      "A process scheduling algorithm"
+    ],
+    "answer": "A synchronization mechanism to control access to shared resources",
+    "explanation": "A semaphore is a variable used as a synchronization primitive to manage concurrent access to shared resources by multiple processes or threads.",
+    "topic": "Operating Systems",
+    "difficulty": "medium",
+    "source": "online"
+  },
+  {
+    "id": "q23",
+    "question": "What is a foreign key in relational databases?",
+    "options": [
+      "A key from another country's database",
+      "A field that references the primary key of another table",
+      "An encrypted key for security",
+      "The first column in a table"
+    ],
+    "answer": "A field that references the primary key of another table",
+    "explanation": "A foreign key is a column or set of columns that establishes a link between data in two tables by referencing the primary key of another table, enforcing referential integrity.",
+    "topic": "Database Systems",
+    "difficulty": "easy",
+    "source": "online"
+  },
+  {
+    "id": "q24",
+    "question": "What is ARP used for in networking?",
+    "options": [
+      "To resolve IP addresses to MAC addresses",
+      "To encrypt data packets",
+      "To route traffic between networks",
+      "To assign IP addresses dynamically"
+    ],
+    "answer": "To resolve IP addresses to MAC addresses",
+    "explanation": "ARP (Address Resolution Protocol) maps a known IP address to a MAC (physical) address on a local network, enabling data link layer communication.",
+    "topic": "Networking",
+    "difficulty": "hard",
+    "source": "online"
+  }
+]
