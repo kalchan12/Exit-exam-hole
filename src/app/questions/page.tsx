@@ -18,6 +18,7 @@ function QuestionsContent() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
   const [showExplanation, setShowExplanation] = useState(false);
+  const [showHint, setShowHint] = useState(false);
   const [isRandomMode, setIsRandomMode] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [progressState, setProgressState] = useState(() => getProgress());
@@ -66,6 +67,7 @@ function QuestionsContent() {
       setCurrentIndex((prev) => prev + 1);
       setSelectedAnswer(null);
       setShowExplanation(false);
+      setShowHint(false);
     }
   }, [currentIndex, filteredQuestions.length]);
 
@@ -74,6 +76,7 @@ function QuestionsContent() {
       setCurrentIndex((prev) => prev - 1);
       setSelectedAnswer(null);
       setShowExplanation(false);
+      setShowHint(false);
     }
   }, [currentIndex]);
 
@@ -81,6 +84,7 @@ function QuestionsContent() {
     setCurrentIndex(0);
     setSelectedAnswer(null);
     setShowExplanation(false);
+    setShowHint(false);
   }, []);
 
   const progress = progressState;
@@ -96,10 +100,13 @@ function QuestionsContent() {
 
   const sourceLabel = (s: string) => {
     switch (s) {
-      case 'past_exam': return '📝 Past Exam';
-      case 'resource': return '📖 Resource';
-      case 'online': return '🌐 Online';
-      default: return s;
+      case 'past_exam':
+      case 'Archived Exams': return '📝 Archived Exams';
+      case 'resource':
+      case 'Course Notes': return '📖 Course Notes';
+      case 'online':
+      case 'Global': return '🌐 Global';
+      default: return `🔖 ${s}`;
     }
   };
 
@@ -165,9 +172,11 @@ function QuestionsContent() {
             className="bg-dark-600 border border-dark-400/50 rounded-lg px-3 py-2 text-sm text-white focus:border-accent-purple focus:outline-none"
           >
             <option value="all">All Sources</option>
-            <option value="past_exam">Past Exam</option>
-            <option value="resource">Resource</option>
-            <option value="online">Online</option>
+            <option value="past_exam">Past Exam (v1)</option>
+            <option value="Archived Exams">Archived Exams</option>
+            <option value="Course Notes">Course Notes</option>
+            <option value="Global">Global</option>
+            <option value="online">Online (v1)</option>
           </select>
 
           <button
@@ -199,10 +208,32 @@ function QuestionsContent() {
             </span>
           </div>
 
-          {/* Question Text */}
-          <h2 className="text-xl font-semibold text-white mb-6 leading-relaxed">
-            {currentQuestion.question}
-          </h2>
+          {/* Question Text & Hint */}
+          <div>
+            <div className="flex items-start justify-between gap-4 mb-4">
+              <h2 className="text-xl font-semibold text-white leading-relaxed flex-1">
+                {currentQuestion.question}
+              </h2>
+              {currentQuestion.hint && !selectedAnswer && (
+                <button
+                  onClick={() => setShowHint(!showHint)}
+                  className="btn-secondary text-xs flex-shrink-0 flex items-center gap-1.5"
+                >
+                  <svg className="w-4 h-4 text-accent-purple-light" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                  {showHint ? 'Hide Hint' : 'Show Hint'}
+                </button>
+              )}
+            </div>
+
+            {showHint && currentQuestion.hint && !selectedAnswer && (
+              <div className="animate-slide-up mb-6 p-4 rounded-lg bg-accent-purple/10 border border-accent-purple/20 text-accent-purple-light text-sm">
+                <strong className="block mb-1">Hint:</strong>
+                {currentQuestion.hint}
+              </div>
+            )}
+          </div>
 
           {/* Options */}
           <div className="space-y-3 mb-6">

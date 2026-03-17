@@ -6,15 +6,21 @@ export interface Question {
   explanation: string;
   topic: string;
   difficulty: 'easy' | 'medium' | 'hard';
-  source: 'past_exam' | 'resource' | 'online';
+  source: 'past_exam' | 'resource' | 'online' | 'Archived Exams' | 'Course Notes' | 'Global' | string;
+  hint?: string; // Optional hint for questions
 }
 
 export interface Note {
   id: string;
-  topic: string;
+  topic: string; // Used interchangeably with course
+  course?: string;
   title: string;
-  summary: string;
-  key_points: string[];
+  summary?: string; // Optional for backward compatibility with v1
+  key_points?: string[]; // Optional for backward compatibility
+  body?: string; // Markdown content
+  images?: string[]; // Optional image URLs
+  source?: 'Local' | 'GitHub' | 'Cloud' | 'system'; // Origin of the note
+  links?: string[]; // Downloadable files or external links
 }
 
 export type Topic = string;
@@ -23,17 +29,59 @@ export type Topic = string;
 let questionsCache: Question[] | null = null;
 let notesCache: Note[] | null = null;
 
+const LOCAL_STORAGE_NOTES_KEY = 'cs_prep_custom_notes';
+const LOCAL_STORAGE_QUESTIONS_KEY = 'cs_prep_custom_questions';
+
+function getCustomNotes(): Note[] {
+  if (typeof window === 'undefined') return [];
+  try {
+    const data = localStorage.getItem(LOCAL_STORAGE_NOTES_KEY);
+    return data ? JSON.parse(data) : [];
+  } catch (error) {
+    console.error('Failed to parse custom notes:', error);
+    return [];
+  }
+}
+
+function getCustomQuestions(): Question[] {
+  if (typeof window === 'undefined') return [];
+  try {
+    const data = localStorage.getItem(LOCAL_STORAGE_QUESTIONS_KEY);
+    return data ? JSON.parse(data) : [];
+  } catch (error) {
+    console.error('Failed to parse custom questions:', error);
+    return [];
+  }
+}
+
+export function saveCustomNote(note: Note) {
+  const current = getCustomNotes();
+  const updated = [...current.filter(n => n.id !== note.id), note];
+  localStorage.setItem(LOCAL_STORAGE_NOTES_KEY, JSON.stringify(updated));
+  notesCache = null; // Invalidate cache
+}
+
+export function saveCustomQuestion(question: Question) {
+  const current = getCustomQuestions();
+  const updated = [...current.filter(q => q.id !== question.id), question];
+  localStorage.setItem(LOCAL_STORAGE_QUESTIONS_KEY, JSON.stringify(updated));
+  questionsCache = null; // Invalidate cache
+}
+
 export async function getQuestions(): Promise<Question[]> {
   if (questionsCache) return questionsCache;
 
   try {
     const res = await fetch('/data/questions.json');
-    const data: Question[] = await res.json();
-    questionsCache = data;
-    return data;
+    const systemData: Question[] = await res.json();
+    const customData = getCustomQuestions();
+    const merged = [...systemData, ...customData];
+    questionsCache = merged;
+    return merged;
   } catch (error) {
     console.error('Failed to load questions:', error);
-    return [];
+    const customData = getCustomQuestions();
+    return customData;
   }
 }
 
@@ -42,12 +90,15 @@ export async function getNotes(): Promise<Note[]> {
 
   try {
     const res = await fetch('/data/notes.json');
-    const data: Note[] = await res.json();
-    notesCache = data;
-    return data;
+    const systemData: Note[] = await res.json();
+    const customData = getCustomNotes();
+    const merged = [...systemData.map(n => ({...n, source: 'system' as const})), ...customData];
+    notesCache = merged;
+    return merged;
   } catch (error) {
     console.error('Failed to load notes:', error);
-    return [];
+    const customData = getCustomNotes();
+    return customData;
   }
 }
 

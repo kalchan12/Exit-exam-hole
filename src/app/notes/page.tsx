@@ -1,6 +1,8 @@
 'use client';
 
 import { useState, useEffect, useMemo } from 'react';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 import { getNotes, getTopics, type Note } from '@/lib/dataLoader';
 
 export default function NotesPage() {
@@ -27,8 +29,10 @@ export default function NotesPage() {
       filtered = filtered.filter(
         (n) =>
           n.title.toLowerCase().includes(query) ||
-          n.summary.toLowerCase().includes(query) ||
-          n.key_points.some((kp) => kp.toLowerCase().includes(query))
+          (n.course && n.course.toLowerCase().includes(query)) ||
+          (n.summary && n.summary.toLowerCase().includes(query)) ||
+          (n.body && n.body.toLowerCase().includes(query)) ||
+          (n.key_points && n.key_points.some((kp) => kp.toLowerCase().includes(query)))
       );
     }
     return filtered;
@@ -58,6 +62,13 @@ export default function NotesPage() {
     'Operating Systems': '🖥️',
     'Database Systems': '🗄️',
     'Networking': '🌐',
+  };
+
+  const SourceBadge = ({ source }: { source?: string }) => {
+    if (!source || source === 'system') return <span className="badge bg-dark-500 text-gray-400 text-xs">Built-in</span>;
+    if (source === 'GitHub') return <span className="badge bg-blue-500/20 text-blue-400 border border-blue-500/30 text-xs">GitHub</span>;
+    if (source === 'Local') return <span className="badge bg-green-500/20 text-green-400 border border-green-500/30 text-xs">Local</span>;
+    return <span className="badge bg-purple-500/20 text-purple-400 border border-purple-500/30 text-xs">{source}</span>;
   };
 
   if (!mounted) {
@@ -132,9 +143,12 @@ export default function NotesPage() {
                   <div className="flex-1 min-w-0">
                     <div className="flex items-start justify-between gap-2">
                       <div>
-                        <span className="text-xs text-accent-purple-light font-medium uppercase tracking-wider">
-                          {note.topic}
-                        </span>
+                        <div className="flex items-center gap-2 mb-1">
+                          <span className="text-xs text-accent-purple-light font-medium uppercase tracking-wider">
+                            {note.course || note.topic}
+                          </span>
+                          <SourceBadge source={note.source} />
+                        </div>
                         <h3 className="text-lg font-semibold text-white mt-1">
                           {note.title}
                         </h3>
@@ -146,33 +160,71 @@ export default function NotesPage() {
                         <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
                       </svg>
                     </div>
-                    <p className="text-gray-400 text-sm mt-2 leading-relaxed">
-                      {note.summary}
-                    </p>
+                    {note.summary && (
+                      <p className="text-gray-400 text-sm mt-2 leading-relaxed line-clamp-2">
+                        {note.summary}
+                      </p>
+                    )}
                   </div>
                 </div>
               </button>
 
-              {/* Expanded Key Points */}
+              {/* Expanded Content */}
               {isExpanded && (
                 <div className="px-5 sm:px-6 pb-6 animate-slide-up">
-                  <div className="ml-16 border-t border-dark-400/20 pt-4">
-                    <h4 className="text-sm font-semibold text-accent-purple-light mb-3 flex items-center gap-2">
-                      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-                      </svg>
-                      Key Points
-                    </h4>
-                    <ul className="space-y-2.5">
-                      {note.key_points.map((point, idx) => (
-                        <li key={idx} className="flex items-start gap-3 text-sm">
-                          <span className="w-6 h-6 rounded-md bg-accent-purple/20 text-accent-purple-light flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">
-                            {idx + 1}
-                          </span>
-                          <span className="text-gray-300 leading-relaxed">{point}</span>
-                        </li>
-                      ))}
-                    </ul>
+                  <div className="ml-0 sm:ml-16 border-t border-dark-400/20 pt-4">
+                    
+                    {note.body ? (
+                      <div className="prose prose-invert prose-purple max-w-none text-sm text-gray-300">
+                        <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                          {note.body}
+                        </ReactMarkdown>
+                      </div>
+                    ) : note.key_points ? (
+                      <>
+                        <h4 className="text-sm font-semibold text-accent-purple-light mb-3 flex items-center gap-2">
+                          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                          </svg>
+                          Key Points
+                        </h4>
+                        <ul className="space-y-2.5">
+                          {note.key_points.map((point, idx) => (
+                            <li key={idx} className="flex items-start gap-3 text-sm">
+                              <span className="w-6 h-6 rounded-md bg-accent-purple/20 text-accent-purple-light flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">
+                                {idx + 1}
+                              </span>
+                              <span className="text-gray-300 leading-relaxed">{point}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </>
+                    ) : null}
+
+                    {/* Images */}
+                    {note.images && note.images.length > 0 && (
+                      <div className="mt-6 flex flex-wrap gap-4">
+                        {note.images.map((img, i) => (
+                          // eslint-disable-next-line @next/next/no-img-element
+                          <img key={i} src={img} alt={`Note attachment ${i+1}`} className="rounded-lg border border-dark-400/30 max-h-64 object-contain" />
+                        ))}
+                      </div>
+                    )}
+
+                    {/* Cloud or External Download Links */}
+                    {note.links && note.links.length > 0 && (
+                      <div className="mt-6 flex flex-wrap gap-3">
+                        {note.links.map((link, i) => (
+                          <a key={i} href={link} target="_blank" rel="noopener noreferrer" className="btn-secondary text-xs flex items-center gap-2">
+                            <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                              <path strokeLinecap="round" strokeLinejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                            </svg>
+                            External Link {note.links!.length > 1 ? i + 1 : ''}
+                          </a>
+                        ))}
+                      </div>
+                    )}
+
                   </div>
                 </div>
               )}
