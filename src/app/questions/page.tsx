@@ -1,12 +1,12 @@
 'use client';
 
-import { useState, useEffect, useMemo, useCallback } from 'react';
+import { useState, useEffect, useMemo, useCallback, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { getQuestions, getTopics, type Question } from '@/lib/dataLoader';
 import { getProgress, recordAnswer, saveProgress } from '@/lib/progressManager';
 import { updateTopicAccuracy } from '@/lib/gamification';
 
-export default function QuestionsPage() {
+function QuestionsContent() {
   const searchParams = useSearchParams();
   const initialTopic = searchParams.get('topic') || 'all';
 
@@ -20,6 +20,7 @@ export default function QuestionsPage() {
   const [showExplanation, setShowExplanation] = useState(false);
   const [isRandomMode, setIsRandomMode] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const [progressState, setProgressState] = useState(() => getProgress());
 
   useEffect(() => {
     setMounted(true);
@@ -55,6 +56,7 @@ export default function QuestionsPage() {
       const isCorrect = answer === currentQuestion.answer;
       const newState = recordAnswer(currentQuestion.id, isCorrect, currentQuestion.topic);
       updateTopicAccuracy(currentQuestion.topic, isCorrect);
+      setProgressState(newState);
     },
     [selectedAnswer, currentQuestion]
   );
@@ -81,7 +83,7 @@ export default function QuestionsPage() {
     setShowExplanation(false);
   }, []);
 
-  const progress = useMemo(() => getProgress(), [selectedAnswer]);
+  const progress = progressState;
 
   const difficultyColor = (d: string) => {
     switch (d) {
@@ -300,3 +302,17 @@ export default function QuestionsPage() {
     </div>
   );
 }
+
+export default function QuestionsPage() {
+  return (
+    <Suspense fallback={
+      <div className="animate-pulse space-y-6">
+        <div className="h-12 bg-dark-700 rounded-xl w-48" />
+        <div className="h-96 bg-dark-700 rounded-2xl" />
+      </div>
+    }>
+      <QuestionsContent />
+    </Suspense>
+  );
+}
+
