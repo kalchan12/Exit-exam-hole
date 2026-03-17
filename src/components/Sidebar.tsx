@@ -1,8 +1,11 @@
 'use client';
 
+import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useTheme } from './ThemeProvider';
+import { useAuth } from './AuthProvider';
+import AuthModal from './AuthModal';
 
 const navItems = [
   {
@@ -60,6 +63,11 @@ interface SidebarProps {
 export default function Sidebar({ isCollapsed, setIsCollapsed }: SidebarProps) {
   const pathname = usePathname();
   const { theme, toggleTheme } = useTheme();
+  const { user, loading, signOut } = useAuth();
+  const [showAuthModal, setShowAuthModal] = useState(false);
+
+  const userEmail = user?.email || '';
+  const truncatedEmail = userEmail.length > 20 ? userEmail.slice(0, 17) + '...' : userEmail;
 
   return (
     <>
@@ -106,6 +114,51 @@ export default function Sidebar({ isCollapsed, setIsCollapsed }: SidebarProps) {
           ))}
         </nav>
 
+        {/* User Auth Section */}
+        <div className="px-4 py-3 border-t border-dark-400/20">
+          {loading ? (
+            <div className={`flex items-center ${isCollapsed ? 'justify-center' : 'gap-3 px-2'}`}>
+              <div className="w-8 h-8 rounded-full bg-dark-600 animate-pulse flex-shrink-0" />
+            </div>
+          ) : user ? (
+            <div className={`flex items-center ${isCollapsed ? 'justify-center' : 'gap-3'}`}>
+              {/* User avatar */}
+              <div className="w-8 h-8 rounded-full bg-accent-purple/30 flex items-center justify-center flex-shrink-0 text-sm font-bold text-accent-purple-light">
+                {userEmail[0]?.toUpperCase() || '?'}
+              </div>
+              {!isCollapsed && (
+                <div className="flex-1 min-w-0">
+                  <p className="text-xs text-white font-medium truncate">{truncatedEmail}</p>
+                  <button
+                    onClick={signOut}
+                    className="text-[10px] text-red-400 hover:text-red-300 transition-colors"
+                  >
+                    Sign Out
+                  </button>
+                </div>
+              )}
+              {isCollapsed && (
+                <button
+                  onClick={signOut}
+                  className="absolute opacity-0 pointer-events-none"
+                  title="Sign Out"
+                />
+              )}
+            </div>
+          ) : (
+            <button
+              onClick={() => setShowAuthModal(true)}
+              className={`w-full flex items-center transition-colors rounded-xl text-accent-purple-light hover:text-white hover:bg-accent-purple/20 ${isCollapsed ? 'justify-center p-3' : 'gap-3 px-4 py-3'}`}
+              title={isCollapsed ? 'Login' : undefined}
+            >
+              <svg className="w-5 h-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
+              </svg>
+              {!isCollapsed && <span className="text-sm font-medium">Login</span>}
+            </button>
+          )}
+        </div>
+
         {/* Theme Toggle */}
         <div className="px-4 py-4 mb-4">
           <button
@@ -144,8 +197,23 @@ export default function Sidebar({ isCollapsed, setIsCollapsed }: SidebarProps) {
               <span className="text-[10px] font-medium">{item.label}</span>
             </Link>
           ))}
+          {/* Mobile auth button */}
+          {!loading && !user && (
+            <button
+              onClick={() => setShowAuthModal(true)}
+              className="flex flex-col items-center gap-1 px-3 py-2 rounded-lg text-accent-purple-light transition-colors"
+            >
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+              </svg>
+              <span className="text-[10px] font-medium">Login</span>
+            </button>
+          )}
         </div>
       </nav>
+
+      {/* Auth Modal */}
+      <AuthModal isOpen={showAuthModal} onClose={() => setShowAuthModal(false)} />
     </>
   );
 }

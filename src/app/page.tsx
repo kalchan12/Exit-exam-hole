@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import Link from 'next/link';
 import { getQuestions, type Question } from '@/lib/dataLoader';
-import { getProgress, type ProgressState } from '@/lib/progressManager';
+import { getProgress, syncOnLogin, onSyncStatus, type ProgressState } from '@/lib/progressManager';
 import {
   getLevel,
   calculateOverallAccuracy,
@@ -11,17 +11,33 @@ import {
   getDailyChallenge,
   getWeakTopics,
 } from '@/lib/gamification';
+import { useAuth } from '@/components/AuthProvider';
 
 export default function Dashboard() {
   const [questions, setQuestions] = useState<Question[]>([]);
   const [progress, setProgress] = useState<ProgressState | null>(null);
   const [mounted, setMounted] = useState(false);
+  const { user } = useAuth();
+  const [syncStatus, setSyncStatus] = useState<'syncing' | 'synced' | 'error' | 'idle'>('idle');
 
   useEffect(() => {
     setMounted(true);
     getQuestions().then(setQuestions);
     setProgress(getProgress());
   }, []);
+
+  // Sync on login
+  useEffect(() => {
+    if (user) {
+      onSyncStatus(setSyncStatus);
+      syncOnLogin(user.id).then((merged) => {
+        setProgress(merged);
+      });
+    } else {
+      setSyncStatus('idle');
+      onSyncStatus(null);
+    }
+  }, [user]);
 
   const topics = useMemo(() => {
     const topicSet = new Set(questions.map((q) => q.topic));
@@ -275,7 +291,16 @@ export default function Dashboard() {
 
       {/* Footer */}
       <footer className="flex flex-col md:flex-row items-center justify-between text-xs text-gray-600 pt-4 border-t border-dark-400/10 text-center md:text-left gap-2 mb-4 lg:mb-0">
-        <p>🟢 Progress synced to local storage</p>
+        <p>
+          {user ? (
+            syncStatus === 'syncing' ? '🔄 Syncing progress to cloud...' :
+            syncStatus === 'error' ? '🔴 Sync error — will retry' :
+            syncStatus === 'synced' ? '🟢 Progress synced to cloud' :
+            '🟢 Progress synced to cloud'
+          ) : (
+            '🟡 Login to sync progress across devices'
+          )}
+        </p>
         <div className="flex flex-wrap justify-center gap-4 mt-2 md:mt-0">
           <span className="hover:text-gray-400 cursor-pointer">Privacy Policy</span>
           <span className="hover:text-gray-400 cursor-pointer">User Settings</span>

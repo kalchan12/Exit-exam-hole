@@ -2,19 +2,21 @@
 
 import { useState, useEffect, useMemo } from 'react';
 import { getQuestions, type Question } from '@/lib/dataLoader';
-import { getProgress, resetProgress, type ProgressState } from '@/lib/progressManager';
+import { getProgress, resetProgress, resetRemoteProgress, type ProgressState } from '@/lib/progressManager';
 import {
   getLevel,
   calculateOverallAccuracy,
   calculateTopicMastery,
   getWeakTopics,
 } from '@/lib/gamification';
+import { useAuth } from '@/components/AuthProvider';
 
 export default function StatsPage() {
   const [questions, setQuestions] = useState<Question[]>([]);
   const [progress, setProgress] = useState<ProgressState | null>(null);
   const [mounted, setMounted] = useState(false);
   const [showResetConfirm, setShowResetConfirm] = useState(false);
+  const { user } = useAuth();
 
   useEffect(() => {
     setMounted(true);
@@ -79,6 +81,9 @@ export default function StatsPage() {
 
   const handleReset = () => {
     resetProgress();
+    if (user) {
+      resetRemoteProgress(user.id);
+    }
     setProgress(getProgress());
     setShowResetConfirm(false);
   };

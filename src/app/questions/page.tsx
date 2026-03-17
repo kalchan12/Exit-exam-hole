@@ -3,12 +3,14 @@
 import { useState, useEffect, useMemo, useCallback, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { getQuestions, getTopics, type Question } from '@/lib/dataLoader';
-import { getProgress, recordAnswer, saveProgress } from '@/lib/progressManager';
+import { getProgress, recordAnswer, saveProgress, syncProgressToRemote } from '@/lib/progressManager';
 import { updateTopicAccuracy } from '@/lib/gamification';
+import { useAuth } from '@/components/AuthProvider';
 
 function QuestionsContent() {
   const searchParams = useSearchParams();
   const initialTopic = searchParams.get('topic') || 'all';
+  const { user } = useAuth();
 
   const [questions, setQuestions] = useState<Question[]>([]);
   const [topics, setTopics] = useState<string[]>([]);
@@ -58,8 +60,13 @@ function QuestionsContent() {
       const newState = recordAnswer(currentQuestion.id, isCorrect, currentQuestion.topic);
       updateTopicAccuracy(currentQuestion.topic, isCorrect);
       setProgressState(newState);
+
+      // Background sync to Supabase
+      if (user) {
+        syncProgressToRemote(user.id);
+      }
     },
-    [selectedAnswer, currentQuestion]
+    [selectedAnswer, currentQuestion, user]
   );
 
   const handleNext = useCallback(() => {
