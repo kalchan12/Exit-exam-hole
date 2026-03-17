@@ -195,23 +195,23 @@ function QuestionsContent() {
       {currentQuestion ? (
         <div className="card p-6 sm:p-8">
           {/* Question Header */}
-          <div className="flex flex-wrap items-center gap-2 mb-6">
-            <span className="badge-source text-xs">{sourceLabel(currentQuestion.source)}</span>
-            <span className={`${difficultyColor(currentQuestion.difficulty)} text-xs capitalize`}>
+          <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 mb-4 sm:mb-6">
+            <span className="badge-source text-[10px] sm:text-xs truncate max-w-[120px] sm:max-w-none">{sourceLabel(currentQuestion.source)}</span>
+            <span className={`${difficultyColor(currentQuestion.difficulty)} text-[10px] sm:text-xs capitalize`}>
               {currentQuestion.difficulty}
             </span>
-            <span className="badge bg-dark-500 text-gray-400 text-xs">
+            <span className="badge bg-dark-500 text-gray-400 text-[10px] sm:text-xs truncate max-w-[100px] sm:max-w-none">
               {currentQuestion.topic}
             </span>
-            <span className="ml-auto text-sm text-gray-500">
+            <span className="ml-auto text-xs sm:text-sm text-gray-500">
               {currentIndex + 1} / {filteredQuestions.length}
             </span>
           </div>
 
           {/* Question Text & Hint */}
           <div>
-            <div className="flex items-start justify-between gap-4 mb-4">
-              <h2 className="text-xl font-semibold text-white leading-relaxed flex-1">
+            <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3 sm:gap-4 mb-4">
+              <h2 className="text-lg sm:text-xl font-semibold text-white leading-relaxed flex-1">
                 {currentQuestion.question}
               </h2>
               {currentQuestion.hint && !selectedAnswer && (
@@ -258,9 +258,9 @@ function QuestionsContent() {
                   key={idx}
                   onClick={() => handleSelectAnswer(option)}
                   disabled={isAnswered}
-                  className={`${optionClass} w-full text-left flex items-center gap-3`}
+                  className={`${optionClass} w-full text-left flex items-start sm:items-center gap-3`}
                 >
-                  <span className={`w-8 h-8 rounded-lg flex items-center justify-center text-sm font-semibold flex-shrink-0 ${
+                  <span className={`w-6 h-6 sm:w-8 sm:h-8 rounded-lg flex items-center justify-center text-xs sm:text-sm font-semibold flex-shrink-0 mt-0.5 sm:mt-0 ${
                     isAnswered && isCorrect
                       ? 'bg-green-500/20 text-green-400'
                       : isAnswered && isSelected
@@ -269,16 +269,16 @@ function QuestionsContent() {
                   }`}>
                     {String.fromCharCode(65 + idx)}
                   </span>
-                  <span className={`${isAnswered && isCorrect ? 'text-green-400' : isAnswered && isSelected ? 'text-red-400' : 'text-gray-200'}`}>
+                  <span className={`text-sm sm:text-base leading-relaxed ${isAnswered && isCorrect ? 'text-green-400' : isAnswered && isSelected ? 'text-red-400' : 'text-gray-200'}`}>
                     {option}
                   </span>
                   {isAnswered && isCorrect && (
-                    <svg className="w-5 h-5 text-green-400 ml-auto flex-shrink-0" fill="currentColor" viewBox="0 0 24 24">
+                    <svg className="w-4 h-4 sm:w-5 sm:h-5 text-green-400 ml-auto flex-shrink-0 mt-1 sm:mt-0" fill="currentColor" viewBox="0 0 24 24">
                       <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" />
                     </svg>
                   )}
                   {isAnswered && isSelected && !isCorrect && (
-                    <svg className="w-5 h-5 text-red-400 ml-auto flex-shrink-0" fill="currentColor" viewBox="0 0 24 24">
+                    <svg className="w-4 h-4 sm:w-5 sm:h-5 text-red-400 ml-auto flex-shrink-0 mt-1 sm:mt-0" fill="currentColor" viewBox="0 0 24 24">
                       <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z" />
                     </svg>
                   )}

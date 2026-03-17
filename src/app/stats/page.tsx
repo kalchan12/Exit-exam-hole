@@ -133,52 +133,52 @@ export default function StatsPage() {
       )}
 
       {/* Overview Cards */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        <div className="card p-5">
-          <div className="flex items-center gap-3 mb-3">
-            <div className="w-10 h-10 rounded-xl bg-accent-purple/20 flex items-center justify-center">
-              <svg className="w-5 h-5 text-accent-purple-light" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+        <div className="card p-4 sm:p-5">
+          <div className="flex items-center gap-2 sm:gap-3 mb-2 sm:mb-3">
+            <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-accent-purple/20 flex items-center justify-center flex-shrink-0">
+              <svg className="w-4 h-4 sm:w-5 sm:h-5 text-accent-purple-light" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
               </svg>
             </div>
-            <span className="text-xs text-gray-400 uppercase tracking-wider">Total XP</span>
+            <span className="text-[10px] sm:text-xs text-gray-400 uppercase tracking-wider truncate">Total XP</span>
           </div>
           <p className="text-3xl font-bold text-white">{progress?.xp || 0}</p>
           <p className="text-xs text-accent-purple-light mt-1">Level {levelInfo.level} — {levelInfo.title}</p>
         </div>
 
-        <div className="card p-5">
-          <div className="flex items-center gap-3 mb-3">
-            <div className="w-10 h-10 rounded-xl bg-orange-500/20 flex items-center justify-center">
-              <span className="text-lg">🔥</span>
+        <div className="card p-4 sm:p-5">
+          <div className="flex items-center gap-2 sm:gap-3 mb-2 sm:mb-3">
+            <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-orange-500/20 flex items-center justify-center flex-shrink-0">
+              <span className="text-base sm:text-lg">🔥</span>
             </div>
-            <span className="text-xs text-gray-400 uppercase tracking-wider">Streak</span>
+            <span className="text-[10px] sm:text-xs text-gray-400 uppercase tracking-wider truncate">Streak</span>
           </div>
           <p className="text-3xl font-bold text-white">{progress?.streak || 0}</p>
           <p className="text-xs text-orange-400 mt-1">Consecutive correct</p>
         </div>
 
-        <div className="card p-5">
-          <div className="flex items-center gap-3 mb-3">
-            <div className="w-10 h-10 rounded-xl bg-green-500/20 flex items-center justify-center">
-              <svg className="w-5 h-5 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+        <div className="card p-4 sm:p-5">
+          <div className="flex items-center gap-2 sm:gap-3 mb-2 sm:mb-3">
+            <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-green-500/20 flex items-center justify-center flex-shrink-0">
+              <svg className="w-4 h-4 sm:w-5 sm:h-5 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
             </div>
-            <span className="text-xs text-gray-400 uppercase tracking-wider">Accuracy</span>
+            <span className="text-[10px] sm:text-xs text-gray-400 uppercase tracking-wider truncate">Accuracy</span>
           </div>
           <p className="text-3xl font-bold text-white">{overallAccuracy}%</p>
           <p className="text-xs text-green-400 mt-1">{totalCorrect}/{totalAnswered} correct</p>
         </div>
 
-        <div className="card p-5">
-          <div className="flex items-center gap-3 mb-3">
-            <div className="w-10 h-10 rounded-xl bg-blue-500/20 flex items-center justify-center">
-              <svg className="w-5 h-5 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+        <div className="card p-4 sm:p-5">
+          <div className="flex items-center gap-2 sm:gap-3 mb-2 sm:mb-3">
+            <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-blue-500/20 flex items-center justify-center flex-shrink-0">
+              <svg className="w-4 h-4 sm:w-5 sm:h-5 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
               </svg>
             </div>
-            <span className="text-xs text-gray-400 uppercase tracking-wider">Answered</span>
+            <span className="text-[10px] sm:text-xs text-gray-400 uppercase tracking-wider truncate">Answered</span>
           </div>
           <p className="text-3xl font-bold text-white">{totalAnswered}</p>
           <p className="text-xs text-blue-400 mt-1">of {questions.length} questions</p>
@@ -247,8 +247,8 @@ export default function StatsPage() {
           </h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             {weakTopics.map((topic) => (
-              <div key={topic} className="flex items-center gap-3 p-3 rounded-lg bg-yellow-500/5 border border-yellow-500/20">
-                <div className="w-8 h-8 rounded-lg bg-yellow-500/20 flex items-center justify-center">
+              <div key={topic} className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3 p-3 rounded-lg bg-yellow-500/5 border border-yellow-500/20">
+                <div className="w-8 h-8 rounded-lg bg-yellow-500/20 flex items-center justify-center flex-shrink-0">
                   <span className="text-sm">📌</span>
                 </div>
                 <div>

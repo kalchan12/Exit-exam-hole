@@ -114,10 +114,10 @@ export default function UploadPage() {
       </div>
 
       {/* Tabs */}
-      <div className="flex border-b border-dark-400/50">
+      <div className="flex overflow-x-auto border-b border-dark-400/50 pb-px scrollbar-hide">
         <button
           onClick={() => setActiveTab('note')}
-          className={`py-3 px-6 text-sm font-medium transition-colors border-b-2 ${
+          className={`py-3 px-4 sm:px-6 text-sm font-medium transition-colors border-b-2 whitespace-nowrap ${
             activeTab === 'note' ? 'border-accent-purple text-accent-purple-light' : 'border-transparent text-gray-400 hover:text-white'
           }`}
         >
@@ -125,7 +125,7 @@ export default function UploadPage() {
         </button>
         <button
           onClick={() => setActiveTab('quiz')}
-          className={`py-3 px-6 text-sm font-medium transition-colors border-b-2 ${
+          className={`py-3 px-4 sm:px-6 text-sm font-medium transition-colors border-b-2 whitespace-nowrap ${
             activeTab === 'quiz' ? 'border-accent-purple text-accent-purple-light' : 'border-transparent text-gray-400 hover:text-white'
           }`}
         >
@@ -133,7 +133,7 @@ export default function UploadPage() {
         </button>
         <button
           onClick={() => setActiveTab('github')}
-          className={`py-3 px-6 text-sm font-medium transition-colors border-b-2 ${
+          className={`py-3 px-4 sm:px-6 text-sm font-medium transition-colors border-b-2 whitespace-nowrap ${
             activeTab === 'github' ? 'border-accent-purple text-accent-purple-light' : 'border-transparent text-gray-400 hover:text-white'
           }`}
         >

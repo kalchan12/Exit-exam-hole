@@ -128,12 +128,12 @@ export default function Dashboard() {
             <h3 className="text-xl font-bold flex items-center gap-2">
               <span>📚</span> Study Categories
             </h3>
-            <Link href="/questions" className="text-accent-purple-light text-sm font-medium hover:underline">
+            <Link href="/questions" className="text-accent-purple-light text-sm font-medium hover:underline flex-shrink-0">
               View all
             </Link>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4">
             {topics.map((topic) => {
               const mastery = topicMastery(topic);
               return (
@@ -222,14 +222,14 @@ export default function Dashboard() {
           <div className="card p-5">
             <h3 className="text-sm text-gray-400 uppercase tracking-wider mb-3">Global Ranking</h3>
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-yellow-500/20 flex items-center justify-center">
+              <div className="w-10 h-10 rounded-full bg-yellow-500/20 flex items-center justify-center flex-shrink-0">
                 <svg className="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
                 </svg>
               </div>
-              <div>
-                <p className="text-2xl font-bold text-white">#{Math.max(1, 1248 - (progress?.xp || 0))}</p>
-                <p className="text-xs text-accent-purple-light">
+              <div className="min-w-0">
+                <p className="text-2xl font-bold text-white truncate">#{Math.max(1, 1248 - (progress?.xp || 0))}</p>
+                <p className="text-xs text-accent-purple-light truncate">
                   Top {Math.max(1, Math.round(100 - (progress?.xp || 0) / 10))}% of all students
                 </p>
               </div>
@@ -274,9 +274,9 @@ export default function Dashboard() {
       )}
 
       {/* Footer */}
-      <footer className="flex flex-col sm:flex-row items-center justify-between text-xs text-gray-600 pt-4 border-t border-dark-400/10">
+      <footer className="flex flex-col md:flex-row items-center justify-between text-xs text-gray-600 pt-4 border-t border-dark-400/10 text-center md:text-left gap-2 mb-4 lg:mb-0">
         <p>🟢 Progress synced to local storage</p>
-        <div className="flex gap-4 mt-2 sm:mt-0">
+        <div className="flex flex-wrap justify-center gap-4 mt-2 md:mt-0">
           <span className="hover:text-gray-400 cursor-pointer">Privacy Policy</span>
           <span className="hover:text-gray-400 cursor-pointer">User Settings</span>
           <span className="hover:text-gray-400 cursor-pointer">Support Docs</span>
