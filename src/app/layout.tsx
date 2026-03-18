@@ -4,6 +4,8 @@ import ThemeProvider from '@/components/ThemeProvider';
 import Sidebar from '@/components/Sidebar';
 import ClientLayout from '@/components/ClientLayout';
 
+import AuthProvider from '@/components/AuthProvider';
+
 export const metadata: Metadata = {
   title: 'CS Prep - Gamified Exam Preparation',
   description: 'Master Computer Science concepts with gamified practice questions, study notes, and progress tracking.',
@@ -18,9 +20,11 @@ export default function RootLayout({
     <html lang="en" className="dark">
       <body className="bg-dark-900 text-white min-h-screen">
         <ThemeProvider>
-          <ClientLayout>
-            {children}
-          </ClientLayout>
+          <AuthProvider>
+            <ClientLayout>
+              {children}
+            </ClientLayout>
+          </AuthProvider>
         </ThemeProvider>
       </body>
     </html>
