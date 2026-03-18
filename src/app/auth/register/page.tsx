@@ -27,6 +27,21 @@ export default function RegisterPage() {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
 
+  const getPasswordStrength = (password: string) => {
+    if (!password) return { label: '', score: 0, color: 'bg-white/10', text: '' };
+    let score = 0;
+    if (password.length >= 8) score += 1;
+    if (/(?=.*[a-z])(?=.*[A-Z])/.test(password)) score += 1;
+    else if (/[a-zA-Z]/.test(password)) score += 0.5;
+    if (/[0-9]/.test(password)) score += 1;
+    if (/[^A-Za-z0-9]/.test(password)) score += 1;
+    const finalScore = Math.floor(score);
+    if (finalScore <= 1) return { label: 'Weak', score: 1, color: 'bg-red-500', text: 'text-red-400' };
+    if (finalScore === 2) return { label: 'Medium', score: 2, color: 'bg-yellow-500', text: 'text-yellow-400' };
+    if (finalScore === 3) return { label: 'Strong', score: 3, color: 'bg-green-400', text: 'text-green-400' };
+    return { label: 'Excellent', score: 4, color: 'bg-emerald-500', text: 'text-emerald-400' };
+  };
+
   // Redirect if already logged in
   useEffect(() => {
     if (!authLoading && user) {
@@ -132,6 +147,42 @@ export default function RegisterPage() {
             </div>
           )}
 
+          {/* New Profile Picture Upload Section */}
+          <div className="flex flex-col items-center justify-center mb-6">
+            <div className="relative group cursor-pointer">
+              <input
+                type="file"
+                accept="image/*"
+                onChange={(e) => {
+                  const file = e.target.files?.[0];
+                  if (file) setAvatarFile(file);
+                  else setAvatarFile(null);
+                }}
+                className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
+              />
+              <div className={`w-28 h-28 rounded-full flex flex-col items-center justify-center overflow-hidden transition-all duration-300 ${avatarFile ? 'ring-2 ring-purple-500 ring-offset-4 ring-offset-[#0B0F1A]' : 'border-2 border-dashed border-purple-500/40 bg-white/[0.02] group-hover:border-purple-400 group-hover:bg-white/[0.04]'}`}>
+                {avatarFile ? (
+                  <img src={URL.createObjectURL(avatarFile)} alt="Avatar Preview" className="w-full h-full object-cover" />
+                ) : (
+                  <>
+                    <svg className="w-12 h-12 text-purple-200/40 group-hover:text-purple-300 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                    </svg>
+                  </>
+                )}
+              </div>
+              <div className="absolute bottom-1 right-1 bg-violet-500 p-1.5 rounded-full shadow-lg border-2 border-[#0B0F1A] transform group-hover:scale-110 transition-transform">
+                <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+              </div>
+            </div>
+            <p className="text-purple-200/60 font-medium text-sm mt-4">Upload profile picture(optional)</p>
+            <div className="mt-3 w-full max-w-xs text-center px-5 py-3.5 bg-white/[0.03] border border-purple-500/10 rounded-xl shadow-inner">
+              <p className="text-sm font-bold italic leading-relaxed text-transparent bg-clip-text bg-gradient-to-r from-violet-400 via-purple-400 to-fuchsia-400" style={{ fontFamily: "'Inter', 'Segoe UI', sans-serif" }}>
+                &ldquo; Only Upload if you think you are Beautiful / Handsome otherwise you are wasting my Storage &rdquo;
+              </p>
+            </div>
+          </div>
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* Full Name */}
             <div className="group">
@@ -188,6 +239,23 @@ export default function RegisterPage() {
                 placeholder="••••••••"
                 className="w-full bg-white/[0.04] border border-white/10 rounded-2xl px-5 py-4 text-white placeholder-white/30 focus:border-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-500/20 transition-all duration-300 hover:bg-white/[0.06]"
               />
+              <div className="mt-2 text-xs">
+                {formData.password ? (
+                  <div className="flex items-center justify-between">
+                    <div className="flex gap-1.5 w-24">
+                      {[1, 2, 3, 4].map(level => {
+                        const pwStrength = getPasswordStrength(formData.password);
+                        return (
+                          <div key={level} className={`h-1 flex-1 rounded-full transition-colors duration-300 ${level <= pwStrength.score ? pwStrength.color : 'bg-white/10'}`}></div>
+                        );
+                      })}
+                    </div>
+                    <span className={`${getPasswordStrength(formData.password).text} font-medium tracking-wide uppercase text-[10px]`}>{getPasswordStrength(formData.password).label}</span>
+                  </div>
+                ) : (
+                  <span className="text-purple-200/40">Use 8+ chars and a mix of letters, numbers & symbols.</span>
+                )}
+              </div>
             </div>
 
             {/* Repeat Password */}
@@ -241,43 +309,7 @@ export default function RegisterPage() {
               </div>
             </div>
 
-            {/* Profile Picture */}
-            <div className="group md:col-span-2">
-              <label className="block text-sm font-medium text-purple-200/80 mb-2 transition-colors group-focus-within:text-purple-400 flex items-center gap-2">
-                Profile Picture <span className="text-purple-200/40 text-xs font-normal bg-white/5 py-1 px-2 rounded-md">Optional</span>
-              </label>
-              <div className="flex items-center gap-4 p-4 rounded-2xl bg-white/[0.02] border border-white/5 hover:bg-white/[0.04] transition-all duration-300">
-                <div className="h-16 w-16 rounded-full bg-gradient-to-br from-violet-600/30 to-purple-500/30 flex items-center justify-center border border-white/10 shrink-0 overflow-hidden shadow-inner">
-                  {avatarFile ? (
-                    <img src={URL.createObjectURL(avatarFile)} alt="Avatar" className="w-full h-full object-cover" />
-                  ) : (
-                    <svg className="w-8 h-8 text-purple-200/50" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                    </svg>
-                  )}
-                </div>
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={(e) => {
-                    const file = e.target.files?.[0];
-                    if (file) {
-                      setAvatarFile(file);
-                    } else {
-                      setAvatarFile(null);
-                    }
-                  }}
-                  className="w-full text-sm text-purple-200/60
-                    file:mr-4 file:py-2.5 file:px-6
-                    file:rounded-xl file:border-0
-                    file:text-sm file:font-semibold
-                    file:bg-white/10 file:text-white
-                    hover:file:bg-white/20 hover:file:shadow-md
-                    file:transition-all file:cursor-pointer
-                    focus:outline-none cursor-pointer"
-                />
-              </div>
-            </div>
+
           </div>
 
           {/* Bio */}

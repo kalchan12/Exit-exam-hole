@@ -150,11 +150,20 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const signOut = useCallback(async () => {
+    // 1. Clear local state instantly
     if (typeof window !== 'undefined') {
       localStorage.removeItem('isGuest');
     }
     setIsGuest(false);
-    await supabase.auth.signOut();
+    setUser(null);
+
+    // 2. Redirect immediately to login to avoid UI spinning
+    if (typeof window !== 'undefined') {
+      window.location.href = '/auth/login';
+    }
+
+    // 3. Clear session on Supabase without blocking the UI
+    supabase.auth.signOut().catch(console.error);
   }, []);
 
   return (
