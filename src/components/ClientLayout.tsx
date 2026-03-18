@@ -1,11 +1,26 @@
 'use client';
 
 import { useState } from 'react';
+import { usePathname } from 'next/navigation';
 import Sidebar from './Sidebar';
 import AuthProvider from './AuthProvider';
+import GuestUpsellModal from './GuestUpsellModal';
 
 export default function ClientLayout({ children }: { children: React.ReactNode }) {
   const [isCollapsed, setIsCollapsed] = useState(false);
+  const pathname = usePathname();
+  
+  const isAuthRoute = pathname?.startsWith('/auth');
+
+  if (isAuthRoute) {
+    return (
+      <AuthProvider>
+        <main className="min-h-screen bg-dark-900">
+          {children}
+        </main>
+      </AuthProvider>
+    );
+  }
 
   return (
     <AuthProvider>
@@ -20,6 +35,7 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
             {children}
           </div>
         </main>
+        <GuestUpsellModal />
       </div>
     </AuthProvider>
   );

@@ -5,12 +5,11 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useTheme } from './ThemeProvider';
 import { useAuth } from './AuthProvider';
-import AuthModal from './AuthModal';
 
 const navItems = [
   {
     label: 'Dashboard',
-    href: '/',
+    href: '/dashboard',
     icon: (
       <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
         <path strokeLinecap="round" strokeLinejoin="round" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
@@ -64,7 +63,6 @@ export default function Sidebar({ isCollapsed, setIsCollapsed }: SidebarProps) {
   const pathname = usePathname();
   const { theme, toggleTheme } = useTheme();
   const { user, loading, signOut } = useAuth();
-  const [showAuthModal, setShowAuthModal] = useState(false);
 
   const userEmail = user?.email || '';
   const truncatedEmail = userEmail.length > 20 ? userEmail.slice(0, 17) + '...' : userEmail;
@@ -146,8 +144,8 @@ export default function Sidebar({ isCollapsed, setIsCollapsed }: SidebarProps) {
               )}
             </div>
           ) : (
-            <button
-              onClick={() => setShowAuthModal(true)}
+            <Link
+              href="/auth/login"
               className={`w-full flex items-center transition-colors rounded-xl text-accent-purple-light hover:text-white hover:bg-accent-purple/20 ${isCollapsed ? 'justify-center p-3' : 'gap-3 px-4 py-3'}`}
               title={isCollapsed ? 'Login' : undefined}
             >
@@ -155,7 +153,7 @@ export default function Sidebar({ isCollapsed, setIsCollapsed }: SidebarProps) {
                 <path strokeLinecap="round" strokeLinejoin="round" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
               </svg>
               {!isCollapsed && <span className="text-sm font-medium">Login</span>}
-            </button>
+            </Link>
           )}
         </div>
 
@@ -199,21 +197,20 @@ export default function Sidebar({ isCollapsed, setIsCollapsed }: SidebarProps) {
           ))}
           {/* Mobile auth button */}
           {!loading && !user && (
-            <button
-              onClick={() => setShowAuthModal(true)}
+            <Link
+              href="/auth/login"
               className="flex flex-col items-center gap-1 px-3 py-2 rounded-lg text-accent-purple-light transition-colors"
             >
               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
               </svg>
               <span className="text-[10px] font-medium">Login</span>
-            </button>
+            </Link>
           )}
         </div>
       </nav>
 
-      {/* Auth Modal */}
-      <AuthModal isOpen={showAuthModal} onClose={() => setShowAuthModal(false)} />
+      {/* Remove Auth Modal */}
     </>
   );
 }
