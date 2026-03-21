@@ -102,6 +102,45 @@ export function saveCustomQuestion(question: Question) {
   questionsCache = null; // Invalidate cache
 }
 
+export function deleteCustomNote(noteId: string) {
+  const current = getCustomNotes();
+  const updated = current.filter(n => n.id !== noteId);
+  localStorage.setItem(LOCAL_STORAGE_NOTES_KEY, JSON.stringify(updated));
+  notesCache = null;
+}
+
+export function deleteCustomQuestion(questionId: string) {
+  const current = getCustomQuestions();
+  const updated = current.filter(q => q.id !== questionId);
+  localStorage.setItem(LOCAL_STORAGE_QUESTIONS_KEY, JSON.stringify(updated));
+  questionsCache = null;
+}
+
+export function deleteCustomByte(byteId: string) {
+  const current = getCustomBytes();
+  const updated = current.filter(b => b.id !== byteId);
+  localStorage.setItem(LOCAL_STORAGE_BYTES_KEY, JSON.stringify(updated));
+  bytesCache = null;
+}
+
+export function updateCustomNote(noteId: string, updates: Partial<Note>) {
+  const current = getCustomNotes();
+  const idx = current.findIndex(n => n.id === noteId);
+  if (idx === -1) return;
+  current[idx] = { ...current[idx], ...updates };
+  localStorage.setItem(LOCAL_STORAGE_NOTES_KEY, JSON.stringify(current));
+  notesCache = null;
+}
+
+export function updateCustomQuestion(questionId: string, updates: Partial<Question>) {
+  const current = getCustomQuestions();
+  const idx = current.findIndex(q => q.id === questionId);
+  if (idx === -1) return;
+  current[idx] = { ...current[idx], ...updates };
+  localStorage.setItem(LOCAL_STORAGE_QUESTIONS_KEY, JSON.stringify(current));
+  questionsCache = null;
+}
+
 export async function getQuestions(): Promise<Question[]> {
   if (questionsCache) return questionsCache;
 
