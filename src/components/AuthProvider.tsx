@@ -41,8 +41,18 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
     }
 
     // Get initial session
-    supabase.auth.getSession().then(({ data: { session } }) => {
+    supabase.auth.getSession().then(({ data: { session }, error }) => {
+      if (error) {
+        // If there's an error like Invalid Refresh Token, clear session
+        console.warn('Supabase session error:', error.message);
+        if (typeof window !== 'undefined') {
+          localStorage.removeItem('supabase.auth.token'); // Or the specific token key if needed
+        }
+      }
       setUser(session?.user ?? null);
+      setLoading(false);
+    }).catch((err) => {
+      console.warn('Error fetching session:', err);
       setLoading(false);
     });
 

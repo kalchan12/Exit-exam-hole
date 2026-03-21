@@ -26,9 +26,15 @@ function extractImagesFromMarkdown(md: string): string[] {
  */
 export async function fetchGitHubNote(url: string, course: string = 'General'): Promise<Note> {
   try {
-    const res = await fetch(url);
+    // Transform std github URLs into raw URLs to prevent CORS errors
+    let fetchUrl = url;
+    if (fetchUrl.includes('github.com') && !fetchUrl.includes('raw.githubusercontent.com')) {
+      fetchUrl = fetchUrl.replace('github.com', 'raw.githubusercontent.com').replace('/blob/', '/');
+    }
+
+    const res = await fetch(fetchUrl);
     if (!res.ok) {
-      throw new Error(`Failed to fetch from ${url}: ${res.statusText}`);
+      throw new Error(`Failed to fetch from ${fetchUrl}: ${res.statusText}`);
     }
     
     const markdown = await res.text();
