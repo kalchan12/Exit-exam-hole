@@ -1,15 +1,15 @@
 'use client';
 
 import { useState, useEffect, useMemo } from 'react';
-import ReactMarkdown from 'react-markdown';
-import remarkGfm from 'remark-gfm';
+import Link from 'next/link';
 import { getNotes, getTopics, type Note } from '@/lib/dataLoader';
 
 export default function NotesPage() {
   const [notes, setNotes] = useState<Note[]>([]);
   const [topics, setTopics] = useState<string[]>([]);
   const [topicFilter, setTopicFilter] = useState('all');
-  const [expandedNotes, setExpandedNotes] = useState<Set<string>>(new Set());
+  const [labelFilter, setLabelFilter] = useState('all');
+  const [sortOrder, setSortOrder] = useState<'newest' | 'oldest'>('newest');
   const [searchQuery, setSearchQuery] = useState('');
   const [mounted, setMounted] = useState(false);
 
@@ -24,6 +24,9 @@ export default function NotesPage() {
     if (topicFilter !== 'all') {
       filtered = filtered.filter((n) => n.topic === topicFilter);
     }
+    if (labelFilter !== 'all') {
+      filtered = filtered.filter((n) => n.label === labelFilter);
+    }
     if (searchQuery) {
       const query = searchQuery.toLowerCase();
       filtered = filtered.filter(
@@ -35,20 +38,16 @@ export default function NotesPage() {
           (n.key_points && n.key_points.some((kp) => kp.toLowerCase().includes(query)))
       );
     }
-    return filtered;
-  }, [notes, topicFilter, searchQuery]);
-
-  const toggleExpand = (noteId: string) => {
-    setExpandedNotes((prev) => {
-      const next = new Set(prev);
-      if (next.has(noteId)) {
-        next.delete(noteId);
-      } else {
-        next.add(noteId);
-      }
-      return next;
+    
+    // Sorting by date
+    filtered.sort((a, b) => {
+      const dateA = a.date ? new Date(a.date).getTime() : 0;
+      const dateB = b.date ? new Date(b.date).getTime() : 0;
+      return sortOrder === 'newest' ? dateB - dateA : dateA - dateB;
     });
-  };
+
+    return filtered;
+  }, [notes, topicFilter, labelFilter, searchQuery, sortOrder]);
 
   const topicColors: Record<string, string> = {
     'Algorithms': 'from-purple-500/20 to-blue-500/20 border-purple-500/30',
@@ -71,18 +70,29 @@ export default function NotesPage() {
     return <span className="badge bg-purple-500/20 text-purple-400 border border-purple-500/30 text-xs">{source}</span>;
   };
 
+  const formatDate = (isoString?: string) => {
+    if (!isoString) return 'Unknown Date';
+    return new Date(isoString).toLocaleDateString(undefined, {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric'
+    });
+  };
+
   if (!mounted) {
     return (
       <div className="animate-pulse space-y-6">
         <div className="h-12 bg-dark-700 rounded-xl w-48" />
         <div className="space-y-4">
           {[1, 2, 3].map((i) => (
-            <div key={i} className="h-32 bg-dark-700 rounded-xl" />
+            <div key={i} className="h-24 bg-dark-700 rounded-xl" />
           ))}
         </div>
       </div>
     );
   }
+
+  const allLabels = Array.from(new Set(notes.map(n => n.label).filter(Boolean))) as string[];
 
   return (
     <div className="space-y-6 animate-in">
@@ -95,8 +105,8 @@ export default function NotesPage() {
       </div>
 
       {/* Search & Filter */}
-      <div className="card p-4 flex flex-col sm:flex-row gap-3">
-        <div className="flex-1 relative">
+      <div className="card p-4 flex flex-col sm:flex-row flex-wrap gap-3">
+        <div className="flex-1 min-w-[200px] relative">
           <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
           </svg>
@@ -118,119 +128,82 @@ export default function NotesPage() {
             <option key={t} value={t}>{t}</option>
           ))}
         </select>
+        <select
+          value={labelFilter}
+          onChange={(e) => setLabelFilter(e.target.value)}
+          className="bg-dark-600 border border-dark-400/50 rounded-lg px-3 py-2 text-sm text-white focus:border-accent-purple focus:outline-none"
+        >
+          <option value="all">All Labels</option>
+          <option value="Course Material">Course Material</option>
+          <option value="Syllabus">Syllabus</option>
+          <option value="Short Note">Short Note</option>
+          {allLabels.filter(l => !['Course Material', 'Syllabus', 'Short Note'].includes(l)).map(l => (
+            <option key={l} value={l}>{l}</option>
+          ))}
+        </select>
+        <select
+          value={sortOrder}
+          onChange={(e) => setSortOrder(e.target.value as 'newest' | 'oldest')}
+          className="bg-dark-600 border border-dark-400/50 rounded-lg px-3 py-2 text-sm text-white focus:border-accent-purple focus:outline-none"
+        >
+          <option value="newest">Newest First</option>
+          <option value="oldest">Oldest First</option>
+        </select>
       </div>
 
       {/* Notes Grid */}
-      <div className="space-y-4">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         {filteredNotes.map((note) => {
-          const isExpanded = expandedNotes.has(note.id);
           const colors = topicColors[note.topic] || 'from-gray-500/20 to-gray-600/20 border-gray-500/30';
           const icon = topicIcons[note.topic] || '📖';
 
           return (
-            <div
+            <Link
+              href={`/notes/view?id=${note.id}`}
               key={note.id}
-              className={`card overflow-hidden transition-all duration-300 ${isExpanded ? 'ring-1 ring-accent-purple/30' : ''}`}
+              className="card overflow-hidden hover:ring-1 hover:ring-accent-purple/50 transition-all duration-300 group block"
             >
-              <button
-                onClick={() => toggleExpand(note.id)}
-                className="w-full text-left p-5 sm:p-6"
-              >
+              <div className="p-5 flex flex-col h-full">
                 <div className="flex items-start gap-4">
-                  <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${colors} flex items-center justify-center text-xl flex-shrink-0`}>
+                  <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${colors} flex items-center justify-center text-xl flex-shrink-0 group-hover:scale-105 transition-transform`}>
                     {icon}
                   </div>
                   <div className="flex-1 min-w-0">
-                    <div className="flex items-start justify-between gap-2">
-                      <div>
-                        <div className="flex items-center gap-2 mb-1">
-                          <span className="text-xs text-accent-purple-light font-medium uppercase tracking-wider truncate">
-                            {note.course || note.topic}
-                          </span>
-                          <span className="hidden sm:inline-block">
-                            <SourceBadge source={note.source} />
-                          </span>
-                        </div>
-                        <h3 className="text-base sm:text-lg font-semibold text-white mt-1 pr-2">
-                          {note.title}
-                        </h3>
-                      </div>
-                      <svg
-                        className={`w-4 h-4 sm:w-5 sm:h-5 text-gray-400 flex-shrink-0 transition-transform duration-300 mt-1 ${isExpanded ? 'rotate-180' : ''}`}
-                        fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}
-                      >
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-                      </svg>
+                    <div className="flex flex-wrap items-center gap-2 mb-1">
+                      <span className="text-xs text-accent-purple-light font-medium uppercase tracking-wider truncate">
+                        {note.course || note.topic}
+                      </span>
+                      <span className="text-xs text-gray-500 whitespace-nowrap">
+                        • {formatDate(note.date)}
+                      </span>
                     </div>
-                    {note.summary && (
-                      <p className="text-gray-400 text-sm mt-2 leading-relaxed line-clamp-2">
-                        {note.summary}
-                      </p>
-                    )}
+                    <h3 className="text-lg font-semibold text-white mt-1 pr-2 group-hover:text-accent-purple-light transition-colors line-clamp-2">
+                      {note.title}
+                    </h3>
                   </div>
                 </div>
-              </button>
+                
+                {note.summary && (
+                  <p className="text-gray-400 text-sm mt-3 leading-relaxed line-clamp-2 pl-16">
+                    {note.summary}
+                  </p>
+                )}
 
-               {/* Expanded Content */}
-              {isExpanded && (
-                <div className="px-4 sm:px-6 pb-4 sm:pb-6 animate-slide-up">
-                  <div className="ml-0 sm:ml-16 border-t border-dark-400/20 pt-4">
-                    
-                    {note.body ? (
-                      <div className="prose prose-sm sm:prose-base prose-invert prose-purple max-w-none text-sm text-gray-300 overflow-x-auto">
-                        <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                          {note.body}
-                        </ReactMarkdown>
-                      </div>
-                    ) : note.key_points ? (
-                      <>
-                        <h4 className="text-sm font-semibold text-accent-purple-light mb-3 flex items-center gap-2">
-                          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-                          </svg>
-                          Key Points
-                        </h4>
-                        <ul className="space-y-2.5">
-                          {note.key_points.map((point, idx) => (
-                            <li key={idx} className="flex items-start gap-3 text-sm">
-                              <span className="w-6 h-6 rounded-md bg-accent-purple/20 text-accent-purple-light flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">
-                                {idx + 1}
-                              </span>
-                              <span className="text-gray-300 leading-relaxed">{point}</span>
-                            </li>
-                          ))}
-                        </ul>
-                      </>
-                    ) : null}
-
-                    {/* Images */}
-                    {note.images && note.images.length > 0 && (
-                      <div className="mt-6 flex flex-wrap gap-4">
-                        {note.images.map((img, i) => (
-                          // eslint-disable-next-line @next/next/no-img-element
-                          <img key={i} src={img} alt={`Note attachment ${i+1}`} className="rounded-lg border border-dark-400/30 max-h-64 object-contain" />
-                        ))}
-                      </div>
-                    )}
-
-                    {/* Cloud or External Download Links */}
-                    {note.links && note.links.length > 0 && (
-                      <div className="mt-4 sm:mt-6 flex flex-wrap gap-2 sm:gap-3">
-                        {note.links.map((link, i) => (
-                          <a key={i} href={link} target="_blank" rel="noopener noreferrer" className="btn-secondary text-xs flex items-center gap-1.5 sm:gap-2 px-3 py-1.5 sm:px-4 sm:py-2">
-                            <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                              <path strokeLinecap="round" strokeLinejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                            </svg>
-                            <span className="truncate max-w-[150px] sm:max-w-none">External Link {note.links!.length > 1 ? i + 1 : ''}</span>
-                          </a>
-                        ))}
-                      </div>
-                    )}
-
-                  </div>
+                <div className="mt-4 pt-4 border-t border-dark-400/20 flex flex-wrap items-center gap-2">
+                  <SourceBadge source={note.source} />
+                  {note.label && (
+                    <span className="badge bg-dark-500 text-gray-300 border border-dark-400 text-xs">
+                      {note.label}
+                    </span>
+                  )}
+                  {note.body && (
+                    <span className="badge bg-accent-purple/10 text-accent-purple-light border border-accent-purple/30 text-xs">
+                      {Math.max(1, Math.ceil(note.body.split(/\s+/).length / 200))} min read
+                    </span>
+                  )}
                 </div>
-              )}
-            </div>
+              </div>
+            </Link>
           );
         })}
       </div>
