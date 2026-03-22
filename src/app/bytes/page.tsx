@@ -123,7 +123,7 @@ export default function BytesPage() {
           const badgeClass = topicColors[byte.topic] || 'text-gray-400 border-gray-500/30 bg-gray-500/10';
           
           return (
-            <div key={byte.id} className="relative group card p-6 overflow-hidden hover:ring-1 hover:ring-accent-cyan/50 transition-all duration-300 flex flex-col h-full bg-dark-800/80 hover:bg-dark-700/80">
+            <div key={byte.id} className="relative group card p-6 overflow-hidden hover:ring-1 hover:ring-accent-cyan/50 transition-all duration-300 flex flex-col h-full bg-[#0d111c]">
               <Link
                 href={`/bytes/view?id=${byte.id}`}
                 className="flex-1 flex flex-col"

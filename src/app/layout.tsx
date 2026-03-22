@@ -18,7 +18,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="dark">
-      <body className="bg-dark-900 tech-grid text-white min-h-screen">
+      <body className="app-background text-white min-h-screen">
         <ThemeProvider>
           <AuthProvider>
             <ClientLayout>

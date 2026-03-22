@@ -4,6 +4,7 @@ import { useState, useEffect, useMemo } from 'react';
 import Link from 'next/link';
 import { getNotes, getTopics, deleteCustomNote, saveCustomNote, type Note } from '@/lib/dataLoader';
 import { fetchGitHubNote } from '@/lib/githubFetcher';
+import { getProgress } from '@/lib/progressManager';
 
 export default function NotesPage() {
   const [notes, setNotes] = useState<Note[]>([]);
@@ -15,6 +16,7 @@ export default function NotesPage() {
   const [mounted, setMounted] = useState(false);
   const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null);
   const [refreshingId, setRefreshingId] = useState<string | null>(null);
+  const [completedNotes, setCompletedNotes] = useState<Record<string, boolean>>({});
 
   const loadNotes = () => getNotes().then(setNotes);
 
@@ -22,6 +24,7 @@ export default function NotesPage() {
     setMounted(true);
     loadNotes();
     getTopics().then(setTopics);
+    setCompletedNotes(getProgress().completedNotes || {});
   }, []);
 
   const handleDelete = (noteId: string, e: React.MouseEvent) => {
@@ -163,7 +166,7 @@ export default function NotesPage() {
               <Link href={`/notes/view?id=${note.id}`} className="block">
                 <div className="p-5 flex flex-col h-full">
                   <div className="flex items-start gap-4">
-                    <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${colors} flex items-center justify-center text-xl flex-shrink-0 group-hover:scale-105 transition-transform`}>
+                    <div className={`w-12 h-12 rounded-xl bg-[#0d111c] bg-gradient-to-br ${colors} flex items-center justify-center text-xl flex-shrink-0 group-hover:scale-105 transition-transform`}>
                       {icon}
                     </div>
                     <div className="flex-1 min-w-0">
@@ -182,6 +185,9 @@ export default function NotesPage() {
                     <p className="text-gray-400 text-sm mt-3 leading-relaxed line-clamp-2 pl-16">{note.summary}</p>
                   )}
                   <div className="mt-4 pt-4 border-t border-dark-400/20 flex flex-wrap items-center gap-2">
+                    {completedNotes[note.id] && (
+                      <span className="badge bg-green-500/20 text-green-400 border border-green-500/30 text-xs">✅ Completed</span>
+                    )}
                     {note.source === 'system' || !note.source
                       ? <span className="badge bg-dark-500 text-gray-400 text-xs">Built-in</span>
                       : note.source === 'GitHub'

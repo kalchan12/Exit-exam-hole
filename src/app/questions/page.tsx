@@ -202,7 +202,7 @@ function QuestionsContent() {
           {/* ALL card */}
           <button
             onClick={() => selectCategory('all')}
-            className="group relative overflow-hidden rounded-2xl border border-accent-purple/30 hover:border-accent-purple/60 bg-gradient-to-br from-accent-purple/15 to-fuchsia-500/10 p-6 text-left transition-all duration-300 hover:shadow-lg hover:shadow-purple-500/10 active:scale-[0.98]"
+            className="group relative overflow-hidden rounded-2xl border border-accent-purple/30 hover:border-accent-purple/60 bg-[#0d111c] bg-gradient-to-br from-accent-purple/15 to-fuchsia-500/10 p-6 text-left transition-all duration-300 hover:shadow-lg hover:shadow-purple-500/10 active:scale-[0.98]"
           >
             <div className="text-3xl mb-3">🎯</div>
             <h3 className="text-lg font-bold text-white group-hover:text-accent-purple-light transition-colors">All Questions</h3>
@@ -210,9 +210,11 @@ function QuestionsContent() {
               Practice everything from all categories mixed together
             </p>
             <div className="flex items-center justify-between">
-              <span className="text-xs font-semibold text-accent-purple-light bg-accent-purple/10 px-2.5 py-1 rounded-lg">
-                {questions.length} questions
-              </span>
+              <div className="flex flex-col gap-1">
+                <span className="text-xs font-semibold text-accent-purple-light bg-accent-purple/10 px-2.5 py-1 rounded-lg w-fit">
+                  {questions.filter(q => progress.correctAnswers[q.id]).length} / {questions.length} ({questions.length > 0 ? Math.round((questions.filter(q => progress.correctAnswers[q.id]).length / questions.length) * 100) : 0}%)
+                </span>
+              </div>
               <svg className="w-5 h-5 text-gray-600 group-hover:text-accent-purple-light group-hover:translate-x-1 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
               </svg>
@@ -227,7 +229,7 @@ function QuestionsContent() {
               <button
                 key={topic}
                 onClick={() => selectCategory(topic)}
-                className={`group relative overflow-hidden rounded-2xl border ${meta.border} bg-gradient-to-br ${meta.gradient} p-6 text-left transition-all duration-300 hover:shadow-lg active:scale-[0.98]`}
+                className={`group relative overflow-hidden rounded-2xl border ${meta.border} bg-[#0d111c] bg-gradient-to-br ${meta.gradient} p-6 text-left transition-all duration-300 hover:shadow-lg active:scale-[0.98]`}
               >
                 <div className="text-3xl mb-3">{meta.icon}</div>
                 <h3 className="text-lg font-bold text-white group-hover:text-gray-100 transition-colors">{topic}</h3>
@@ -235,9 +237,11 @@ function QuestionsContent() {
                   Test your knowledge on {topic.toLowerCase()}
                 </p>
                 <div className="flex items-center justify-between">
-                  <span className="text-xs font-semibold text-gray-400 bg-dark-700/60 px-2.5 py-1 rounded-lg">
-                    {count} questions
-                  </span>
+                  <div className="flex flex-col gap-1">
+                    <span className="text-xs font-semibold text-gray-400 bg-dark-700/60 px-2.5 py-1 rounded-lg w-fit">
+                      {questions.filter(q => q.topic === topic && progress.correctAnswers[q.id]).length} / {count} ({count > 0 ? Math.round((questions.filter(q => q.topic === topic && progress.correctAnswers[q.id]).length / count) * 100) : 0}%)
+                    </span>
+                  </div>
                   <svg className="w-5 h-5 text-gray-600 group-hover:text-white group-hover:translate-x-1 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
                   </svg>
@@ -341,6 +345,15 @@ function QuestionsContent() {
             <span className="badge bg-dark-500 text-gray-400 text-[10px] sm:text-xs truncate max-w-[100px] sm:max-w-none">
               {currentQuestion.topic}
             </span>
+            {progress.correctAnswers[currentQuestion.id] ? (
+              <span className="badge bg-green-500/20 text-green-400 border border-green-500/30 text-[10px] sm:text-xs">
+                ✅ Completed
+              </span>
+            ) : progress.answeredQuestions[currentQuestion.id] ? (
+              <span className="badge bg-red-500/20 text-red-400 border border-red-500/30 text-[10px] sm:text-xs">
+                ❌ Needs Review
+              </span>
+            ) : null}
             
             <div className="ml-auto flex items-center gap-3">
               {isCustomQuestion(currentQuestion) && (

@@ -6,6 +6,8 @@ import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import Link from 'next/link';
 import { getNotes, type Note } from '@/lib/dataLoader';
+import { recordNoteCompleted, getProgress, syncProgressToRemote } from '@/lib/progressManager';
+import { useAuth } from '@/components/AuthProvider';
 
 function splitContentIntoPages(body: string, keyPoints?: string[]): string[] {
   if (!body && keyPoints && keyPoints.length > 0) {
@@ -72,6 +74,8 @@ export default function NoteViewPage() {
   const [loading, setLoading] = useState(true);
   const [allNotes, setAllNotes] = useState<Note[]>([]);
   const [currentPage, setCurrentPage] = useState(0);
+  const { user } = useAuth();
+  const [isCompleted, setIsCompleted] = useState(false);
 
   useEffect(() => {
     if (!id) { setLoading(false); return; }
@@ -88,6 +92,20 @@ export default function NoteViewPage() {
   }, [id]);
 
   useEffect(() => { setCurrentPage(0); }, [id]);
+
+  useEffect(() => {
+    if (id) {
+      const state = getProgress();
+      setIsCompleted(!!state.completedNotes?.[id]);
+    }
+  }, [id]);
+
+  const handleComplete = useCallback(() => {
+    if (!id || isCompleted) return;
+    recordNoteCompleted(id);
+    setIsCompleted(true);
+    if (user) syncProgressToRemote(user.id);
+  }, [id, isCompleted, user]);
 
   const pages = useMemo(() => {
     if (!note) return [];
@@ -292,11 +310,30 @@ export default function NoteViewPage() {
           </div>
         )}
 
-        {/* Completion */}
-        {isLastPage && progressPercent === 100 && totalPages > 1 && (
-          <div className="mt-10 p-5 rounded-xl bg-gradient-to-br from-emerald-500/8 to-green-500/8 border border-emerald-500/20 text-center">
-            <p className="text-emerald-400 font-semibold text-base">🎉 You've completed this note!</p>
-            <p className="text-gray-500 text-xs mt-1">{totalPages} sections read</p>
+        {/* Completion Action */}
+        {isLastPage && (
+          <div className="mt-10 flex flex-col items-center justify-center p-6 rounded-xl bg-dark-800/50 border border-dark-400/30 text-center">
+            {isCompleted ? (
+              <div className="flex flex-col items-center animate-in fade-in zoom-in duration-300">
+                <div className="w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center mb-3">
+                  <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                  </svg>
+                </div>
+                <p className="text-emerald-400 font-semibold text-base">🎉 Note Completed!</p>
+                <p className="text-gray-500 text-xs mt-1">Great job finishing this material.</p>
+              </div>
+            ) : (
+              <div className="flex flex-col items-center">
+                <p className="text-gray-300 font-medium mb-4">Finished reading? Mark this note as completed to track your progress.</p>
+                <button
+                  onClick={handleComplete}
+                  className="px-6 py-2.5 rounded-xl font-semibold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 hover:bg-emerald-500 hover:text-white transition-all duration-300 shadow-glow-sm"
+                >
+                  Mark as Completed
+                </button>
+              </div>
+            )}
           </div>
         )}
       </div>

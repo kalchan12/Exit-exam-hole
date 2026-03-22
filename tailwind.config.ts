@@ -23,6 +23,8 @@ const config: Config = {
           'purple-light': '#8b5cf6',
           'purple-dark': '#6d28d9',
           'purple-glow': '#a78bfa',
+          cyan: '#06b6d4',
+          'cyan-light': '#22d3ee',
         },
         neon: {
           green: '#4ade80',

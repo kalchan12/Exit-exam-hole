@@ -6,6 +6,7 @@ export interface ProgressState {
   accuracyByTopic: Record<string, number>;
   lastActiveDate: string;
   lastTopic: string;
+  completedNotes: Record<string, boolean>;
 }
 
 const STORAGE_KEY = 'cs_exam_prep_progress';
@@ -18,6 +19,7 @@ const defaultState: ProgressState = {
   accuracyByTopic: {},
   lastActiveDate: '',
   lastTopic: '',
+  completedNotes: {},
 };
 
 function isValidProgress(data: unknown): data is ProgressState {
@@ -28,7 +30,8 @@ function isValidProgress(data: unknown): data is ProgressState {
     typeof d.correctAnswers === 'object' &&
     typeof d.xp === 'number' &&
     typeof d.streak === 'number' &&
-    typeof d.accuracyByTopic === 'object'
+    typeof d.accuracyByTopic === 'object' &&
+    typeof d.completedNotes === 'object'
   );
 }
 
@@ -46,6 +49,7 @@ export function getProgress(): ProgressState {
       return { ...defaultState };
     }
 
+    if (!parsed.completedNotes) parsed.completedNotes = {};
     return parsed;
   } catch {
     console.warn('Failed to read progress, resetting...');
@@ -106,6 +110,20 @@ export function getAnsweredCount(): number {
 export function getCorrectCount(): number {
   const state = getProgress();
   return Object.values(state.correctAnswers).filter(Boolean).length;
+}
+
+export function recordNoteCompleted(noteId: string): void {
+  const state = getProgress();
+  if (!state.completedNotes[noteId]) {
+    state.completedNotes[noteId] = true;
+    state.xp += 5; // Give some minor XP for reading a note
+    saveProgress(state);
+  }
+}
+
+export function getCompletedNotesCount(): number {
+  const state = getProgress();
+  return Object.keys(state.completedNotes || {}).length;
 }
 
 export function resetProgress(): void {

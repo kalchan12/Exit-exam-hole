@@ -17,7 +17,7 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
   // just show the children without sidebar padding.
   if (isAuthRoute) {
     return (
-      <main className="min-h-screen bg-slate-950">
+      <main className="min-h-screen">
         {children}
       </main>
     );
@@ -28,7 +28,7 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
   // to prevent flashing the dashboard shell.
   if (loading || (!user && !isGuest)) {
     return (
-      <div className="min-h-screen bg-slate-950 flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center">
         <div className="w-12 h-12 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
       </div>
     );
@@ -36,7 +36,7 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
 
   // Authenticated/Guest layout with Sidebar
   return (
-    <div className="flex bg-slate-950">
+    <div className="flex">
       <Sidebar isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} />
       <main 
         className={`flex-1 transition-all duration-300 min-h-screen pb-20 lg:pb-0 ${

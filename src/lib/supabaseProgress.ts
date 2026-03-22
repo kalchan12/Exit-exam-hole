@@ -32,6 +32,7 @@ export async function getRemoteProgress(userId: string): Promise<ProgressState |
     accuracyByTopic: row.accuracy || {},
     lastActiveDate: row.last_active_date || '',
     lastTopic: row.last_topic || '',
+    completedNotes: {},
   };
 }
 
@@ -122,5 +123,6 @@ export function mergeProgress(
         ? local.lastActiveDate
         : remote.lastActiveDate,
     lastTopic: local.lastTopic || remote.lastTopic,
+    completedNotes: local.completedNotes || {},
   };
 }

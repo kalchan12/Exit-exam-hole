@@ -231,34 +231,34 @@ export default function UploadPage() {
         {activeTab === 'note' && (
           <form onSubmit={handleNoteSubmit} className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">Course Name</label>
+              <div className="input-group">
+                <label className="label-text">Course Name</label>
                 <input
                   type="text"
                   required
                   placeholder="e.g. Data Structures"
                   value={noteCourse}
                   onChange={(e) => setNoteCourse(e.target.value)}
-                  className="w-full bg-dark-600 border border-dark-400/50 rounded-lg px-4 py-2 text-sm text-white focus:border-accent-purple outline-none"
+                  className="input-field"
                 />
               </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">Note Title</label>
+              <div className="input-group">
+                <label className="label-text">Note Title</label>
                 <input
                   type="text"
                   required
                   placeholder="e.g. Binary Search Trees"
                   value={noteTitle}
                   onChange={(e) => setNoteTitle(e.target.value)}
-                  className="w-full bg-dark-600 border border-dark-400/50 rounded-lg px-4 py-2 text-sm text-white focus:border-accent-purple outline-none"
+                  className="input-field"
                 />
               </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">Label</label>
+              <div className="input-group">
+                <label className="label-text">Label</label>
                 <select
                   value={noteLabel}
                   onChange={(e) => setNoteLabel(e.target.value)}
-                  className="w-full bg-dark-600 border border-dark-400/50 rounded-lg px-4 py-2 text-sm text-white focus:border-accent-purple outline-none"
+                  className="input-field"
                 >
                   <option value="Auto">Auto-assign</option>
                   <option value="Course Material">Course Material</option>
@@ -292,30 +292,30 @@ export default function UploadPage() {
                   value={noteBody}
                   onChange={(e) => setNoteBody(e.target.value)}
                   placeholder="Write your note down in markdown..."
-                  className="w-full bg-dark-600 border border-dark-400/50 rounded-lg px-4 py-3 text-sm text-white focus:border-accent-purple outline-none min-h-[200px] font-mono resize-y"
+                  className="input-field min-h-[200px] font-mono resize-y"
                 />
               )}
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">Image URL (Optional)</label>
+              <div className="input-group">
+                <label className="label-text">Image URL (Optional)</label>
                 <input
                   type="url"
                   placeholder="https://example.com/image.png"
                   value={noteImage}
                   onChange={(e) => setNoteImage(e.target.value)}
-                  className="w-full bg-dark-600 border border-dark-400/50 rounded-lg px-4 py-2 text-sm text-white focus:border-accent-purple outline-none"
+                  className="input-field"
                 />
               </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">Cloud Link (Optional)</label>
+              <div className="input-group">
+                <label className="label-text">Cloud Link (Optional)</label>
                 <input
                   type="url"
                   placeholder="Google Drive, OneDrive link"
                   value={noteLink}
                   onChange={(e) => setNoteLink(e.target.value)}
-                  className="w-full bg-dark-600 border border-dark-400/50 rounded-lg px-4 py-2 text-sm text-white focus:border-accent-purple outline-none"
+                  className="input-field"
                 />
               </div>
             </div>
@@ -330,72 +330,72 @@ export default function UploadPage() {
         {activeTab === 'byte' && (
           <form onSubmit={handleByteSubmit} className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
-                 <label className="block text-sm font-medium text-gray-300 mb-2">Topic Designator</label>
+              <div className="input-group">
+                 <label className="label-text">Topic Designator</label>
                  <input
                    type="text"
                    required
                    placeholder="e.g. Operating Systems"
                    value={byteTopic}
                    onChange={(e) => setByteTopic(e.target.value)}
-                   className="w-full bg-dark-600 border border-dark-400/50 rounded-lg px-4 py-2 text-sm text-white focus:border-accent-cyan outline-none"
+                   className="input-field-cyan"
                  />
               </div>
-              <div>
-                 <label className="block text-sm font-medium text-gray-300 mb-2">Byte Title</label>
+              <div className="input-group">
+                 <label className="label-text">Byte Title</label>
                  <input
                    type="text"
                    required
                    placeholder="e.g. Context Switching Context"
                    value={byteTitle}
                    onChange={(e) => setByteTitle(e.target.value)}
-                   className="w-full bg-dark-600 border border-dark-400/50 rounded-lg px-4 py-2 text-sm text-white focus:border-accent-cyan outline-none"
+                   className="input-field-cyan"
                  />
               </div>
             </div>
 
-            <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">Content (Markdown)</label>
+            <div className="input-group">
+              <label className="label-text">Content (Markdown)</label>
               <textarea
                 required
                 value={byteContent}
                 onChange={(e) => setByteContent(e.target.value)}
                 placeholder="Write bite-sized content here..."
-                className="w-full bg-dark-600 border border-dark-400/50 rounded-lg px-4 py-3 text-sm text-white focus:border-accent-cyan outline-none min-h-[150px] font-mono resize-y"
+                className="input-field-cyan min-h-[150px] font-mono resize-y"
               />
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
-                 <label className="block text-sm font-medium text-gray-300 mb-2">Image URL (Optional)</label>
+              <div className="input-group">
+                 <label className="label-text">Image URL (Optional)</label>
                  <input
                    type="url"
                    placeholder="https://example.com/diagram.png"
                    value={byteImage}
                    onChange={(e) => setByteImage(e.target.value)}
-                   className="w-full bg-dark-600 border border-dark-400/50 rounded-lg px-4 py-2 text-sm text-white focus:border-accent-cyan outline-none"
+                   className="input-field-cyan"
                  />
               </div>
-              <div>
-                 <label className="block text-sm font-medium text-gray-300 mb-2">Video URL (Optional)</label>
+              <div className="input-group">
+                 <label className="label-text">Video URL (Optional)</label>
                  <input
                    type="url"
                    placeholder="YouTube URL"
                    value={byteVideo}
                    onChange={(e) => setByteVideo(e.target.value)}
-                   className="w-full bg-dark-600 border border-dark-400/50 rounded-lg px-4 py-2 text-sm text-white focus:border-accent-cyan outline-none"
+                   className="input-field-cyan"
                  />
               </div>
             </div>
 
-            <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">Related Question IDs (Comma-separated)</label>
+            <div className="input-group">
+              <label className="label-text">Related Question IDs (Comma-separated)</label>
               <input
                 type="text"
                 placeholder="q_id_1, q_id_2"
                 value={byteQuestions}
                 onChange={(e) => setByteQuestions(e.target.value)}
-                className="w-full bg-dark-600 border border-dark-400/50 rounded-lg px-4 py-2 text-sm text-white focus:border-accent-cyan outline-none font-mono"
+                className="input-field-cyan font-mono"
               />
               <p className="text-xs text-gray-500 mt-1">Found in the Question object definition. These will render as actionable quizzes.</p>
             </div>
@@ -430,14 +430,14 @@ export default function UploadPage() {
               {quizMode === 'single' ? (
                 <>
                   {/* Single entry fields */}
-                  <div>
-                    <label className="block text-sm font-medium text-gray-300 mb-2">Question</label>
+                  <div className="input-group">
+                    <label className="label-text">Question</label>
                     <textarea
                       required
                       value={quizQuestion}
                       onChange={(e) => setQuizQuestion(e.target.value)}
                       placeholder="What is the time complexity of a Binary Search?"
-                      className="w-full bg-dark-600 border border-dark-400/50 rounded-lg px-4 py-3 text-sm text-white focus:border-accent-purple outline-none resize-y"
+                      className="input-field min-h-[200px] font-mono resize-y"
                     />
                   </div>
 
@@ -454,7 +454,7 @@ export default function UploadPage() {
                           value={quizOptions[index]}
                           onChange={(e) => updateQuizOption(index, e.target.value)}
                           placeholder={`Option ${letter}`}
-                          className="flex-1 bg-dark-600 border border-dark-400/50 rounded-lg px-4 py-2 text-sm text-white focus:border-accent-purple outline-none"
+                          className="input-field flex-1"
                         />
                         <input
                           type="radio"
@@ -469,35 +469,35 @@ export default function UploadPage() {
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-300 mb-2">Topic</label>
+                    <div className="input-group">
+                      <label className="label-text">Topic</label>
                       <input
                         type="text"
                         required
                         placeholder="Algorithms"
                         value={quizTopic}
                         onChange={(e) => setQuizTopic(e.target.value)}
-                        className="w-full bg-dark-600 border border-dark-400/50 rounded-lg px-4 py-2 text-sm text-white focus:border-accent-purple outline-none"
+                        className="input-field"
                       />
                     </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-300 mb-2">Source</label>
+                    <div className="input-group">
+                      <label className="label-text">Source</label>
                       <select
                         value={quizSource}
                         onChange={(e) => setQuizSource(e.target.value)}
-                        className="w-full bg-dark-600 border border-dark-400/50 rounded-lg px-3 py-2 text-sm text-white focus:border-accent-purple outline-none"
+                        className="input-field"
                       >
                         <option value="Archived Exams">Archived Exams</option>
                         <option value="Course Notes">Course Notes</option>
                         <option value="Global">Global</option>
                       </select>
                     </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-300 mb-2">Difficulty</label>
+                    <div className="input-group">
+                      <label className="label-text">Difficulty</label>
                       <select
                         value={quizDifficulty}
                         onChange={(e: any) => setQuizDifficulty(e.target.value)}
-                        className="w-full bg-dark-600 border border-dark-400/50 rounded-lg px-3 py-2 text-sm text-white focus:border-accent-purple outline-none"
+                        className="input-field"
                       >
                         <option value="easy">Easy</option>
                         <option value="medium">Medium</option>
@@ -506,28 +506,28 @@ export default function UploadPage() {
                     </div>
                   </div>
 
-                  <div>
-                    <label className="block text-sm font-medium text-gray-300 mb-2">Hint (Optional)</label>
+                  <div className="input-group">
+                    <label className="label-text">Hint (Optional)</label>
                     <input
                       type="text"
                       placeholder="A helpful nudge in the right direction..."
                       value={quizHint}
                       onChange={(e) => setQuizHint(e.target.value)}
-                      className="w-full bg-dark-600 border border-dark-400/50 rounded-lg px-4 py-2 text-sm text-white focus:border-accent-purple outline-none"
+                      className="input-field"
                     />
                   </div>
                 </>
               ) : (
                 <>
                   {/* Bulk Input Field */}
-                  <div>
-                    <label className="block text-sm font-medium text-gray-300 mb-2">Paste JSON Array of Questions</label>
+                  <div className="input-group">
+                    <label className="label-text">Paste JSON Array of Questions</label>
                     <textarea
                       required
                       value={bulkQuizJson}
                       onChange={(e) => setBulkQuizJson(e.target.value)}
                       placeholder={'[\n  {\n    "question": "Sample?",\n    "options": ["O1", "O2", "O3", "O4"],\n    "answer": "O1",\n    "topic": "Algo",\n    "difficulty": "easy",\n    "explanation": "Here is why."\n  }\n]'}
-                      className="w-full bg-dark-600 border border-dark-400/50 rounded-lg px-4 py-3 text-sm text-white focus:border-accent-purple outline-none min-h-[300px] font-mono whitespace-pre"
+                      className="input-field min-h-[300px] font-mono whitespace-pre"
                     />
                     {bulkQuizError && (
                       <p className="text-red-400 text-sm mt-3 bg-red-500/10 p-3 rounded-lg border border-red-500/20">
@@ -549,24 +549,24 @@ export default function UploadPage() {
         {activeTab === 'github' && (
           <div className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">Raw Markdown URL</label>
+              <div className="input-group">
+                <label className="label-text">Raw Markdown URL</label>
                 <input
                   type="url"
                   placeholder="https://raw.githubusercontent.com/..."
                   value={githubUrl}
                   onChange={(e) => setGithubUrl(e.target.value)}
-                  className="w-full bg-dark-600 border border-dark-400/50 rounded-lg px-4 py-2 text-sm text-white focus:border-accent-purple outline-none"
+                  className="input-field"
                 />
               </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">Course Target</label>
+              <div className="input-group">
+                <label className="label-text">Course Target</label>
                 <input
                   type="text"
                   placeholder="e.g. Operating Systems"
                   value={githubCourse}
                   onChange={(e) => setGithubCourse(e.target.value)}
-                  className="w-full bg-dark-600 border border-dark-400/50 rounded-lg px-4 py-2 text-sm text-white focus:border-accent-purple outline-none"
+                  className="input-field"
                 />
               </div>
             </div>
