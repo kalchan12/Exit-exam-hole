@@ -177,11 +177,11 @@ export default function NoteViewPage() {
 
 
       {/* ─── MAIN CONTENT CARD ─── */}
-      <div className="bg-[#11152a]/60 backdrop-blur-2xl border border-white/5 rounded-3xl mb-10 shadow-[0_20px_50px_rgba(0,0,0,0.3)] relative overflow-hidden group/content mt-6">
+      <div className="bg-[#11152a]/60 backdrop-blur-2xl border border-white/5 rounded-3xl mb-10 shadow-[0_20px_50px_rgba(0,0,0,0.3)] relative group/content mt-6">
         <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-accent-purple/20 to-transparent opacity-0 group-hover/content:opacity-100 transition-opacity duration-700 z-10" />
 
         {/* ─── INTEGRATED STICKY NAVIGATION ─── */}
-        <div className="sticky top-0 z-30 bg-[#080d21]/60 backdrop-blur-xl border-b border-white/[0.05] p-4 sm:px-12 flex flex-col gap-3 rounded-t-3xl">
+        <div className="sticky top-0 z-50 bg-[#080d21]/80 backdrop-blur-xl border-b border-white/[0.05] p-4 sm:px-12 flex flex-col gap-3 rounded-t-3xl shadow-lg">
           <div className="flex items-center justify-between">
             <Link href="/notes" className="inline-flex items-center gap-2 text-xs font-bold text-gray-500 hover:text-accent-purple-light transition-all group/back">
               <div className="w-7 h-7 rounded-lg bg-dark-800/50 border border-dark-400/20 flex items-center justify-center group-hover/back:border-accent-purple/40">
