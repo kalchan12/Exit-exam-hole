@@ -47,11 +47,11 @@
     pointer-events: none;
     z-index: 0;
     background-image: 
-      linear-gradient(rgba(124, 58, 237, 0.02) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(124, 58, 237, 0.02) 1px, transparent 1px);
+      linear-gradient(rgba(124, 58, 237, 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(124, 58, 237, 0.05) 1px, transparent 1px);
     background-size: 40px 40px;
-    -webkit-mask-image: radial-gradient(circle at 50% 10%, black 0%, transparent 70%);
-    mask-image: radial-gradient(circle at 50% 10%, black 0%, transparent 70%);
+    -webkit-mask-image: radial-gradient(circle at 50% 30%, black 0%, transparent 90%);
+    mask-image: radial-gradient(circle at 50% 30%, black 0%, transparent 90%);
   }
 }
 
@@ -101,44 +101,49 @@
 
   .input-field {
     width: 100%;
-    padding: 12px 14px;
-    background-color: #0f1424;
-    border: 1px solid rgba(255, 255, 255, 0.06);
-    border-radius: 10px;
-    color: #e5e7eb;
+    padding: 12px 16px;
+    background-color: rgba(255, 255, 255, 0.02);
+    @apply backdrop-blur-sm;
+    border: 1px solid rgba(124, 58, 237, 0.15);
+    border-radius: 12px;
+    color: #f3f4f6;
     font-size: 14px;
     outline: none;
-    transition: all 0.2s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .input-field:focus {
-    border-color: #6366f1;
-    box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
+    background-color: rgba(255, 255, 255, 0.05);
+    border-color: rgba(124, 58, 237, 0.5);
+    box-shadow: 0 0 20px rgba(124, 58, 237, 0.15);
+    transform: translateY(-1px);
   }
 
   .input-field::placeholder {
-    color: rgba(255, 255, 255, 0.4);
+    color: rgba(255, 255, 255, 0.3);
   }
 
   .input-field-cyan {
-    @apply input-field;
+    @apply input-field border-accent-cyan/20;
   }
 
   .input-field-cyan:focus {
-    border-color: #06b6d4;
-    box-shadow: 0 0 0 2px rgba(6, 182, 212, 0.2);
+    border-color: rgba(6, 182, 212, 0.5);
+    box-shadow: 0 0 20px rgba(6, 182, 212, 0.15);
   }
 
   .input-group {
     display: flex;
     flex-direction: column;
-    gap: 6px;
-    margin-bottom: 16px;
+    gap: 8px;
+    margin-bottom: 20px;
   }
   
   .label-text {
     font-size: 13px;
-    color: rgba(255, 255, 255, 0.7);
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.6);
+    margin-left: 4px;
   }
 
   .badge {

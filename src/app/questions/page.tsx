@@ -296,7 +296,7 @@ function QuestionsContent() {
           <select
             value={difficultyFilter}
             onChange={(e) => { setDifficultyFilter(e.target.value); resetQuiz(); }}
-            className="bg-dark-600 border border-dark-400/50 rounded-lg px-3 py-1.5 text-xs text-white focus:border-accent-purple focus:outline-none"
+            className="input-field py-1.5 h-10 w-fit text-xs"
           >
             <option value="all">All Difficulties</option>
             <option value="easy">Easy</option>

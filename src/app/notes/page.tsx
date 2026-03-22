@@ -131,10 +131,10 @@ export default function NotesPage() {
             <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
           </svg>
           <input type="text" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} placeholder="Search notes..."
-            className="w-full bg-dark-600 border border-dark-400/50 rounded-lg pl-10 pr-4 py-2 text-sm text-white placeholder-gray-500 focus:border-accent-purple focus:outline-none" />
+            className="input-field pl-10 h-11" />
         </div>
         <select value={topicFilter} onChange={(e) => setTopicFilter(e.target.value)}
-          className="bg-dark-600 border border-dark-400/50 rounded-lg px-3 py-2 text-sm text-white focus:border-accent-purple focus:outline-none">
+          className="input-field h-11 w-fit min-w-[140px]">
           <option value="all">All Topics</option>
           {topics.map((t) => <option key={t} value={t}>{t}</option>)}
         </select>
