@@ -172,109 +172,84 @@ export default function NoteViewPage() {
     <div className="max-w-4xl mx-auto pb-16">
 
       {/* ─── FIXED PROGRESS HEADER ─── */}
-      <div className="sticky top-0 z-20 bg-dark-900/90 backdrop-blur-md pb-3 pt-2 -mx-2 px-2">
-        {/* Top row */}
-        <div className="flex items-center justify-between mb-2">
-          <Link href="/notes" className="inline-flex items-center gap-1.5 text-xs text-gray-500 hover:text-white transition-colors">
-            <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-            </svg>
-            Notes
+      <div className="sticky top-0 z-30 bg-[#0a0b1e]/80 backdrop-blur-xl border-b border-white/5 pb-4 pt-4 px-4 -mx-4 mb-6">
+        <div className="flex items-center justify-between mb-3">
+          <Link href="/notes" className="inline-flex items-center gap-2 text-xs font-semibold text-gray-500 hover:text-accent-purple-light transition-all group">
+            <div className="w-6 h-6 rounded-lg bg-dark-800 border border-dark-400/20 flex items-center justify-center group-hover:border-accent-purple/40">
+              <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+              </svg>
+            </div>
+            Back to Notes
           </Link>
 
-          <div className="flex items-center gap-2.5">
+          <div className="flex items-center gap-3">
             {totalPages > 1 && (
-              <span className="text-[11px] text-gray-500 tabular-nums font-mono">
-                {currentPage + 1}<span className="text-gray-600">/</span>{totalPages}
+              <span className="text-[11px] text-gray-400 tabular-nums font-mono bg-dark-800 px-2 py-1 rounded-md border border-dark-400/15">
+                {currentPage + 1}<span className="text-gray-600 mx-0.5">/</span>{totalPages}
               </span>
             )}
-            <span className={`text-[11px] font-bold px-2 py-0.5 rounded-full tabular-nums ${
+            <div className={`flex items-center gap-1.5 px-3 py-1 rounded-full border transition-all duration-300 ${
               progressPercent === 100
-                ? 'bg-emerald-500/15 text-emerald-400'
-                : 'bg-accent-purple/15 text-accent-purple-light'
+                ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400 shadow-glow-sm-green'
+                : 'bg-accent-purple/10 border-accent-purple/30 text-accent-purple-light shadow-glow-sm-purple'
             }`}>
-              {progressPercent}%
-            </span>
+              <span className="text-[10px] font-bold tracking-tight uppercase">{progressPercent === 100 ? 'Completed' : 'Reading'}</span>
+              <span className="text-xs font-black tabular-nums">{progressPercent}%</span>
+            </div>
           </div>
         </div>
 
-        {/* Progress bar */}
-        <div className="w-full h-1 bg-dark-700/80 rounded-full overflow-hidden">
+        {/* Improved Progress bar */}
+        <div className="w-full h-1.5 bg-dark-700/40 rounded-full overflow-hidden">
           <div
-            className={`h-full rounded-full transition-all duration-500 ease-out ${
+            className={`h-full rounded-full transition-all duration-700 cubic-bezier(0.4, 0, 0.2, 1) ${
               progressPercent === 100
                 ? 'bg-gradient-to-r from-emerald-500 to-green-400'
-                : 'bg-gradient-to-r from-accent-purple to-fuchsia-400'
+                : 'bg-gradient-to-r from-accent-purple via-fuchsia-500 to-accent-purple'
             }`}
             style={{ width: `${progressPercent}%` }}
           />
         </div>
-
-        {/* Page dots */}
-        {totalPages > 1 && totalPages <= 20 && (
-          <div className="flex items-center justify-center gap-1 mt-2">
-            {Array.from({ length: totalPages }).map((_, i) => (
-              <button
-                key={i}
-                onClick={() => { setCurrentPage(i); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-                aria-label={`Page ${i + 1}`}
-                className={`rounded-full transition-all duration-300 ${
-                  i === currentPage
-                    ? 'w-5 h-1.5 bg-accent-purple'
-                    : i < currentPage
-                    ? 'w-1.5 h-1.5 bg-emerald-500/50 hover:bg-emerald-400'
-                    : 'w-1.5 h-1.5 bg-dark-500/60 hover:bg-dark-400'
-                }`}
-              />
-            ))}
-          </div>
-        )}
       </div>
 
       {/* ─── NOTE HEADER (first page only) ─── */}
       {isFirstPage && (
-        <div className="mt-6 mb-8">
-          <div className="flex flex-wrap items-center gap-2 mb-3">
-            <span className="text-xs text-accent-purple-light font-semibold uppercase tracking-widest">
+        <div className="mt-8 mb-10 text-center sm:text-left">
+          <div className="flex flex-wrap items-center justify-center sm:justify-start gap-3 mb-5">
+            <span className="text-xs text-accent-purple-light font-bold uppercase tracking-[0.2em] bg-accent-purple/10 px-3 py-1 rounded-lg border border-accent-purple/20">
               {note.course || note.topic}
             </span>
-            <span className="text-[10px] text-gray-600">•</span>
-            <span className="text-xs text-gray-500">{formatDate(note.date)}</span>
-            {note.source && note.source !== 'system' && (
-              <>
-                <span className="text-[10px] text-gray-600">•</span>
-                <span className={`text-[10px] uppercase tracking-wider font-bold px-1.5 py-0.5 rounded ${
-                  note.source === 'GitHub' ? 'bg-blue-500/15 text-blue-400'
-                  : note.source === 'Local' ? 'bg-emerald-500/15 text-emerald-400'
-                  : 'bg-purple-500/15 text-purple-400'
-                }`}>{note.source}</span>
-              </>
-            )}
+            <span className="text-xs text-gray-500 font-medium">{formatDate(note.date)}</span>
             {note.label && (
-              <span className="text-[10px] px-1.5 py-0.5 rounded bg-dark-600 text-gray-400 border border-dark-400/30">
+              <span className="text-[10px] px-2 py-1 rounded-md bg-dark-600/50 text-gray-400 border border-dark-400/20 font-semibold">
                 {note.label}
               </span>
             )}
           </div>
-          <h1 className="text-3xl sm:text-4xl font-extrabold text-white leading-[1.15] tracking-tight">
+          <h1 className="text-4xl sm:text-5xl font-black text-white leading-tight tracking-tight mb-6">
             {note.title}
           </h1>
           {note.summary && (
-            <p className="text-gray-400 text-base leading-relaxed mt-4 max-w-2xl">
-              {note.summary}
-            </p>
+            <div className="relative inline-block">
+              <div className="absolute -left-4 top-0 bottom-0 w-1 bg-accent-purple/30 rounded-full" />
+              <p className="text-gray-400 text-lg leading-relaxed max-w-3xl italic">
+                {note.summary}
+              </p>
+            </div>
           )}
         </div>
       )}
 
-      {/* ─── PAGE CONTENT ─── */}
-      <div className="bg-dark-800/60 border border-dark-400/20 rounded-2xl p-6 sm:p-10 mb-8 shadow-xl shadow-black/20">
+      {/* ─── PAGE CONTENT CONTAINER ─── */}
+      <div className="bg-[#11152a]/60 backdrop-blur-2xl border border-white/5 rounded-3xl p-6 sm:p-12 mb-10 shadow-[0_20px_50px_rgba(0,0,0,0.3)] relative overflow-hidden group/content">
+        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-accent-purple/20 to-transparent opacity-0 group-hover/content:opacity-100 transition-opacity duration-700" />
         {/* Breadcrumb on non-first pages */}
         {totalPages > 1 && !isFirstPage && (
           <div className="flex items-center gap-2 mb-6 pb-4 border-b border-dark-400/15">
             <span className="w-6 h-6 rounded-md bg-accent-purple/15 text-accent-purple-light flex items-center justify-center font-bold text-[10px]">
               {currentPage + 1}
-            </span>
+          </span>
             <span className="text-sm font-medium text-gray-400 truncate">{note.title}</span>
           </div>
         )}
@@ -312,24 +287,29 @@ export default function NoteViewPage() {
 
         {/* Completion Action */}
         {isLastPage && (
-          <div className="mt-10 flex flex-col items-center justify-center p-6 rounded-xl bg-dark-800/50 border border-dark-400/30 text-center">
+          <div className="mt-12 flex flex-col items-center justify-center p-8 rounded-2xl bg-white/[0.03] border border-white/5 text-center relative overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-to-br from-accent-purple/5 to-transparent pointer-events-none" />
             {isCompleted ? (
-              <div className="flex flex-col items-center animate-in fade-in zoom-in duration-300">
-                <div className="w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center mb-3">
-                  <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+              <div className="flex flex-col items-center animate-in fade-in zoom-in duration-500 relative z-10">
+                <div className="w-16 h-16 rounded-2xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center mb-4 border border-emerald-500/20 shadow-glow-sm-green">
+                  <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                   </svg>
                 </div>
-                <p className="text-emerald-400 font-semibold text-base">🎉 Note Completed!</p>
-                <p className="text-gray-500 text-xs mt-1">Great job finishing this material.</p>
+                <h3 className="text-xl font-black text-white mb-2">Note Mastered!</h3>
+                <p className="text-gray-400 text-sm max-w-xs">Excellent work. This note is now part of your knowledge base.</p>
               </div>
             ) : (
-              <div className="flex flex-col items-center">
-                <p className="text-gray-300 font-medium mb-4">Finished reading? Mark this note as completed to track your progress.</p>
+              <div className="flex flex-col items-center relative z-10">
+                <h3 className="text-lg font-bold text-white mb-2">Finished Reading?</h3>
+                <p className="text-gray-400 text-sm mb-6 max-w-sm">Mark this as completed to update your progress and move towards your goal.</p>
                 <button
                   onClick={handleComplete}
-                  className="px-6 py-2.5 rounded-xl font-semibold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 hover:bg-emerald-500 hover:text-white transition-all duration-300 shadow-glow-sm"
+                  className="px-8 py-3 rounded-xl font-bold bg-gradient-to-r from-emerald-600 to-green-500 text-white hover:shadow-lg hover:shadow-emerald-500/30 transition-all duration-300 active:scale-95 flex items-center gap-2"
                 >
+                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                  </svg>
                   Mark as Completed
                 </button>
               </div>
@@ -339,53 +319,52 @@ export default function NoteViewPage() {
       </div>
 
       {/* ─── NAVIGATION (at the end of content, NOT fixed) ─── */}
-      <div className="space-y-4">
-        {/* Section nav buttons */}
-        <div className="flex items-center gap-3">
+      <div className="space-y-6">
+        <div className="flex items-center gap-4">
           <button
             onClick={goPrev}
             disabled={isFirstPage}
-            className={`flex-1 flex items-center justify-center gap-2 py-3.5 rounded-xl text-sm font-semibold transition-all duration-200 ${
+            className={`flex-1 flex items-center justify-center gap-2 py-4 rounded-2xl text-sm font-bold transition-all duration-300 border ${
               isFirstPage
-                ? 'bg-dark-800/30 text-gray-700 cursor-not-allowed'
-                : 'bg-dark-800 text-gray-300 hover:text-white border border-dark-400/30 hover:border-gray-500/50 active:scale-[0.98]'
+                ? 'bg-transparent border-white/5 text-gray-700 cursor-not-allowed'
+                : 'bg-white/5 text-gray-300 hover:text-white border-white/10 hover:border-white/20 active:scale-95'
             }`}
           >
-            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
             </svg>
-            Previous
+            Previous Section
           </button>
 
           {isLastPage ? (
             nextNote ? (
               <Link
                 href={`/notes/view?id=${nextNote.id}`}
-                className="flex-1 flex items-center justify-center gap-2 py-3.5 rounded-xl text-sm font-bold bg-gradient-to-r from-accent-purple to-fuchsia-500 text-white hover:shadow-lg hover:shadow-purple-500/20 active:scale-[0.98] transition-all duration-200"
+                className="flex-[1.5] flex items-center justify-center gap-2 py-4 rounded-2xl text-sm font-black bg-gradient-to-r from-accent-purple to-fuchsia-600 text-white hover:shadow-xl hover:shadow-purple-500/20 active:scale-95 transition-all duration-300"
               >
                 Next Note
-                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M13 5l7 7-7 7M5 12h14" />
                 </svg>
               </Link>
             ) : (
               <Link
                 href="/notes"
-                className="flex-1 flex items-center justify-center gap-2 py-3.5 rounded-xl text-sm font-bold bg-emerald-500/15 text-emerald-400 border border-emerald-500/25 hover:bg-emerald-500/25 active:scale-[0.98] transition-all duration-200"
+                className="flex-[1.5] flex items-center justify-center gap-2 py-4 rounded-2xl text-sm font-black bg-white/10 text-white border border-white/20 hover:bg-white/20 active:scale-95 transition-all duration-300"
               >
-                Done
-                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                Return to Library
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
                 </svg>
               </Link>
             )
           ) : (
             <button
               onClick={goNext}
-              className="flex-1 flex items-center justify-center gap-2 py-3.5 rounded-xl text-sm font-bold bg-accent-purple hover:bg-accent-purple-light text-white active:scale-[0.98] transition-all duration-200 shadow-lg shadow-purple-500/15"
+              className="flex-[1.5] flex items-center justify-center gap-2 py-4 rounded-2xl text-sm font-black bg-accent-purple text-white shadow-lg shadow-purple-500/20 active:scale-95 transition-all duration-300 hover:brightness-110"
             >
-              Next
-              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+              Next Section
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
               </svg>
             </button>
@@ -393,23 +372,27 @@ export default function NoteViewPage() {
         </div>
 
         {/* Keyboard hint */}
-        <p className="text-center text-[10px] text-gray-600">
-          Use <kbd className="px-1 py-px rounded bg-dark-700 border border-dark-500/50 font-mono text-gray-500 mx-0.5">←</kbd> <kbd className="px-1 py-px rounded bg-dark-700 border border-dark-500/50 font-mono text-gray-500 mx-0.5">→</kbd> arrow keys to navigate
-        </p>
+        <div className="flex items-center justify-center gap-4 opacity-40">
+          <div className="h-px flex-1 bg-gradient-to-r from-transparent to-white/10" />
+          <p className="text-[10px] text-gray-400 font-medium uppercase tracking-widest whitespace-nowrap">
+            Use <kbd className="px-1.5 py-0.5 rounded bg-dark-700 border border-dark-400/30 font-mono text-white mx-1">←</kbd> <kbd className="px-1.5 py-0.5 rounded bg-dark-700 border border-dark-400/30 font-mono text-white mx-1">→</kbd> to navigate
+          </p>
+          <div className="h-px flex-1 bg-gradient-to-l from-transparent to-white/10" />
+        </div>
 
         {/* Note-to-note navigation (shown on last page) */}
         {isLastPage && (prevNote || nextNote) && (
-          <div className="grid grid-cols-2 gap-3 pt-4 border-t border-dark-400/15 mt-2">
+          <div className="grid grid-cols-2 gap-4 pt-6 mt-4">
             {prevNote ? (
-              <Link href={`/notes/view?id=${prevNote.id}`} className="group p-4 rounded-xl bg-dark-800/40 border border-dark-400/15 hover:border-dark-400/40 transition-all">
-                <div className="text-[10px] text-gray-600 uppercase tracking-wider mb-1.5">← Previous Note</div>
-                <div className="text-sm text-gray-400 font-medium truncate group-hover:text-white transition-colors">{prevNote.title}</div>
+              <Link href={`/notes/view?id=${prevNote.id}`} className="group p-5 rounded-2xl bg-white/[0.02] border border-white/5 hover:border-accent-purple/30 transition-all">
+                <div className="text-[10px] text-gray-500 font-bold uppercase tracking-widest mb-2 group-hover:text-accent-purple-light transition-colors">Previous Note</div>
+                <div className="text-sm text-gray-400 font-semibold truncate group-hover:text-white transition-colors">{prevNote.title}</div>
               </Link>
             ) : <div />}
             {nextNote ? (
-              <Link href={`/notes/view?id=${nextNote.id}`} className="group p-4 rounded-xl bg-dark-800/40 border border-dark-400/15 hover:border-dark-400/40 transition-all text-right">
-                <div className="text-[10px] text-gray-600 uppercase tracking-wider mb-1.5">Next Note →</div>
-                <div className="text-sm text-gray-400 font-medium truncate group-hover:text-white transition-colors">{nextNote.title}</div>
+              <Link href={`/notes/view?id=${nextNote.id}`} className="group p-5 rounded-2xl bg-white/[0.02] border border-white/5 hover:border-accent-purple/30 transition-all text-right">
+                <div className="text-[10px] text-gray-500 font-bold uppercase tracking-widest mb-2 group-hover:text-accent-purple-light transition-colors">Next Up</div>
+                <div className="text-sm text-gray-400 font-semibold truncate group-hover:text-white transition-colors">{nextNote.title}</div>
               </Link>
             ) : <div />}
           </div>
