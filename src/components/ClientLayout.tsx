@@ -36,10 +36,10 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
 
   // Authenticated/Guest layout with Sidebar
   return (
-    <div className="flex">
+    <div className="flex flex-col lg:flex-row min-h-screen">
       <Sidebar isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} />
       <main 
-        className={`flex-1 transition-all duration-300 min-h-screen pb-20 lg:pb-0 ${
+        className={`flex-1 transition-all duration-300 min-h-screen pt-16 lg:pt-0 ${
           isCollapsed ? 'lg:ml-20' : 'lg:ml-64'
         }`}
       >

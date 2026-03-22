@@ -53,6 +53,22 @@
     -webkit-mask-image: radial-gradient(circle at 50% 30%, black 0%, transparent 90%);
     mask-image: radial-gradient(circle at 50% 30%, black 0%, transparent 90%);
   }
+
+  .bg-purple-gradient {
+    background: linear-gradient(135deg, #7c3aed 0%, #d946ef 100%);
+  }
+  .bg-purple-gradient-diagonal {
+    background: linear-gradient(45deg, #7c3aed 0%, #6366f1 100%);
+  }
+  
+  @keyframes fade-in {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+  .animate-fade-in {
+    animation: fade-in 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  }
 }
 
 @layer components {
@@ -137,6 +153,14 @@
     font-weight: 500;
     color: rgba(255, 255, 255, 0.6);
     margin-left: 4px;
+  }
+
+  .modern-input {
+    @apply bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:border-accent-purple/50 focus:bg-white/10 focus:outline-none transition-all placeholder:text-gray-600;
+  }
+  
+  .modern-textarea {
+    @apply bg-white/5 border border-white/10 rounded-2xl px-5 py-4 text-white text-sm focus:border-accent-purple/50 focus:bg-white/10 focus:outline-none transition-all placeholder:text-gray-600 w-full resize-none;
   }
 
   .badge {

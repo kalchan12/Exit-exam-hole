@@ -41,8 +41,19 @@ function QuestionsContent() {
 
   useEffect(() => {
     setMounted(true);
-    getQuestions().then(setQuestions);
-    getTopics().then(setTopics);
+    getQuestions().then(allQs => {
+      // EXCLUDE past exams/archived exams for general Practice
+      const practiceQs = allQs.filter(q => q.source !== 'past_exam' && q.source !== 'Archived Exams');
+      setQuestions(practiceQs);
+    });
+    getTopics().then(allTopics => {
+      // Only show topics that have practice questions
+      getQuestions().then(allQs => {
+        const practiceQs = allQs.filter(q => q.source !== 'past_exam' && q.source !== 'Archived Exams');
+        const practiceTopics = Array.from(new Set(practiceQs.map(q => q.topic))).sort();
+        setTopics(practiceTopics);
+      });
+    });
   }, []);
 
   // Count questions per topic

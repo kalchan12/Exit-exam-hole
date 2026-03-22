@@ -105,6 +105,11 @@ export default function Dashboard() {
     return getWeakTopics(progress.accuracyByTopic);
   }, [progress]);
 
+  const overallAccuracy = useMemo(() => {
+    if (!progress) return 0;
+    return calculateOverallAccuracy(progress);
+  }, [progress]);
+
   if (!mounted) {
     return (
       <div className="animate-pulse space-y-6">
@@ -120,29 +125,45 @@ export default function Dashboard() {
   return (
     <div className="space-y-8 animate-in">
       {/* Hero Card */}
-      <div className="relative overflow-hidden rounded-2xl bg-hero-gradient p-8 border border-accent-purple/20">
-        <div className="absolute top-0 right-0 w-64 h-64 bg-accent-purple/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
-        <div className="relative z-10">
-          <span className="badge-source text-xs uppercase tracking-wider mb-3 inline-block">
-            Currently Studying
-          </span>
-          <h2 className="text-3xl sm:text-4xl font-bold text-white mb-2">
-            Continue Learning
-          </h2>
-          <p className="text-gray-300 mb-6">
-            Pick up where you left off:{' '}
-            <span className="text-white font-semibold">
-              {progress?.lastTopic
-                ? `${progress.lastTopic} — ${topics.includes(progress.lastTopic) ? 'Review' : 'Practice'}`
-                : 'Data Structures · Red-Black Trees'}
+      <div className="relative overflow-hidden rounded-3xl bg-[#11152a] p-8 border border-accent-purple/20 shadow-2xl">
+        <div className="absolute top-0 right-0 w-96 h-96 bg-accent-purple/10 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2" />
+        <div className="relative z-10 flex flex-col md:flex-row justify-between gap-8">
+          <div className="flex-1">
+            <span className="text-[10px] uppercase font-black tracking-[0.3em] text-accent-purple-light mb-4 block">
+              Welcome Back, Scholar
             </span>
-          </p>
-          <Link href="/questions" className="btn-primary inline-flex items-center gap-2">
-            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M8 5v14l11-7z" />
-            </svg>
-            Resume Course
-          </Link>
+            <h2 className="text-4xl sm:text-5xl font-black text-white mb-4 italic tracking-tighter">
+              READY TO <span className="text-accent-purple">ASCEND?</span>
+            </h2>
+            <p className="text-gray-400 max-w-md leading-relaxed mb-8 text-sm">
+                Your performance is trending upward. Continue where you left off in <span className="text-white font-bold uppercase">{progress?.lastTopic || 'General Study'}</span>.
+            </p>
+            <div className="flex flex-wrap gap-4">
+                <Link href="/questions" className="btn-primary px-8 py-3 rounded-xl font-black uppercase italic tracking-widest text-sm">
+                    Resume Study
+                </Link>
+                <Link href="/exam" className="px-8 py-3 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 text-white font-black uppercase italic tracking-widest text-sm transition-all">
+                    Exam Mode
+                </Link>
+            </div>
+          </div>
+          
+          <div className="flex gap-4 sm:gap-8 items-center bg-black/20 backdrop-blur-md p-6 rounded-3xl border border-white/5">
+                <div className="text-center">
+                    <div className="text-3xl font-black text-white italic">{progress?.xp || 0}</div>
+                    <div className="text-[10px] text-gray-500 uppercase font-black tracking-widest">XP</div>
+                </div>
+                <div className="w-[1px] h-10 bg-white/10" />
+                <div className="text-center">
+                    <div className="text-3xl font-black text-neon-green italic">{progress?.streak || 0}</div>
+                    <div className="text-[10px] text-gray-500 uppercase font-black tracking-widest">🔥 Streak</div>
+                </div>
+                <div className="w-[1px] h-10 bg-white/10" />
+                <div className="text-center">
+                    <div className="text-3xl font-black text-accent-purple italic">{overallAccuracy} %</div>
+                    <div className="text-[10px] text-gray-500 uppercase font-black tracking-widest">Accuracy</div>
+                </div>
+          </div>
         </div>
       </div>
 
