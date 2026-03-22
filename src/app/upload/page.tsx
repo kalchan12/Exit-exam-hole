@@ -208,7 +208,7 @@ export default function UploadPage() {
         <button
           onClick={() => setActiveTab('byte')}
           className={`py-3 px-4 sm:px-6 text-sm font-medium transition-colors border-b-2 whitespace-nowrap ${
-            activeTab === 'byte' ? 'border-accent-cyan text-accent-cyan-light' : 'border-transparent text-gray-400 hover:text-white'
+            activeTab === 'byte' ? 'border-accent-purple text-accent-purple-light' : 'border-transparent text-gray-400 hover:text-white'
           }`}
         >
           ⚡ Learning Byte
@@ -346,7 +346,7 @@ export default function UploadPage() {
                    placeholder="e.g. Operating Systems"
                    value={byteTopic}
                    onChange={(e) => setByteTopic(e.target.value)}
-                   className="input-field-cyan"
+                   className="input-field"
                  />
               </div>
               <div className="input-group">
@@ -357,7 +357,7 @@ export default function UploadPage() {
                    placeholder="e.g. Context Switching Context"
                    value={byteTitle}
                    onChange={(e) => setByteTitle(e.target.value)}
-                   className="input-field-cyan"
+                   className="input-field"
                  />
               </div>
             </div>
@@ -369,7 +369,7 @@ export default function UploadPage() {
                 value={byteContent}
                 onChange={(e) => setByteContent(e.target.value)}
                 placeholder="Write bite-sized content here..."
-                className="input-field-cyan min-h-[150px] font-mono resize-y"
+                className="input-field min-h-[150px] font-mono resize-y"
               />
             </div>
 
@@ -381,7 +381,7 @@ export default function UploadPage() {
                    placeholder="https://example.com/diagram.png"
                    value={byteImage}
                    onChange={(e) => setByteImage(e.target.value)}
-                   className="input-field-cyan"
+                   className="input-field"
                  />
               </div>
               <div className="input-group">
@@ -391,7 +391,7 @@ export default function UploadPage() {
                    placeholder="YouTube URL"
                    value={byteVideo}
                    onChange={(e) => setByteVideo(e.target.value)}
-                   className="input-field-cyan"
+                   className="input-field"
                  />
               </div>
             </div>
@@ -403,12 +403,12 @@ export default function UploadPage() {
                 placeholder="q_id_1, q_id_2"
                 value={byteQuestions}
                 onChange={(e) => setByteQuestions(e.target.value)}
-                className="input-field-cyan font-mono"
+                className="input-field font-mono"
               />
               <p className="text-xs text-gray-500 mt-1">Found in the Question object definition. These will render as actionable quizzes.</p>
             </div>
 
-            <button type="submit" className="w-full py-3 bg-accent-cyan hover:bg-accent-cyan-light text-dark-900 font-bold rounded-xl transition-all shadow-glow-cyan active:scale-[0.98]">
+            <button type="submit" className="btn-primary w-full py-3">
               Create Learning Byte
             </button>
           </form>

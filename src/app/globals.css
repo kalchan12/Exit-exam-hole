@@ -123,14 +123,7 @@
     color: rgba(255, 255, 255, 0.3);
   }
 
-  .input-field-cyan {
-    @apply input-field border-accent-cyan/20;
-  }
 
-  .input-field-cyan:focus {
-    border-color: rgba(6, 182, 212, 0.5);
-    box-shadow: 0 0 20px rgba(6, 182, 212, 0.15);
-  }
 
   .input-group {
     display: flex;
