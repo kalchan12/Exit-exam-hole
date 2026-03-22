@@ -214,36 +214,44 @@ export default function NoteViewPage() {
       </div>
 
       {/* ─── NOTE HEADER (first page only) ─── */}
-      {isFirstPage && (
-        <div className="mt-8 mb-10 text-center sm:text-left">
-          <div className="flex flex-wrap items-center justify-center sm:justify-start gap-3 mb-5">
-            <span className="text-xs text-accent-purple-light font-bold uppercase tracking-[0.2em] bg-accent-purple/10 px-3 py-1 rounded-lg border border-accent-purple/20">
-              {note.course || note.topic}
-            </span>
-            <span className="text-xs text-gray-500 font-medium">{formatDate(note.date)}</span>
-            {note.label && (
-              <span className="text-[10px] px-2 py-1 rounded-md bg-dark-600/50 text-gray-400 border border-dark-400/20 font-semibold">
-                {note.label}
-              </span>
-            )}
-          </div>
-          <h1 className="text-4xl sm:text-5xl font-black text-white leading-tight tracking-tight mb-6">
-            {note.title}
-          </h1>
-          {note.summary && (
-            <div className="relative inline-block">
-              <div className="absolute -left-4 top-0 bottom-0 w-1 bg-accent-purple/30 rounded-full" />
-              <p className="text-gray-400 text-lg leading-relaxed max-w-3xl italic">
-                {note.summary}
-              </p>
-            </div>
-          )}
-        </div>
-      )}
 
-      {/* ─── PAGE CONTENT CONTAINER ─── */}
-      <div className="bg-[#11152a]/60 backdrop-blur-2xl border border-white/5 rounded-3xl p-6 sm:p-12 mb-10 shadow-[0_20px_50px_rgba(0,0,0,0.3)] relative overflow-hidden group/content">
+
+      {/* ─── MAIN CONTENT CARD ─── */}
+      <div className="bg-[#11152a]/60 backdrop-blur-2xl border border-white/5 rounded-3xl mb-10 shadow-[0_20px_50px_rgba(0,0,0,0.3)] relative overflow-hidden group/content">
         <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-accent-purple/20 to-transparent opacity-0 group-hover/content:opacity-100 transition-opacity duration-700" />
+
+        {/* Hero Header Section */}
+        {isFirstPage && (
+          <div className="p-8 sm:p-12 pb-0 sm:pb-0">
+            <div className="flex flex-wrap items-center gap-3 mb-6">
+              <span className="text-[10px] text-accent-purple-light font-black uppercase tracking-[0.25em] bg-accent-purple/10 px-3 py-1.5 rounded-lg border border-accent-purple/20 shadow-glow-xs-purple">
+                {note.course || note.topic}
+              </span>
+              <div className="h-1 w-1 rounded-full bg-gray-700" />
+              <span className="text-xs text-gray-500 font-bold">{formatDate(note.date)}</span>
+              {note.label && (
+                <span className="text-[10px] px-2.5 py-1 rounded-md bg-white/[0.03] text-gray-400 border border-white/10 font-bold uppercase tracking-wider">
+                  {note.label}
+                </span>
+              )}
+            </div>
+            <h1 className="text-4xl sm:text-6xl font-black text-white leading-[1.1] tracking-tight mb-8">
+              {note.title}
+            </h1>
+            {note.summary && (
+              <div className="relative pl-6 py-1 mb-12">
+                <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-gradient-to-b from-accent-purple to-fuchsia-600 rounded-full shadow-glow-sm-purple" />
+                <p className="text-gray-400 text-xl font-medium leading-relaxed max-w-4xl">
+                  {note.summary}
+                </p>
+              </div>
+            )}
+            <div className="h-px w-full bg-gradient-to-r from-white/[0.07] via-white/[0.03] to-transparent" />
+          </div>
+        )}
+
+        {/* Page Inner Content */}
+        <div className="p-8 sm:p-12">
         {/* Breadcrumb on non-first pages */}
         {totalPages > 1 && !isFirstPage && (
           <div className="flex items-center gap-2 mb-6 pb-4 border-b border-dark-400/15">
@@ -316,6 +324,7 @@ export default function NoteViewPage() {
             )}
           </div>
         )}
+        </div>
       </div>
 
       {/* ─── NAVIGATION (at the end of content, NOT fixed) ─── */}
