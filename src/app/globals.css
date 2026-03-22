@@ -33,13 +33,25 @@
 @layer utilities {
   .app-background {
     background-color: #0a0b1e;
-    background-image: 
-      radial-gradient(circle at top center, #161b33 0%, #0a0b1e 100%),
-      linear-gradient(rgba(124, 58, 237, 0.04) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(124, 58, 237, 0.04) 1px, transparent 1px);
-    background-size: 100% 100%, 40px 40px, 40px 40px;
+    background-image: radial-gradient(circle at top center, #161b33 0%, #0a0b1e 100%);
     background-attachment: fixed;
     min-height: 100vh;
+    position: relative;
+  }
+
+  /* Modern fading grid */
+  .app-background::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    background-image: 
+      linear-gradient(rgba(124, 58, 237, 0.02) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(124, 58, 237, 0.02) 1px, transparent 1px);
+    background-size: 40px 40px;
+    -webkit-mask-image: radial-gradient(circle at 50% 10%, black 0%, transparent 70%);
+    mask-image: radial-gradient(circle at 50% 10%, black 0%, transparent 70%);
   }
 }
 
