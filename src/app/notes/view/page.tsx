@@ -169,10 +169,10 @@ export default function NoteViewPage() {
   };
 
   return (
-    <div className="max-w-4xl mx-auto pb-16">
+    <div className="max-w-5xl mx-auto pb-16 px-4 sm:px-6">
 
       {/* ─── FIXED PROGRESS HEADER ─── */}
-      <div className="sticky top-0 z-30 bg-[#0a0b1e]/80 backdrop-blur-xl border-b border-white/5 pb-4 pt-4 px-4 -mx-4 mb-6">
+      <div className="sticky top-0 z-40 bg-[#0a0b1e]/40 backdrop-blur-xl border-b border-white/[0.03] pb-4 pt-6 px-4 -mx-4 mb-8">
         <div className="flex items-center justify-between mb-3">
           <Link href="/notes" className="inline-flex items-center gap-2 text-xs font-semibold text-gray-500 hover:text-accent-purple-light transition-all group">
             <div className="w-6 h-6 rounded-lg bg-dark-800 border border-dark-400/20 flex items-center justify-center group-hover:border-accent-purple/40">
@@ -189,10 +189,10 @@ export default function NoteViewPage() {
                 {currentPage + 1}<span className="text-gray-600 mx-0.5">/</span>{totalPages}
               </span>
             )}
-            <div className={`flex items-center gap-1.5 px-3 py-1 rounded-full border transition-all duration-300 ${
+            <div className={`flex items-center gap-2 px-3 py-1 rounded-full border transition-all duration-500 ${
               progressPercent === 100
-                ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400 shadow-glow-sm-green'
-                : 'bg-accent-purple/10 border-accent-purple/30 text-accent-purple-light shadow-glow-sm-purple'
+                ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-400 shadow-glow-sm-green'
+                : 'bg-accent-purple/5 border-white/10 text-accent-purple-light shadow-glow-sm-purple'
             }`}>
               <span className="text-[10px] font-bold tracking-tight uppercase">{progressPercent === 100 ? 'Completed' : 'Reading'}</span>
               <span className="text-xs font-black tabular-nums">{progressPercent}%</span>
