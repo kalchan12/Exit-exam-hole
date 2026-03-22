@@ -171,54 +171,58 @@ export default function NoteViewPage() {
   return (
     <div className="max-w-5xl mx-auto pb-16 px-4 sm:px-6">
 
-      {/* ─── FIXED PROGRESS HEADER ─── */}
-      <div className="sticky top-0 z-40 bg-[#0a0b1e]/40 backdrop-blur-xl border-b border-white/[0.03] pb-4 pt-6 px-4 -mx-4 mb-8">
-        <div className="flex items-center justify-between mb-3">
-          <Link href="/notes" className="inline-flex items-center gap-2 text-xs font-semibold text-gray-500 hover:text-accent-purple-light transition-all group">
-            <div className="w-6 h-6 rounded-lg bg-dark-800 border border-dark-400/20 flex items-center justify-center group-hover:border-accent-purple/40">
-              <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-              </svg>
-            </div>
-            Back to Notes
-          </Link>
 
-          <div className="flex items-center gap-3">
-            {totalPages > 1 && (
-              <span className="text-[11px] text-gray-400 tabular-nums font-mono bg-dark-800 px-2 py-1 rounded-md border border-dark-400/15">
-                {currentPage + 1}<span className="text-gray-600 mx-0.5">/</span>{totalPages}
-              </span>
-            )}
-            <div className={`flex items-center gap-2 px-3 py-1 rounded-full border transition-all duration-500 ${
-              progressPercent === 100
-                ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-400 shadow-glow-sm-green'
-                : 'bg-accent-purple/5 border-white/10 text-accent-purple-light shadow-glow-sm-purple'
-            }`}>
-              <span className="text-[10px] font-bold tracking-tight uppercase">{progressPercent === 100 ? 'Completed' : 'Reading'}</span>
-              <span className="text-xs font-black tabular-nums">{progressPercent}%</span>
-            </div>
-          </div>
-        </div>
-
-        {/* Improved Progress bar */}
-        <div className="w-full h-1.5 bg-dark-700/40 rounded-full overflow-hidden">
-          <div
-            className={`h-full rounded-full transition-all duration-700 cubic-bezier(0.4, 0, 0.2, 1) ${
-              progressPercent === 100
-                ? 'bg-gradient-to-r from-emerald-500 to-green-400'
-                : 'bg-gradient-to-r from-accent-purple via-fuchsia-500 to-accent-purple'
-            }`}
-            style={{ width: `${progressPercent}%` }}
-          />
-        </div>
-      </div>
 
       {/* ─── NOTE HEADER (first page only) ─── */}
 
 
       {/* ─── MAIN CONTENT CARD ─── */}
-      <div className="bg-[#11152a]/60 backdrop-blur-2xl border border-white/5 rounded-3xl mb-10 shadow-[0_20px_50px_rgba(0,0,0,0.3)] relative overflow-hidden group/content">
-        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-accent-purple/20 to-transparent opacity-0 group-hover/content:opacity-100 transition-opacity duration-700" />
+      <div className="bg-[#11152a]/60 backdrop-blur-2xl border border-white/5 rounded-3xl mb-10 shadow-[0_20px_50px_rgba(0,0,0,0.3)] relative overflow-hidden group/content mt-6">
+        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-accent-purple/20 to-transparent opacity-0 group-hover/content:opacity-100 transition-opacity duration-700 z-10" />
+
+        {/* ─── INTEGRATED STICKY NAVIGATION ─── */}
+        <div className="sticky top-0 z-30 bg-[#080d21]/60 backdrop-blur-xl border-b border-white/[0.05] p-4 sm:px-12 flex flex-col gap-3 rounded-t-3xl">
+          <div className="flex items-center justify-between">
+            <Link href="/notes" className="inline-flex items-center gap-2 text-xs font-bold text-gray-500 hover:text-accent-purple-light transition-all group/back">
+              <div className="w-7 h-7 rounded-lg bg-dark-800/50 border border-dark-400/20 flex items-center justify-center group-hover/back:border-accent-purple/40">
+                <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                </svg>
+              </div>
+              <span className="hidden sm:inline">Library</span>
+            </Link>
+
+            <div className="flex items-center gap-3">
+              {totalPages > 1 && (
+                <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-white/[0.03] border border-white/[0.05]">
+                  <span className="text-[10px] font-black text-gray-500 tabular-nums font-mono">{currentPage + 1}</span>
+                  <div className="h-2 w-px bg-white/10" />
+                  <span className="text-[10px] font-black text-gray-600 tabular-nums font-mono">{totalPages}</span>
+                </div>
+              )}
+              <div className={`flex items-center gap-2 px-3 py-1 rounded-full border border-white/10 transition-all duration-500 ${
+                progressPercent === 100
+                  ? 'bg-emerald-500/10 text-emerald-400'
+                  : 'bg-white/5 text-accent-purple-light'
+              }`}>
+                <span className="text-[9px] font-black tracking-[0.1em] uppercase opacity-60">{progressPercent === 100 ? 'Mastered' : 'Progress'}</span>
+                <span className="text-[11px] font-black tabular-nums">{progressPercent}%</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Seamless Progress bar */}
+          <div className="w-full h-1 bg-white/[0.05] rounded-full overflow-hidden">
+            <div
+              className={`h-full rounded-full transition-all duration-1000 cubic-bezier(0.4, 0, 0.2, 1) ${
+                progressPercent === 100
+                  ? 'bg-gradient-to-r from-emerald-500 to-green-400 shadow-glow-xs-green'
+                  : 'bg-gradient-to-r from-accent-purple to-fuchsia-500 shadow-glow-xs-purple'
+              }`}
+              style={{ width: `${progressPercent}%` }}
+            />
+          </div>
+        </div>
 
         {/* Hero Header Section */}
         {isFirstPage && (
