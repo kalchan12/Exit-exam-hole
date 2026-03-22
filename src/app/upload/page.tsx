@@ -1,17 +1,25 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { saveCustomNote, saveCustomQuestion, saveCustomByte, type Note, type Question, type Byte } from '@/lib/dataLoader';
 import { fetchGitHubNote } from '@/lib/githubFetcher';
+import { useAuth } from '@/components/AuthProvider';
 
 type Tab = 'note' | 'byte' | 'quiz' | 'github';
 
 export default function UploadPage() {
   const router = useRouter();
+  const { isGuest } = useAuth();
   const [activeTab, setActiveTab] = useState<Tab>('note');
+
+  useEffect(() => {
+    if (isGuest) {
+      router.replace('/dashboard');
+    }
+  }, [isGuest, router]);
   
   // Note State
   const [noteCourse, setNoteCourse] = useState('');

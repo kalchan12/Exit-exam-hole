@@ -90,7 +90,7 @@ export default function Sidebar({ isCollapsed, setIsCollapsed }: SidebarProps) {
                 </svg>
               </div>
               <div>
-                <h1 className="text-white font-bold text-lg leading-tight">CS Prep</h1>
+                <h1 className="text-white font-bold text-lg leading-tight">Exit Exam</h1>
                 <p className="text-[10px] text-accent-purple-light font-medium uppercase tracking-wider mt-0.5">Exam Mode</p>
               </div>
             </div>
@@ -108,17 +108,20 @@ export default function Sidebar({ isCollapsed, setIsCollapsed }: SidebarProps) {
 
         {/* Navigation */}
         <nav className="flex-1 px-4 py-4 space-y-2 overflow-y-auto">
-          {navItems.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className={`${pathname === item.href ? 'nav-link-active' : 'nav-link'} ${isCollapsed ? 'justify-center px-0 py-3' : ''}`}
-              title={isCollapsed ? item.label : undefined}
-            >
-              <div className="flex-shrink-0">{item.icon}</div>
-              {!isCollapsed && <span>{item.label}</span>}
-            </Link>
-          ))}
+          {navItems.map((item) => {
+            if (!user && (item.label === 'Stats' || item.label === 'Upload')) return null;
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={`${pathname === item.href ? 'nav-link-active' : 'nav-link'} ${isCollapsed ? 'justify-center px-0 py-3' : ''}`}
+                title={isCollapsed ? item.label : undefined}
+              >
+                <div className="flex-shrink-0">{item.icon}</div>
+                {!isCollapsed && <span>{item.label}</span>}
+              </Link>
+            );
+          })}
         </nav>
 
         {/* User Auth Section */}
@@ -190,20 +193,23 @@ export default function Sidebar({ isCollapsed, setIsCollapsed }: SidebarProps) {
       {/* Mobile Bottom Nav */}
       <nav className="lg:hidden fixed bottom-0 left-0 right-0 bg-dark-800/95 backdrop-blur-lg border-t border-dark-400/20 z-50 px-2 py-2">
         <div className="flex justify-around">
-          {navItems.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className={`flex flex-col items-center gap-1 px-3 py-2 rounded-lg transition-colors ${
-                pathname === item.href
-                  ? 'text-accent-purple-light'
-                  : 'text-gray-500 hover:text-gray-300'
-              }`}
-            >
-              {item.icon}
-              <span className="text-[10px] font-medium">{item.label}</span>
-            </Link>
-          ))}
+          {navItems.map((item) => {
+            if (!user && (item.label === 'Stats' || item.label === 'Upload')) return null;
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={`flex flex-col items-center gap-1 px-3 py-2 rounded-lg transition-colors ${
+                  pathname === item.href
+                    ? 'text-accent-purple-light'
+                    : 'text-gray-500 hover:text-gray-300'
+                }`}
+              >
+                {item.icon}
+                <span className="text-[10px] font-medium">{item.label}</span>
+              </Link>
+            );
+          })}
           {/* Mobile auth button */}
           {!loading && !user && (
             <Link

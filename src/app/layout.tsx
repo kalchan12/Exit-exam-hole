@@ -7,7 +7,7 @@ import ClientLayout from '@/components/ClientLayout';
 import AuthProvider from '@/components/AuthProvider';
 
 export const metadata: Metadata = {
-  title: 'CS Prep - Gamified Exam Preparation',
+  title: 'Exit exam - Gamified exam prep',
   description: 'Master Computer Science concepts with gamified practice questions, study notes, and progress tracking.',
 };
 
@@ -18,7 +18,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="dark">
-      <body className="bg-dark-900 text-white min-h-screen">
+      <body className="bg-dark-900 tech-grid text-white min-h-screen">
         <ThemeProvider>
           <AuthProvider>
             <ClientLayout>

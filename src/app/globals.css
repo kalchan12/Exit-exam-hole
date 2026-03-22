@@ -30,6 +30,15 @@
   }
 }
 
+@layer utilities {
+  .tech-grid {
+    background-size: 40px 40px;
+    background-image: 
+      linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  }
+}
+
 @layer components {
   .card {
     @apply bg-dark-700/60 border border-dark-400/30 rounded-xl backdrop-blur-sm transition-all duration-300;

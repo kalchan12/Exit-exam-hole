@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useMemo } from 'react';
+import { useRouter } from 'next/navigation';
 import { getQuestions, type Question } from '@/lib/dataLoader';
 import { getProgress, resetProgress, resetRemoteProgress, type ProgressState } from '@/lib/progressManager';
 import {
@@ -16,7 +17,14 @@ export default function StatsPage() {
   const [progress, setProgress] = useState<ProgressState | null>(null);
   const [mounted, setMounted] = useState(false);
   const [showResetConfirm, setShowResetConfirm] = useState(false);
-  const { user } = useAuth();
+  const { user, isGuest } = useAuth();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (isGuest) {
+      router.replace('/dashboard');
+    }
+  }, [isGuest, router]);
 
   useEffect(() => {
     setMounted(true);
