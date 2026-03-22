@@ -33,22 +33,24 @@
 @layer utilities {
   .app-background {
     background-color: #0a0b1e;
-    background-image:
-      linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-    background-size: 40px 40px;
+    background-image: 
+      radial-gradient(circle at top center, #161b33 0%, #0a0b1e 100%),
+      linear-gradient(rgba(124, 58, 237, 0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(124, 58, 237, 0.04) 1px, transparent 1px);
+    background-size: 100% 100%, 40px 40px, 40px 40px;
+    background-attachment: fixed;
     min-height: 100vh;
   }
 }
 
 @layer components {
   .card {
-    background-color: #0d111c;
+    background-color: #11152a;
     border-radius: 16px;
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(124, 58, 237, 0.1);
 
     /* modern depth */
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
 
     transition: all 0.2s ease;
   }

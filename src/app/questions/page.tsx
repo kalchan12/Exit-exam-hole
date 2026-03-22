@@ -202,7 +202,7 @@ function QuestionsContent() {
           {/* ALL card */}
           <button
             onClick={() => selectCategory('all')}
-            className="group relative overflow-hidden rounded-2xl border border-accent-purple/30 hover:border-accent-purple/60 bg-[#0d111c] bg-gradient-to-br from-accent-purple/15 to-fuchsia-500/10 p-6 text-left transition-all duration-300 hover:shadow-lg hover:shadow-purple-500/10 active:scale-[0.98]"
+            className="group relative overflow-hidden rounded-2xl border border-accent-purple/30 hover:border-accent-purple/60 bg-[#11152a] bg-gradient-to-br from-accent-purple/15 to-fuchsia-500/10 p-6 text-left transition-all duration-300 hover:shadow-lg hover:shadow-purple-500/10 active:scale-[0.98]"
           >
             <div className="text-3xl mb-3">🎯</div>
             <h3 className="text-lg font-bold text-white group-hover:text-accent-purple-light transition-colors">All Questions</h3>
@@ -229,7 +229,7 @@ function QuestionsContent() {
               <button
                 key={topic}
                 onClick={() => selectCategory(topic)}
-                className={`group relative overflow-hidden rounded-2xl border ${meta.border} bg-[#0d111c] bg-gradient-to-br ${meta.gradient} p-6 text-left transition-all duration-300 hover:shadow-lg active:scale-[0.98]`}
+                className={`group relative overflow-hidden rounded-2xl border ${meta.border} bg-[#11152a] bg-gradient-to-br ${meta.gradient} p-6 text-left transition-all duration-300 hover:shadow-lg active:scale-[0.98]`}
               >
                 <div className="text-3xl mb-3">{meta.icon}</div>
                 <h3 className="text-lg font-bold text-white group-hover:text-gray-100 transition-colors">{topic}</h3>

@@ -79,7 +79,7 @@ export default function Sidebar({ isCollapsed, setIsCollapsed }: SidebarProps) {
   return (
     <>
       {/* Desktop Sidebar */}
-      <aside className={`hidden lg:flex flex-col h-screen fixed left-0 top-0 bg-dark-800/90 dark:bg-dark-800/90 light:bg-white border-r border-dark-400/20 dark:border-dark-400/20 light:border-gray-200 z-50 transition-all duration-300 ${isCollapsed ? 'w-20' : 'w-64'}`}>
+      <aside className={`hidden lg:flex flex-col h-screen fixed left-0 top-0 bg-[#0a0b1e]/80 backdrop-blur-md border-r border-[#7c3aed]/10 z-50 transition-all duration-300 ${isCollapsed ? 'w-20' : 'w-64'}`}>
         {/* Logo & Toggle */}
         <div className={`flex items-center ${isCollapsed ? 'justify-center p-4' : 'justify-between px-6 py-6'}`}>
           {!isCollapsed && (
@@ -191,7 +191,7 @@ export default function Sidebar({ isCollapsed, setIsCollapsed }: SidebarProps) {
       </aside>
 
       {/* Mobile Bottom Nav */}
-      <nav className="lg:hidden fixed bottom-0 left-0 right-0 bg-dark-800/95 backdrop-blur-lg border-t border-dark-400/20 z-50 px-2 py-2">
+      <nav className="lg:hidden fixed bottom-0 left-0 right-0 bg-[#0a0b1e]/95 backdrop-blur-lg border-t border-[#7c3aed]/10 z-50 px-2 py-2">
         <div className="flex justify-around">
           {navItems.map((item) => {
             if (!user && (item.label === 'Stats' || item.label === 'Upload')) return null;

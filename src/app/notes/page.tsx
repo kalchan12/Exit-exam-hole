@@ -166,7 +166,7 @@ export default function NotesPage() {
               <Link href={`/notes/view?id=${note.id}`} className="block">
                 <div className="p-5 flex flex-col h-full">
                   <div className="flex items-start gap-4">
-                    <div className={`w-12 h-12 rounded-xl bg-[#0d111c] bg-gradient-to-br ${colors} flex items-center justify-center text-xl flex-shrink-0 group-hover:scale-105 transition-transform`}>
+                    <div className={`w-12 h-12 rounded-xl bg-[#11152a] bg-gradient-to-br ${colors} flex items-center justify-center text-xl flex-shrink-0 group-hover:scale-105 transition-transform`}>
                       {icon}
                     </div>
                     <div className="flex-1 min-w-0">
