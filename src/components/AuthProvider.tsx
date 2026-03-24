@@ -4,22 +4,37 @@ import { createContext, useContext, useState, useEffect, useCallback, type React
 import { supabase } from '@/lib/supabaseClient';
 import type { User } from '@supabase/supabase-js';
 
+interface Profile {
+  username: string;
+  full_name: string;
+  major: string;
+  gender: string;
+  avatar_url: string | null;
+  bio?: string;
+}
+
 interface AuthContextType {
   user: User | null;
+  profile: Profile | null;
   loading: boolean;
+  profileLoading: boolean;
   isGuest: boolean;
   signUp: (email: string, password: string, profileData: any) => Promise<{ error: string | null }>;
   signIn: (usernameOrEmail: string, password: string) => Promise<{ error: string | null }>;
+  updateProfile: (profileData: Partial<Profile> & { avatarFile?: File }) => Promise<{ error: string | null }>;
   loginAsGuest: () => void;
   signOut: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType>({
   user: null,
+  profile: null,
   loading: true,
+  profileLoading: false,
   isGuest: false,
   signUp: async () => ({ error: null }),
   signIn: async () => ({ error: null }),
+  updateProfile: async () => ({ error: null }),
   loginAsGuest: () => {},
   signOut: async () => {},
 });
@@ -30,8 +45,31 @@ export function useAuth() {
 
 export default function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
+  const [profile, setProfile] = useState<Profile | null>(null);
   const [loading, setLoading] = useState(true);
+  const [profileLoading, setProfileLoading] = useState(false);
   const [isGuest, setIsGuest] = useState(false);
+
+  const fetchProfile = useCallback(async (userId: string) => {
+    setProfileLoading(true);
+    try {
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('id', userId)
+        .single();
+
+      if (error) {
+        console.error('Error fetching profile:', error);
+      } else {
+        setProfile(data);
+      }
+    } catch (err) {
+      console.error('Unexpected error fetching profile:', err);
+    } finally {
+      setProfileLoading(false);
+    }
+  }, []);
 
   useEffect(() => {
     // Check local storage for guest mode
@@ -49,7 +87,11 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
           localStorage.removeItem('supabase.auth.token'); // Or the specific token key if needed
         }
       }
-      setUser(session?.user ?? null);
+      const currentUser = session?.user ?? null;
+      setUser(currentUser);
+      if (currentUser) {
+        fetchProfile(currentUser.id);
+      }
       setLoading(false);
     }).catch((err) => {
       console.warn('Error fetching session:', err);
@@ -60,7 +102,9 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       (_event, session) => {
         if (session?.user) {
-          setUser(session.user);
+          const newUser = session.user;
+          setUser(newUser);
+          fetchProfile(newUser.id);
           // If we have a real user, we are definitely not a guest anymore
           setIsGuest(false);
           if (typeof window !== 'undefined') {
@@ -68,6 +112,7 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
           }
         } else {
           setUser(null);
+          setProfile(null);
         }
         setLoading(false);
       }
@@ -157,7 +202,67 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
       localStorage.setItem('isGuest', 'true');
     }
     setIsGuest(true);
+    setProfile(null); // Clear potential profile from previous real user
   }, []);
+
+  const updateProfile = useCallback(async (profileData: Partial<Profile> & { avatarFile?: File }) => {
+    if (!user) return { error: 'No user logged in' };
+    
+    setProfileLoading(true);
+    let avatarUrl = profileData.avatar_url;
+
+    try {
+      // 1. Upload avatar if provided
+      if (profileData.avatarFile) {
+        const fileExt = profileData.avatarFile.name.split('.').pop();
+        const fileName = `${user.id}-${Math.random()}.${fileExt}`;
+        const filePath = `${fileName}`;
+
+        const { error: uploadError } = await supabase.storage
+          .from('avatars')
+          .upload(filePath, profileData.avatarFile);
+
+        if (uploadError) {
+          console.error('Error uploading avatar:', uploadError);
+          setProfileLoading(false);
+          return { error: `Failed to upload photo: ${uploadError.message}` };
+        }
+
+        const { data: { publicUrl } } = supabase.storage
+          .from('avatars')
+          .getPublicUrl(filePath);
+        avatarUrl = publicUrl;
+      }
+
+      // 2. Update profiles table
+      const { avatarFile, ...updateData } = profileData;
+      const finalUpdateData = {
+        ...updateData,
+        avatar_url: avatarUrl,
+        updated_at: new Date().toISOString(),
+      };
+
+      const { error: profileError } = await supabase
+        .from('profiles')
+        .update(finalUpdateData)
+        .eq('id', user.id);
+
+      if (profileError) {
+        console.error('Error updating profile:', profileError);
+        setProfileLoading(false);
+        return { error: profileError.message };
+      }
+
+      // 3. Refresh profile state
+      await fetchProfile(user.id);
+      return { error: null };
+    } catch (err: any) {
+      console.error('Unexpected error during profile update:', err);
+      return { error: err.message || 'An unexpected error occurred' };
+    } finally {
+      setProfileLoading(false);
+    }
+  }, [user, fetchProfile]);
 
   const signOut = useCallback(async () => {
     // 1. Clear local state instantly
@@ -177,7 +282,18 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, loading, isGuest, signUp, signIn, loginAsGuest, signOut }}>
+    <AuthContext.Provider value={{ 
+      user, 
+      profile, 
+      loading, 
+      profileLoading, 
+      isGuest, 
+      signUp, 
+      signIn, 
+      updateProfile, 
+      loginAsGuest, 
+      signOut 
+    }}>
       {children}
     </AuthContext.Provider>
   );
