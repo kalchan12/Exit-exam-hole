@@ -121,7 +121,7 @@ export default function Sidebar({ isCollapsed, setIsCollapsed }: SidebarProps) {
   const { theme, toggleTheme } = useTheme();
   const { user, loading, signOut } = useAuth();
   const [isMobileOpen, setIsMobileOpen] = useState(false);
-  const [expandedGroups, setExpandedGroups] = useState<Set<string>>(new Set(['Main', 'Study', 'Practice']));
+  const [expandedGroups, setExpandedGroups] = useState<Set<string>>(new Set(['Main']));
 
   const userEmail = user?.email || '';
   const truncatedEmail = userEmail.length > 20 ? userEmail.slice(0, 17) + '...' : userEmail;
@@ -163,8 +163,8 @@ export default function Sidebar({ isCollapsed, setIsCollapsed }: SidebarProps) {
           onClick={() => setIsCollapsed(!isCollapsed)} 
           className="text-gray-400 hover:text-white transition-colors p-2 rounded-lg hover:bg-white/5 hidden lg:flex"
         >
-          <svg className={`w-6 h-6 transition-transform duration-300 ${isCollapsed ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M11 19l-7-7 7-7m8 14l-7-7 7-7" />
+          <svg className={`w-6 h-6 transition-all duration-300 ${isCollapsed ? 'opacity-100 scale-100' : 'opacity-80 scale-90'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
           </svg>
         </button>
       </div>
