@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, useContext, useState, useEffect, useCallback, type ReactNode } from 'react';
+import { createContext, useContext, useState, useEffect, useCallback, useRef, type ReactNode } from 'react';
 import { supabase } from '@/lib/supabaseClient';
 import type { User } from '@supabase/supabase-js';
 
@@ -49,6 +49,7 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(true);
   const [profileLoading, setProfileLoading] = useState(false);
   const [isGuest, setIsGuest] = useState(false);
+  const signingOutRef = useRef(false);
 
   const fetchProfile = useCallback(async (userId: string) => {
     setProfileLoading(true);
@@ -84,8 +85,13 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
         // If there's an error like Invalid Refresh Token, clear session
         console.warn('Supabase session error:', error.message);
         if (typeof window !== 'undefined') {
-          localStorage.removeItem('supabase.auth.token'); // Or the specific token key if needed
+          localStorage.removeItem('supabase.auth.token');
         }
+      }
+      // Don't restore session if we're in the middle of signing out
+      if (signingOutRef.current) {
+        setLoading(false);
+        return;
       }
       const currentUser = session?.user ?? null;
       setUser(currentUser);
@@ -100,12 +106,23 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
 
     // Listen for auth changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      (_event, session) => {
+      (event, session) => {
+        // Ignore all auth events while signing out to prevent re-login
+        if (signingOutRef.current) {
+          return;
+        }
+
+        if (event === 'SIGNED_OUT') {
+          setUser(null);
+          setProfile(null);
+          setLoading(false);
+          return;
+        }
+
         if (session?.user) {
           const newUser = session.user;
           setUser(newUser);
           fetchProfile(newUser.id);
-          // If we have a real user, we are definitely not a guest anymore
           setIsGuest(false);
           if (typeof window !== 'undefined') {
             localStorage.removeItem('isGuest');
@@ -136,7 +153,6 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
 
       if (uploadError) {
         console.error('Error uploading avatar:', uploadError);
-        // Continue signup even if upload fails, or you could return an error here
       } else {
         const { data: { publicUrl } } = supabase.storage
           .from('avatars')
@@ -163,18 +179,13 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
     if (authError) return { error: authError.message };
     if (!authData.user) return { error: 'Failed to create user' };
 
-    // Note: Profile creation is now handled securely by a Postgres Trigger
-    // configured in supabase_setup.sql down the line. We don't need to insert here.
-
     return { error: null };
   }, []);
 
   const signIn = useCallback(async (usernameOrEmail: string, password: string) => {
     let emailToUse = usernameOrEmail;
 
-    // Check if it's NOT an email (basic check)
     if (!usernameOrEmail.includes('@')) {
-      // Look up the email by username from the profiles table
       const { data: profile, error: profileError } = await supabase
         .from('profiles')
         .select('email')
@@ -202,7 +213,7 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
       localStorage.setItem('isGuest', 'true');
     }
     setIsGuest(true);
-    setProfile(null); // Clear potential profile from previous real user
+    setProfile(null);
   }, []);
 
   const updateProfile = useCallback(async (profileData: Partial<Profile> & { avatarFile?: File }) => {
@@ -212,7 +223,6 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
     let avatarUrl = profileData.avatar_url;
 
     try {
-      // 1. Upload avatar if provided
       if (profileData.avatarFile) {
         const fileExt = profileData.avatarFile.name.split('.').pop();
         const fileName = `${user.id}-${Math.random()}.${fileExt}`;
@@ -234,7 +244,6 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
         avatarUrl = publicUrl;
       }
 
-      // 2. Update profiles table
       const { avatarFile, ...updateData } = profileData;
       const finalUpdateData = {
         ...updateData,
@@ -253,7 +262,6 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
         return { error: profileError.message };
       }
 
-      // 3. Refresh profile state
       await fetchProfile(user.id);
       return { error: null };
     } catch (err: any) {
@@ -265,20 +273,28 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
   }, [user, fetchProfile]);
 
   const signOut = useCallback(async () => {
-    // 1. Clear local state instantly
+    // 1. Set signing out flag to prevent auth listener from re-setting user
+    signingOutRef.current = true;
+
+    // 2. Clear all local state
     if (typeof window !== 'undefined') {
       localStorage.removeItem('isGuest');
     }
     setIsGuest(false);
     setUser(null);
+    setProfile(null);
 
-    // 2. Redirect immediately to login to avoid UI spinning
+    // 3. Clear session on Supabase FIRST, then redirect
+    try {
+      await supabase.auth.signOut();
+    } catch (err) {
+      console.error('Error signing out:', err);
+    }
+
+    // 4. Redirect to login after session is fully cleared
     if (typeof window !== 'undefined') {
       window.location.href = '/auth/login';
     }
-
-    // 3. Clear session on Supabase without blocking the UI
-    supabase.auth.signOut().catch(console.error);
   }, []);
 
   return (
