@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { getProgress, type ProgressState } from '@/lib/progressManager';
 import { getQuestions, getNotes, getBytes } from '@/lib/dataLoader';
+import { getLevel, calculateTopicMastery, calculateOverallAccuracy } from '@/lib/gamification';
 import { 
   Trophy, 
   Flame, 
@@ -12,7 +13,14 @@ import {
   Zap,
   TrendingUp,
   Award,
-  ChevronRight
+  ChevronRight,
+  Hexagon,
+  Shield,
+  Activity,
+  Database,
+  Terminal,
+  Settings,
+  Code2
 } from 'lucide-react';
 import Link from 'next/link';
 
@@ -24,6 +32,7 @@ export default function ProgressPage() {
     totalBytes: 0,
     answeredCount: 0,
     completedNotesCount: 0,
+    questions: [] as any[],
   });
   const [mounted, setMounted] = useState(false);
 
@@ -39,189 +48,192 @@ export default function ProgressPage() {
         totalBytes: bs.length,
         answeredCount: Object.keys(p.answeredQuestions).length,
         completedNotesCount: Object.keys(p.completedNotes || {}).length,
+        questions: qs,
       });
     });
   }, []);
 
   if (!mounted || !progress) return null;
 
-  const accuracy = stats.answeredCount > 0 
-    ? Math.round((Object.values(progress.correctAnswers).filter(Boolean).length / stats.answeredCount) * 100) 
-    : 0;
+  const totalAnswered = stats.answeredCount;
+  const accuracy = calculateOverallAccuracy(progress);
+  const levelInfo = getLevel(progress.xp);
 
-  const level = Math.floor(progress.xp / 100) + 1;
-  const xpInLevel = progress.xp % 100;
+  // Calculate Topic Mastery on the fly for accuracy
+  const questionTopicMap: Record<string, string> = {};
+  stats.questions.forEach(q => { questionTopicMap[q.id] = q.topic; });
+  
+  const uniqueTopics = Array.from(new Set(stats.questions.map(q => q.topic)));
+  const topicMastery = uniqueTopics.map(topic => ({
+    name: topic,
+    mastery: calculateTopicMastery(topic, progress.answeredQuestions, progress.correctAnswers, questionTopicMap)
+  })).sort((a, b) => b.mastery - a.mastery);
 
   return (
-    <div className="max-w-5xl mx-auto px-6 py-12 space-y-12 animate-in fade-in duration-700 pb-32">
+    <div className="max-w-6xl mx-auto px-6 py-8 md:py-12 space-y-10 animate-in fade-in duration-700 pb-32">
       {/* Header Section */}
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
-        <div className="space-y-2">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/20 text-purple-400 text-[10px] font-black uppercase tracking-widest">
-            <TrendingUp size={12} />
-            Academic Analytics
-          </div>
-          <h1 className="text-5xl md:text-6xl font-black text-white tracking-tighter uppercase italic leading-none">
-            Scholar <span className="text-purple-500">Progress</span>
+      <div className="flex items-start justify-between">
+        <div className="space-y-1">
+          <p className="text-[10px] font-black text-purple-500 uppercase tracking-[0.3em] mb-1">Your Growth</p>
+          <h1 className="text-4xl md:text-5xl font-black text-white tracking-tighter leading-tight">
+            Scholar Progress
           </h1>
-          <p className="text-gray-500 font-medium text-lg max-w-md">
-            Real-time breakdown of your preparation journey and topic mastery.
-          </p>
         </div>
         
-        <div className="bg-white/[0.03] border border-white/10 rounded-3xl p-6 flex items-center gap-6 backdrop-blur-xl shadow-2xl">
-          <div className="text-right">
-            <p className="text-[10px] text-gray-500 uppercase font-black tracking-widest mb-1">Lifetime Experience</p>
-            <div className="text-4xl font-black text-white tracking-tighter leading-none">{progress.xp.toLocaleString()} <span className="text-purple-500 text-xl italic uppercase font-black">XP</span></div>
+        <div className="flex items-center gap-3 px-4 py-2 bg-white/[0.03] border border-white/10 rounded-2xl backdrop-blur-md">
+          <div className="w-8 h-8 rounded-lg bg-purple-500/20 flex items-center justify-center">
+            <Zap size={16} className="text-purple-400 fill-purple-400" />
           </div>
-          <div className="w-12 h-12 rounded-2xl bg-purple-gradient-diagonal flex items-center justify-center shadow-lg shadow-purple-500/20">
-             <Zap size={24} className="text-white fill-white" />
+          <div>
+            <div className="text-lg font-black text-white leading-none tracking-tight">{progress.xp} XP</div>
+            <p className="text-[8px] text-gray-500 uppercase font-bold tracking-widest mt-0.5">Total Points</p>
           </div>
         </div>
       </div>
 
-      {/* Level Card */}
-      <div className="relative overflow-hidden bg-white/[0.02] border border-white/5 rounded-[2.5rem] p-8 md:p-10 group">
-        <div className="absolute top-0 right-0 w-96 h-96 bg-purple-600/10 blur-[120px] -mr-48 -mt-48 pointer-events-none group-hover:bg-purple-600/20 transition-all duration-700"></div>
+      {/* Main Progress Card */}
+      <div className="bg-[#111226]/50 border border-white/5 rounded-[2.5rem] p-8 md:p-10 relative overflow-hidden group shadow-2xl">
+        {/* Glow effect */}
+        <div className="absolute top-0 right-0 w-80 h-80 bg-purple-600/10 blur-[100px] -mr-40 -mt-40 pointer-events-none group-hover:bg-purple-600/20 transition-all duration-700"></div>
         
-        <div className="relative z-10 flex flex-col md:flex-row items-center gap-10">
-          <div className="w-32 h-32 rounded-[2rem] bg-gradient-to-br from-purple-600 to-fuchsia-600 flex items-center justify-center text-4xl font-black text-white shadow-2xl ring-8 ring-[#0A0B1E]">
-            {level}
+        <div className="relative z-10 space-y-8">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div className="space-y-1">
+              <h2 className="text-xl md:text-2xl font-black text-white uppercase tracking-tight">Current Rank: {levelInfo.title} (Lvl {levelInfo.level})</h2>
+              <p className="text-gray-500 text-sm font-bold">Next Rank: Tier {Math.ceil((levelInfo.level + 1) / 5)} (Requires {levelInfo.nextLevelXP} XP)</p>
+            </div>
+            <div className="text-6xl md:text-7xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-fuchsia-400 tracking-tighter opacity-90">
+              {levelInfo.progress}%
+            </div>
           </div>
           
-          <div className="flex-1 space-y-6 w-full">
-            <div className="flex items-center justify-between">
-              <div>
-                <h3 className="text-2xl font-black text-white uppercase italic tracking-tighter">Current Rank: Tier {Math.ceil(level / 5)}</h3>
-                <p className="text-gray-500 font-bold uppercase text-[10px] tracking-widest">{100 - xpInLevel} XP until Level {level + 1}</p>
-              </div>
-              <div className="hidden md:block px-4 py-2 bg-white/5 border border-white/10 rounded-xl text-xs font-black text-purple-400 uppercase tracking-widest">
-                Level UP Progress
-              </div>
-            </div>
-            
-            <div className="h-4 bg-white/5 rounded-full overflow-hidden p-1 ring-1 ring-white/10">
-              <div 
-                className="h-full bg-gradient-to-r from-purple-600 via-fuchsia-500 to-purple-400 rounded-full transition-all duration-1000 shadow-[0_0_20px_rgba(168,85,247,0.4)]"
-                style={{ width: `${xpInLevel}%` }}
-              />
-            </div>
+          <div className="relative h-6 bg-white/[0.03] rounded-full overflow-hidden border border-white/5 backdrop-blur-sm p-1">
+            <div 
+              className="h-full bg-gradient-to-r from-purple-600 via-fuchsia-500 to-purple-400 rounded-full transition-all duration-1000 shadow-[0_0_20px_rgba(168,85,247,0.4)]"
+              style={{ width: `${levelInfo.progress}%` }}
+            />
           </div>
         </div>
       </div>
 
-      {/* Stats Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+      {/* Stats Cards Row */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {[
-          { icon: <Flame className="text-orange-500" />, label: "Day Streak", val: progress.streak, color: "orange" },
-          { icon: <Target className="text-green-500" />, label: "Global Accuracy", val: `${accuracy}%`, color: "green" },
-          { icon: <Award className="text-purple-500" />, label: "Exams Taken", val: Object.keys(progress.answeredQuestions).length > 20 ? "Master" : "Initiate", color: "purple" }
+          { icon: <Flame size={18} />, label: "Day Streak", val: progress.streak, color: "orange", accent: "text-orange-500" },
+          { icon: <Target size={18} />, label: "Global Accuracy", val: `${accuracy}%`, color: "blue", accent: "text-blue-500" },
+          { icon: <Shield size={18} />, label: "Status Level", val: levelInfo.title, color: "rose", accent: "text-rose-500" }
         ].map((stat, i) => (
-          <div key={i} className="bg-white/[0.02] border border-white/5 hover:border-white/10 transition-all rounded-[2rem] p-8 flex flex-col items-center text-center group">
-            <div className={`w-16 h-16 rounded-2xl bg-${stat.color}-500/10 flex items-center justify-center mb-6 ring-1 ring-${stat.color}-500/20 group-hover:scale-110 transition-transform`}>
+          <div key={i} className="bg-[#111226]/50 border border-white/5 rounded-3xl p-8 flex flex-col justify-between min-h-[160px] group hover:border-white/10 transition-all">
+            <div className={`w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center ${stat.accent} opacity-80 group-hover:scale-110 transition-transform`}>
               {stat.icon}
             </div>
-            <div className="text-4xl font-black text-white tracking-tighter mb-1">{stat.val}</div>
-            <div className="text-[10px] text-gray-500 uppercase font-black tracking-widest">{stat.label}</div>
+            <div>
+              <div className="text-3xl font-black text-white tracking-tighter mb-1 leading-none truncate">{stat.val}</div>
+              <p className="text-[10px] text-gray-500 uppercase font-black tracking-widest leading-none">{stat.label}</p>
+            </div>
           </div>
         ))}
       </div>
 
-      {/* Main Breakdown Section */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-        {/* Progress Breakdown */}
+      {/* Breakdown and Mastery Sections */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 pt-4">
+        {/* Preparation Breakdown */}
         <div className="space-y-8">
-          <div className="flex items-center gap-4">
-             <div className="w-10 h-10 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center">
-                <Cpu size={18} className="text-purple-400" />
-             </div>
-             <h2 className="text-2xl font-black text-white uppercase italic tracking-tighter">Preparation Breakdown</h2>
+          <div className="space-y-1">
+            <p className="text-[10px] font-black text-gray-500 uppercase tracking-widest">Preparation Breakdown</p>
+            <div className="h-px w-20 bg-purple-500/30"></div>
           </div>
 
-          <div className="grid gap-6">
-            <div className="bg-white/[0.02] border border-white/5 rounded-3xl p-8 flex items-center justify-between group hover:bg-white/[0.04] transition-all">
-               <div className="space-y-1">
-                  <div className="flex items-center gap-2">
-                    <BookOpen size={16} className="text-purple-400" />
-                    <h4 className="text-sm font-black text-gray-300 uppercase tracking-wider">Questions Solved</h4>
-                  </div>
-                  <p className="text-2xl font-black text-white tracking-tighter italic">{stats.answeredCount} <span className="text-gray-500 text-xs not-italic">/ {stats.totalQuestions}</span></p>
-               </div>
-               <div className="text-right">
-                  <div className="text-3xl font-black text-purple-400 tracking-tighter italic">{Math.round((stats.answeredCount / stats.totalQuestions) * 100)}%</div>
-               </div>
+          <div className="space-y-10">
+            {/* Questions Solved */}
+            <div className="space-y-3">
+              <div className="flex justify-between items-end">
+                <span className="text-sm font-black text-gray-300 uppercase tracking-wider">Questions Solved</span>
+                <span className="text-lg font-black text-purple-400 tracking-tighter uppercase">{Math.round((stats.answeredCount / (stats.totalQuestions || 1)) * 100)}%</span>
+              </div>
+              <div className="h-2 bg-white/5 rounded-full overflow-hidden">
+                <div 
+                  className="h-full bg-gradient-to-r from-purple-600 to-fuchsia-500 rounded-full"
+                  style={{ width: `${(stats.answeredCount / (stats.totalQuestions || 1)) * 100}%` }}
+                />
+              </div>
             </div>
 
-            <div className="bg-white/[0.02] border border-white/5 rounded-3xl p-8 flex items-center justify-between group hover:bg-white/[0.04] transition-all">
-               <div className="space-y-1">
-                  <div className="flex items-center gap-2">
-                    <Trophy size={16} className="text-fuchsia-400" />
-                    <h4 className="text-sm font-black text-gray-300 uppercase tracking-wider">Concept Notes</h4>
-                  </div>
-                  <p className="text-2xl font-black text-white tracking-tighter italic">{stats.completedNotesCount} <span className="text-gray-500 text-xs not-italic">/ {stats.totalNotes}</span></p>
-               </div>
-               <div className="text-right">
-                  <div className="text-3xl font-black text-fuchsia-400 tracking-tighter italic">{Math.round((stats.completedNotesCount / stats.totalNotes) * 100)}%</div>
-               </div>
+            {/* Concept Notes */}
+            <div className="space-y-3">
+              <div className="flex justify-between items-end">
+                <span className="text-sm font-black text-gray-300 uppercase tracking-wider">Concept Notes</span>
+                <span className="text-lg font-black text-fuchsia-400 tracking-tighter uppercase">{Math.round((stats.completedNotesCount / (stats.totalNotes || 1)) * 100)}%</span>
+              </div>
+              <div className="h-2 bg-white/5 rounded-full overflow-hidden">
+                <div 
+                  className="h-full bg-gradient-to-r from-fuchsia-600 to-rose-500 rounded-full"
+                  style={{ width: `${(stats.completedNotesCount / (stats.totalNotes || 1)) * 100}%` }}
+                />
+              </div>
             </div>
           </div>
         </div>
 
-        {/* Topic Mastery */}
+        {/* Domain Mastery */}
         <div className="space-y-8">
-          <div className="flex items-center gap-4">
-             <div className="w-10 h-10 rounded-xl bg-fuchsia-500/10 border border-fuchsia-500/20 flex items-center justify-center">
-                <Target size={18} className="text-fuchsia-400" />
-             </div>
-             <h2 className="text-2xl font-black text-white uppercase italic tracking-tighter">Domain Mastery</h2>
+          <div className="space-y-1">
+            <p className="text-[10px] font-black text-gray-500 uppercase tracking-widest">Domain Mastery</p>
+            <div className="h-px w-20 bg-fuchsia-500/30"></div>
           </div>
 
-          <div className="bg-white/[0.02] border border-white/5 rounded-[2.5rem] p-8 space-y-8">
-            {Object.entries(progress.accuracyByTopic).length > 0 ? (
-              Object.entries(progress.accuracyByTopic).map(([topic, acc]) => (
-                <div key={topic} className="space-y-3 group">
-                    <div className="flex justify-between items-center">
-                        <span className="text-xs font-black text-gray-400 uppercase tracking-widest group-hover:text-white transition-colors">{topic}</span>
-                        <div className="flex items-center gap-2">
-                           <span className="text-lg font-black text-white tracking-tighter">{acc}%</span>
-                           <ChevronRight size={14} className="text-gray-700" />
-                        </div>
+          <div className="space-y-3 max-h-[400px] overflow-y-auto pr-2 custom-scrollbar">
+            {topicMastery.length > 0 ? (
+              topicMastery.map(({ name: topic, mastery: acc }) => {
+                const TopicIcon = 
+                  topic.toLowerCase().includes('algorithm') ? Activity : 
+                  topic.toLowerCase().includes('database') || topic.toLowerCase().includes('data') ? Database : 
+                  topic.toLowerCase().includes('operating') || topic.toLowerCase().includes('system') ? Cpu : 
+                  topic.toLowerCase().includes('networking') ? Terminal :
+                  topic.toLowerCase().includes('programming') ? Code2 : Settings;
+
+                return (
+                  <div key={topic} className="flex items-center gap-4 bg-[#111226]/50 border border-white/5 p-4 rounded-2xl group hover:bg-white/[0.03] transition-all">
+                    <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center text-purple-400/60 group-hover:text-purple-400 transition-colors">
+                      <TopicIcon size={18} />
                     </div>
-                    <div className="h-2 bg-white/5 rounded-full overflow-hidden p-0.5">
+                    <div className="flex-1 space-y-2 text-left">
+                      <div className="flex justify-between items-center">
+                        <span className="text-[10px] font-black text-gray-400 uppercase tracking-wider truncate mr-2">{topic}</span>
+                        <span className="text-sm font-black text-white tracking-tighter shrink-0">{acc}%</span>
+                      </div>
+                      <div className="h-1.5 bg-white/5 rounded-full overflow-hidden">
                         <div 
-                            className="h-full bg-gradient-to-r from-purple-600 to-fuchsia-500 rounded-full transition-all duration-1000"
-                            style={{ width: `${acc}%` }}
+                          className="h-full bg-gradient-to-r from-purple-600 to-fuchsia-500 rounded-full transition-all duration-700"
+                          style={{ width: `${acc}%` }}
                         />
+                      </div>
                     </div>
-                </div>
-              ))
+                  </div>
+                );
+              })
             ) : (
-              <div className="py-12 text-center space-y-4">
-                 <div className="w-16 h-16 rounded-full bg-white/5 border border-white/10 flex items-center justify-center mx-auto opacity-40">
-                    <Target size={24} className="text-gray-500" />
-                 </div>
-                 <p className="text-gray-500 font-bold uppercase text-[10px] tracking-[0.2em]">Start solving questions to see topic breakdown</p>
-              </div>
+                <div className="flex items-center gap-4 bg-[#111226]/50 border border-white/5 p-4 rounded-2xl opacity-50 grayscale italic">
+                   <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center text-gray-500">
+                    <Hexagon size={18} />
+                  </div>
+                  <p className="text-[10px] text-gray-500 font-bold uppercase tracking-widest text-left">No topic data yet</p>
+                </div>
             )}
           </div>
         </div>
       </div>
 
-      {/* Action Footer */}
-      <div className="pt-12 border-t border-white/5">
-        <div className="bg-gradient-to-r from-purple-900/20 to-transparent p-8 rounded-[3rem] border border-white/5 flex flex-col md:flex-row items-center justify-between gap-8">
-          <div className="space-y-1 text-center md:text-left">
-            <h3 className="text-2xl font-black text-white uppercase italic tracking-tighter leading-tight">Ready to boost your score?</h3>
-            <p className="text-gray-500 text-sm font-medium">Daily practice is the key to mastering difficult concepts.</p>
-          </div>
-          <Link 
+      {/* Simplified Footer */}
+      <div className="pt-12 flex justify-center">
+         <Link 
             href="/questions" 
-            className="px-10 py-5 bg-white text-black font-black uppercase text-sm tracking-widest rounded-2xl hover:scale-105 active:scale-95 transition-all flex items-center gap-3 shadow-xl shadow-white/10"
+            className="group relative px-8 py-4 bg-white text-black font-black uppercase text-xs tracking-[0.2em] rounded-2xl hover:scale-105 active:scale-95 transition-all flex items-center gap-3 overflow-hidden"
           >
-            Practice Now
-            <Zap size={18} fill="black" />
+            <div className="absolute inset-0 bg-gradient-to-r from-purple-400 to-fuchsia-400 opacity-0 group-hover:opacity-10 transition-opacity"></div>
+            Start Practicing
+            <ChevronRight size={16} />
           </Link>
-        </div>
       </div>
     </div>
   );
