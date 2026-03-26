@@ -4,251 +4,195 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
-import { saveCustomNote, saveCustomQuestion, saveCustomByte, type Note, type Question, type Byte } from '@/lib/dataLoader';
-import { fetchGitHubNote } from '@/lib/githubFetcher';
+import { type Note, type Question, type Byte } from '@/lib/dataLoader';
+import { fetchGitHubNote, fetchGitHubQuestions } from '@/lib/githubFetcher';
 import { useAuth } from '@/components/AuthProvider';
+import { saveNoteToSupabase, saveQuestionToSupabase, saveByteToSupabase } from '@/lib/supabaseLoader';
+import { parseQuestionsFromJson, parseQuestionsFromMarkdown } from '@/lib/parsers';
+import { saveCustomNote, saveCustomQuestion, saveCustomByte } from '@/lib/dataLoader';
 
-type ContentType = 'note' | 'byte' | 'quiz' | 'github' | null;
-type QuestionMode = 'practice' | 'exam' | 'model' | null;
+// Types for the new unified flow
+type Category = 'notes' | 'questions' | null;
+type SubType = 'long_note' | 'short_note' | 'byte' | 'practice' | 'past_exam' | 'model_exam' | null;
+type Method = 'manual' | 'github' | null;
+type Major = 'CSE' | 'Software' | 'Both';
 
 export default function UploadPage() {
   const router = useRouter();
-  const { isGuest } = useAuth();
+  const { user, profile, isGuest } = useAuth();
   
+  // Step State
   const [step, setStep] = useState(1);
-  const [contentType, setContentType] = useState<ContentType>(null);
-  const [questionMode, setQuestionMode] = useState<QuestionMode>(null);
+  const [category, setCategory] = useState<Category>(null);
+  const [subType, setSubType] = useState<SubType>(null);
+  const [method, setMethod] = useState<Method>(null);
+
+  // Form Metadata
+  const [major, setMajor] = useState<Major>('Both');
+  const [year, setYear] = useState('');
+  const [course, setCourse] = useState('');
+  const [title, setTitle] = useState('');
+  const [topic, setTopic] = useState('');
+  const [difficulty, setDifficulty] = useState<'easy' | 'medium' | 'hard'>('medium');
+  
+  // Content State
+  const [manualContent, setManualContent] = useState('');
+  const [githubUrl, setGithubUrl] = useState('');
+  const [isFetching, setIsFetching] = useState(false);
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
+  
+  // Preview State
+  const [showPreview, setShowPreview] = useState(false);
+  const [fetchedData, setFetchedData] = useState<any>(null); // For GitHub or Manual parsing preview
 
   useEffect(() => {
     if (isGuest) {
       router.replace('/dashboard');
     }
   }, [isGuest, router]);
-  
-  // Note State
-  const [noteCourse, setNoteCourse] = useState('');
-  const [noteTitle, setNoteTitle] = useState('');
-  const [noteBody, setNoteBody] = useState('');
-  const [noteImage, setNoteImage] = useState('');
-  const [noteLink, setNoteLink] = useState('');
-  const [noteLabel, setNoteLabel] = useState('Auto');
-  const [notePreview, setNotePreview] = useState(false);
 
-  // Byte State
-  const [byteTopic, setByteTopic] = useState('');
-  const [byteTitle, setByteTitle] = useState('');
-  const [byteContent, setByteContent] = useState('');
-  const [byteImage, setByteImage] = useState('');
-  const [byteVideo, setByteVideo] = useState('');
-  const [byteQuestions, setByteQuestions] = useState('');
+  const resetFlow = () => {
+    setStep(1);
+    setCategory(null);
+    setSubType(null);
+    setMethod(null);
+    setError('');
+    setSuccess('');
+    setFetchedData(null);
+    setManualContent('');
+    setGithubUrl('');
+  };
 
-  // Quiz State
-  const [quizMode, setQuizMode] = useState<'single' | 'bulk'>('single');
-  const [quizQuestion, setQuizQuestion] = useState('');
-  const [quizOptions, setQuizOptions] = useState(['', '', '', '']);
-  const [quizAnswer, setQuizAnswer] = useState('A');
-  const [quizHint, setQuizHint] = useState('');
-  const [quizTopic, setQuizTopic] = useState('');
-  const [quizDifficulty, setQuizDifficulty] = useState<'easy' | 'medium' | 'hard'>('medium');
-  const [bulkQuizJson, setBulkQuizJson] = useState('');
-  const [bulkQuizError, setBulkQuizError] = useState('');
-
-  // GitHub State
-  const [githubUrl, setGithubUrl] = useState('');
-  const [githubCourse, setGithubCourse] = useState('');
-  const [githubTarget, setGithubTarget] = useState<'note' | 'byte'>('note');
-  const [isFetching, setIsFetching] = useState(false);
-  const [githubError, setGithubError] = useState('');
-  const [fetchedContent, setFetchedContent] = useState<Note | null>(null);
-
+  // Helper to determine note label based on content weight
   const determineNoteLabel = (body: string) => {
+    if (subType === 'long_note') return 'Course Material';
+    if (subType === 'short_note') return 'Short Note';
+    if (subType === 'byte') return 'Learning Byte';
+    
     const wordCount = body.trim().split(/\s+/).length;
-    if (body.toLowerCase().includes('syllabus') || body.toLowerCase().includes('grading logic')) {
-      return 'Syllabus';
+    if (body.toLowerCase().includes('syllabus')) return 'Syllabus';
+    return wordCount < 100 ? 'Short Note' : 'Course Material';
+  };
+
+  const handleGitHubFetch = async () => {
+    if (!githubUrl || !course) {
+        setError('Please provide a URL and Course name.');
+        return;
     }
-    if (wordCount < 100) return 'Short Note';
-    return 'Course Material';
-  };
-
-  const handleNoteSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!noteCourse || !noteTitle || !noteBody) return;
-    const finalLabel = noteLabel === 'Auto' ? determineNoteLabel(noteBody) : noteLabel;
-    const newNote: Note = {
-      id: `local_note_${Date.now()}`,
-      topic: noteCourse,
-      course: noteCourse,
-      title: noteTitle,
-      body: noteBody,
-      source: 'Local',
-      images: noteImage ? [noteImage] : [],
-      links: noteLink ? [noteLink] : [],
-      date: new Date().toISOString(),
-      label: finalLabel,
-    };
-    saveCustomNote(newNote);
-    router.push('/notes');
-  };
-
-  const handleByteSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!byteTopic || !byteTitle || !byteContent) return;
-    const qIds = byteQuestions.split(',').map(s => s.trim()).filter(Boolean);
-    const newByte: Byte = {
-      id: `local_byte_${Date.now()}`,
-      topic: byteTopic,
-      title: byteTitle,
-      content: byteContent,
-      images: byteImage ? [byteImage] : [],
-      videoUrl: byteVideo || undefined,
-      relatedQuestionIds: qIds.length > 0 ? qIds : undefined,
-      date: new Date().toISOString(),
-      source: 'Local',
-    };
-    saveCustomByte(newByte);
-    router.push('/bytes');
-  };
-
-  const parseBulkMarkdown = (text: string) => {
-    const questions: any[] = [];
-    const entries = text.split(/---+\n?/).filter(Boolean);
-
-    entries.forEach(entry => {
-      const lines = entry.trim().split('\n');
-      let q: any = { options: [], id: `q_bulk_${Date.now()}_${Math.random()}` };
-      
-      lines.forEach(line => {
-        const trimmed = line.trim();
-        if (trimmed.startsWith('### Topic:')) q.topic = trimmed.replace('### Topic:', '').trim();
-        else if (trimmed.startsWith('**Difficulty:')) q.difficulty = trimmed.replace('**Difficulty:', '').replace(/\*/g, '').replace('Difficulty:', '').trim().toLowerCase() || 'medium';
-        else if (trimmed.startsWith('**Question:**')) q.question = trimmed.replace('**Question:**', '').trim();
-        else if (trimmed.match(/^[A-D]\)/)) q.options.push(trimmed.replace(/^[A-D]\)/, '').trim());
-        else if (trimmed.startsWith('**Answer:**')) {
-          const letter = trimmed.replace('**Answer:**', '').trim().toUpperCase();
-          q.answer_letter = letter;
-        }
-        else if (trimmed.startsWith('**Explanation:**')) q.explanation = trimmed.replace('**Explanation:**', '').trim();
-      });
-
-      if (q.answer_letter) {
-        const idx = q.answer_letter.charCodeAt(0) - 65;
-        q.answer = q.options[idx];
-        delete q.answer_letter;
-      }
-
-      if (q.question && q.options.length >= 2 && q.answer && q.topic) {
-          questions.push(q);
-      }
-    });
-    return questions;
-  };
-
-  const handleQuizSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    const source = 
-      questionMode === 'exam' ? 'Archived Exams' : 
-      questionMode === 'model' ? 'Model Exit Exam' : 
-      'Course Notes';
-
-    if (quizMode === 'single') {
-      if (!quizQuestion || quizOptions.some(o => !o) || !quizTopic) return;
-      const newQuiz: Question = {
-        id: `q_${Date.now()}`,
-        question: quizQuestion,
-        options: quizOptions,
-        answer: quizOptions[quizAnswer.charCodeAt(0) - 65],
-        explanation: quizHint || 'Custom user question.', 
-        hint: quizHint,
-        topic: quizTopic,
-        difficulty: quizDifficulty,
-        source: source,
-      };
-      saveCustomQuestion(newQuiz);
-      router.push(questionMode === 'practice' ? '/questions' : '/exam');
-    } else {
-      setBulkQuizError('');
-      try {
-        let parsed: any[] = [];
-        if (bulkQuizJson.trim().startsWith('[')) {
-          parsed = JSON.parse(bulkQuizJson);
-        } else {
-          parsed = parseBulkMarkdown(bulkQuizJson);
-        }
-
-        if (!Array.isArray(parsed) || parsed.length === 0) throw new Error("Could not parse questions. Check format.");
-        
-        parsed.forEach(q => {
-          if (!q.question || !q.options || !q.answer || !q.topic) {
-            throw new Error(`Missing fields on question: ${q.question?.substring(0, 30) || 'Unknown'}`);
-          }
-          q.id = q.id || `q_bulk_${Date.now()}_${Math.random()}`;
-          q.source = source;
-          q.difficulty = q.difficulty || 'medium';
-          q.explanation = q.explanation || 'Bulk imported question.';
-          saveCustomQuestion(q as Question);
-        });
-        router.push(questionMode === 'practice' ? '/questions' : '/exam');
-      } catch (err: any) {
-        setBulkQuizError(err.message || "Invalid Format");
-      }
-    }
-  };
-
-  const handleGithubFetch = async () => {
-    if (!githubUrl || !githubCourse) return;
     setIsFetching(true);
-    setGithubError('');
+    setError('');
     try {
-      const gContent = await fetchGitHubNote(githubUrl, githubCourse);
-      gContent.date = new Date().toISOString();
-      gContent.label = determineNoteLabel(gContent.body || '');
-      setFetchedContent(gContent);
+      if (category === 'notes') {
+        const note = await fetchGitHubNote(githubUrl, course);
+        setFetchedData(note);
+      } else {
+        const questions = await fetchGitHubQuestions(githubUrl, course);
+        setFetchedData(questions);
+      }
     } catch (err: any) {
-      setGithubError(err.message || 'Fetch failed');
+      setError(err.message || 'Failed to fetch from GitHub');
     } finally {
       setIsFetching(false);
     }
   };
 
-  const saveGithubContent = () => {
-    if (!fetchedContent) return;
-    
-    if (githubTarget === 'byte') {
-      const newByte: Byte = {
-        id: `local_byte_${Date.now()}`,
-        topic: githubCourse,
-        title: fetchedContent.title,
-        content: fetchedContent.body || '',
-        images: fetchedContent.images,
-        date: new Date().toISOString(),
-        source: 'GitHub',
-      };
-      saveCustomByte(newByte);
-      router.push('/bytes');
-    } else {
-      saveCustomNote(fetchedContent);
-      router.push('/notes');
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!user) {
+        setError('You must be logged in to upload.');
+        return;
     }
-  };
+    setError('');
+    setIsFetching(true);
 
-  const resetSelection = () => {
-    setStep(1);
-    setContentType(null);
-    setQuestionMode(null);
-  };
+    try {
+        let itemsToSave: any[] = [];
 
-  const selectContentType = (type: ContentType) => {
-    setContentType(type);
-    if (type === 'quiz') {
-      setStep(2);
-    } else {
-      setStep(3);
+        if (method === 'github') {
+            if (!fetchedData) throw new Error('Please fetch content first.');
+            itemsToSave = Array.isArray(fetchedData) ? fetchedData : [fetchedData];
+        } else {
+            // Manual Logic
+            if (category === 'notes') {
+                if (subType === 'byte') {
+                    itemsToSave = [{
+                        id: `byte_${Date.now()}`,
+                        topic: topic || course,
+                        title: title,
+                        content: manualContent,
+                        source: 'Local',
+                        date: new Date().toISOString()
+                    }];
+                } else {
+                    itemsToSave = [{
+                        id: `note_${Date.now()}`,
+                        topic: course,
+                        title: title,
+                        body: manualContent,
+                        source: 'Local',
+                        label: determineNoteLabel(manualContent),
+                        date: new Date().toISOString()
+                    }];
+                }
+            } else {
+                // Questions Bulk or Single
+                if (manualContent.trim().startsWith('[') || manualContent.includes('---')) {
+                    const parsed = manualContent.trim().startsWith('[') 
+                        ? parseQuestionsFromJson(manualContent)
+                        : parseQuestionsFromMarkdown(manualContent, course);
+                    itemsToSave = parsed;
+                } else {
+                    throw new Error('Please use the Bulk format for manual questions.');
+                }
+            }
+        }
+
+        // Apply shared metadata and save
+        for (const item of itemsToSave) {
+            item.major = major;
+            if (category === 'questions') {
+                item.year = year;
+                item.source = subType === 'past_exam' ? 'Archived Exams' : subType === 'model_exam' ? 'Model Exit Exam' : 'Resource';
+                
+                if (method === 'github') {
+                    item.githubUrl = githubUrl;
+                    // Keep metadata for the list, but we could strip content if desired.
+                    // For questions, we'll keep the text but mark it as GitHub source.
+                    saveCustomQuestion(item);
+                } else {
+                    await saveQuestionToSupabase(item, user.id);
+                }
+            } else if (subType === 'byte') {
+                item.source = method === 'github' ? 'GitHub' : 'Local';
+                if (method === 'github') {
+                   item.githubUrl = githubUrl;
+                   saveCustomByte(item);
+                } else {
+                   await saveByteToSupabase(item, user.id);
+                }
+            } else {
+                item.source = method === 'github' ? 'GitHub' : 'Local';
+                if (method === 'github') {
+                    item.githubUrl = githubUrl;
+                    item.body = ''; // Strip body to ensure live render from GitHub
+                    saveCustomNote(item);
+                } else {
+                    await saveNoteToSupabase(item, user.id);
+                }
+            }
+        }
+
+        setSuccess(`Successfully uploaded ${itemsToSave.length} item(s)!`);
+        setTimeout(() => {
+            router.push(category === 'notes' ? (subType === 'byte' ? '/bytes' : '/notes') : '/questions');
+        }, 1500);
+
+    } catch (err: any) {
+        setError(err.message || 'failed to save data');
+    } finally {
+        setIsFetching(false);
     }
-  };
-
-  const selectQuestionMode = (mode: QuestionMode) => {
-    setQuestionMode(mode);
-    setStep(3);
   };
 
   return (
@@ -256,248 +200,169 @@ export default function UploadPage() {
       {/* Header */}
       <div className="flex items-end justify-between border-b border-white/5 pb-6">
         <div>
-          <h1 className="text-4xl font-black text-white uppercase italic tracking-tighter">Unified Upload</h1>
-          <p className="text-gray-500 text-sm mt-1 uppercase font-bold tracking-widest">Create or import study resources</p>
+          <h1 className="text-4xl font-black text-white uppercase italic tracking-tighter">Unified Hub</h1>
+          <p className="text-gray-500 text-sm mt-1 uppercase font-bold tracking-widest">
+            Step {step} of 4: {
+                step === 1 ? 'Select Category' :
+                step === 2 ? 'Select Sub-type' :
+                step === 3 ? 'Select Method' :
+                'Finalize Content'
+            }
+          </p>
         </div>
         {step > 1 && (
-            <button onClick={resetSelection} className="text-[10px] font-black uppercase tracking-widest text-accent-purple hover:text-white transition-colors">
-                ← Start Over
+            <button onClick={resetFlow} className="text-[10px] font-black uppercase tracking-widest text-accent-purple hover:text-white transition-colors">
+                ← Restart
             </button>
         )}
       </div>
 
-      {/* STEP 1: Content Type Selection */}
+      {/* STEP 1: CATEGORY */}
       {step === 1 && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 animate-in fade-in slide-in-from-bottom-4">
-          <SelectionCard 
-            title="Markdown Note" 
-            desc="Full-length study materials with rich formatting." 
-            icon="📝" 
-            onClick={() => selectContentType('note')} 
-          />
-          <SelectionCard 
-            title="Learning Byte" 
-            desc="Focused, bite-sized facts and concepts." 
-            icon="⚡" 
-            onClick={() => selectContentType('byte')} 
-          />
-          <SelectionCard 
-            title="Question Bank" 
-            desc="Create practice quizzes or exam simulations." 
-            icon="❓" 
-            onClick={() => selectContentType('quiz')} 
-          />
-          <SelectionCard 
-            title="GitHub Import" 
-            desc="Sync markdown notes directly from GitHub." 
-            icon="🐱" 
-            onClick={() => selectContentType('github')} 
-          />
-        </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 animate-in fade-in slide-in-from-bottom-4">
+              <SelectionCard 
+                title="Notes & Materials" 
+                desc="Study guides, course materials, and learning bytes." 
+                icon="📚" 
+                onClick={() => { setCategory('notes'); setStep(2); }} 
+              />
+              <SelectionCard 
+                title="Questions & Exams" 
+                desc="Practice questions, past exams, and model papers." 
+                icon="🎯" 
+                onClick={() => { setCategory('questions'); setStep(2); }} 
+              />
+          </div>
       )}
 
-      {/* STEP 2: Question Mode Selection */}
-      {step === 2 && contentType === 'quiz' && (
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 animate-in fade-in slide-in-from-bottom-4">
-          <SelectionCard 
-            title="Practice Question" 
-            desc="General study material for routine practice." 
-            icon="🎯" 
-            onClick={() => selectQuestionMode('practice')} 
-            variant="purple"
-          />
-          <SelectionCard 
-            title="Past Exam Question" 
-            desc="Actual questions from previous exit exams." 
-            icon="🎓" 
-            onClick={() => selectQuestionMode('exam')} 
-            variant="indigo"
-          />
-          <SelectionCard 
-            title="Model Exit Exam" 
-            desc="Curated model questions for exit exam prep." 
-            icon="🏆" 
-            onClick={() => selectQuestionMode('model')} 
-            variant="purple"
-          />
-        </div>
+      {/* STEP 2: SUB-TYPE */}
+      {step === 2 && category === 'notes' && (
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 animate-in fade-in slide-in-from-bottom-4">
+              <SelectionCard title="Long Note" desc="Detailed course material." icon="📄" onClick={() => { setSubType('long_note'); setStep(3); }} />
+              <SelectionCard title="Short Note" desc="Brief summaries and points." icon="📝" onClick={() => { setSubType('short_note'); setStep(3); }} />
+              <SelectionCard title="Learning Byte" desc="Bite-sized visual facts." icon="⚡" onClick={() => { setSubType('byte'); setStep(3); }} />
+          </div>
       )}
 
-      {/* STEP 3: Forms */}
+      {step === 2 && category === 'questions' && (
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 animate-in fade-in slide-in-from-bottom-4">
+              <SelectionCard title="Practice" desc="Common resource questions." icon="🧩" onClick={() => { setSubType('practice'); setStep(3); }} />
+              <SelectionCard title="Past Exam" desc="From previous exit exams." icon="🎓" onClick={() => { setSubType('past_exam'); setStep(3); }} />
+              <SelectionCard title="Model Exam" desc="Curated prep questions." icon="🏆" onClick={() => { setSubType('model_exam'); setStep(3); }} />
+          </div>
+      )}
+
+      {/* STEP 3: METHOD */}
       {step === 3 && (
-        <div className="glass-card p-8 sm:p-12 border-white/5 animate-in fade-in zoom-in-95">
-          {contentType === 'note' && (
-            <form onSubmit={handleNoteSubmit} className="space-y-6">
-               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <InputGroup label="Course" value={noteCourse} onChange={setNoteCourse} placeholder="Computer Architecture" required />
-                  <InputGroup label="Title" value={noteTitle} onChange={setNoteTitle} placeholder="MIPS Architecture Intro" required />
-               </div>
-               <div className="space-y-2">
-                 <div className="flex justify-between items-center">
-                    <label className="text-[10px] uppercase font-black tracking-widest text-gray-400">Content (Markdown)</label>
-                    <button type="button" onClick={() => setNotePreview(!notePreview)} className="text-[10px] font-black uppercase text-accent-purple hover:underline">
-                        {notePreview ? 'Edit' : 'Preview'}
-                    </button>
-                 </div>
-                 {notePreview ? (
-                   <div className="prose prose-invert prose-purple max-w-none p-6 rounded-2xl bg-white/5 border border-white/10 min-h-[300px]">
-                      <ReactMarkdown remarkPlugins={[remarkGfm]}>{noteBody || '*Empty*'}</ReactMarkdown>
-                   </div>
-                 ) : (
-                   <textarea
-                     required
-                     value={noteBody}
-                     onChange={(e) => setNoteBody(e.target.value)}
-                     className="modern-textarea min-h-[300px]"
-                     placeholder="# Introduction\nStart writing..."
-                   />
-                 )}
-               </div>
-               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <InputGroup label="Image URL" value={noteImage} onChange={setNoteImage} placeholder="https://..." />
-                  <InputGroup label="Resource Link" value={noteLink} onChange={setNoteLink} placeholder="Drive/External link" />
-               </div>
-               <button type="submit" className="btn-primary w-full py-4 font-black uppercase italic tracking-widest">Deploy Note</button>
-            </form>
-          )}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 animate-in fade-in slide-in-from-bottom-4">
+              <SelectionCard 
+                title="Manual Entry" 
+                desc="Paste text directly in MD or JSON format." 
+                icon="✍️" 
+                onClick={() => { setMethod('manual'); setStep(4); }} 
+              />
+              <SelectionCard 
+                title="GitHub Import" 
+                desc="Sync directly from a GitHub Raw URL." 
+                icon="🐱" 
+                onClick={() => { setMethod('github'); setStep(4); }} 
+              />
+          </div>
+      )}
 
-          {contentType === 'byte' && (
-            <form onSubmit={handleByteSubmit} className="space-y-6">
-               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <InputGroup label="Topic" value={byteTopic} onChange={setByteTopic} placeholder="Networking" required />
-                  <InputGroup label="Byte Title" value={byteTitle} onChange={setByteTitle} placeholder="OSI Model Layer 1" required />
-               </div>
-               <textarea
-                 required
-                 value={byteContent}
-                 onChange={(e) => setByteContent(e.target.value)}
-                 className="modern-textarea min-h-[150px]"
-                 placeholder="Write short content..."
-               />
-               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <InputGroup label="Illustration URL" value={byteImage} onChange={setByteImage} placeholder="https://..." />
-                  <InputGroup label="YouTube URL" value={byteVideo} onChange={setByteVideo} placeholder="Video walk-through" />
-               </div>
-               <InputGroup label="Sync Question IDs" value={byteQuestions} onChange={setByteQuestions} placeholder="q_123, q_456" />
-               <button type="submit" className="btn-primary w-full py-4 font-black uppercase italic tracking-widest">Deploy Byte</button>
-            </form>
-          )}
-
-          {contentType === 'quiz' && (
-            <div className="space-y-8">
-                <div className="flex bg-white/5 p-1 rounded-xl w-fit">
-                    <button onClick={() => setQuizMode('single')} className={`px-4 py-2 text-[10px] font-black uppercase tracking-widest rounded-lg transition-all ${quizMode === 'single' ? 'bg-accent-purple text-white' : 'text-gray-500 hover:text-white'}`}>Single Entry</button>
-                    <button onClick={() => setQuizMode('bulk')} className={`px-4 py-2 text-[10px] font-black uppercase tracking-widest rounded-lg transition-all ${quizMode === 'bulk' ? 'bg-accent-purple text-white' : 'text-gray-500 hover:text-white'}`}>Bulk Import</button>
-                </div>
-
-                <form onSubmit={handleQuizSubmit} className="space-y-8">
-                    {quizMode === 'single' ? (
-                        <>
-                            <textarea
-                                required
-                                value={quizQuestion}
-                                onChange={(e) => setQuizQuestion(e.target.value)}
-                                className="modern-textarea min-h-[150px]"
-                                placeholder="Enter the question text here..."
-                            />
-                            <div className="space-y-4">
-                                {['A', 'B', 'C', 'D'].map((letter, idx) => (
-                                    <div key={letter} className="flex gap-4 items-center group">
-                                        <span className={`w-10 h-10 rounded-xl flex items-center justify-center font-black transition-all ${quizAnswer === letter ? 'bg-accent-purple text-white shadow-lg shadow-purple-500/20' : 'bg-white/5 text-gray-500'}`}>
-                                            {letter}
-                                        </span>
-                                        <input
-                                            type="text"
-                                            required
-                                            value={quizOptions[idx]}
-                                            onChange={(e) => {
-                                                const n = [...quizOptions];
-                                                n[idx] = e.target.value;
-                                                setQuizOptions(n);
-                                            }}
-                                            className="modern-input flex-1"
-                                            placeholder={`Option ${letter}`}
-                                        />
-                                        <button type="button" onClick={() => setQuizAnswer(letter)} className={`text-[10px] font-black uppercase tracking-widest transition-all ${quizAnswer === letter ? 'text-neon-green' : 'text-gray-600 hover:text-gray-300'}`}>
-                                            Correct
-                                        </button>
-                                    </div>
-                                ))}
-                            </div>
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                <InputGroup label="Topic" value={quizTopic} onChange={setQuizTopic} placeholder="OS" required />
-                                <div className="space-y-1">
-                                    <label className="text-[10px] uppercase font-black tracking-widest text-gray-400 ml-1">Difficulty</label>
-                                    <select value={quizDifficulty} onChange={(e: any) => setQuizDifficulty(e.target.value)} className="modern-input w-full">
-                                        <option value="easy">Easy</option>
-                                        <option value="medium">Medium</option>
-                                        <option value="hard">Hard</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <InputGroup label="Analysis/Hint" value={quizHint} onChange={setQuizHint} placeholder="Explain why the answer is correct..." />
-                        </>
-                    ) : (
-                        <div className="space-y-4">
-                            <div className="p-4 rounded-xl bg-accent-purple/5 border border-accent-purple/10 text-[10px] text-gray-400 font-medium leading-relaxed">
-                                <span className="text-accent-purple font-black uppercase">Bulk Formats:</span><br/>
-                                • <span className="text-white font-bold text-[9px]">JSON:</span> {'[{"question": "...", "options": ["A","B","C","D"], "answer": "Correct Option", "topic": "...", "explanation": "..."}]'}<br/>
-                                • <span className="text-white font-bold text-[9px]">Markdown:</span><br/>
-                                <pre className="mt-2 p-2 bg-black/40 rounded text-[8px] font-mono leading-tight">
-{`### Topic: Networking
-**Difficulty: Medium**
-**Question:** What is IP?
-A) Internet Protocol
-B) Intranet Protocol
-**Answer:** A
-**Explanation:** It is the principal communications protocol...
----`}
-                                </pre>
-                            </div>
-                            <textarea
-                                required
-                                value={bulkQuizJson}
-                                onChange={(e) => setBulkQuizJson(e.target.value)}
-                                className="modern-textarea min-h-[350px] font-mono text-xs"
-                                placeholder="Paste your JSON array or Markdown questions here..."
-                            />
-                            {bulkQuizError && <p className="text-red-400 text-[10px] font-black uppercase tracking-widest bg-red-500/5 p-4 rounded-xl border border-red-500/10">Error: {bulkQuizError}</p>}
-                        </div>
-                    )}
-                    <button type="submit" className="btn-primary w-full py-4 font-black uppercase italic tracking-widest">Commit Questions</button>
-                </form>
-            </div>
-          )}
-
-          {contentType === 'github' && (
-            <div className="space-y-8">
-               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                  <InputGroup label="Raw MD URL" value={githubUrl} onChange={setGithubUrl} placeholder="https://raw.githubusercontent..." required />
-                  <InputGroup label="Target Course" value={githubCourse} onChange={setGithubCourse} placeholder="Algorithms" required />
-                  <div className="space-y-1">
-                      <label className="text-[10px] uppercase font-black tracking-widest text-gray-400 ml-1">Import As</label>
-                      <select value={githubTarget} onChange={(e: any) => setGithubTarget(e.target.value)} className="modern-input w-full">
-                          <option value="note">Markdown Note</option>
-                          <option value="byte">Learning Byte</option>
-                      </select>
+      {/* STEP 4: FINAL FORM */}
+      {step === 4 && (
+          <div className="glass-card p-8 sm:p-12 border-white/5 animate-in fade-in zoom-in-95">
+              <form onSubmit={handleSubmit} className="space-y-8">
+                  {/* Common Metadata */}
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                      <div className="space-y-1">
+                          <label className="text-[10px] uppercase font-black tracking-widest text-gray-400 ml-1">Major Focus</label>
+                          <select value={major} onChange={(e: any) => setMajor(e.target.value)} className="modern-input w-full">
+                              <option value="Both">Both CSE & Software</option>
+                              <option value="CSE">Computer Science (CSE)</option>
+                              <option value="Software">Software Engineering</option>
+                          </select>
+                      </div>
+                      <InputGroup label="Course/Topic" value={course} onChange={setCourse} placeholder="Algorithms" required />
+                      {(subType === 'past_exam' || subType === 'model_exam') && (
+                          <InputGroup label="Exam Year" value={year} onChange={setYear} placeholder="2017" required />
+                      )}
+                      {method === 'manual' && category === 'notes' && (
+                          <InputGroup label="Content Title" value={title} onChange={setTitle} placeholder="Introduction to Graph" required />
+                      )}
                   </div>
-               </div>
-               <button onClick={handleGithubFetch} disabled={isFetching} className="btn-secondary w-full py-4 font-black uppercase italic tracking-widest">
-                  {isFetching ? 'Parsing Stream...' : 'Fetch Resource'}
-               </button>
-               {githubError && <p className="text-red-400 text-xs italic">{githubError}</p>}
-               {fetchedContent && (
-                 <div className="space-y-6 pt-6 border-t border-white/5 animate-in slide-in-from-bottom-2">
-                    <h3 className="text-xl font-black text-white italic uppercase">{fetchedContent.title}</h3>
-                    <div className="max-h-96 overflow-y-auto p-6 rounded-2xl bg-black/20 border border-white/5 text-sm prose prose-invert prose-purple max-w-none">
-                        <ReactMarkdown remarkPlugins={[remarkGfm]}>{fetchedContent.body || ''}</ReactMarkdown>
-                    </div>
-                    <button onClick={saveGithubContent} className="btn-primary w-full py-4 font-black uppercase italic tracking-widest">Save to Vault</button>
-                 </div>
-               )}
-            </div>
-          )}
-        </div>
+
+                  {/* Manual Paste */}
+                  {method === 'manual' && (
+                      <div className="space-y-4">
+                          <div className="flex justify-between items-center">
+                            <label className="text-[10px] uppercase font-black tracking-widest text-gray-400 ml-1">
+                                {category === 'notes' ? 'Markdown Content' : 'JSON or Markdown Questions'}
+                            </label>
+                            {category === 'notes' && (
+                                <button type="button" onClick={() => setShowPreview(!showPreview)} className="text-[10px] font-black uppercase text-accent-purple">
+                                    {showPreview ? 'Edit' : 'Preview'}
+                                </button>
+                            )}
+                          </div>
+                          {showPreview ? (
+                              <div className="prose prose-invert prose-purple max-w-none p-6 rounded-2xl bg-white/5 border border-white/10 min-h-[300px]">
+                                <ReactMarkdown remarkPlugins={[remarkGfm]}>{manualContent || '*No content*'}</ReactMarkdown>
+                              </div>
+                          ) : (
+                              <textarea
+                                value={manualContent}
+                                onChange={(e) => setManualContent(e.target.value)}
+                                className="modern-textarea min-h-[300px] font-mono text-xs"
+                                placeholder={category === 'notes' ? "# Title\nContent..." : "Paste JSON or Bulk MD Questions..."}
+                                required
+                              />
+                          )}
+                      </div>
+                  )}
+
+                  {/* GitHub URL */}
+                  {method === 'github' && (
+                      <div className="space-y-6">
+                          <div className="flex gap-4">
+                            <InputGroup label="Raw URL" value={githubUrl} onChange={setGithubUrl} placeholder="https://raw.githubusercontent.com/..." required />
+                            <button 
+                                type="button" 
+                                onClick={handleGitHubFetch} 
+                                disabled={isFetching} 
+                                className="btn-secondary px-8 mt-6 font-black uppercase text-xs italic"
+                            >
+                                {isFetching ? 'Fetching...' : 'Fetch'}
+                            </button>
+                          </div>
+                          {fetchedData && (
+                              <div className="p-6 rounded-2xl bg-black/20 border border-white/5 space-y-4">
+                                  <h4 className="text-accent-purple font-black uppercase text-[10px]">Fetched Preview</h4>
+                                  <div className="max-h-60 overflow-y-auto text-xs text-gray-400 space-y-2">
+                                      {Array.isArray(fetchedData) ? (
+                                          fetchedData.map((q, i) => <div key={i} className="pb-2 border-b border-white/5">• {q.question?.substring(0, 80)}...</div>)
+                                      ) : (
+                                          <ReactMarkdown remarkPlugins={[remarkGfm]}>{fetchedData.body || fetchedData.content || ''}</ReactMarkdown>
+                                      )}
+                                  </div>
+                              </div>
+                          )}
+                      </div>
+                  )}
+
+                  {error && <p className="text-red-400 text-[10px] font-black uppercase bg-red-500/5 p-4 rounded-xl border border-red-500/10 italic">Error: {error}</p>}
+                  {success && <p className="text-neon-green text-[10px] font-black uppercase bg-green-500/5 p-4 rounded-xl border border-green-500/10 italic">{success}</p>}
+
+                  <button 
+                    type="submit" 
+                    disabled={isFetching || (method === 'github' && !fetchedData)} 
+                    className="btn-primary w-full py-4 font-black uppercase italic tracking-widest disabled:opacity-50"
+                  >
+                    {isFetching ? 'Saving to Cloud...' : 'Deploy to Database'}
+                  </button>
+              </form>
+          </div>
       )}
     </div>
   );
@@ -506,16 +371,17 @@ B) Intranet Protocol
 function SelectionCard({ title, desc, icon, onClick, variant = 'purple' }: { title: string, desc: string, icon: string, onClick: () => void, variant?: 'purple' | 'indigo' }) {
     return (
         <button 
+            type="button"
             onClick={onClick}
-            className={`group p-8 text-left rounded-3xl border-2 transition-all duration-300 relative overflow-hidden bg-[#11152a] ${
+            className={`group p-8 text-left rounded-3xl border-2 transition-all duration-300 relative overflow-hidden bg-[#11152a] min-h-[160px] flex flex-col justify-center ${
                 variant === 'purple' 
                 ? 'border-white/5 hover:border-accent-purple/40 hover:shadow-2xl hover:shadow-purple-500/10' 
                 : 'border-white/5 hover:border-indigo-500/40 hover:shadow-2xl hover:shadow-indigo-500/10'
             }`}
         >
-            <div className="text-5xl mb-4 group-hover:scale-110 transition-transform">{icon}</div>
-            <h3 className="text-xl font-black text-white italic uppercase tracking-tighter mb-1">{title}</h3>
-            <p className="text-xs text-gray-500 font-medium leading-relaxed">{desc}</p>
+            <div className="text-4xl mb-3 group-hover:scale-110 transition-transform origin-left">{icon}</div>
+            <h3 className="text-cl font-black text-white italic uppercase tracking-tighter mb-1 leading-tight">{title}</h3>
+            <p className="text-[10px] text-gray-500 font-bold uppercase tracking-wider leading-relaxed">{desc}</p>
             <div className={`absolute top-0 right-0 w-24 h-24 blur-3xl opacity-0 group-hover:opacity-20 transition-opacity ${variant === 'purple' ? 'bg-accent-purple' : 'bg-indigo-500'}`} />
         </button>
     );

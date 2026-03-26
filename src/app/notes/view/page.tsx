@@ -8,6 +8,7 @@ import Link from 'next/link';
 import { getNotes, type Note } from '@/lib/dataLoader';
 import { recordNoteCompleted, getProgress, syncProgressToRemote } from '@/lib/progressManager';
 import { useAuth } from '@/components/AuthProvider';
+import { fetchGitHubNote } from '@/lib/githubFetcher';
 
 function splitContentIntoPages(body: string, keyPoints?: string[]): string[] {
   if (!body && keyPoints && keyPoints.length > 0) {
@@ -79,14 +80,25 @@ export default function NoteViewPage() {
 
   useEffect(() => {
     if (!id) { setLoading(false); return; }
-    getNotes().then((notes) => {
+    getNotes().then(async (notes) => {
       const sorted = [...notes].sort((a, b) => {
         const dateA = a.date ? new Date(a.date).getTime() : 0;
         const dateB = b.date ? new Date(b.date).getTime() : 0;
         return dateB - dateA;
       });
       setAllNotes(sorted);
-      setNote(sorted.find((n) => n.id === id) || null);
+      let foundNote = sorted.find((n) => n.id === id) || null;
+      
+      if (foundNote && !foundNote.body && foundNote.githubUrl) {
+         try {
+            const fresh = await fetchGitHubNote(foundNote.githubUrl, foundNote.topic);
+            foundNote = { ...foundNote, body: fresh.body, images: fresh.images };
+         } catch (e) {
+            console.error('Failed to auto-fetch GitHub note:', e);
+         }
+      }
+      
+      setNote(foundNote);
       setLoading(false);
     });
   }, [id]);

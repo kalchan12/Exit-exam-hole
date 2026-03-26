@@ -1,3 +1,5 @@
+import { supabase } from './supabaseClient';
+
 export interface Question {
   id: string;
   question: string;
@@ -7,22 +9,28 @@ export interface Question {
   topic: string;
   difficulty: 'easy' | 'medium' | 'hard';
   source: 'past_exam' | 'resource' | 'online' | 'Archived Exams' | 'Course Notes' | 'Global' | string;
-  hint?: string; // Optional hint for questions
+  hint?: string;
+  major?: 'CSE' | 'Software' | 'Both';
+  year?: string;
+  date?: string;
+  githubUrl?: string;
 }
 
 export interface Note {
   id: string;
-  topic: string; // Used interchangeably with course
+  topic: string; 
   course?: string;
   title: string;
-  summary?: string; // Optional for backward compatibility with v1
-  key_points?: string[]; // Optional for backward compatibility
-  body?: string; // Markdown content
-  images?: string[]; // Optional image URLs
-  source?: 'Local' | 'GitHub' | 'Cloud' | 'system'; // Origin of the note
-  links?: string[]; // Downloadable files or external links
-  date?: string; // ISO date string
+  summary?: string;
+  key_points?: string[];
+  body?: string; 
+  images?: string[]; 
+  source?: 'Local' | 'GitHub' | 'Cloud' | 'system' | string;
+  links?: string[]; 
+  date?: string; 
   label?: 'Course Material' | 'Syllabus' | 'Short Note' | string;
+  major?: 'CSE' | 'Software' | 'Both';
+  githubUrl?: string;
 }
 
 export interface Byte {
@@ -35,6 +43,8 @@ export interface Byte {
   relatedQuestionIds?: string[]; // References to Questions
   date?: string; // ISO date string
   source?: 'Local' | 'GitHub' | 'Cloud' | 'system';
+  major?: 'CSE' | 'Software' | 'Both';
+  githubUrl?: string;
 }
 
 export type Topic = string;
@@ -148,9 +158,29 @@ export async function getQuestions(): Promise<Question[]> {
     const res = await fetch('/data/questions.json');
     const systemData: Question[] = await res.json();
     const customData = getCustomQuestions();
-    const merged = [...systemData, ...customData];
-    questionsCache = merged;
-    return merged;
+    
+    // Fetch from Supabase
+    let supabaseData: Question[] = [];
+    const { data, error } = await supabase.from('questions').select('*');
+    if (!error && data) {
+      supabaseData = data.map(q => ({
+        ...q,
+        source: q.source || 'Local',
+        difficulty: q.difficulty || 'medium'
+      }));
+    }
+
+    const merged = [...systemData, ...customData, ...supabaseData];
+    
+    // De-duplicate and Expand GitHub stubs
+    const unique = Array.from(new Map(merged.map(item => [item.id, item])).values());
+    
+    // Note: In an ideal world we'd expand them here, but since this is an async getter, 
+    // we can't easily wait for 50 GitHub fetches without blocking everything.
+    // Instead, we'll mark them, and the View page will handle the live fetch from GitHub if content is missing.
+
+    questionsCache = unique;
+    return unique;
   } catch (error) {
     console.error('Failed to load questions:', error);
     const customData = getCustomQuestions();
@@ -166,9 +196,22 @@ export async function getNotes(): Promise<Note[]> {
     if (!res.ok) throw new Error('Failed to fetch notes.json');
     const systemData: Note[] = await res.json();
     const customData = getCustomNotes();
-    const merged = [...systemData.map(n => ({...n, source: 'system' as const})), ...customData];
-    notesCache = merged;
-    return merged;
+
+    // Fetch from Supabase
+    let supabaseData: Note[] = [];
+    const { data, error } = await supabase.from('notes').select('*');
+    if (!error && data) {
+      supabaseData = data;
+    }
+
+    const merged = [
+        ...systemData.map(n => ({...n, source: 'system' as const})), 
+        ...customData,
+        ...supabaseData
+    ];
+    const unique = Array.from(new Map(merged.map(item => [item.id, item])).values());
+    notesCache = unique;
+    return unique;
   } catch (error) {
     console.warn('Failed to load system notes, continuing with custom notes only:', error);
     const customData = getCustomNotes();
@@ -184,9 +227,26 @@ export async function getBytes(): Promise<Byte[]> {
     if (!res.ok) throw new Error('Failed to fetch bytes.json');
     const systemData: Byte[] = await res.json();
     const customData = getCustomBytes();
-    const merged = [...systemData.map(b => ({...b, source: 'system' as const})), ...customData];
-    bytesCache = merged;
-    return merged;
+
+    // Fetch from Supabase
+    let supabaseData: Byte[] = [];
+    const { data, error } = await supabase.from('bytes').select('*');
+    if (!error && data) {
+      supabaseData = data.map(b => ({
+          ...b,
+          videoUrl: b.video_url,
+          relatedQuestionIds: b.related_question_ids
+      }));
+    }
+
+    const merged = [
+        ...systemData.map(b => ({...b, source: 'system' as const})), 
+        ...customData,
+        ...supabaseData
+    ];
+    const unique = Array.from(new Map(merged.map(item => [item.id, item])).values());
+    bytesCache = unique;
+    return unique;
   } catch (error) {
     console.warn('Failed to load system bytes, continuing with custom bytes only:', error);
     const customData = getCustomBytes();

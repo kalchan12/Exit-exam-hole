@@ -6,6 +6,7 @@ import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import Link from 'next/link';
 import { getBytes, getQuestions, type Byte, type Question } from '@/lib/dataLoader';
+import { fetchGitHubNote } from '@/lib/githubFetcher';
 
 export default function ByteViewPage() {
   const searchParams = useSearchParams();
@@ -30,7 +31,17 @@ export default function ByteViewPage() {
         return dateB - dateA;
       });
       setAllBytes(sorted);
-      const current = sorted.find((b) => b.id === id);
+      let current = sorted.find((b) => b.id === id);
+      
+      if (current && !current.content && current.githubUrl) {
+         try {
+            const fresh = await fetchGitHubNote(current.githubUrl, current.topic);
+            current = { ...current, content: fresh.body };
+         } catch (e) {
+            console.error('Failed to auto-fetch GitHub byte:', e);
+         }
+      }
+
       setByte(current || null);
       if (current && current.relatedQuestionIds && current.relatedQuestionIds.length > 0) {
         const allQuestions = await getQuestions();
