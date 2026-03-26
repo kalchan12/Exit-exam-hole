@@ -11,6 +11,7 @@ export default function NotesPage() {
   const [topics, setTopics] = useState<string[]>([]);
   const [topicFilter, setTopicFilter] = useState('all');
   const [labelFilter, setLabelFilter] = useState('all');
+  const [majorFilter, setMajorFilter] = useState('all');
   const [sortOrder, setSortOrder] = useState<'newest' | 'oldest'>('newest');
   const [searchQuery, setSearchQuery] = useState('');
   const [mounted, setMounted] = useState(false);
@@ -69,6 +70,7 @@ export default function NotesPage() {
     let filtered = notes;
     if (topicFilter !== 'all') filtered = filtered.filter((n) => n.topic === topicFilter);
     if (labelFilter !== 'all') filtered = filtered.filter((n) => n.label === labelFilter);
+    if (majorFilter !== 'all') filtered = filtered.filter((n) => n.major === majorFilter || n.major === 'Both');
     if (searchQuery) {
       const query = searchQuery.toLowerCase();
       filtered = filtered.filter(
@@ -86,7 +88,7 @@ export default function NotesPage() {
       return sortOrder === 'newest' ? dateB - dateA : dateA - dateB;
     });
     return filtered;
-  }, [notes, topicFilter, labelFilter, searchQuery, sortOrder]);
+  }, [notes, topicFilter, labelFilter, majorFilter, searchQuery, sortOrder]);
 
   const topicColors: Record<string, string> = {
     'Algorithms': 'from-purple-500/20 to-blue-500/20 border-purple-500/30',
@@ -195,6 +197,9 @@ export default function NotesPage() {
                       : <span className="badge bg-green-500/20 text-green-400 border border-green-500/30 text-xs">{note.source}</span>
                     }
                     {note.label && <span className="badge bg-dark-500 text-gray-300 border border-dark-400 text-xs">{note.label}</span>}
+                    {note.major && note.major !== 'Both' && (
+                      <span className="badge bg-accent-purple/10 text-accent-purple-light border border-accent-purple/20 text-xs">{note.major}</span>
+                    )}
                     {note.body && (
                       <span className="badge bg-accent-purple/10 text-accent-purple-light border border-accent-purple/30 text-xs">
                         {Math.max(1, Math.ceil(note.body.split(/\s+/).length / 200))} min read
