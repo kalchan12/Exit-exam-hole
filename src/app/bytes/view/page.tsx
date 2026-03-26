@@ -36,7 +36,7 @@ export default function ByteViewPage() {
       if (current && !current.content && current.githubUrl) {
          try {
             const fresh = await fetchGitHubNote(current.githubUrl, current.topic);
-            current = { ...current, content: fresh.body };
+            current = { ...current, content: fresh.body || '' };
          } catch (e) {
             console.error('Failed to auto-fetch GitHub byte:', e);
          }

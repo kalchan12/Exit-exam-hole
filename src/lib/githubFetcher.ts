@@ -105,6 +105,20 @@ export async function fetchGitHubQuestions(url: string, course: string = 'Genera
       return parseQuestionsFromMarkdown(markdown, course);
     } catch (error) {
       console.error('Error in fetchGitHubQuestions:', error);
-      throw error;
+        throw error;
     }
+}
+
+/**
+ * Clears all GitHub-related cache entries.
+ */
+export function clearGitHubCache() {
+    const keys = [];
+    for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        if (key && key.startsWith(CACHE_PREFIX)) {
+            keys.push(key);
+        }
+    }
+    keys.forEach(k => localStorage.removeItem(k));
 }

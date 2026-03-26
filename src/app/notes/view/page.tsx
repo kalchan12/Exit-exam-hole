@@ -92,7 +92,7 @@ export default function NoteViewPage() {
       if (foundNote && !foundNote.body && foundNote.githubUrl) {
          try {
             const fresh = await fetchGitHubNote(foundNote.githubUrl, foundNote.topic);
-            foundNote = { ...foundNote, body: fresh.body, images: fresh.images };
+            foundNote = { ...foundNote, body: fresh.body || '', images: fresh.images };
          } catch (e) {
             console.error('Failed to auto-fetch GitHub note:', e);
          }
