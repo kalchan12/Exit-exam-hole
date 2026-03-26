@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useMemo, useCallback, Suspense } from 'react';
+import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { getQuestions, getTopics, deleteCustomQuestion, type Question } from '@/lib/dataLoader';
 import { getProgress, recordAnswer, saveProgress, syncProgressToRemote } from '@/lib/progressManager';
@@ -16,6 +17,17 @@ const topicMeta: Record<string, { icon: string; gradient: string; border: string
   'Data Structures': { icon: '🧱', gradient: 'from-violet-500/20 to-purple-500/20', border: 'border-violet-500/30 hover:border-violet-400/60' },
   'Computer Architecture': { icon: '🔧', gradient: 'from-sky-500/20 to-blue-500/20', border: 'border-sky-500/30 hover:border-sky-400/60' },
 };
+
+const topicSubtopics: Record<string, string> = {
+  'Algorithms': 'Sorting, Searching, Dynamic Programming',
+  'Operating Systems': 'Memory Management, Scheduling, IO',
+  'Database Systems': 'Normalization, SQL, Transactions',
+  'Networking': 'TCP/IP, HTTP, DNS, Security',
+  'Software Engineering': 'SDLC, Agile, Testing, Design Patterns',
+  'Data Structures': 'Arrays, Trees, Graphs, Hash Tables',
+  'Computer Architecture': 'Instruction Sets, CPU, Memory Hierarchy',
+};
+
 const defaultMeta = { icon: '📚', gradient: 'from-gray-500/20 to-slate-500/20', border: 'border-gray-500/30 hover:border-gray-400/60' };
 
 function QuestionsContent() {
@@ -36,6 +48,9 @@ function QuestionsContent() {
   const [mounted, setMounted] = useState(false);
   const [progressState, setProgressState] = useState(() => getProgress());
   const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null);
+  const [isFinished, setIsFinished] = useState(false);
+  const [sessionAnswers, setSessionAnswers] = useState<Record<string, string>>({});
+  const [quizScore, setQuizScore] = useState({ correct: 0, total: 0 });
 
   const loadQuestions = () => getQuestions().then(setQuestions);
 
@@ -90,6 +105,11 @@ function QuestionsContent() {
       setSelectedAnswer(answer);
       setShowExplanation(true);
       const isCorrect = answer === currentQuestion.answer;
+      
+      setSessionAnswers(prev => ({ ...prev, [currentQuestion.id]: answer }));
+      if (isCorrect) setQuizScore(prev => ({ ...prev, correct: prev.correct + 1 }));
+      setQuizScore(prev => ({ ...prev, total: prev.total + 1 }));
+      
       const newState = recordAnswer(currentQuestion.id, isCorrect, currentQuestion.topic);
       updateTopicAccuracy(currentQuestion.topic, isCorrect);
       setProgressState(newState);
@@ -139,6 +159,9 @@ function QuestionsContent() {
     setSelectedAnswer(null);
     setShowExplanation(false);
     setShowHint(false);
+    setIsFinished(false);
+    setSessionAnswers({});
+    setQuizScore({ correct: 0, total: 0 });
   }, []);
 
   const selectCategory = useCallback((cat: string) => {
@@ -167,6 +190,20 @@ function QuestionsContent() {
     }
   };
 
+  const getHumorMessage = (percentage: number) => {
+    if (percentage === 100) return "Final Boss of nerds.";
+    if (percentage > 90) return "you are a nerd.";
+    if (percentage > 80) return "You are smart.";
+    if (percentage > 70) return "not bad.";
+    if (percentage === 67) return "6 7 genz memes.";
+    if (percentage >= 60) return "mid.";
+    if (percentage > 50) return "almost human?";
+    if (percentage === 50) return "You almost died but god had mercy for you at last minute.";
+    if (percentage >= 30) return "you are cooked.";
+    if (percentage >= 20) return "you are dumb as fuck.";
+    return "go see a doctor.";
+  };
+
   const progress = progressState;
 
   if (!mounted) {
@@ -183,52 +220,73 @@ function QuestionsContent() {
   // ─── CATEGORY SELECTION SCREEN ───
   if (!selectedCategory) {
     return (
-      <div className="space-y-8 animate-in">
-        {/* Header */}
-        <div className="text-center max-w-lg mx-auto">
-          <h1 className="text-3xl font-extrabold text-white tracking-tight">Practice Questions</h1>
-          <p className="text-gray-400 text-sm mt-2">
-            Choose a category to start practicing, or select All to mix everything together.
-          </p>
-        </div>
+      <div className="space-y-12 animate-in py-4">
+        {/* Back Link */}
+        <Link 
+          href="/dashboard" 
+          className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-500 hover:text-white transition-colors flex items-center gap-2"
+        >
+          <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+          </svg>
+          Return to Dashboard
+        </Link>
 
-        {/* Stats bar */}
-        <div className="flex items-center justify-center gap-4">
-          <div className="flex items-center gap-2 bg-dark-800 border border-dark-400/20 rounded-xl px-4 py-2">
-            <span className="text-accent-purple-light font-bold">{progress.xp}</span>
-            <span className="text-[11px] text-gray-500">XP</span>
+        {/* Header with Stats */}
+        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8">
+          <div className="max-w-2xl">
+            <h1 className="text-4xl sm:text-5xl font-black text-white tracking-tighter mb-4 italic uppercase">
+              Practice <span className="text-accent-purple">Questions</span>
+            </h1>
+            <p className="text-gray-400 text-sm leading-relaxed font-medium">
+              Master core computer science fundamentals through our curated problem sets and interactive challenges.
+            </p>
           </div>
-          <div className="flex items-center gap-2 bg-dark-800 border border-dark-400/20 rounded-xl px-4 py-2">
-            <span className="text-neon-green font-bold">{progress.streak}</span>
-            <span className="text-[11px] text-gray-500">🔥 Streak</span>
-          </div>
-          <div className="flex items-center gap-2 bg-dark-800 border border-dark-400/20 rounded-xl px-4 py-2">
-            <span className="text-white font-bold">{questions.length}</span>
-            <span className="text-[11px] text-gray-500">Total Qs</span>
+
+          <div className="flex flex-wrap gap-3">
+            <div className="flex items-center gap-2 bg-white/5 border border-white/10 rounded-full px-4 py-2 backdrop-blur-md">
+              <span className="text-accent-purple-light text-xs">⚡</span>
+              <span className="text-white font-black text-xs italic">{progress.xp.toLocaleString()} XP</span>
+            </div>
+            <div className="flex items-center gap-2 bg-white/5 border border-white/10 rounded-full px-4 py-2 backdrop-blur-md">
+              <span className="text-neon-green text-xs">🔥</span>
+              <span className="text-white font-black text-xs italic">{progress.streak} Day Streak</span>
+            </div>
+            <div className="flex items-center gap-2 bg-white/5 border border-white/10 rounded-full px-4 py-2 backdrop-blur-md">
+              <span className="text-accent-purple text-xs">📊</span>
+              <span className="text-white font-black text-xs italic">{questions.length} Total Qs</span>
+            </div>
           </div>
         </div>
 
         {/* Category Cards Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {/* ALL card */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {/* ALL card always first */}
           <button
             onClick={() => selectCategory('all')}
-            className="group relative overflow-hidden rounded-2xl border border-accent-purple/30 hover:border-accent-purple/60 bg-[#11152a] bg-gradient-to-br from-accent-purple/15 to-fuchsia-500/10 p-6 text-left transition-all duration-300 hover:shadow-lg hover:shadow-purple-500/10 active:scale-[0.98]"
+            className="group relative flex flex-col items-start rounded-3xl bg-[#11152a]/50 border border-white/5 p-8 text-left transition-all duration-500 hover:bg-[#11152a] hover:border-accent-purple/30 hover:-translate-y-1 hover:shadow-2xl hover:shadow-accent-purple/10"
           >
-            <div className="text-3xl mb-3">🎯</div>
-            <h3 className="text-lg font-bold text-white group-hover:text-accent-purple-light transition-colors">All Questions</h3>
-            <p className="text-xs text-gray-400 mt-1 mb-4">
-              Practice everything from all categories mixed together
+            <div className="w-12 h-12 rounded-2xl bg-accent-purple/20 flex items-center justify-center text-2xl mb-8 group-hover:scale-110 transition-transform duration-500">
+              🎯
+            </div>
+            <h3 className="text-xl font-black text-white italic uppercase tracking-tighter mb-2 group-hover:text-accent-purple-light transition-colors">
+              All <br /> Questions
+            </h3>
+            <p className="text-xs text-gray-500 leading-relaxed mb-8 h-12 line-clamp-3">
+              Comprehensive practice across all CS fundamentals and domains.
             </p>
-            <div className="flex items-center justify-between">
-              <div className="flex flex-col gap-1">
-                <span className="text-xs font-semibold text-accent-purple-light bg-accent-purple/10 px-2.5 py-1 rounded-lg w-fit">
-                  {questions.filter(q => progress.correctAnswers[q.id]).length} / {questions.length} ({questions.length > 0 ? Math.round((questions.filter(q => progress.correctAnswers[q.id]).length / questions.length) * 100) : 0}%)
-                </span>
+            
+            <div className="w-full mt-auto">
+              <div className="flex items-center justify-between text-[10px] font-black uppercase tracking-[0.1em] text-accent-purple-light mb-3">
+                <span>Progress</span>
+                <span>{questions.filter(q => progress.correctAnswers[q.id]).length} / {questions.length} ({questions.length > 0 ? Math.round((questions.filter(q => progress.correctAnswers[q.id]).length / questions.length) * 100) : 0}%)</span>
               </div>
-              <svg className="w-5 h-5 text-gray-600 group-hover:text-accent-purple-light group-hover:translate-x-1 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-              </svg>
+              <div className="w-full h-1.5 bg-white/5 rounded-full overflow-hidden">
+                <div 
+                  className="h-full bg-accent-purple rounded-full transition-all duration-1000 ease-out shadow-[0_0_10px_rgba(124,58,237,0.5)]"
+                  style={{ width: `${questions.length > 0 ? (questions.filter(q => progress.correctAnswers[q.id]).length / questions.length) * 100 : 0}%` }}
+                />
+              </div>
             </div>
           </button>
 
@@ -236,26 +294,36 @@ function QuestionsContent() {
           {topics.map((topic) => {
             const meta = topicMeta[topic] || defaultMeta;
             const count = topicCounts[topic] || 0;
+            const solved = questions.filter(q => q.topic === topic && progress.correctAnswers[q.id]).length;
+            const percent = count > 0 ? Math.round((solved / count) * 100) : 0;
+            
             return (
               <button
                 key={topic}
                 onClick={() => selectCategory(topic)}
-                className={`group relative overflow-hidden rounded-2xl border ${meta.border} bg-[#11152a] bg-gradient-to-br ${meta.gradient} p-6 text-left transition-all duration-300 hover:shadow-lg active:scale-[0.98]`}
+                className="group relative flex flex-col items-start rounded-3xl bg-[#11152a]/50 border border-white/5 p-8 text-left transition-all duration-500 hover:bg-[#11152a] hover:border-accent-purple/30 hover:-translate-y-1 hover:shadow-2xl hover:shadow-accent-purple/10"
               >
-                <div className="text-3xl mb-3">{meta.icon}</div>
-                <h3 className="text-lg font-bold text-white group-hover:text-gray-100 transition-colors">{topic}</h3>
-                <p className="text-xs text-gray-500 mt-1 mb-4">
-                  Test your knowledge on {topic.toLowerCase()}
+                <div className="w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center text-2xl mb-8 group-hover:bg-accent-purple/10 group-hover:scale-110 transition-all duration-500">
+                  {meta.icon}
+                </div>
+                <h3 className="text-xl font-black text-white italic uppercase tracking-tighter mb-2 group-hover:text-white/90 transition-colors h-14 flex items-center">
+                  {topic.split(' ').map((word, i) => <span key={i} className="block">{word}{i === 0 && topic.includes(' ') ? <br /> : ''}</span>)}
+                </h3>
+                <p className="text-xs text-gray-500 leading-relaxed mb-8 h-12 line-clamp-3">
+                   {topicSubtopics[topic] || 'Focus on fundamental concepts and advanced applications.'}
                 </p>
-                <div className="flex items-center justify-between">
-                  <div className="flex flex-col gap-1">
-                    <span className="text-xs font-semibold text-gray-400 bg-dark-700/60 px-2.5 py-1 rounded-lg w-fit">
-                      {questions.filter(q => q.topic === topic && progress.correctAnswers[q.id]).length} / {count} ({count > 0 ? Math.round((questions.filter(q => q.topic === topic && progress.correctAnswers[q.id]).length / count) * 100) : 0}%)
-                    </span>
+                
+                <div className="w-full mt-auto">
+                  <div className="flex items-center justify-between text-[10px] font-black uppercase tracking-[0.1em] text-accent-purple-light mb-3">
+                    <span>Progress</span>
+                    <span>{solved} / {count} ({percent}%)</span>
                   </div>
-                  <svg className="w-5 h-5 text-gray-600 group-hover:text-white group-hover:translate-x-1 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-                  </svg>
+                  <div className="w-full h-1.5 bg-white/5 rounded-full overflow-hidden">
+                    <div 
+                      className="h-full bg-accent-purple rounded-full transition-all duration-1000 ease-out shadow-[0_0_10px_rgba(124,58,237,0.5)]"
+                      style={{ width: `${percent}%` }}
+                    />
+                  </div>
                 </div>
               </button>
             );
@@ -345,9 +413,99 @@ function QuestionsContent() {
       </div>
 
       {/* Question Card */}
-      {currentQuestion ? (
-        <div className="card p-6 sm:p-8">
-          {/* Question Header */}
+      {/* Main content display based on state */}
+      {isFinished ? (
+        <div className="card p-12 text-center space-y-8 animate-in zoom-in-95">
+          <div className="space-y-2">
+            <div className="text-6xl mb-4">
+              {Math.round((quizScore.correct / quizScore.total) * 100) >= 80 ? '🎉' : Math.round((quizScore.correct / quizScore.total) * 100) >= 50 ? '😐' : '💀'}
+            </div>
+            <h2 className="text-3xl font-black text-white italic tracking-tighter uppercase">
+              Quiz <span className="text-accent-purple">Complete</span>
+            </h2>
+            <p className="text-gray-400 font-medium">
+              You&apos;ve tackled {quizScore.total} problems in {selectedCategory}.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-2 gap-4 max-w-sm mx-auto">
+            <div className="p-6 rounded-2xl bg-white/5 border border-white/10">
+              <div className="text-3xl font-black text-white italic">{Math.round((quizScore.correct / quizScore.total) * 100)}%</div>
+              <div className="text-[10px] text-gray-500 font-black uppercase tracking-widest mt-1">Score</div>
+            </div>
+            <div className="p-6 rounded-2xl bg-white/5 border border-white/10">
+              <div className="text-3xl font-black text-accent-purple italic">{quizScore.correct}/{quizScore.total}</div>
+              <div className="text-[10px] text-gray-500 font-black uppercase tracking-widest mt-1">Problems</div>
+            </div>
+          </div>
+
+          <div className="p-6 rounded-3xl bg-accent-purple/10 border border-accent-purple/20 max-w-xl mx-auto">
+            <p className="text-xl font-bold text-white italic">
+              &quot;{getHumorMessage(Math.round((quizScore.correct / quizScore.total) * 100))}&quot;
+            </p>
+          </div>
+
+          <div className="max-w-xl mx-auto text-left space-y-6">
+            <h3 className="text-sm font-black text-gray-400 uppercase tracking-[0.2em] flex items-center gap-2">
+              <span>📊</span> Topic Mastery
+            </h3>
+            <div className="space-y-4">
+              {Array.from(new Set(filteredQuestions.filter(q => sessionAnswers[q.id]).map(q => q.topic))).map(topic => {
+                const topicQs = filteredQuestions.filter(q => q.topic === topic);
+                const sessionQsCount = topicQs.filter(q => sessionAnswers[q.id]).length;
+                const correctCount = topicQs.filter(q => sessionAnswers[q.id] === q.answer).length;
+                const percent = Math.round((correctCount / sessionQsCount) * 100);
+                
+                return (
+                  <div key={topic} className="p-4 rounded-2xl bg-white/5 border border-white/10 group hover:border-accent-purple/30 transition-all">
+                    <div className="flex items-center justify-between mb-3">
+                      <div className="flex items-center gap-3">
+                        <div className="w-8 h-8 rounded-lg bg-dark-500 flex items-center justify-center text-sm">
+                          {topicMeta[topic]?.icon || '📚'}
+                        </div>
+                        <span className="text-sm font-bold text-white italic uppercase tracking-tighter">{topic}</span>
+                      </div>
+                      <span className={`text-xs font-black ${percent >= 70 ? 'text-neon-green' : percent >= 50 ? 'text-yellow-400' : 'text-red-400'}`}>
+                        {percent}%
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-2 mb-2">
+                      <div className="flex-1 h-1.5 bg-dark-600 rounded-full overflow-hidden">
+                        <div 
+                          className={`h-full transition-all duration-1000 ${percent >= 70 ? 'bg-neon-green' : percent >= 50 ? 'bg-yellow-400' : 'bg-red-400'}`}
+                          style={{ width: `${percent}%` }}
+                        />
+                      </div>
+                      <span className="text-[10px] font-black text-gray-500 uppercase">{correctCount}/{sessionQsCount}</span>
+                    </div>
+                    {percent < 50 && (
+                      <p className="text-[10px] text-red-400/80 font-medium italic mt-1">
+                        ⚠️ Critical: Re-study {topic.toLowerCase()} concepts.
+                      </p>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <button 
+              onClick={resetQuiz}
+              className="btn-primary px-10 py-3 rounded-xl font-black uppercase italic tracking-widest text-sm"
+            >
+              Restart Quiz
+            </button>
+            <button 
+              onClick={() => setSelectedCategory(null)}
+              className="px-10 py-3 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 text-gray-400 font-black uppercase italic tracking-widest text-sm transition-all shadow-lg hover:shadow-white/5"
+            >
+              Exit Practice
+            </button>
+          </div>
+        </div>
+      ) : currentQuestion ? (
+        <div className="card p-6 sm:p-8 animate-in slide-in-from-bottom-5 duration-500">
           <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 mb-4 sm:mb-6">
             <span className="badge-source text-[10px] sm:text-xs truncate max-w-[120px] sm:max-w-none">{sourceLabel(currentQuestion.source)}</span>
             <span className={`${difficultyColor(currentQuestion.difficulty)} text-[10px] sm:text-xs capitalize`}>
@@ -492,23 +650,34 @@ function QuestionsContent() {
               </svg>
               Previous
             </button>
-            <button
-              onClick={handleNext}
-              disabled={currentIndex >= filteredQuestions.length - 1}
-              className="btn-primary text-sm disabled:opacity-30 disabled:cursor-not-allowed flex items-center gap-2"
-            >
-              Next
-              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-              </svg>
-            </button>
+            {currentIndex >= filteredQuestions.length - 1 ? (
+              <button
+                onClick={() => setIsFinished(true)}
+                disabled={!selectedAnswer}
+                className="btn-primary text-sm px-8 bg-green-600 hover:bg-green-500 flex items-center gap-2"
+              >
+                Finish Quiz
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                </svg>
+              </button>
+            ) : (
+              <button
+                onClick={handleNext}
+                disabled={currentIndex >= filteredQuestions.length - 1}
+                className="btn-primary text-sm disabled:opacity-30 disabled:cursor-not-allowed flex items-center gap-2"
+              >
+                Next
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                </svg>
+              </button>
+            )}
           </div>
         </div>
       ) : (
-        <div className="card p-12 text-center">
-          <div className="text-4xl mb-4">🔍</div>
-          <h3 className="text-xl font-semibold text-white mb-2">No Questions Found</h3>
-          <p className="text-gray-400 mb-4">Try adjusting your filters to find more questions.</p>
+        <div className="card p-20 text-center">
+          <p className="text-gray-400 mb-4">No questions found for this topic.</p>
           <button onClick={() => setSelectedCategory(null)} className="btn-primary text-sm">
             Back to Categories
           </button>
