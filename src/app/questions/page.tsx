@@ -7,6 +7,7 @@ import { getQuestions, getTopics, deleteCustomQuestion, type Question } from '@/
 import { getProgress, recordAnswer, saveProgress, syncProgressToRemote } from '@/lib/progressManager';
 import { updateTopicAccuracy } from '@/lib/gamification';
 import { useAuth } from '@/components/AuthProvider';
+import { fetchGitHubQuestions, clearGitHubCache } from '@/lib/githubFetcher';
 
 const topicMeta: Record<string, { icon: string; gradient: string; border: string }> = {
   'Algorithms': { icon: '⚡', gradient: 'from-purple-500/20 to-indigo-500/20', border: 'border-purple-500/30 hover:border-purple-400/60' },
@@ -40,6 +41,7 @@ function QuestionsContent() {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(initialTopic);
   const [difficultyFilter, setDifficultyFilter] = useState('all');
   const [sourceFilter, setSourceFilter] = useState('all');
+  const [majorFilter, setMajorFilter] = useState('all');
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
   const [showExplanation, setShowExplanation] = useState(false);
@@ -53,6 +55,11 @@ function QuestionsContent() {
   const [quizScore, setQuizScore] = useState({ correct: 0, total: 0 });
 
   const loadQuestions = () => getQuestions().then(setQuestions);
+
+  const handleRefreshGithub = async () => {
+    clearGitHubCache();
+    await loadQuestions();
+  };
 
   useEffect(() => {
     setMounted(true);
@@ -104,10 +111,28 @@ function QuestionsContent() {
     if (isRandomMode) {
       filtered = [...filtered].sort(() => Math.random() - 0.5);
     }
+    if (majorFilter !== 'all') {
+      filtered = filtered.filter((q) => q.major === majorFilter || q.major === 'Both');
+    }
     return filtered;
-  }, [questions, selectedCategory, difficultyFilter, sourceFilter, isRandomMode]);
+  }, [questions, selectedCategory, difficultyFilter, sourceFilter, isRandomMode, majorFilter]);
 
   const currentQuestion = filteredQuestions[currentIndex];
+
+  // Auto-expand GitHub stubs
+  useEffect(() => {
+    if (currentQuestion && !currentQuestion.options?.length && currentQuestion.githubUrl) {
+      fetchGitHubQuestions(currentQuestion.githubUrl, currentQuestion.topic)
+        .then(allQs => {
+           // Find the specific question by text match
+           const matching = allQs.find(q => q.question === currentQuestion.question);
+           if (matching) {
+              setQuestions(prev => prev.map(q => q.id === currentQuestion.id ? { ...q, ...matching } : q));
+           }
+        })
+        .catch(err => console.error('Failed to auto-expand GH question:', err));
+    }
+  }, [currentQuestion]);
 
   const handleSelectAnswer = useCallback(
     (answer: string) => {
@@ -406,6 +431,17 @@ function QuestionsContent() {
             <option value="online">Online (v1)</option>
           </select>
 
+          {/* Major Filter */}
+          <select 
+            value={majorFilter} 
+            onChange={(e) => { setMajorFilter(e.target.value); setCurrentIndex(0); setSelectedAnswer(null); setShowExplanation(false); }}
+            className="bg-dark-600 border border-dark-400/50 rounded-lg px-3 py-1.5 text-xs text-white focus:border-accent-purple focus:outline-none"
+          >
+            <option value="all">Any Major</option>
+            <option value="CSE">CSE Only</option>
+            <option value="Software">Software Only</option>
+          </select>
+
           <button
             onClick={() => { setIsRandomMode(!isRandomMode); resetQuiz(); }}
             className={`text-xs flex items-center gap-1.5 px-3 py-1.5 rounded-lg border transition-all ${
@@ -419,6 +455,19 @@ function QuestionsContent() {
             </svg>
             {isRandomMode ? 'Random ON' : 'Shuffle'}
           </button>
+
+          {questions.some(q => q.githubUrl) && (
+            <button
+              onClick={handleRefreshGithub}
+              className="text-xs flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-dark-400/50 bg-dark-600 text-gray-400 hover:text-accent-cyan hover:border-accent-cyan/30 transition-all group"
+              title="Sync GitHub Questions"
+            >
+              <svg className="w-3.5 h-3.5 group-hover:rotate-180 transition-transform duration-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+              </svg>
+              Sync
+            </button>
+          )}
         </div>
       </div>
 
@@ -524,6 +573,11 @@ function QuestionsContent() {
             <span className="badge bg-dark-500 text-gray-400 text-[10px] sm:text-xs truncate max-w-[100px] sm:max-w-none">
               {currentQuestion.topic}
             </span>
+            {currentQuestion.year && (
+              <span className="badge bg-indigo-500/20 text-indigo-400 border border-indigo-500/30 text-[10px] sm:text-xs">
+                🗓️ {currentQuestion.year}
+              </span>
+            )}
             {progress.correctAnswers[currentQuestion.id] ? (
               <span className="badge bg-green-500/20 text-green-400 border border-green-500/30 text-[10px] sm:text-xs">
                 ✅ Completed

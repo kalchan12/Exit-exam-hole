@@ -7,6 +7,7 @@ import { getQuestions, getTopics, type Question } from '@/lib/dataLoader';
 import { getProgress, recordAnswer, syncProgressToRemote } from '@/lib/progressManager';
 import { updateTopicAccuracy } from '@/lib/gamification';
 import { useAuth } from '@/components/AuthProvider';
+import { fetchGitHubQuestions } from '@/lib/githubFetcher';
 
 const topicMeta: Record<string, { icon: string; gradient: string; border: string }> = {
   'Algorithms': { icon: '⚡', gradient: 'from-purple-500/20 to-indigo-500/20', border: 'border-purple-500/30' },
@@ -33,6 +34,7 @@ function ExamContent() {
   const [isFinished, setIsFinished] = useState(false);
   const [isReviewMode, setIsReviewMode] = useState(false);
   const [userAnswers, setUserAnswers] = useState<Record<string, string>>({});
+  const [majorFilter, setMajorFilter] = useState('all');
   const [quizScore, setQuizScore] = useState({ correct: 0, total: 0 });
 
   useEffect(() => {
@@ -53,13 +55,32 @@ function ExamContent() {
   }, []);
 
   const filteredQuestions = useMemo(() => {
+    let filtered = questions;
     if (selectedCategory && selectedCategory !== 'all') {
-      return questions.filter((q) => q.topic === selectedCategory);
+      filtered = filtered.filter((q) => q.topic === selectedCategory);
     }
-    return questions;
-  }, [questions, selectedCategory]);
+    if (majorFilter !== 'all') {
+      filtered = filtered.filter((q) => q.major === majorFilter || q.major === 'Both');
+    }
+    return filtered;
+  }, [questions, selectedCategory, majorFilter]);
 
   const currentQuestion = filteredQuestions[currentIndex];
+
+  // Auto-expand GitHub stubs
+  useEffect(() => {
+    if (currentQuestion && !currentQuestion.options?.length && currentQuestion.githubUrl) {
+      fetchGitHubQuestions(currentQuestion.githubUrl, currentQuestion.topic)
+        .then(allQs => {
+           // Find the specific question by text match
+           const matching = allQs.find(q => q.question === currentQuestion.question);
+           if (matching) {
+              setQuestions(prev => prev.map(q => q.id === currentQuestion.id ? { ...q, ...matching } : q));
+           }
+        })
+        .catch(err => console.error('Failed to auto-expand GH question:', err));
+    }
+  }, [currentQuestion]);
 
   const handleSelectAnswer = useCallback(
     (answer: string) => {
@@ -141,7 +162,7 @@ function ExamContent() {
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8">
           <div className="max-w-2xl">
             <h1 className="text-4xl sm:text-5xl font-black text-white tracking-tighter mb-4 italic uppercase">
-              Exit <span className="text-accent-purple">Exam Mode</span>
+              Exit <span className="text-accent-purple">Exam</span>
             </h1>
             <p className="text-gray-400 text-sm leading-relaxed font-medium">
               Simulate high-stakes exit exams with authentic past-year questions, precisely timed to build your competitive edge.
@@ -222,16 +243,27 @@ function ExamContent() {
           </button>
           <div>
             <h1 className="text-xl font-bold text-white uppercase italic">{selectedCategory === 'all' ? 'Full Mock' : selectedCategory}</h1>
-            <p className="text-gray-500 text-[10px] uppercase font-bold tracking-widest mt-0.5">Exit Exam Mode</p>
+            <p className="text-gray-500 text-[10px] uppercase font-bold tracking-widest mt-0.5">Exit Exam</p>
           </div>
         </div>
         <div className="flex items-center gap-4">
           {isReviewMode && (
             <span className="badge bg-accent-purple/20 text-accent-purple border border-accent-purple/30 text-[10px] uppercase font-bold">Reviewing</span>
           )}
+          <div className="flex items-center gap-4">
+          <select 
+            value={majorFilter} 
+            onChange={(e) => setMajorFilter(e.target.value)}
+            className="bg-dark-600 border border-dark-400/50 rounded-lg px-3 py-1.5 text-xs text-white focus:border-accent-purple focus:outline-none"
+          >
+            <option value="all">Any Major</option>
+            <option value="CSE">CSE Only</option>
+            <option value="Software">Software Only</option>
+          </select>
           <div className="flex items-center gap-2 bg-indigo-500/10 border border-indigo-500/20 rounded-full px-4 py-1.5">
             <span className="text-indigo-400 font-black text-sm">{currentIndex + 1} / {filteredQuestions.length}</span>
           </div>
+        </div>
         </div>
       </div>
 
@@ -241,6 +273,11 @@ function ExamContent() {
              <span className="badge bg-indigo-500/20 text-indigo-400 border border-indigo-500/30 text-[10px] uppercase tracking-tighter">
               {currentQuestion.source}
             </span>
+            {currentQuestion.year && (
+              <span className="badge bg-indigo-500/20 text-indigo-400 border border-indigo-500/30 text-[10px] sm:text-xs">
+                🗓️ {currentQuestion.year}
+              </span>
+            )}
             <span className="badge bg-dark-500 text-gray-400 text-[10px] uppercase">
               {currentQuestion.difficulty}
             </span>
