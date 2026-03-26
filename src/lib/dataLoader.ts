@@ -34,7 +34,7 @@ export interface Byte {
   videoUrl?: string; // Embedded video
   relatedQuestionIds?: string[]; // References to Questions
   date?: string; // ISO date string
-  source?: 'Local' | 'system';
+  source?: 'Local' | 'GitHub' | 'Cloud' | 'system';
 }
 
 export type Topic = string;

@@ -56,9 +56,10 @@ export default function UploadPage() {
   // GitHub State
   const [githubUrl, setGithubUrl] = useState('');
   const [githubCourse, setGithubCourse] = useState('');
+  const [githubTarget, setGithubTarget] = useState<'note' | 'byte'>('note');
   const [isFetching, setIsFetching] = useState(false);
   const [githubError, setGithubError] = useState('');
-  const [fetchedNote, setFetchedNote] = useState<Note | null>(null);
+  const [fetchedContent, setFetchedContent] = useState<Note | null>(null);
 
   const determineNoteLabel = (body: string) => {
     const wordCount = body.trim().split(/\s+/).length;
@@ -198,10 +199,10 @@ export default function UploadPage() {
     setIsFetching(true);
     setGithubError('');
     try {
-      const note = await fetchGitHubNote(githubUrl, githubCourse);
-      note.date = new Date().toISOString();
-      note.label = determineNoteLabel(note.body || '');
-      setFetchedNote(note);
+      const gContent = await fetchGitHubNote(githubUrl, githubCourse);
+      gContent.date = new Date().toISOString();
+      gContent.label = determineNoteLabel(gContent.body || '');
+      setFetchedContent(gContent);
     } catch (err: any) {
       setGithubError(err.message || 'Fetch failed');
     } finally {
@@ -209,10 +210,25 @@ export default function UploadPage() {
     }
   };
 
-  const saveGithubNote = () => {
-    if (!fetchedNote) return;
-    saveCustomNote(fetchedNote);
-    router.push('/notes');
+  const saveGithubContent = () => {
+    if (!fetchedContent) return;
+    
+    if (githubTarget === 'byte') {
+      const newByte: Byte = {
+        id: `local_byte_${Date.now()}`,
+        topic: githubCourse,
+        title: fetchedContent.title,
+        content: fetchedContent.body || '',
+        images: fetchedContent.images,
+        date: new Date().toISOString(),
+        source: 'GitHub',
+      };
+      saveCustomByte(newByte);
+      router.push('/bytes');
+    } else {
+      saveCustomNote(fetchedContent);
+      router.push('/notes');
+    }
   };
 
   const resetSelection = () => {
@@ -455,21 +471,28 @@ B) Intranet Protocol
 
           {contentType === 'github' && (
             <div className="space-y-8">
-               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                   <InputGroup label="Raw MD URL" value={githubUrl} onChange={setGithubUrl} placeholder="https://raw.githubusercontent..." required />
                   <InputGroup label="Target Course" value={githubCourse} onChange={setGithubCourse} placeholder="Algorithms" required />
+                  <div className="space-y-1">
+                      <label className="text-[10px] uppercase font-black tracking-widest text-gray-400 ml-1">Import As</label>
+                      <select value={githubTarget} onChange={(e: any) => setGithubTarget(e.target.value)} className="modern-input w-full">
+                          <option value="note">Markdown Note</option>
+                          <option value="byte">Learning Byte</option>
+                      </select>
+                  </div>
                </div>
                <button onClick={handleGithubFetch} disabled={isFetching} className="btn-secondary w-full py-4 font-black uppercase italic tracking-widest">
                   {isFetching ? 'Parsing Stream...' : 'Fetch Resource'}
                </button>
                {githubError && <p className="text-red-400 text-xs italic">{githubError}</p>}
-               {fetchedNote && (
+               {fetchedContent && (
                  <div className="space-y-6 pt-6 border-t border-white/5 animate-in slide-in-from-bottom-2">
-                    <h3 className="text-xl font-black text-white italic uppercase">{fetchedNote.title}</h3>
+                    <h3 className="text-xl font-black text-white italic uppercase">{fetchedContent.title}</h3>
                     <div className="max-h-96 overflow-y-auto p-6 rounded-2xl bg-black/20 border border-white/5 text-sm prose prose-invert prose-purple max-w-none">
-                        <ReactMarkdown remarkPlugins={[remarkGfm]}>{fetchedNote.body || ''}</ReactMarkdown>
+                        <ReactMarkdown remarkPlugins={[remarkGfm]}>{fetchedContent.body || ''}</ReactMarkdown>
                     </div>
-                    <button onClick={saveGithubNote} className="btn-primary w-full py-4 font-black uppercase italic tracking-widest">Save to Vault</button>
+                    <button onClick={saveGithubContent} className="btn-primary w-full py-4 font-black uppercase italic tracking-widest">Save to Vault</button>
                  </div>
                )}
             </div>
