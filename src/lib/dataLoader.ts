@@ -133,6 +133,18 @@ export function deleteCustomByte(byteId: string) {
   bytesCache = null;
 }
 
+export function invalidateQuestionsCache() {
+  questionsCache = null;
+}
+
+export function invalidateNotesCache() {
+  notesCache = null;
+}
+
+export function invalidateBytesCache() {
+  bytesCache = null;
+}
+
 export function updateCustomNote(noteId: string, updates: Partial<Note>) {
   const current = getCustomNotes();
   const idx = current.findIndex(n => n.id === noteId);

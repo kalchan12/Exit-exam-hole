@@ -5,11 +5,11 @@ import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
-import { getQuestions, getTopics, type Question } from '@/lib/dataLoader';
+import { getQuestions, getTopics, type Question, invalidateQuestionsCache, saveCustomQuestion } from '@/lib/dataLoader';
 import { getProgress, recordAnswer, syncProgressToRemote } from '@/lib/progressManager';
 import { updateTopicAccuracy } from '@/lib/gamification';
 import { useAuth } from '@/components/AuthProvider';
-import { fetchGitHubQuestions } from '@/lib/githubFetcher';
+import { fetchGitHubQuestions, clearGitHubCache } from '@/lib/githubFetcher';
 
 const topicMeta: Record<string, { icon: string; gradient: string; border: string }> = {
   'Algorithms': { icon: '⚡', gradient: 'from-purple-500/20 to-indigo-500/20', border: 'border-purple-500/30' },
@@ -38,24 +38,62 @@ function ExamContent() {
   const [userAnswers, setUserAnswers] = useState<Record<string, string>>({});
   const [majorFilter, setMajorFilter] = useState('all');
   const [quizScore, setQuizScore] = useState({ correct: 0, total: 0 });
+  const [refreshingTopic, setRefreshingTopic] = useState<string | null>(null);
+
+  const loadData = useCallback(async () => {
+    const allQs = await getQuestions();
+    // ONLY include past exams and model exams
+    const examQs = allQs.filter(q => 
+      q.source === 'past_exam' || 
+      q.source === 'Archived Exams' || 
+      q.source === 'model_exam' || 
+      q.source === 'Model Exit Exam' ||
+      q.source === 'Exit Exam 2017'
+    );
+    setQuestions(examQs);
+    
+    // Group by source (Exam Title) instead of topic
+    const sourceSet = new Set(examQs.map(q => q.source));
+    setTopics(Array.from(sourceSet).sort());
+  }, []);
 
   useEffect(() => {
     setMounted(true);
-    getQuestions().then(allQs => {
-      // ONLY include past exams and model exams
-      const examQs = allQs.filter(q => 
-        q.source === 'past_exam' || 
-        q.source === 'Archived Exams' || 
-        q.source === 'model_exam' || 
-        q.source === 'Model Exit Exam'
-      );
-      setQuestions(examQs);
+    loadData();
+  }, [loadData]);
+
+  const handleCardUpdate = async (e: React.MouseEvent, topic: string) => {
+    e.stopPropagation();
+    setRefreshingTopic(topic);
+    
+    try {
+      let gitUrl: string | undefined = '';
+      if (topic === 'Exit Exam 2017' || topic === 'Archived Exams') {
+        gitUrl = 'https://raw.githubusercontent.com/kalchan12/Exit-exam-hole/main/Exit%20exam%20Questions/Exit%20Exam%202017/Exit%20Exam%202017.json';
+      } else {
+        const topicQ = questions.find(q => q.source === topic && q.githubUrl);
+        if (topicQ) gitUrl = topicQ.githubUrl;
+      }
+
+      if (!gitUrl) {
+        alert('No GitHub source linked to this exam for updates.');
+        return;
+      }
+
+      clearGitHubCache();
+      invalidateQuestionsCache();
       
-      // Group by source (Exam Title) instead of topic
-      const sourceSet = new Set(examQs.map(q => q.source));
-      setTopics(Array.from(sourceSet).sort());
-    });
-  }, []);
+      const fetchedQs = await fetchGitHubQuestions(gitUrl, topic, true);
+      fetchedQs.forEach(q => saveCustomQuestion(q));
+      
+      await loadData();
+    } catch(err) {
+      console.error('Failed to update card:', err);
+      alert('Failed to fetch updates from GitHub.');
+    } finally {
+      setTimeout(() => setRefreshingTopic(null), 1000);
+    }
+  };
 
   const filteredQuestions = useMemo(() => {
     let filtered = questions;
@@ -168,7 +206,7 @@ function ExamContent() {
             <h1 className="text-4xl sm:text-5xl font-black text-white tracking-tighter mb-4 italic uppercase">
               Exit <span className="text-accent-purple">Exam</span>
             </h1>
-            <p className="text-gray-400 text-sm leading-relaxed font-medium">
+            <p className="text-gray-400 text-sm leading-relaxed font-medium mb-6">
               Simulate high-stakes exit exams with authentic past-year questions, precisely timed to build your competitive edge.
             </p>
           </div>
@@ -206,15 +244,31 @@ function ExamContent() {
               <button
                 key={topic}
                 onClick={() => setSelectedCategory(topic)}
-                className="group relative flex flex-col items-start rounded-3xl bg-[#11152a]/50 border border-white/5 p-8 text-left transition-all duration-500 hover:bg-[#11152a] hover:border-accent-purple/30 hover:-translate-y-1 hover:shadow-2xl hover:shadow-accent-purple/10"
+                className="group relative flex flex-col items-start rounded-3xl bg-[#11152a]/50 border border-white/5 p-8 text-left transition-all duration-500 hover:bg-[#11152a] hover:border-accent-purple/30 hover:-translate-y-1 hover:shadow-2xl hover:shadow-accent-purple/10 overflow-hidden"
               >
-                <div className="w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center text-2xl mb-8 group-hover:bg-accent-purple/10 group-hover:scale-110 transition-all duration-500">
+                {/* Per-card Refresh Button */}
+                <div className="absolute top-6 right-6 z-10 hidden sm:block">
+                  <div 
+                    onClick={(e) => handleCardUpdate(e, topic)}
+                    className={`p-2 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 hover:border-accent-purple/50 transition-all cursor-pointer ${refreshingTopic === topic ? 'opacity-50 pointer-events-none' : ''}`}
+                    title="Fetch latest updates from GitHub"
+                  >
+                    <svg 
+                        className={`w-4 h-4 text-accent-purple ${refreshingTopic === topic ? 'animate-spin' : ''}`} 
+                        fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}
+                    >
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                    </svg>
+                  </div>
+                </div>
+
+                <div className="w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center text-2xl mb-6 group-hover:bg-accent-purple/10 group-hover:scale-110 transition-all duration-500">
                   {is2017 ? '🎓' : meta.icon}
                 </div>
-                <h3 className="text-xl font-black text-white italic uppercase tracking-tighter mb-2 group-hover:text-white/90 transition-colors h-14 flex items-center">
-                  {displayTitle.split(' ').map((word, i) => <span key={i} className="block">{word}{i === 0 && displayTitle.includes(' ') ? <br /> : ''}</span>)}
+                <h3 className="text-xl sm:text-2xl font-black text-white italic uppercase tracking-tighter mb-4 group-hover:text-white/90 transition-colors">
+                  {displayTitle}
                 </h3>
-                <p className="text-xs text-gray-500 leading-relaxed mb-8 h-12 line-clamp-3">
+                <p className="text-xs sm:text-sm text-gray-400 leading-relaxed mb-8 max-h-24 overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-white/10 scrollbar-track-transparent">
                    {displayDesc}
                 </p>
                 <div className="mt-auto px-4 py-2 bg-white/5 border border-white/10 rounded-xl text-[10px] font-black uppercase tracking-widest text-gray-400 group-hover:text-white transition-colors">
@@ -262,8 +316,10 @@ function ExamContent() {
       </div>
 
       {currentQuestion && !isFinished ? (
-        <div className="glass-card p-6 sm:p-10 border-indigo-500/20">
-          <div className="flex items-center gap-2 mb-8">
+        <div className="flex flex-col lg:flex-row gap-6 items-start">
+          {/* Main Question Area */}
+          <div className="glass-card p-6 sm:p-10 border-indigo-500/20 flex-1 w-full relative">
+            <div className="flex items-center gap-2 mb-8">
              <span className="badge bg-indigo-500/20 text-indigo-400 border border-indigo-500/30 text-[10px] uppercase tracking-tighter">
               {currentQuestion.source}
             </span>
@@ -352,19 +408,68 @@ function ExamContent() {
 
           <div className="flex items-center justify-between pt-6 border-t border-white/5">
             <button onClick={handlePrevious} disabled={currentIndex === 0} className="text-gray-500 hover:text-white disabled:opacity-0 transition-all font-bold text-sm uppercase">Previous</button>
-            {currentIndex === filteredQuestions.length - 1 && !isReviewMode ? (
-              <button 
-                onClick={handleFinish}
-                disabled={!userAnswers[currentQuestion.id]}
-                className="btn-primary px-10 py-3 bg-green-600 hover:bg-green-500 text-sm italic font-black uppercase tracking-widest shadow-[0_0_20px_rgba(22,163,74,0.3)]"
-              >
-                Finish Exam
-              </button>
-            ) : (
-              <button onClick={handleNext} disabled={currentIndex >= filteredQuestions.length - 1} className="btn-primary px-10 py-3 bg-indigo-600 hover:bg-indigo-500 text-sm italic font-black uppercase tracking-widest">Next Question</button>
-            )}
+            <button onClick={handleNext} disabled={currentIndex >= filteredQuestions.length - 1} className="btn-primary px-10 py-3 bg-indigo-600 hover:bg-indigo-500 text-sm italic font-black uppercase tracking-widest disabled:opacity-50">Next Question</button>
           </div>
         </div>
+
+        {/* Right Sidebar Navigation */}
+        <div className="w-full lg:w-72 flex-shrink-0 glass-card p-4 sm:p-6 sticky top-6 border-indigo-500/20 max-h-[85vh] flex flex-col">
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="text-sm font-black text-white italic uppercase tracking-widest">Questions</h3>
+            <span className="text-xs font-bold text-gray-500 bg-white/5 px-2 py-1 rounded-md">
+              {Object.keys(userAnswers).length} / {filteredQuestions.length}
+            </span>
+          </div>
+          
+          <div className="grid grid-cols-5 gap-2 overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-white/10 scrollbar-track-transparent flex-1 pb-4">
+            {filteredQuestions.map((q, idx) => {
+              const isCurrent = currentIndex === idx;
+              const isAnswered = !!userAnswers[q.id];
+              const isCorrect = isReviewMode ? userAnswers[q.id] === q.answer : false;
+              const isWrong = isReviewMode ? userAnswers[q.id] !== q.answer && userAnswers[q.id] : false;
+              
+              let btnClass = "aspect-square flex items-center justify-center rounded-lg text-xs font-black transition-all border ";
+              
+              if (isReviewMode) {
+                if (isCurrent) btnClass += "ring-2 ring-white scale-110 z-10 ";
+                if (isCorrect) btnClass += "bg-green-500/20 text-green-400 border-green-500/30";
+                else if (isWrong) btnClass += "bg-red-500/20 text-red-400 border-red-500/30";
+                else btnClass += "bg-white/5 text-gray-500 border-white/5";
+              } else {
+                if (isCurrent) {
+                  btnClass += "bg-indigo-600 text-white border-indigo-500 shadow-md scale-110 z-10";
+                } else if (isAnswered) {
+                  btnClass += "bg-indigo-500/20 text-indigo-300 border-indigo-500/30 hover:bg-indigo-500/30";
+                } else {
+                  btnClass += "bg-white/5 text-gray-400 border-white/5 hover:bg-white/10 hover:border-white/20";
+                }
+              }
+
+              return (
+                <button
+                  key={q.id}
+                  onClick={() => setCurrentIndex(idx)}
+                  className={btnClass}
+                >
+                  {idx + 1}
+                </button>
+              );
+            })}
+          </div>
+          
+          {!isReviewMode && (
+             <div className="mt-4 pt-4 border-t border-white/10">
+               <button 
+                onClick={handleFinish}
+                disabled={Object.keys(userAnswers).length === 0}
+                className="w-full btn-primary py-3 bg-green-600 hover:bg-green-500 text-xs italic font-black uppercase tracking-widest shadow-[0_0_15px_rgba(22,163,74,0.3)] disabled:opacity-50"
+               >
+                 Submit Exam
+               </button>
+             </div>
+          )}
+        </div>
+      </div>
       ) : isFinished ? (
         <div className="glass-card p-12 text-center space-y-8 animate-in zoom-in-95 border-indigo-500/30">
           <div className="space-y-2">
