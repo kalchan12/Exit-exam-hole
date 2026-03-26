@@ -143,7 +143,7 @@ export default function Dashboard() {
                     Resume Study
                 </Link>
                 <Link href="/exam" className="px-8 py-3 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 text-white font-black uppercase italic tracking-widest text-sm transition-all">
-                    Exam Mode
+                    Exit Exam
                 </Link>
             </div>
           </div>

@@ -38,8 +38,13 @@ function ExamContent() {
   useEffect(() => {
     setMounted(true);
     getQuestions().then(allQs => {
-      // ONLY include past exams/archived exams
-      const examQs = allQs.filter(q => q.source === 'past_exam' || q.source === 'Archived Exams');
+      // ONLY include past exams and model exams
+      const examQs = allQs.filter(q => 
+        q.source === 'past_exam' || 
+        q.source === 'Archived Exams' || 
+        q.source === 'model_exam' || 
+        q.source === 'Model Exit Exam'
+      );
       setQuestions(examQs);
       
       const topicSet = new Set(examQs.map(q => q.topic));
@@ -172,7 +177,7 @@ function ExamContent() {
               Full Mock <br /> Exam
             </h3>
             <p className="text-xs text-gray-500 leading-relaxed mb-8 h-12 line-clamp-3">
-              Comprehensive exam simulation featuring a randomized mix of all past exam questions.
+              Comprehensive exit exam simulation featuring a randomized mix of all past and model exam questions.
             </p>
             <div className="mt-auto px-4 py-2 bg-white/5 border border-white/10 rounded-xl text-[10px] font-black uppercase tracking-widest text-gray-400 group-hover:text-white transition-colors">
               {questions.length} Questions
@@ -217,7 +222,7 @@ function ExamContent() {
           </button>
           <div>
             <h1 className="text-xl font-bold text-white uppercase italic">{selectedCategory === 'all' ? 'Full Mock' : selectedCategory}</h1>
-            <p className="text-gray-500 text-[10px] uppercase font-bold tracking-widest mt-0.5">Exam Simulation Mode</p>
+            <p className="text-gray-500 text-[10px] uppercase font-bold tracking-widest mt-0.5">Exit Exam Mode</p>
           </div>
         </div>
         <div className="flex items-center gap-4">
