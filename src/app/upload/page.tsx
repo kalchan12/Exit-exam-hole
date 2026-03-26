@@ -9,7 +9,7 @@ import { fetchGitHubNote } from '@/lib/githubFetcher';
 import { useAuth } from '@/components/AuthProvider';
 
 type ContentType = 'note' | 'byte' | 'quiz' | 'github' | null;
-type QuestionMode = 'practice' | 'exam' | null;
+type QuestionMode = 'practice' | 'exam' | 'model' | null;
 
 export default function UploadPage() {
   const router = useRouter();
@@ -108,9 +108,46 @@ export default function UploadPage() {
     router.push('/bytes');
   };
 
+  const parseBulkMarkdown = (text: string) => {
+    const questions: any[] = [];
+    const entries = text.split(/---+\n?/).filter(Boolean);
+
+    entries.forEach(entry => {
+      const lines = entry.trim().split('\n');
+      let q: any = { options: [], id: `q_bulk_${Date.now()}_${Math.random()}` };
+      
+      lines.forEach(line => {
+        const trimmed = line.trim();
+        if (trimmed.startsWith('### Topic:')) q.topic = trimmed.replace('### Topic:', '').trim();
+        else if (trimmed.startsWith('**Difficulty:')) q.difficulty = trimmed.replace('**Difficulty:', '').replace(/\*/g, '').replace('Difficulty:', '').trim().toLowerCase() || 'medium';
+        else if (trimmed.startsWith('**Question:**')) q.question = trimmed.replace('**Question:**', '').trim();
+        else if (trimmed.match(/^[A-D]\)/)) q.options.push(trimmed.replace(/^[A-D]\)/, '').trim());
+        else if (trimmed.startsWith('**Answer:**')) {
+          const letter = trimmed.replace('**Answer:**', '').trim().toUpperCase();
+          q.answer_letter = letter;
+        }
+        else if (trimmed.startsWith('**Explanation:**')) q.explanation = trimmed.replace('**Explanation:**', '').trim();
+      });
+
+      if (q.answer_letter) {
+        const idx = q.answer_letter.charCodeAt(0) - 65;
+        q.answer = q.options[idx];
+        delete q.answer_letter;
+      }
+
+      if (q.question && q.options.length >= 2 && q.answer && q.topic) {
+          questions.push(q);
+      }
+    });
+    return questions;
+  };
+
   const handleQuizSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const source = questionMode === 'exam' ? 'Archived Exams' : 'Course Notes';
+    const source = 
+      questionMode === 'exam' ? 'Archived Exams' : 
+      questionMode === 'model' ? 'Model Exit Exam' : 
+      'Course Notes';
 
     if (quizMode === 'single') {
       if (!quizQuestion || quizOptions.some(o => !o) || !quizTopic) return;
@@ -126,23 +163,32 @@ export default function UploadPage() {
         source: source,
       };
       saveCustomQuestion(newQuiz);
-      router.push(questionMode === 'exam' ? '/exam' : '/questions');
+      router.push(questionMode === 'practice' ? '/questions' : '/exam');
     } else {
       setBulkQuizError('');
       try {
-        const parsed = JSON.parse(bulkQuizJson);
-        if (!Array.isArray(parsed)) throw new Error("Root must be an array of objects");
+        let parsed: any[] = [];
+        if (bulkQuizJson.trim().startsWith('[')) {
+          parsed = JSON.parse(bulkQuizJson);
+        } else {
+          parsed = parseBulkMarkdown(bulkQuizJson);
+        }
+
+        if (!Array.isArray(parsed) || parsed.length === 0) throw new Error("Could not parse questions. Check format.");
+        
         parsed.forEach(q => {
-          if (!q.question || !q.options || !q.answer || !q.topic || !q.difficulty) {
-            throw new Error(`Missing fields on: ${q.question || 'Unknown'}`);
+          if (!q.question || !q.options || !q.answer || !q.topic) {
+            throw new Error(`Missing fields on question: ${q.question?.substring(0, 30) || 'Unknown'}`);
           }
           q.id = q.id || `q_bulk_${Date.now()}_${Math.random()}`;
           q.source = source;
+          q.difficulty = q.difficulty || 'medium';
+          q.explanation = q.explanation || 'Bulk imported question.';
           saveCustomQuestion(q as Question);
         });
-        router.push(questionMode === 'exam' ? '/exam' : '/questions');
+        router.push(questionMode === 'practice' ? '/questions' : '/exam');
       } catch (err: any) {
-        setBulkQuizError(err.message || "Invalid JSON");
+        setBulkQuizError(err.message || "Invalid Format");
       }
     }
   };
@@ -236,7 +282,7 @@ export default function UploadPage() {
 
       {/* STEP 2: Question Mode Selection */}
       {step === 2 && contentType === 'quiz' && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 animate-in fade-in slide-in-from-bottom-4">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 animate-in fade-in slide-in-from-bottom-4">
           <SelectionCard 
             title="Practice Question" 
             desc="General study material for routine practice." 
@@ -250,6 +296,13 @@ export default function UploadPage() {
             icon="🎓" 
             onClick={() => selectQuestionMode('exam')} 
             variant="indigo"
+          />
+          <SelectionCard 
+            title="Model Exit Exam" 
+            desc="Curated model questions for exit exam prep." 
+            icon="🏆" 
+            onClick={() => selectQuestionMode('model')} 
+            variant="purple"
           />
         </div>
       )}
@@ -370,12 +423,27 @@ export default function UploadPage() {
                         </>
                     ) : (
                         <div className="space-y-4">
+                            <div className="p-4 rounded-xl bg-accent-purple/5 border border-accent-purple/10 text-[10px] text-gray-400 font-medium leading-relaxed">
+                                <span className="text-accent-purple font-black uppercase">Bulk Formats:</span><br/>
+                                • <span className="text-white font-bold text-[9px]">JSON:</span> {'[{"question": "...", "options": ["A","B","C","D"], "answer": "Correct Option", "topic": "...", "explanation": "..."}]'}<br/>
+                                • <span className="text-white font-bold text-[9px]">Markdown:</span><br/>
+                                <pre className="mt-2 p-2 bg-black/40 rounded text-[8px] font-mono leading-tight">
+{`### Topic: Networking
+**Difficulty: Medium**
+**Question:** What is IP?
+A) Internet Protocol
+B) Intranet Protocol
+**Answer:** A
+**Explanation:** It is the principal communications protocol...
+---`}
+                                </pre>
+                            </div>
                             <textarea
                                 required
                                 value={bulkQuizJson}
                                 onChange={(e) => setBulkQuizJson(e.target.value)}
                                 className="modern-textarea min-h-[350px] font-mono text-xs"
-                                placeholder='[{"question": "...", "options": ["..."], "answer": "...", "topic": "...", "difficulty": "..."}]'
+                                placeholder="Paste your JSON array or Markdown questions here..."
                             />
                             {bulkQuizError && <p className="text-red-400 text-[10px] font-black uppercase tracking-widest bg-red-500/5 p-4 rounded-xl border border-red-500/10">Error: {bulkQuizError}</p>}
                         </div>
