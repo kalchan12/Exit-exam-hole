@@ -39,6 +39,7 @@ function ExamContent() {
   const [majorFilter, setMajorFilter] = useState('all');
   const [quizScore, setQuizScore] = useState({ correct: 0, total: 0 });
   const [refreshingTopic, setRefreshingTopic] = useState<string | null>(null);
+  const [isDisclaimerAccepted, setIsDisclaimerAccepted] = useState(false);
 
   const loadData = useCallback(async () => {
     const allQs = await getQuestions();
@@ -235,7 +236,7 @@ function ExamContent() {
             const is2017 = topic === 'Exit Exam 2017' || topic === 'Archived Exams';
             const displayTitle = is2017 ? 'Exit Exam 2017' : topic;
             const displayDesc = is2017 
-              ? 'This is the real exit exam simulation and it was taken by those 2017 batches as well.'
+              ? "Enter the 2017 Vault! This is based on actual materials, but we're still in active review mode. If you see a typo that looks like ancient Elvish, don't worry—it’s either a deployment error or you're just not smart enough to understand it yet. 😊"
               : 'Official certification and exit exam questions provided for academic preparation.';
             
             const meta = topicMeta[displayTitle] || defaultMeta;
@@ -243,7 +244,10 @@ function ExamContent() {
             return (
               <button
                 key={topic}
-                onClick={() => setSelectedCategory(topic)}
+                onClick={() => {
+                  setSelectedCategory(topic);
+                  setIsDisclaimerAccepted(false);
+                }}
                 className="group relative flex flex-col items-start rounded-3xl bg-[#11152a]/50 border border-white/5 p-8 text-left transition-all duration-500 hover:bg-[#11152a] hover:border-accent-purple/30 hover:-translate-y-1 hover:shadow-2xl hover:shadow-accent-purple/10 overflow-hidden"
               >
                 {/* Per-card Refresh Button */}
@@ -277,6 +281,54 @@ function ExamContent() {
               </button>
             );
           })}
+        </div>
+      </div>
+    );
+  }
+
+  if (!isDisclaimerAccepted) {
+    const is2017 = selectedCategory === 'Exit Exam 2017' || selectedCategory === 'Archived Exams';
+    const displayTitle = is2017 ? 'Exit Exam 2017' : selectedCategory;
+    const displayDesc = is2017 
+      ? "Enter the **2017 Vault**! 🌩️ This is based on actual materials, but we're still in 'active review' mode. If you see a typo that looks like ancient Script, don't worry—it’s either a deployment error or you're just not smart enough to understand it yet. 💀 We're also working on adding those missing diagrams soon. Don't say we didn't warn you! 📉 😊"
+      : 'Official certification and exit exam questions provided for academic preparation.';
+
+    return (
+      <div className="fixed inset-0 z-50 flex items-center justify-center p-6 bg-black/80 backdrop-blur-xl animate-in fade-in duration-500">
+        <div className="glass-card max-w-xl w-full p-8 sm:p-12 border-accent-purple/30 shadow-2xl shadow-accent-purple/20 animate-in zoom-in-95 duration-500 flex flex-col items-center text-center">
+          <div className="w-20 h-20 rounded-3xl bg-accent-purple/10 flex items-center justify-center text-4xl mb-8 animate-bounce transition-all duration-1000">
+            {is2017 ? '🎓' : '📝'}
+          </div>
+          
+          <h2 className="text-3xl sm:text-4xl font-black text-white italic uppercase tracking-tighter mb-6">
+            {displayTitle}
+          </h2>
+          
+          <div className="space-y-4 mb-10 w-full text-left">
+            <div className="text-gray-400 leading-relaxed font-medium prose prose-invert prose-sm max-w-none">
+              <ReactMarkdown remarkPlugins={[remarkGfm]}>{displayDesc}</ReactMarkdown>
+            </div>
+            {is2017 && (
+              <p className="text-accent-purple-light/80 text-xs font-black uppercase tracking-widest italic text-center">
+                Under Active Review
+              </p>
+            )}
+          </div>
+
+          <div className="flex flex-col sm:flex-row gap-4 w-full">
+            <button 
+              onClick={() => setSelectedCategory(null)}
+              className="flex-1 px-8 py-4 bg-white/5 border border-white/10 rounded-2xl text-gray-400 font-black uppercase tracking-widest hover:bg-white/10 hover:text-white transition-all"
+            >
+              Go Back
+            </button>
+            <button 
+              onClick={() => setIsDisclaimerAccepted(true)}
+              className="flex-1 px-8 py-4 bg-accent-purple hover:bg-accent-purple-light text-white font-black uppercase tracking-widest rounded-2xl shadow-[0_0_30px_rgba(147,51,234,0.3)] hover:shadow-[0_0_40px_rgba(147,51,234,0.5)] transition-all transform hover:-translate-y-1"
+            >
+              Start Exam
+            </button>
+          </div>
         </div>
       </div>
     );

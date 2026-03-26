@@ -10,7 +10,7 @@
     ],
     "answer": "B) The security design and application has no effect on the performance",
     "explanation": "Security mechanisms always impact system performance because they consume resources such as CPU and memory. Therefore, saying security has no effect on performance is incorrect.",
-    "topic": "Cybersecurity",
+    "topic": "Computer Security",
     "difficulty": "easy",
     "source": "Exit Exam 2017"
   },
@@ -355,7 +355,7 @@
     ],
     "answer": "D) Forgery",
     "explanation": "This is an integrity attack involving modification of system data, which falls under forgery.",
-    "topic": "Cybersecurity",
+    "topic": "Computer Security",
     "difficulty": "medium",
     "source": "Exit Exam 2017"
   },
@@ -520,7 +520,7 @@
     ],
     "answer": "A) Transposition cipher",
     "explanation": "The letters are rearranged without changing their values, which is characteristic of transposition ciphers.",
-    "topic": "Cybersecurity",
+    "topic": "Computer Security",
     "difficulty": "easy",
     "source": "Exit Exam 2017"
   },
@@ -640,7 +640,7 @@
     ],
     "answer": "B) Symmetric encryption",
     "explanation": "Same key for encryption and decryption defines symmetric encryption.",
-    "topic": "Cybersecurity",
+    "topic": "Computer Security",
     "difficulty": "easy",
     "source": "Exit Exam 2017"
   },
@@ -760,7 +760,7 @@
     ],
     "answer": "C) Confidentiality",
     "explanation": "Confidentiality ensures that only authorized users can access information.",
-    "topic": "Cybersecurity",
+    "topic": "Computer Security",
     "difficulty": "easy",
     "source": "Exit Exam 2017"
   },
@@ -1315,7 +1315,7 @@
     ],
     "answer": "B) HTTPS",
     "explanation": "HTTPS encrypts communication using SSL/TLS.",
-    "topic": "Cybersecurity",
+    "topic": "Computer Security",
     "difficulty": "easy",
     "source": "Exit Exam 2017"
   },
