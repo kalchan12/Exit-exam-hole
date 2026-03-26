@@ -4,12 +4,12 @@ import { useState, useEffect } from 'react';
 import { getProgress, type ProgressState } from '@/lib/progressManager';
 import { getQuestions, getNotes, getBytes } from '@/lib/dataLoader';
 import { getLevel, calculateTopicMastery, calculateOverallAccuracy } from '@/lib/gamification';
-import { 
-  Trophy, 
-  Flame, 
-  Target, 
-  BookOpen, 
-  Cpu, 
+import {
+  Trophy,
+  Flame,
+  Target,
+  BookOpen,
+  Cpu,
   Zap,
   TrendingUp,
   Award,
@@ -62,7 +62,7 @@ export default function ProgressPage() {
   // Calculate Topic Mastery on the fly for accuracy
   const questionTopicMap: Record<string, string> = {};
   stats.questions.forEach(q => { questionTopicMap[q.id] = q.topic; });
-  
+
   const uniqueTopics = Array.from(new Set(stats.questions.map(q => q.topic)));
   const topicMastery = uniqueTopics.map(topic => ({
     name: topic,
@@ -76,10 +76,10 @@ export default function ProgressPage() {
         <div className="space-y-1">
           <p className="text-[10px] font-black text-purple-500 uppercase tracking-[0.3em] mb-1">Your Growth</p>
           <h1 className="text-4xl md:text-5xl font-black text-white tracking-tighter leading-tight">
-            Scholar Progress
+            User Progress
           </h1>
         </div>
-        
+
         <div className="flex items-center gap-3 px-4 py-2 bg-white/[0.03] border border-white/10 rounded-2xl backdrop-blur-md">
           <div className="w-8 h-8 rounded-lg bg-purple-500/20 flex items-center justify-center">
             <Zap size={16} className="text-purple-400 fill-purple-400" />
@@ -95,7 +95,7 @@ export default function ProgressPage() {
       <div className="bg-[#111226]/50 border border-white/5 rounded-[2.5rem] p-8 md:p-10 relative overflow-hidden group shadow-2xl">
         {/* Glow effect */}
         <div className="absolute top-0 right-0 w-80 h-80 bg-purple-600/10 blur-[100px] -mr-40 -mt-40 pointer-events-none group-hover:bg-purple-600/20 transition-all duration-700"></div>
-        
+
         <div className="relative z-10 space-y-8">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div className="space-y-1">
@@ -106,9 +106,9 @@ export default function ProgressPage() {
               {levelInfo.progress}%
             </div>
           </div>
-          
+
           <div className="relative h-6 bg-white/[0.03] rounded-full overflow-hidden border border-white/5 backdrop-blur-sm p-1">
-            <div 
+            <div
               className="h-full bg-gradient-to-r from-purple-600 via-fuchsia-500 to-purple-400 rounded-full transition-all duration-1000 shadow-[0_0_20px_rgba(168,85,247,0.4)]"
               style={{ width: `${levelInfo.progress}%` }}
             />
@@ -152,7 +152,7 @@ export default function ProgressPage() {
                 <span className="text-lg font-black text-purple-400 tracking-tighter uppercase">{Math.round((stats.answeredCount / (stats.totalQuestions || 1)) * 100)}%</span>
               </div>
               <div className="h-2 bg-white/5 rounded-full overflow-hidden">
-                <div 
+                <div
                   className="h-full bg-gradient-to-r from-purple-600 to-fuchsia-500 rounded-full"
                   style={{ width: `${(stats.answeredCount / (stats.totalQuestions || 1)) * 100}%` }}
                 />
@@ -166,7 +166,7 @@ export default function ProgressPage() {
                 <span className="text-lg font-black text-fuchsia-400 tracking-tighter uppercase">{Math.round((stats.completedNotesCount / (stats.totalNotes || 1)) * 100)}%</span>
               </div>
               <div className="h-2 bg-white/5 rounded-full overflow-hidden">
-                <div 
+                <div
                   className="h-full bg-gradient-to-r from-fuchsia-600 to-rose-500 rounded-full"
                   style={{ width: `${(stats.completedNotesCount / (stats.totalNotes || 1)) * 100}%` }}
                 />
@@ -185,12 +185,12 @@ export default function ProgressPage() {
           <div className="space-y-3 max-h-[400px] overflow-y-auto pr-2 custom-scrollbar">
             {topicMastery.length > 0 ? (
               topicMastery.map(({ name: topic, mastery: acc }) => {
-                const TopicIcon = 
-                  topic.toLowerCase().includes('algorithm') ? Activity : 
-                  topic.toLowerCase().includes('database') || topic.toLowerCase().includes('data') ? Database : 
-                  topic.toLowerCase().includes('operating') || topic.toLowerCase().includes('system') ? Cpu : 
-                  topic.toLowerCase().includes('networking') ? Terminal :
-                  topic.toLowerCase().includes('programming') ? Code2 : Settings;
+                const TopicIcon =
+                  topic.toLowerCase().includes('algorithm') ? Activity :
+                    topic.toLowerCase().includes('database') || topic.toLowerCase().includes('data') ? Database :
+                      topic.toLowerCase().includes('operating') || topic.toLowerCase().includes('system') ? Cpu :
+                        topic.toLowerCase().includes('networking') ? Terminal :
+                          topic.toLowerCase().includes('programming') ? Code2 : Settings;
 
                 return (
                   <div key={topic} className="flex items-center gap-4 bg-[#111226]/50 border border-white/5 p-4 rounded-2xl group hover:bg-white/[0.03] transition-all">
@@ -203,7 +203,7 @@ export default function ProgressPage() {
                         <span className="text-sm font-black text-white tracking-tighter shrink-0">{acc}%</span>
                       </div>
                       <div className="h-1.5 bg-white/5 rounded-full overflow-hidden">
-                        <div 
+                        <div
                           className="h-full bg-gradient-to-r from-purple-600 to-fuchsia-500 rounded-full transition-all duration-700"
                           style={{ width: `${acc}%` }}
                         />
@@ -213,12 +213,12 @@ export default function ProgressPage() {
                 );
               })
             ) : (
-                <div className="flex items-center gap-4 bg-[#111226]/50 border border-white/5 p-4 rounded-2xl opacity-50 grayscale italic">
-                   <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center text-gray-500">
-                    <Hexagon size={18} />
-                  </div>
-                  <p className="text-[10px] text-gray-500 font-bold uppercase tracking-widest text-left">No topic data yet</p>
+              <div className="flex items-center gap-4 bg-[#111226]/50 border border-white/5 p-4 rounded-2xl opacity-50 grayscale italic">
+                <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center text-gray-500">
+                  <Hexagon size={18} />
                 </div>
+                <p className="text-[10px] text-gray-500 font-bold uppercase tracking-widest text-left">No topic data yet</p>
+              </div>
             )}
           </div>
         </div>
@@ -226,14 +226,14 @@ export default function ProgressPage() {
 
       {/* Simplified Footer */}
       <div className="pt-12 flex justify-center">
-         <Link 
-            href="/questions" 
-            className="group relative px-8 py-4 bg-white text-black font-black uppercase text-xs tracking-[0.2em] rounded-2xl hover:scale-105 active:scale-95 transition-all flex items-center gap-3 overflow-hidden"
-          >
-            <div className="absolute inset-0 bg-gradient-to-r from-purple-400 to-fuchsia-400 opacity-0 group-hover:opacity-10 transition-opacity"></div>
-            Start Practicing
-            <ChevronRight size={16} />
-          </Link>
+        <Link
+          href="/questions"
+          className="group relative px-8 py-4 bg-white text-black font-black uppercase text-xs tracking-[0.2em] rounded-2xl hover:scale-105 active:scale-95 transition-all flex items-center gap-3 overflow-hidden"
+        >
+          <div className="absolute inset-0 bg-gradient-to-r from-purple-400 to-fuchsia-400 opacity-0 group-hover:opacity-10 transition-opacity"></div>
+          Start Practicing
+          <ChevronRight size={16} />
+        </Link>
       </div>
     </div>
   );

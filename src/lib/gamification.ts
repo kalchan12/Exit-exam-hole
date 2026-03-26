@@ -91,7 +91,7 @@ export function getLevel(xp: number): { level: number; title: string; nextLevelX
     { min: 0, title: 'Beginner' },
     { min: 100, title: 'Learner' },
     { min: 300, title: 'Student' },
-    { min: 600, title: 'Scholar' },
+    { min: 600, title: 'User' },
     { min: 1000, title: 'Expert' },
     { min: 1500, title: 'Master' },
     { min: 2500, title: 'Grandmaster' },

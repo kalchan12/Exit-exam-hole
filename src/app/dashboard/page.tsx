@@ -130,7 +130,7 @@ export default function Dashboard() {
         <div className="relative z-10 flex flex-col md:flex-row justify-between gap-8">
           <div className="flex-1">
             <span className="text-[10px] uppercase font-black tracking-[0.3em] text-accent-purple-light mb-4 block">
-              Welcome Back, Scholar
+              Welcome Back, {user?.user_metadata?.username || user?.email?.split('@')[0] || 'User'}
             </span>
             <h2 className="text-4xl sm:text-5xl font-black text-white mb-4 italic tracking-tighter">
               READY TO <span className="text-accent-purple">ASCEND?</span>

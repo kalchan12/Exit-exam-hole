@@ -155,7 +155,7 @@ export default function Sidebar({ isCollapsed, setIsCollapsed }: SidebarProps) {
             </div>
             <div>
               <h1 className="text-white font-bold text-lg leading-tight italic uppercase tracking-tighter">Exit Exam</h1>
-              <p className="text-[10px] text-accent-purple-light font-black uppercase tracking-widest mt-0.5">Scholar Edition</p>
+              <p className="text-[10px] text-accent-purple-light font-black uppercase tracking-widest mt-0.5">User Edition</p>
             </div>
           </div>
         )}
