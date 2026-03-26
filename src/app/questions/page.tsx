@@ -66,10 +66,9 @@ function QuestionsContent() {
       getQuestions().then(allQs => {
         // EXCLUDE past exams/archived exams and model exams for general Practice
         const practiceQs = allQs.filter(q => 
+          !q.source?.toLowerCase().includes('exam') && 
           q.source !== 'past_exam' && 
-          q.source !== 'Archived Exams' && 
-          q.source !== 'model_exam' && 
-          q.source !== 'Model Exit Exam'
+          q.source !== 'Archived Exams'
         );
         setQuestions(practiceQs);
       });
@@ -77,10 +76,9 @@ function QuestionsContent() {
         // Only show topics that have practice questions
         getQuestions().then(allQs => {
           const practiceQs = allQs.filter(q => 
+            !q.source?.toLowerCase().includes('exam') && 
             q.source !== 'past_exam' && 
-            q.source !== 'Archived Exams' && 
-            q.source !== 'model_exam' && 
-            q.source !== 'Model Exit Exam'
+            q.source !== 'Archived Exams'
           );
         const practiceTopics = Array.from(new Set(practiceQs.map(q => q.topic))).sort();
         setTopics(practiceTopics);

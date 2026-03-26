@@ -11,7 +11,8 @@
     "answer": "B) The security design and application has no effect on the performance",
     "explanation": "Security mechanisms always impact system performance because they consume resources such as CPU and memory. Therefore, saying security has no effect on performance is incorrect.",
     "topic": "Cybersecurity",
-    "difficulty": "easy"
+    "difficulty": "easy",
+    "source": "Exit Exam 2017"
   },
   {
     "id": "exit-2017-q2",
@@ -25,7 +26,8 @@
     "answer": "B) Removing X from X→WXYZ returns the relation R to first normal form",
     "explanation": "Removing the determinant (X) breaks the dependency relationship. This does not correctly describe normalization and violates the concept of 2NF.",
     "topic": "Database",
-    "difficulty": "hard"
+    "difficulty": "hard",
+    "source": "Exit Exam 2017"
   },
   {
     "id": "exit-2017-q3",
@@ -39,7 +41,8 @@
     "answer": "D) None",
     "explanation": "Queue uses FIFO (First In First Out), which is not listed in the options.",
     "topic": "Data Structures",
-    "difficulty": "easy"
+    "difficulty": "easy",
+    "source": "Exit Exam 2017"
   },
   {
     "id": "exit-2017-q4",
@@ -53,7 +56,8 @@
     "answer": "A) Functional requirement of the system",
     "explanation": "Use case diagrams describe system interactions and functionality, which represent functional requirements.",
     "topic": "Software Engineering",
-    "difficulty": "easy"
+    "difficulty": "easy",
+    "source": "Exit Exam 2017"
   },
   {
     "id": "exit-2017-q5",
@@ -67,7 +71,8 @@
     "answer": "D) The opcode contains 4 bit",
     "explanation": "In a 16-bit instruction format, the opcode is typically 3 bits, not 4 bits.",
     "topic": "Computer Architecture",
-    "difficulty": "medium"
+    "difficulty": "medium",
+    "source": "Exit Exam 2017"
   },
   {
     "id": "exit-2017-q6",
@@ -81,7 +86,8 @@
     "answer": "B) 127.0.0.1",
     "explanation": "127.0.0.1 is the loopback address used to refer to the local machine.",
     "topic": "Networking",
-    "difficulty": "easy"
+    "difficulty": "easy",
+    "source": "Exit Exam 2017"
   },
   {
     "id": "exit-2017-q7",
@@ -95,7 +101,8 @@
     "answer": "D) Start → A → D → E → F → G",
     "explanation": "DFS explores as deep as possible before backtracking, following a path like Start → A → D → E → F → G.",
     "topic": "Algorithms",
-    "difficulty": "medium"
+    "difficulty": "medium",
+    "source": "Exit Exam 2017"
   },
   {
     "id": "exit-2017-q8",
@@ -109,7 +116,8 @@
     "answer": "C) 8 bit",
     "explanation": "2 bits are needed for 3 operations and 3 bits for 6 operations, plus control bits, totaling 8 bits.",
     "topic": "Computer Architecture",
-    "difficulty": "hard"
+    "difficulty": "hard",
+    "source": "Exit Exam 2017"
   },
   {
     "id": "exit-2017-q9",
@@ -123,7 +131,8 @@
     "answer": "C) queue underflow",
     "explanation": "After removing all elements, an extra dequeue operation causes underflow.",
     "topic": "Data Structures",
-    "difficulty": "medium"
+    "difficulty": "medium",
+    "source": "Exit Exam 2017"
   },
   {
     "id": "exit-2017-q10",
@@ -137,7 +146,8 @@
     "answer": "A) Maintenance is software testing",
     "explanation": "Software maintenance involves fixing, updating, and improving systems, not testing.",
     "topic": "Software Engineering",
-    "difficulty": "easy"
+    "difficulty": "easy",
+    "source": "Exit Exam 2017"
   },
   {
     "id": "exit-2017-q11",
@@ -151,7 +161,8 @@
     "answer": "A) First normal form is created by creating new relation from weak attributes",
     "explanation": "1NF ensures atomic values and removes repeating groups. It is not about creating relations from weak attributes.",
     "topic": "Database",
-    "difficulty": "medium"
+    "difficulty": "medium",
+    "source": "Exit Exam 2017"
   },
   {
     "id": "exit-2017-q12",
@@ -165,7 +176,8 @@
     "answer": "A) P1 is waiting for Pj to release a resource",
     "explanation": "In a wait-for graph, an edge P1 → Pj means P1 is waiting for a resource held by Pj.",
     "topic": "Operating Systems",
-    "difficulty": "easy"
+    "difficulty": "easy",
+    "source": "Exit Exam 2017"
   },
   {
     "id": "exit-2017-q13",
@@ -179,7 +191,8 @@
     "answer": "C) A + B = 0",
     "explanation": "With A = 0, OR operation gives A + B = B. The expected answer assumes B = 0 case, though the question is ambiguous.",
     "topic": "Digital Logic",
-    "difficulty": "medium"
+    "difficulty": "medium",
+    "source": "Exit Exam 2017"
   },
   {
     "id": "exit-2017-q14",
@@ -193,7 +206,8 @@
     "answer": "C) create table employee(empID varchar(10))",
     "explanation": "Correct SQL syntax is CREATE TABLE table_name (column datatype).",
     "topic": "Database",
-    "difficulty": "easy"
+    "difficulty": "easy",
+    "source": "Exit Exam 2017"
   },
   {
     "id": "exit-2017-q15",
@@ -207,7 +221,8 @@
     "answer": "D) DHCP",
     "explanation": "DHCP dynamically assigns IP addresses to devices in a network.",
     "topic": "Networking",
-    "difficulty": "easy"
+    "difficulty": "easy",
+    "source": "Exit Exam 2017"
   },
   {
     "id": "exit-2017-q16",
@@ -221,7 +236,8 @@
     "answer": "C) Subclass1, Subclass2, Superclass",
     "explanation": "Method overriding uses runtime polymorphism. The actual object's method is executed.",
     "topic": "Programming",
-    "difficulty": "medium"
+    "difficulty": "medium",
+    "source": "Exit Exam 2017"
   },
   {
     "id": "exit-2017-q17",
@@ -235,7 +251,8 @@
     "answer": "D) NAND is constructed using negative-AND",
     "explanation": "By De Morgan’s law, NAND = NOT(AND), meaning it is constructed using negative-AND.",
     "topic": "Digital Logic",
-    "difficulty": "medium"
+    "difficulty": "medium",
+    "source": "Exit Exam 2017"
   },
   {
     "id": "exit-2017-q18",
@@ -249,7 +266,8 @@
     "answer": "C) const int x = 5;",
     "explanation": "The 'const' keyword is used in C++ to define constant variables.",
     "topic": "Programming",
-    "difficulty": "easy"
+    "difficulty": "easy",
+    "source": "Exit Exam 2017"
   },
   {
     "id": "exit-2017-q19",
@@ -263,7 +281,8 @@
     "answer": "B) Default constructor is provided if none defined",
     "explanation": "Java automatically provides a default constructor if none is defined.",
     "topic": "Programming",
-    "difficulty": "easy"
+    "difficulty": "easy",
+    "source": "Exit Exam 2017"
   },
   {
     "id": "exit-2017-q20",
@@ -277,7 +296,8 @@
     "answer": "C) O(n^2)",
     "explanation": "The nested loop in case 3 results in quadratic time complexity.",
     "topic": "Algorithms",
-    "difficulty": "medium"
+    "difficulty": "medium",
+    "source": "Exit Exam 2017"
   },
   {
     "id": "exit-2017-q21",
@@ -291,7 +311,8 @@
     "answer": "D) 0.0.0.0",
     "explanation": "0.0.0.0 represents the default route used when no specific route matches.",
     "topic": "Networking",
-    "difficulty": "easy"
+    "difficulty": "easy",
+    "source": "Exit Exam 2017"
   },
   {
     "id": "exit-2017-q22",
@@ -305,7 +326,8 @@
     "answer": "B) Combinational circuit",
     "explanation": "Combinational circuits depend only on current inputs and have no memory.",
     "topic": "Digital Logic",
-    "difficulty": "easy"
+    "difficulty": "easy",
+    "source": "Exit Exam 2017"
   },
   {
     "id": "exit-2017-q23",
@@ -319,7 +341,8 @@
     "answer": "D) Grant select, insert, update on customer to john",
     "explanation": "Correct syntax is GRANT privileges ON table TO user.",
     "topic": "Database",
-    "difficulty": "medium"
+    "difficulty": "medium",
+    "source": "Exit Exam 2017"
   },
   {
     "id": "exit-2017-q24",
@@ -333,7 +356,8 @@
     "answer": "D) Forgery",
     "explanation": "This is an integrity attack involving modification of system data, which falls under forgery.",
     "topic": "Cybersecurity",
-    "difficulty": "medium"
+    "difficulty": "medium",
+    "source": "Exit Exam 2017"
   },
   {
     "id": "exit-2017-q25",
@@ -347,7 +371,8 @@
     "answer": "B) Sequential circuit",
     "explanation": "Sequential circuits have memory and depend on both past and present inputs.",
     "topic": "Digital Logic",
-    "difficulty": "easy"
+    "difficulty": "easy",
+    "source": "Exit Exam 2017"
   },
   {
     "id": "exit-2017-q26",
@@ -361,7 +386,8 @@
     "answer": "D) Analog data carry discrete quantities",
     "explanation": "Analog data is continuous in nature, while discrete quantities are a property of digital data.",
     "topic": "Networking",
-    "difficulty": "easy"
+    "difficulty": "easy",
+    "source": "Exit Exam 2017"
   },
   {
     "id": "exit-2017-q27",
@@ -375,7 +401,8 @@
     "answer": "D) Logic micro operation",
     "explanation": "The XOR (⊕) operation is a logical operation, not arithmetic or shift.",
     "topic": "Computer Architecture",
-    "difficulty": "easy"
+    "difficulty": "easy",
+    "source": "Exit Exam 2017"
   },
   {
     "id": "exit-2017-q28",
@@ -389,7 +416,8 @@
     "answer": "B) Heap memory allocation",
     "explanation": "Heap memory allows dynamic allocation and deallocation at runtime using functions like malloc and new.",
     "topic": "Operating Systems",
-    "difficulty": "easy"
+    "difficulty": "easy",
+    "source": "Exit Exam 2017"
   },
   {
     "id": "exit-2017-q29",
@@ -403,7 +431,8 @@
     "answer": "B) Insert into table Customer values (100, 'John')",
     "explanation": "SQL syntax does not include 'into table'. Correct syntax is INSERT INTO Customer VALUES (...).",
     "topic": "Database",
-    "difficulty": "easy"
+    "difficulty": "easy",
+    "source": "Exit Exam 2017"
   },
   {
     "id": "exit-2017-q30",
@@ -417,7 +446,8 @@
     "answer": "B) time sharing systems",
     "explanation": "FCFS leads to long waiting times in time-sharing systems, making it unsuitable for interactive environments.",
     "topic": "Operating Systems",
-    "difficulty": "medium"
+    "difficulty": "medium",
+    "source": "Exit Exam 2017"
   },
   {
     "id": "exit-2017-q31",
@@ -431,7 +461,8 @@
     "answer": "C) Predicate logic is richer and more expressive than propositional logic",
     "explanation": "Predicate logic is more expressive than propositional logic as it includes quantifiers and relations.",
     "topic": "Artificial Intelligence",
-    "difficulty": "medium"
+    "difficulty": "medium",
+    "source": "Exit Exam 2017"
   },
   {
     "id": "exit-2017-q32",
@@ -445,7 +476,8 @@
     "answer": "B) Internet",
     "explanation": "The Internet is a large and complex network of interconnected networks using various technologies.",
     "topic": "Networking",
-    "difficulty": "easy"
+    "difficulty": "easy",
+    "source": "Exit Exam 2017"
   },
   {
     "id": "exit-2017-q33",
@@ -459,7 +491,8 @@
     "answer": "D) Static methods can access any data member directly",
     "explanation": "Static methods cannot directly access non-static (instance) variables.",
     "topic": "Programming",
-    "difficulty": "medium"
+    "difficulty": "medium",
+    "source": "Exit Exam 2017"
   },
   {
     "id": "exit-2017-q34",
@@ -473,7 +506,8 @@
     "answer": "C) There is partial dependency between X→Y and X→Z",
     "explanation": "Partial dependency occurs when part of a composite key determines an attribute. Here X fully determines Y and Z, so no partial dependency exists.",
     "topic": "Database",
-    "difficulty": "hard"
+    "difficulty": "hard",
+    "source": "Exit Exam 2017"
   },
   {
     "id": "exit-2017-q35",
@@ -487,7 +521,8 @@
     "answer": "A) Transposition cipher",
     "explanation": "The letters are rearranged without changing their values, which is characteristic of transposition ciphers.",
     "topic": "Cybersecurity",
-    "difficulty": "easy"
+    "difficulty": "easy",
+    "source": "Exit Exam 2017"
   },
   {
     "id": "exit-2017-q36",
@@ -501,7 +536,8 @@
     "answer": "A) It is a pure object-oriented language",
     "explanation": "C++ is a multi-paradigm language, not purely object-oriented.",
     "topic": "Programming",
-    "difficulty": "easy"
+    "difficulty": "easy",
+    "source": "Exit Exam 2017"
   },
   {
     "id": "exit-2017-q37",
@@ -515,7 +551,8 @@
     "answer": "A) Swing is heavier than AWT",
     "explanation": "AWT is heavyweight, while Swing is lightweight.",
     "topic": "Programming",
-    "difficulty": "medium"
+    "difficulty": "medium",
+    "source": "Exit Exam 2017"
   },
   {
     "id": "exit-2017-q38",
@@ -529,7 +566,8 @@
     "answer": "A) Model",
     "explanation": "The model manages data and business logic in MVC architecture.",
     "topic": "Software Engineering",
-    "difficulty": "easy"
+    "difficulty": "easy",
+    "source": "Exit Exam 2017"
   },
   {
     "id": "exit-2017-q39",
@@ -543,7 +581,8 @@
     "answer": "C) Domain constraint",
     "explanation": "Domain constraints define the allowable values and data type of an attribute.",
     "topic": "Database",
-    "difficulty": "easy"
+    "difficulty": "easy",
+    "source": "Exit Exam 2017"
   },
   {
     "id": "exit-2017-q40",
@@ -557,7 +596,8 @@
     "answer": "A) Multiplicity",
     "explanation": "Multiplicity defines how many instances of one class relate to another.",
     "topic": "Software Engineering",
-    "difficulty": "easy"
+    "difficulty": "easy",
+    "source": "Exit Exam 2017"
   },
   {
     "id": "exit-2017-q41",
@@ -571,7 +611,8 @@
     "answer": "B) May or may not respond in real time",
     "explanation": "Intelligent systems are expected to respond appropriately and often in real time.",
     "topic": "Artificial Intelligence",
-    "difficulty": "medium"
+    "difficulty": "medium",
+    "source": "Exit Exam 2017"
   },
   {
     "id": "exit-2017-q42",
@@ -585,7 +626,8 @@
     "answer": "D) Priority Scheduling",
     "explanation": "Low-priority processes may never execute if higher-priority processes keep arriving.",
     "topic": "Operating Systems",
-    "difficulty": "easy"
+    "difficulty": "easy",
+    "source": "Exit Exam 2017"
   },
   {
     "id": "exit-2017-q43",
@@ -599,7 +641,8 @@
     "answer": "B) Symmetric encryption",
     "explanation": "Same key for encryption and decryption defines symmetric encryption.",
     "topic": "Cybersecurity",
-    "difficulty": "easy"
+    "difficulty": "easy",
+    "source": "Exit Exam 2017"
   },
   {
     "id": "exit-2017-q44",
@@ -613,7 +656,8 @@
     "answer": "D) 51",
     "explanation": "Evaluating the postfix expression step-by-step yields the expected exam answer of 51.",
     "topic": "Data Structures",
-    "difficulty": "hard"
+    "difficulty": "hard",
+    "source": "Exit Exam 2017"
   },
   {
     "id": "exit-2017-q45",
@@ -627,7 +671,8 @@
     "answer": "C) Increases development time",
     "explanation": "Inheritance reduces development time and code duplication.",
     "topic": "Programming",
-    "difficulty": "easy"
+    "difficulty": "easy",
+    "source": "Exit Exam 2017"
   },
   {
     "id": "exit-2017-q46",
@@ -641,7 +686,8 @@
     "answer": "D) Feasibility → elicitation → specification → validation",
     "explanation": "The correct sequence is feasibility → elicitation → specification → validation.",
     "topic": "Software Engineering",
-    "difficulty": "medium"
+    "difficulty": "medium",
+    "source": "Exit Exam 2017"
   },
   {
     "id": "exit-2017-q47",
@@ -655,7 +701,8 @@
     "answer": "A) Accumulator",
     "explanation": "Accumulator is used for intermediate arithmetic and logic results.",
     "topic": "Computer Architecture",
-    "difficulty": "easy"
+    "difficulty": "easy",
+    "source": "Exit Exam 2017"
   },
   {
     "id": "exit-2017-q48",
@@ -669,7 +716,8 @@
     "answer": "B) Link-state has high cost building routing table",
     "explanation": "Link-state protocols require more computation and memory to build routing tables.",
     "topic": "Networking",
-    "difficulty": "medium"
+    "difficulty": "medium",
+    "source": "Exit Exam 2017"
   },
   {
     "id": "exit-2017-q49",
@@ -683,7 +731,8 @@
     "answer": "D) Message owner",
     "explanation": "Core elements include sender, receiver, message, medium, and protocol.",
     "topic": "Networking",
-    "difficulty": "easy"
+    "difficulty": "easy",
+    "source": "Exit Exam 2017"
   },
   {
     "id": "exit-2017-q50",
@@ -697,7 +746,8 @@
     "answer": "D) Recursive association",
     "explanation": "A recursive association occurs when an entity relates to itself.",
     "topic": "Database",
-    "difficulty": "easy"
+    "difficulty": "easy",
+    "source": "Exit Exam 2017"
   },
   {
     "id": "exit-2017-q51",
@@ -711,7 +761,8 @@
     "answer": "C) Confidentiality",
     "explanation": "Confidentiality ensures that only authorized users can access information.",
     "topic": "Cybersecurity",
-    "difficulty": "easy"
+    "difficulty": "easy",
+    "source": "Exit Exam 2017"
   },
   {
     "id": "exit-2017-q52",
@@ -725,7 +776,8 @@
     "answer": "B) 3",
     "explanation": "R1 and R2 are operands, and R0 is destination → total 3 addresses.",
     "topic": "Computer Architecture",
-    "difficulty": "easy"
+    "difficulty": "easy",
+    "source": "Exit Exam 2017"
   },
   {
     "id": "exit-2017-q53",
@@ -739,7 +791,8 @@
     "answer": "B) While loop is best for event-controlled loops",
     "explanation": "While loops are ideal when the number of iterations is not known in advance.",
     "topic": "Programming",
-    "difficulty": "easy"
+    "difficulty": "easy",
+    "source": "Exit Exam 2017"
   },
   {
     "id": "exit-2017-q54",
@@ -753,7 +806,8 @@
     "answer": "B) One address",
     "explanation": "Only one explicit register (R1) is involved in the operation.",
     "topic": "Computer Architecture",
-    "difficulty": "medium"
+    "difficulty": "medium",
+    "source": "Exit Exam 2017"
   },
   {
     "id": "exit-2017-q55",
@@ -767,7 +821,8 @@
     "answer": "D) None",
     "explanation": "All given statements about scheduling queues are correct.",
     "topic": "Operating Systems",
-    "difficulty": "easy"
+    "difficulty": "easy",
+    "source": "Exit Exam 2017"
   },
   {
     "id": "exit-2017-q56",
@@ -781,7 +836,8 @@
     "answer": "A) Propositional logic includes objects and relations",
     "explanation": "Propositional logic only represents facts, not objects or relationships.",
     "topic": "Artificial Intelligence",
-    "difficulty": "medium"
+    "difficulty": "medium",
+    "source": "Exit Exam 2017"
   },
   {
     "id": "exit-2017-q57",
@@ -795,7 +851,8 @@
     "answer": "B) (ABC)'",
     "explanation": "NAND is the negation of AND → (ABC)'.",
     "topic": "Digital Logic",
-    "difficulty": "easy"
+    "difficulty": "easy",
+    "source": "Exit Exam 2017"
   },
   {
     "id": "exit-2017-q58",
@@ -809,7 +866,8 @@
     "answer": "D) None",
     "explanation": "All listed are valid properties of asymptotic analysis.",
     "topic": "Algorithms",
-    "difficulty": "medium"
+    "difficulty": "medium",
+    "source": "Exit Exam 2017"
   },
   {
     "id": "exit-2017-q59",
@@ -823,7 +881,8 @@
     "answer": "D) Provides unreliable communication",
     "explanation": "UDP is connectionless and does not guarantee delivery.",
     "topic": "Networking",
-    "difficulty": "easy"
+    "difficulty": "easy",
+    "source": "Exit Exam 2017"
   },
   {
     "id": "exit-2017-q60",
@@ -837,7 +896,8 @@
     "answer": "D) SSH",
     "explanation": "SSH provides encrypted remote login access.",
     "topic": "Networking",
-    "difficulty": "easy"
+    "difficulty": "easy",
+    "source": "Exit Exam 2017"
   },
   {
     "id": "exit-2017-q61",
@@ -851,7 +911,8 @@
     "answer": "A) Try/catch is optional",
     "explanation": "RuntimeException is unchecked and does not require mandatory handling.",
     "topic": "Programming",
-    "difficulty": "medium"
+    "difficulty": "medium",
+    "source": "Exit Exam 2017"
   },
   {
     "id": "exit-2017-q62",
@@ -865,7 +926,8 @@
     "answer": "C) Highly affected by noise",
     "explanation": "Digital systems are less affected by noise compared to analog systems.",
     "topic": "Digital Logic",
-    "difficulty": "easy"
+    "difficulty": "easy",
+    "source": "Exit Exam 2017"
   },
   {
     "id": "exit-2017-q63",
@@ -879,7 +941,8 @@
     "answer": "A) multiprogramming OS",
     "explanation": "CPU scheduling enables efficient execution of multiple processes.",
     "topic": "Operating Systems",
-    "difficulty": "easy"
+    "difficulty": "easy",
+    "source": "Exit Exam 2017"
   },
   {
     "id": "exit-2017-q64",
@@ -893,7 +956,8 @@
     "answer": "C) Database administrator",
     "explanation": "The DBA manages permissions and security.",
     "topic": "Database",
-    "difficulty": "easy"
+    "difficulty": "easy",
+    "source": "Exit Exam 2017"
   },
   {
     "id": "exit-2017-q65",
@@ -907,7 +971,8 @@
     "answer": "C) O(log n)",
     "explanation": "Binary search halves the search space each step.",
     "topic": "Algorithms",
-    "difficulty": "easy"
+    "difficulty": "easy",
+    "source": "Exit Exam 2017"
   },
   {
     "id": "exit-2017-q66",
@@ -921,7 +986,8 @@
     "answer": "C) Cache",
     "explanation": "Cache is closest to CPU and fastest.",
     "topic": "Computer Architecture",
-    "difficulty": "easy"
+    "difficulty": "easy",
+    "source": "Exit Exam 2017"
   },
   {
     "id": "exit-2017-q67",
@@ -935,7 +1001,8 @@
     "answer": "D) 1,4,9",
     "explanation": "The expected exam answer takes the last computed values for each i iteration.",
     "topic": "Programming",
-    "difficulty": "medium"
+    "difficulty": "medium",
+    "source": "Exit Exam 2017"
   },
   {
     "id": "exit-2017-q68",
@@ -949,7 +1016,8 @@
     "answer": "D) SISD",
     "explanation": "Single instruction and single data stream defines Von Neumann architecture.",
     "topic": "Computer Architecture",
-    "difficulty": "easy"
+    "difficulty": "easy",
+    "source": "Exit Exam 2017"
   },
   {
     "id": "exit-2017-q69",
@@ -963,7 +1031,8 @@
     "answer": "C) Services view is designer view",
     "explanation": "Services view is user-oriented, not designer-oriented.",
     "topic": "Operating Systems",
-    "difficulty": "medium"
+    "difficulty": "medium",
+    "source": "Exit Exam 2017"
   },
   {
     "id": "exit-2017-q70",
@@ -977,7 +1046,8 @@
     "answer": "B) Subclass inherits all members",
     "explanation": "Private members are not inherited by subclasses.",
     "topic": "Programming",
-    "difficulty": "medium"
+    "difficulty": "medium",
+    "source": "Exit Exam 2017"
   },
   {
     "id": "exit-2017-q71",
@@ -991,7 +1061,8 @@
     "answer": "C) Allocate dynamic memory",
     "explanation": "The new operator allocates memory dynamically.",
     "topic": "Programming",
-    "difficulty": "easy"
+    "difficulty": "easy",
+    "source": "Exit Exam 2017"
   },
   {
     "id": "exit-2017-q72",
@@ -1005,7 +1076,8 @@
     "answer": "A) Added after design",
     "explanation": "Constraints are defined during design, not after.",
     "topic": "Database",
-    "difficulty": "medium"
+    "difficulty": "medium",
+    "source": "Exit Exam 2017"
   },
   {
     "id": "exit-2017-q73",
@@ -1019,7 +1091,8 @@
     "answer": "C) Physical",
     "explanation": "Physical schema describes how data is stored on disk.",
     "topic": "Database",
-    "difficulty": "easy"
+    "difficulty": "easy",
+    "source": "Exit Exam 2017"
   },
   {
     "id": "exit-2017-q74",
@@ -1033,7 +1106,8 @@
     "answer": "A) Ready",
     "explanation": "After time slice, process returns to ready queue.",
     "topic": "Operating Systems",
-    "difficulty": "easy"
+    "difficulty": "easy",
+    "source": "Exit Exam 2017"
   },
   {
     "id": "exit-2017-q75",
@@ -1047,7 +1121,8 @@
     "answer": "D) int arr[5] = {21,19,7};",
     "explanation": "Correct array initialization uses {} and valid size matching values.",
     "topic": "Programming",
-    "difficulty": "easy"
+    "difficulty": "easy",
+    "source": "Exit Exam 2017"
   },
   {
     "id": "exit-2017-q76",
@@ -1061,7 +1136,8 @@
     "answer": "D) Size can be decided at runtime",
     "explanation": "Standard C++ arrays require compile-time size. Dynamic sizing uses vectors or dynamic allocation.",
     "topic": "Programming",
-    "difficulty": "easy"
+    "difficulty": "easy",
+    "source": "Exit Exam 2017"
   },
   {
     "id": "exit-2017-q77",
@@ -1075,7 +1151,8 @@
     "answer": "C) To prevent instantiation from outside",
     "explanation": "Private constructors restrict object creation from outside the class.",
     "topic": "Programming",
-    "difficulty": "easy"
+    "difficulty": "easy",
+    "source": "Exit Exam 2017"
   },
   {
     "id": "exit-2017-q78",
@@ -1089,7 +1166,8 @@
     "answer": "B) R3 ← R1 + (1's complement of R2 + 1)",
     "explanation": "Subtraction is implemented using 2's complement in digital systems.",
     "topic": "Computer Architecture",
-    "difficulty": "medium"
+    "difficulty": "medium",
+    "source": "Exit Exam 2017"
   },
   {
     "id": "exit-2017-q79",
@@ -1103,7 +1181,8 @@
     "answer": "C) Stack",
     "explanation": "DFS uses a stack (either explicitly or via recursion).",
     "topic": "Algorithms",
-    "difficulty": "easy"
+    "difficulty": "easy",
+    "source": "Exit Exam 2017"
   },
   {
     "id": "exit-2017-q80",
@@ -1117,7 +1196,8 @@
     "answer": "A) 2 6 + 7 1 - *",
     "explanation": "Postorder = left → right → root.",
     "topic": "Data Structures",
-    "difficulty": "medium"
+    "difficulty": "medium",
+    "source": "Exit Exam 2017"
   },
   {
     "id": "exit-2017-q81",
@@ -1131,7 +1211,8 @@
     "answer": "B) Class diagram",
     "explanation": "Class diagrams represent long-term system structure and behavior.",
     "topic": "Software Engineering",
-    "difficulty": "medium"
+    "difficulty": "medium",
+    "source": "Exit Exam 2017"
   },
   {
     "id": "exit-2017-q82",
@@ -1145,7 +1226,8 @@
     "answer": "B) No programming language exists",
     "explanation": "Learning agents are used due to complexity and unpredictability, not lack of programming languages.",
     "topic": "Artificial Intelligence",
-    "difficulty": "easy"
+    "difficulty": "easy",
+    "source": "Exit Exam 2017"
   },
   {
     "id": "exit-2017-q83",
@@ -1159,7 +1241,8 @@
     "answer": "A) Waterfall",
     "explanation": "Waterfall is linear and does not involve prototyping.",
     "topic": "Software Engineering",
-    "difficulty": "easy"
+    "difficulty": "easy",
+    "source": "Exit Exam 2017"
   },
   {
     "id": "exit-2017-q84",
@@ -1173,7 +1256,8 @@
     "answer": "A) Banker’s",
     "explanation": "Banker’s algorithm ensures safe resource allocation.",
     "topic": "Operating Systems",
-    "difficulty": "easy"
+    "difficulty": "easy",
+    "source": "Exit Exam 2017"
   },
   {
     "id": "exit-2017-q85",
@@ -1187,7 +1271,8 @@
     "answer": "D) newnode->next = START; START = newnode",
     "explanation": "New node points to head, then becomes new head.",
     "topic": "Data Structures",
-    "difficulty": "easy"
+    "difficulty": "easy",
+    "source": "Exit Exam 2017"
   },
   {
     "id": "exit-2017-q86",
@@ -1201,7 +1286,8 @@
     "answer": "B) /29",
     "explanation": "Higher subnet mask = more subnets, fewer hosts.",
     "topic": "Networking",
-    "difficulty": "medium"
+    "difficulty": "medium",
+    "source": "Exit Exam 2017"
   },
   {
     "id": "exit-2017-q87",
@@ -1215,7 +1301,8 @@
     "answer": "A) Increase CPU utilization",
     "explanation": "Keeps CPU busy by switching processes.",
     "topic": "Operating Systems",
-    "difficulty": "easy"
+    "difficulty": "easy",
+    "source": "Exit Exam 2017"
   },
   {
     "id": "exit-2017-q88",
@@ -1229,11 +1316,27 @@
     "answer": "B) HTTPS",
     "explanation": "HTTPS encrypts communication using SSL/TLS.",
     "topic": "Cybersecurity",
-    "difficulty": "easy"
+    "difficulty": "easy",
+    "source": "Exit Exam 2017"
+  },
+  {
+    "id": "exit-2017-q89",
+    "question": "89. Given software system with its modules highly interconnected. Which of the following is not true?",
+    "options": [
+      "A) Applying cohesion reduces the number of modules and create independent modules",
+      "B) Highly inter connected modules need to be merged in to one module",
+      "C) Applying decoupling among some of modules reduce the complexity",
+      "D) The inter connection has no impact on the design, since it only shows relationship"
+    ],
+    "answer": "D) The inter connection has no impact on the design, since it only shows relationship",
+    "explanation": "Interconnections (coupling) significantly impact software design, maintainability, and complexity. Claiming they have no impact is fundamentally incorrect.",
+    "topic": "Software Engineering",
+    "difficulty": "medium",
+    "source": "Exit Exam 2017"
   },
   {
     "id": "exit-2017-q90",
-    "question": "89. Which guided media offers highest transmission rate?",
+    "question": "90. Which guided media offers highest transmission rate?",
     "options": [
       "A) 5G",
       "B) Coaxial",
@@ -1243,11 +1346,12 @@
     "answer": "C) Optical fiber",
     "explanation": "Optical fiber provides highest bandwidth and speed.",
     "topic": "Networking",
-    "difficulty": "easy"
+    "difficulty": "easy",
+    "source": "Exit Exam 2017"
   },
   {
     "id": "exit-2017-q91",
-    "question": "90. Agent that learns from experience:",
+    "question": "91. Agent that learns from experience:",
     "options": [
       "A) Model-based",
       "B) Goal-based",
@@ -1257,11 +1361,12 @@
     "answer": "C) Learning agent",
     "explanation": "Learning agents improve over time using experience.",
     "topic": "Artificial Intelligence",
-    "difficulty": "easy"
+    "difficulty": "easy",
+    "source": "Exit Exam 2017"
   },
   {
     "id": "exit-2017-q92",
-    "question": "91. Output of pointer code (*ptr2)?",
+    "question": "92. Output of pointer code (*ptr2)?",
     "options": [
       "A) Compilation error",
       "B) 0",
@@ -1271,11 +1376,12 @@
     "answer": "C) Address of x",
     "explanation": "*ptr2 gives value of ptr, which is address of x.",
     "topic": "Programming",
-    "difficulty": "medium"
+    "difficulty": "medium",
+    "source": "Exit Exam 2017"
   },
   {
     "id": "exit-2017-q93",
-    "question": "92. Which is FALSE about algorithms?",
+    "question": "93. Which is FALSE about algorithms?",
     "options": [
       "A) Programming dependent",
       "B) Can modify data",
@@ -1285,11 +1391,12 @@
     "answer": "A) Programming dependent",
     "explanation": "Algorithms are language-independent.",
     "topic": "Algorithms",
-    "difficulty": "easy"
+    "difficulty": "easy",
+    "source": "Exit Exam 2017"
   },
   {
     "id": "exit-2017-q94",
-    "question": "93. Which is NOT a stack application?",
+    "question": "94. Which is NOT a stack application?",
     "options": [
       "A) Printer queue",
       "B) Infix to postfix",
@@ -1299,11 +1406,12 @@
     "answer": "A) Printer queue",
     "explanation": "Printer uses queue, not stack.",
     "topic": "Data Structures",
-    "difficulty": "easy"
+    "difficulty": "easy",
+    "source": "Exit Exam 2017"
   },
   {
     "id": "exit-2017-q95",
-    "question": "94. Simplify Y = A + A'B",
+    "question": "95. Simplify Y = A + A'B",
     "options": [
       "A) A + B",
       "B) 0",
@@ -1313,11 +1421,12 @@
     "answer": "A) A + B",
     "explanation": "Using Boolean algebra: A + A'B = A + B.",
     "topic": "Digital Logic",
-    "difficulty": "medium"
+    "difficulty": "medium",
+    "source": "Exit Exam 2017"
   },
   {
     "id": "exit-2017-q96",
-    "question": "95. Network within a city:",
+    "question": "96. Network within a city:",
     "options": [
       "A) MAN",
       "B) LAN",
@@ -1327,11 +1436,12 @@
     "answer": "A) MAN",
     "explanation": "MAN covers a city-scale network.",
     "topic": "Networking",
-    "difficulty": "easy"
+    "difficulty": "easy",
+    "source": "Exit Exam 2017"
   },
   {
     "id": "exit-2017-q97",
-    "question": "96. Which is NOT a software process?",
+    "question": "97. Which is NOT a software process?",
     "options": [
       "A) Integration",
       "B) Development",
@@ -1341,11 +1451,12 @@
     "answer": "C) Buying software",
     "explanation": "Buying software is not part of development process.",
     "topic": "Software Engineering",
-    "difficulty": "easy"
+    "difficulty": "easy",
+    "source": "Exit Exam 2017"
   },
   {
     "id": "exit-2017-q98",
-    "question": "97. 168.1.192/26 → subnets and hosts?",
+    "question": "98. 192.168.1.192/26 → subnets and hosts?",
     "options": [
       "A) 32 subnets, 30 hosts",
       "B) 64 subnets, 62 hosts",
@@ -1355,11 +1466,12 @@
     "answer": "B) 64 subnets, 62 hosts",
     "explanation": "/26 gives 62 usable hosts per subnet.",
     "topic": "Networking",
-    "difficulty": "hard"
+    "difficulty": "hard",
+    "source": "Exit Exam 2017"
   },
   {
     "id": "exit-2017-q99",
-    "question": "98. Purpose of const in function parameter?",
+    "question": "99. Purpose of const in function parameter?",
     "options": [
       "A) Prevent modification",
       "B) Restrict visibility",
@@ -1369,11 +1481,12 @@
     "answer": "A) Prevent modification",
     "explanation": "const ensures parameter is read-only.",
     "topic": "Programming",
-    "difficulty": "easy"
+    "difficulty": "easy",
+    "source": "Exit Exam 2017"
   },
   {
     "id": "exit-2017-q100",
-    "question": "99. Advantage of pass by reference?",
+    "question": "100. Advantage of pass by reference?",
     "options": [
       "A) Avoid copying",
       "B) Multithreading",
@@ -1383,6 +1496,7 @@
     "answer": "A) Avoid copying",
     "explanation": "Passing by reference avoids copying and saves memory.",
     "topic": "Programming",
-    "difficulty": "easy"
+    "difficulty": "easy",
+    "source": "Exit Exam 2017"
   }
 ]

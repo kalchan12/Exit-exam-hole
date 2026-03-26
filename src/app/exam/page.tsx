@@ -51,15 +51,17 @@ function ExamContent() {
       );
       setQuestions(examQs);
       
-      const topicSet = new Set(examQs.map(q => q.topic));
-      setTopics(Array.from(topicSet).sort());
+      // Group by source (Exam Title) instead of topic
+      const sourceSet = new Set(examQs.map(q => q.source));
+      setTopics(Array.from(sourceSet).sort());
     });
   }, []);
 
   const filteredQuestions = useMemo(() => {
     let filtered = questions;
     if (selectedCategory && selectedCategory !== 'all') {
-      filtered = filtered.filter((q) => q.topic === selectedCategory);
+      // Filter by source (Exam Title)
+      filtered = filtered.filter((q) => q.source === selectedCategory);
     }
     if (majorFilter !== 'all') {
       filtered = filtered.filter((q) => q.major === majorFilter || q.major === 'Both');
@@ -187,29 +189,19 @@ function ExamContent() {
           </div>
         </div>
 
-        {/* Category Cards Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          <button
-            onClick={() => setSelectedCategory('all')}
-            className="group relative flex flex-col items-start rounded-3xl bg-[#11152a]/50 border border-white/5 p-8 text-left transition-all duration-500 hover:bg-[#11152a] hover:border-accent-purple/30 hover:-translate-y-1 hover:shadow-2xl hover:shadow-accent-purple/10"
-          >
-            <div className="w-12 h-12 rounded-2xl bg-accent-purple/20 flex items-center justify-center text-2xl mb-8 group-hover:scale-110 transition-transform duration-500">
-              🎓
-            </div>
-            <h3 className="text-xl font-black text-white italic uppercase tracking-tighter mb-2 group-hover:text-accent-purple-light transition-colors">
-              Full Mock <br /> Exam
-            </h3>
-            <p className="text-xs text-gray-500 leading-relaxed mb-8 h-12 line-clamp-3">
-              Comprehensive exit exam simulation featuring a randomized mix of all past and model exam questions.
-            </p>
-            <div className="mt-auto px-4 py-2 bg-white/5 border border-white/10 rounded-xl text-[10px] font-black uppercase tracking-widest text-gray-400 group-hover:text-white transition-colors">
-              {questions.length} Questions
-            </div>
-          </button>
 
-          {topics.map((topic) => {
-            const meta = topicMeta[topic] || defaultMeta;
-            const count = questions.filter(q => q.topic === topic).length;
+          {topics
+            .filter(topic => topic !== 'past_exam') // Explicitly exclude past_exam placeholder
+            .map((topic) => {
+            const is2017 = topic === 'Exit Exam 2017' || topic === 'Archived Exams';
+            const displayTitle = is2017 ? 'Exit Exam 2017' : topic;
+            const displayDesc = is2017 
+              ? 'This is the real exit exam simulation and it was taken by those 2017 batches as well.'
+              : 'Official certification and exit exam questions provided for academic preparation.';
+            
+            const meta = topicMeta[displayTitle] || defaultMeta;
+            const count = questions.filter(q => q.source === topic).length;
             return (
               <button
                 key={topic}
@@ -217,13 +209,13 @@ function ExamContent() {
                 className="group relative flex flex-col items-start rounded-3xl bg-[#11152a]/50 border border-white/5 p-8 text-left transition-all duration-500 hover:bg-[#11152a] hover:border-accent-purple/30 hover:-translate-y-1 hover:shadow-2xl hover:shadow-accent-purple/10"
               >
                 <div className="w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center text-2xl mb-8 group-hover:bg-accent-purple/10 group-hover:scale-110 transition-all duration-500">
-                  {meta.icon}
+                  {is2017 ? '🎓' : meta.icon}
                 </div>
                 <h3 className="text-xl font-black text-white italic uppercase tracking-tighter mb-2 group-hover:text-white/90 transition-colors h-14 flex items-center">
-                  {topic.split(' ').map((word, i) => <span key={i} className="block">{word}{i === 0 && topic.includes(' ') ? <br /> : ''}</span>)}
+                  {displayTitle.split(' ').map((word, i) => <span key={i} className="block">{word}{i === 0 && displayTitle.includes(' ') ? <br /> : ''}</span>)}
                 </h3>
                 <p className="text-xs text-gray-500 leading-relaxed mb-8 h-12 line-clamp-3">
-                   Focused past exam questions specifically curated for {topic.toLowerCase()} mastery.
+                   {displayDesc}
                 </p>
                 <div className="mt-auto px-4 py-2 bg-white/5 border border-white/10 rounded-xl text-[10px] font-black uppercase tracking-widest text-gray-400 group-hover:text-white transition-colors">
                   {count} Questions
