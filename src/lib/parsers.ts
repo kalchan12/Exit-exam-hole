@@ -54,13 +54,14 @@ export function parseQuestionsFromJson(text: string): Question[] {
   try {
     const parsed = JSON.parse(text);
     if (!Array.isArray(parsed)) return [];
-    return parsed.map(q => ({
+    return (parsed as any[]).map(q => ({
       ...q,
       id: q.id || `q_json_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`,
       date: q.date || new Date().toISOString(),
       difficulty: q.difficulty || 'medium',
+      source: q.source || 'past_exam',
       explanation: q.explanation || 'Imported JSON content.'
-    }));
+    })).filter(q => q.question && q.options?.length >= 2 && q.answer);
   } catch (e) {
     console.error('Failed to parse questions from JSON:', e);
     return [];

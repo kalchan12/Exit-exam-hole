@@ -1,5 +1,5 @@
 import { Note, Question } from './dataLoader';
-import { parseQuestionsFromMarkdown } from './parsers';
+import { parseQuestionsFromMarkdown, parseQuestionsFromJson } from './parsers';
 
 /**
  * Extracts the first Markdown heading as the title, or falls back to 'Untitled Note'.
@@ -101,8 +101,11 @@ export async function fetchGitHubNote(url: string, course: string = 'General', f
  */
 export async function fetchGitHubQuestions(url: string, course: string = 'General', forceRefresh = false): Promise<Question[]> {
     try {
-      const markdown = await fetchWithCache(url, forceRefresh);
-      return parseQuestionsFromMarkdown(markdown, course);
+      const content = await fetchWithCache(url, forceRefresh);
+      if (url.toLowerCase().split('?')[0].endsWith('.json')) {
+        return parseQuestionsFromJson(content);
+      }
+      return parseQuestionsFromMarkdown(content, course);
     } catch (error) {
       console.error('Error in fetchGitHubQuestions:', error);
         throw error;

@@ -3,6 +3,8 @@
 import { useState, useEffect, useMemo, useCallback, Suspense } from 'react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 import { getQuestions, getTopics, type Question } from '@/lib/dataLoader';
 import { getProgress, recordAnswer, syncProgressToRemote } from '@/lib/progressManager';
 import { updateTopicAccuracy } from '@/lib/gamification';
@@ -289,9 +291,12 @@ function ExamContent() {
             )}
           </div>
 
-          <h2 className="text-2xl font-bold text-white leading-snug mb-10">
-            {currentQuestion.question}
-          </h2>
+
+          <div className="text-2xl font-bold text-white leading-snug mb-10 prose prose-invert max-w-none prose-headings:text-white prose-p:text-white prose-strong:text-accent-purple-light prose-code:text-accent-cyan prose-pre:bg-dark-900/50 prose-pre:border prose-pre:border-white/10">
+            <ReactMarkdown remarkPlugins={[remarkGfm]}>
+              {currentQuestion.question}
+            </ReactMarkdown>
+          </div>
 
           <div className="grid gap-4 mb-10">
             {currentQuestion.options.map((option, idx) => {
@@ -323,7 +328,9 @@ function ExamContent() {
                     <span className={`w-8 h-8 rounded-lg flex items-center justify-center font-black ${isSelected && !isReviewMode ? 'bg-indigo-500 text-white' : 'bg-white/10'}`}>
                       {String.fromCharCode(65 + idx)}
                     </span>
-                    <span className="font-medium text-lg">{option}</span>
+                    <span className="font-medium text-lg">
+                      {option.replace(/^[A-Z]\)\s?/, '')}
+                    </span>
                     {isReviewMode && isCorrect && (
                       <svg className="w-5 h-5 text-green-400 ml-auto" fill="currentColor" viewBox="0 0 24 24">
                         <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" />
@@ -343,7 +350,11 @@ function ExamContent() {
           {isReviewMode && (
             <div className="p-6 rounded-2xl bg-indigo-500/5 border border-indigo-500/20 mb-8 animate-in slide-in-from-bottom-2">
               <span className="text-xs font-bold text-indigo-400 uppercase tracking-widest block mb-2">Detailed Analysis</span>
-              <p className="text-gray-300 leading-relaxed text-sm">{currentQuestion.explanation}</p>
+              <div className="prose prose-invert prose-sm max-w-none text-gray-300 leading-relaxed prose-pre:bg-dark-900/50 prose-pre:border prose-pre:border-white/10">
+                <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                  {currentQuestion.explanation}
+                </ReactMarkdown>
+              </div>
             </div>
           )}
 
