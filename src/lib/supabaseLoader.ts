@@ -86,3 +86,39 @@ export async function saveByteToSupabase(byte: Byte, userId: string): Promise<bo
   }
   return true;
 }
+/**
+ * Deletes all questions for a specific topic/source from Supabase.
+ */
+export async function deleteTopicQuestions(topicName: string): Promise<boolean> {
+  const { error } = await supabase
+    .from('questions')
+    .delete()
+    .eq('source', topicName);
+
+  if (error) {
+    console.error('Error deleting topic questions:', error);
+    return false;
+  }
+  return true;
+}
+
+/**
+ * Deletes a user profile and (optionally) provides instructions for auth cleanup.
+ */
+export async function deleteUserAccount(userId: string): Promise<boolean> {
+  // First delete profile
+  const { error: profileError } = await supabase
+    .from('profiles')
+    .delete()
+    .eq('id', userId);
+
+  if (profileError) {
+    console.error('Error deleting user profile:', profileError);
+    return false;
+  }
+  
+  // Note: auth.users deletion usually requires service_role or admin API
+  // For this client-side app, we'll assume the profile deletion is the primary action
+  // or that the admin handles the auth portal manually if needed.
+  return true;
+}

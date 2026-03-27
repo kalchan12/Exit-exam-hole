@@ -34,7 +34,7 @@ const defaultMeta = { icon: '📚', gradient: 'from-gray-500/20 to-slate-500/20'
 function QuestionsContent() {
   const searchParams = useSearchParams();
   const initialTopic = searchParams.get('topic') || null;
-  const { user } = useAuth();
+  const { user, profile } = useAuth();
 
   const [questions, setQuestions] = useState<Question[]>([]);
   const [topics, setTopics] = useState<string[]>([]);
@@ -185,7 +185,10 @@ function QuestionsContent() {
     }
   }, [deleteConfirm, currentIndex]);
 
-  const isCustomQuestion = (q: Question) => q.id.startsWith('custom_') || q.id.startsWith('bulk_');
+  const isCustomQuestion = (q: Question) => {
+    const isAdmin = profile?.username === 'psycho';
+    return isAdmin && (q.id.startsWith('custom_') || q.id.startsWith('bulk_') || q.source !== 'system');
+  };
 
   const resetQuiz = useCallback(() => {
     setCurrentIndex(0);
@@ -454,7 +457,7 @@ function QuestionsContent() {
             {isRandomMode ? 'Random ON' : 'Shuffle'}
           </button>
 
-          {questions.some(q => q.githubUrl) && (
+          {questions.some(q => q.githubUrl) && profile?.username === 'psycho' && (
             <button
               onClick={handleRefreshGithub}
               className="text-xs flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-dark-400/50 bg-dark-600 text-gray-400 hover:text-accent-cyan hover:border-accent-cyan/30 transition-all group"

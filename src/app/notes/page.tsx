@@ -1,12 +1,14 @@
 'use client';
 
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, useCallback } from 'react';
 import Link from 'next/link';
 import { getNotes, getTopics, deleteCustomNote, saveCustomNote, type Note } from '@/lib/dataLoader';
 import { fetchGitHubNote } from '@/lib/githubFetcher';
 import { getProgress } from '@/lib/progressManager';
+import { useAuth } from '@/components/AuthProvider';
 
 export default function NotesPage() {
+  const { profile } = useAuth();
   const [notes, setNotes] = useState<Note[]>([]);
   const [topics, setTopics] = useState<string[]>([]);
   const [topicFilter, setTopicFilter] = useState('all');
@@ -100,7 +102,10 @@ export default function NotesPage() {
     'Algorithms': '⚡', 'Operating Systems': '🖥️', 'Database Systems': '🗄️', 'Networking': '🌐',
   };
 
-  const isEditable = (note: Note) => note.source !== 'system';
+  const isEditable = (note: Note) => {
+    const isAdmin = profile?.username === 'psycho';
+    return isAdmin && note.source !== 'system';
+  };
   const isGithub = (note: Note) => note.source === 'GitHub';
 
   const formatDate = (isoString?: string) => {
