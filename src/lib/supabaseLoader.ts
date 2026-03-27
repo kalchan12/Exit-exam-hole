@@ -1,9 +1,91 @@
 import { supabase } from './supabaseClient';
-import { Note, Question, Byte } from './dataLoader';
+import { Question } from './dataLoader';
 
 /**
- * Saves a note to Supabase.
+ * Saves a question to Supabase (insert or update).
  */
+export async function saveQuestionToSupabase(question: Partial<Question> & { id: string }): Promise<boolean> {
+  const { error } = await supabase
+    .from('questions')
+    .upsert({
+      id: question.id,
+      question: question.question,
+      options: question.options,
+      answer: question.answer,
+      explanation: question.explanation || '',
+      topic: question.topic,
+      difficulty: question.difficulty || 'medium',
+      source: question.source || 'Manual',
+    }, { onConflict: 'id' });
+
+  if (error) {
+    console.error('Error saving question to Supabase:', error);
+    return false;
+  }
+  return true;
+}
+
+/**
+ * Updates a question in Supabase.
+ */
+export async function updateQuestionInSupabase(id: string, data: Partial<Question>): Promise<boolean> {
+  const updateData: Record<string, unknown> = {};
+  if (data.question !== undefined) updateData.question = data.question;
+  if (data.options !== undefined) updateData.options = data.options;
+  if (data.answer !== undefined) updateData.answer = data.answer;
+  if (data.explanation !== undefined) updateData.explanation = data.explanation;
+  if (data.topic !== undefined) updateData.topic = data.topic;
+  if (data.difficulty !== undefined) updateData.difficulty = data.difficulty;
+  if (data.source !== undefined) updateData.source = data.source;
+
+  const { error } = await supabase
+    .from('questions')
+    .update(updateData)
+    .eq('id', id);
+
+  if (error) {
+    console.error('Error updating question:', error);
+    return false;
+  }
+  return true;
+}
+
+/**
+ * Deletes a single question from Supabase.
+ */
+export async function deleteQuestionFromSupabase(id: string): Promise<boolean> {
+  const { error } = await supabase
+    .from('questions')
+    .delete()
+    .eq('id', id);
+
+  if (error) {
+    console.error('Error deleting question:', error);
+    return false;
+  }
+  return true;
+}
+
+/**
+ * Deletes all questions for a specific source from Supabase.
+ */
+export async function deleteTopicQuestions(source: string): Promise<boolean> {
+  const { error } = await supabase
+    .from('questions')
+    .delete()
+    .eq('source', source);
+
+  if (error) {
+    console.error('Error deleting topic questions:', error);
+    return false;
+  }
+  return true;
+}
+
+// ─── Notes & Bytes (unchanged) ───
+
+import { Note, Byte } from './dataLoader';
+
 export async function saveNoteToSupabase(note: Note, userId: string): Promise<boolean> {
   const { error } = await supabase
     .from('notes')
@@ -30,38 +112,6 @@ export async function saveNoteToSupabase(note: Note, userId: string): Promise<bo
   return true;
 }
 
-/**
- * Saves a question to Supabase.
- */
-export async function saveQuestionToSupabase(question: Question, userId: string): Promise<boolean> {
-  const { error } = await supabase
-    .from('questions')
-    .upsert({
-      id: question.id,
-      user_id: userId,
-      question: question.question,
-      options: question.options,
-      answer: question.answer,
-      explanation: question.explanation,
-      topic: question.topic,
-      difficulty: question.difficulty,
-      source: question.source,
-      year: (question as any).year, // Custom field for exams
-      major: (question as any).major || 'Both',
-      date: question.date || new Date().toISOString(),
-      github_url: question.githubUrl,
-    });
-
-  if (error) {
-    console.error('Error saving question to Supabase:', error);
-    return false;
-  }
-  return true;
-}
-
-/**
- * Saves a byte to Supabase.
- */
 export async function saveByteToSupabase(byte: Byte, userId: string): Promise<boolean> {
   const { error } = await supabase
     .from('bytes')
@@ -86,39 +136,16 @@ export async function saveByteToSupabase(byte: Byte, userId: string): Promise<bo
   }
   return true;
 }
-/**
- * Deletes all questions for a specific topic/source from Supabase.
- */
-export async function deleteTopicQuestions(topicName: string): Promise<boolean> {
-  const { error } = await supabase
-    .from('questions')
-    .delete()
-    .eq('source', topicName);
 
-  if (error) {
-    console.error('Error deleting topic questions:', error);
-    return false;
-  }
-  return true;
-}
-
-/**
- * Deletes a user profile and (optionally) provides instructions for auth cleanup.
- */
 export async function deleteUserAccount(userId: string): Promise<boolean> {
-  // First delete profile
-  const { error: profileError } = await supabase
+  const { error } = await supabase
     .from('profiles')
     .delete()
     .eq('id', userId);
 
-  if (profileError) {
-    console.error('Error deleting user profile:', profileError);
+  if (error) {
+    console.error('Error deleting user profile:', error);
     return false;
   }
-  
-  // Note: auth.users deletion usually requires service_role or admin API
-  // For this client-side app, we'll assume the profile deletion is the primary action
-  // or that the admin handles the auth portal manually if needed.
   return true;
 }
