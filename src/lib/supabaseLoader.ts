@@ -20,6 +20,7 @@ export async function saveNoteToSupabase(note: Note, userId: string): Promise<bo
       label: note.label,
       major: note.major || 'Both',
       date: note.date,
+      github_url: note.githubUrl,
     });
 
   if (error) {
@@ -48,6 +49,7 @@ export async function saveQuestionToSupabase(question: Question, userId: string)
       year: (question as any).year, // Custom field for exams
       major: (question as any).major || 'Both',
       date: question.date || new Date().toISOString(),
+      github_url: question.githubUrl,
     });
 
   if (error) {
@@ -75,6 +77,7 @@ export async function saveByteToSupabase(byte: Byte, userId: string): Promise<bo
       source: byte.source,
       major: (byte as any).major || 'Both',
       date: byte.date,
+      github_url: byte.githubUrl,
     });
 
   if (error) {

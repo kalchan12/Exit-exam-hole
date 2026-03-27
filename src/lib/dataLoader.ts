@@ -178,7 +178,8 @@ export async function getQuestions(): Promise<Question[]> {
       supabaseData = data.map(q => ({
         ...q,
         source: q.source || 'Local',
-        difficulty: q.difficulty || 'medium'
+        difficulty: q.difficulty || 'medium',
+        githubUrl: q.github_url
       }));
     }
 
@@ -213,7 +214,10 @@ export async function getNotes(): Promise<Note[]> {
     let supabaseData: Note[] = [];
     const { data, error } = await supabase.from('notes').select('*');
     if (!error && data) {
-      supabaseData = data;
+      supabaseData = data.map(n => ({
+        ...n,
+        githubUrl: n.github_url
+      }));
     }
 
     const merged = [
@@ -247,7 +251,8 @@ export async function getBytes(): Promise<Byte[]> {
       supabaseData = data.map(b => ({
           ...b,
           videoUrl: b.video_url,
-          relatedQuestionIds: b.related_question_ids
+          relatedQuestionIds: b.related_question_ids,
+          githubUrl: b.github_url
       }));
     }
 

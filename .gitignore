@@ -6,3 +6,5 @@ out/
 next-env.d.ts
 .env.local
 supabase_setup.sql
+migration_add_github_url.sql
+supabase_content_setup.sql

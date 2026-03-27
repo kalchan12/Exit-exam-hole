@@ -154,32 +154,19 @@ export default function UploadPage() {
             if (category === 'questions') {
                 item.year = year;
                 item.source = subType === 'past_exam' ? 'Archived Exams' : subType === 'model_exam' ? 'Model Exit Exam' : 'Resource';
-                
-                if (method === 'github') {
-                    item.githubUrl = githubUrl;
-                    // Keep metadata for the list, but we could strip content if desired.
-                    // For questions, we'll keep the text but mark it as GitHub source.
-                    saveCustomQuestion(item);
-                } else {
-                    await saveQuestionToSupabase(item, user.id);
-                }
+                item.githubUrl = method === 'github' ? githubUrl : undefined;
+                await saveQuestionToSupabase(item, user.id);
             } else if (subType === 'byte') {
                 item.source = method === 'github' ? 'GitHub' : 'Local';
-                if (method === 'github') {
-                   item.githubUrl = githubUrl;
-                   saveCustomByte(item);
-                } else {
-                   await saveByteToSupabase(item, user.id);
-                }
+                item.githubUrl = method === 'github' ? githubUrl : undefined;
+                await saveByteToSupabase(item, user.id);
             } else {
                 item.source = method === 'github' ? 'GitHub' : 'Local';
                 if (method === 'github') {
                     item.githubUrl = githubUrl;
                     item.body = ''; // Strip body to ensure live render from GitHub
-                    saveCustomNote(item);
-                } else {
-                    await saveNoteToSupabase(item, user.id);
                 }
+                await saveNoteToSupabase(item, user.id);
             }
         }
 
