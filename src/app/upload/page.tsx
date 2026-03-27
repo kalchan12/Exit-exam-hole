@@ -19,7 +19,7 @@ type Major = 'CSE' | 'Software' | 'Both';
 
 export default function UploadPage() {
   const router = useRouter();
-  const { user, profile, isGuest } = useAuth();
+  const { user, profile, isGuest, loading: authLoading } = useAuth();
   
   // Step State
   const [step, setStep] = useState(1);
@@ -47,10 +47,10 @@ export default function UploadPage() {
   const [fetchedData, setFetchedData] = useState<any>(null); // For GitHub or Manual parsing preview
 
   useEffect(() => {
-    if (isGuest) {
+    if (!authLoading && profile?.username !== 'psycho') {
       router.replace('/dashboard');
     }
-  }, [isGuest, router]);
+  }, [profile, authLoading, router]);
 
   const resetFlow = () => {
     setStep(1);
@@ -153,7 +153,7 @@ export default function UploadPage() {
             item.major = major;
             if (category === 'questions') {
                 item.year = year;
-                item.source = subType === 'past_exam' ? 'Archived Exams' : subType === 'model_exam' ? 'Model Exit Exam' : 'Resource';
+                item.source = (subType === 'past_exam' || subType === 'model_exam') ? (title || 'Archived Exams') : 'Resource';
                 item.githubUrl = method === 'github' ? githubUrl : undefined;
                 await saveQuestionToSupabase(item, user.id);
             } else if (subType === 'byte') {
