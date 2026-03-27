@@ -103,7 +103,7 @@ export async function fetchGitHubQuestions(url: string, course: string = 'Genera
     try {
       const content = await fetchWithCache(url, forceRefresh);
       if (url.toLowerCase().split('?')[0].endsWith('.json')) {
-        return parseQuestionsFromJson(content);
+        return parseQuestionsFromJson(content, course);
       }
       return parseQuestionsFromMarkdown(content, course);
     } catch (error) {

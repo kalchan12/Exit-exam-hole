@@ -50,7 +50,7 @@ export function parseQuestionsFromMarkdown(text: string, defaultTopic: string = 
 /**
  * Parses questions from a JSON string.
  */
-export function parseQuestionsFromJson(text: string): Question[] {
+export function parseQuestionsFromJson(text: string, defaultSource: string = 'past_exam'): Question[] {
   try {
     const parsed = JSON.parse(text);
     if (!Array.isArray(parsed)) return [];
@@ -59,7 +59,7 @@ export function parseQuestionsFromJson(text: string): Question[] {
       id: q.id || `q_json_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`,
       date: q.date || new Date().toISOString(),
       difficulty: q.difficulty || 'medium',
-      source: q.source || 'past_exam',
+      source: q.source || defaultSource,
       explanation: q.explanation || 'Imported JSON content.'
     })).filter(q => q.question && q.options?.length >= 2 && q.answer);
   } catch (e) {
