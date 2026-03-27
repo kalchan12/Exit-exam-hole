@@ -96,6 +96,20 @@ const navGroups = [
     ]
   },
   {
+    group: 'Admin',
+    items: [
+      {
+        label: 'User Management',
+        href: '/admin/users',
+        icon: (
+          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+          </svg>
+        ),
+      },
+    ]
+  },
+  {
     group: 'User',
     items: [
       {
@@ -119,7 +133,7 @@ interface SidebarProps {
 export default function Sidebar({ isCollapsed, setIsCollapsed }: SidebarProps) {
   const pathname = usePathname();
   const { theme, toggleTheme } = useTheme();
-  const { user, loading, signOut } = useAuth();
+  const { user, profile, loading, signOut } = useAuth();
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const [expandedGroups, setExpandedGroups] = useState<Set<string>>(new Set(['Main']));
 
@@ -174,6 +188,11 @@ export default function Sidebar({ isCollapsed, setIsCollapsed }: SidebarProps) {
         {navGroups.map((group, index) => {
           const visibleItems = group.items.filter(item => {
             if (!user && (item.label === 'Progress' || item.label === 'Upload' || item.label === 'Profile')) return false;
+            
+            // Restrict Admin and Upload to 'psycho'
+            const isAdmin = profile?.username === 'psycho';
+            if ((group.group === 'Tools' || group.group === 'Admin') && !isAdmin) return false;
+            
             return true;
           });
 
