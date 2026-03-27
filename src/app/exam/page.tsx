@@ -10,6 +10,7 @@ import { getProgress, recordAnswer, syncProgressToRemote } from '@/lib/progressM
 import { updateTopicAccuracy } from '@/lib/gamification';
 import { useAuth } from '@/components/AuthProvider';
 import { fetchGitHubQuestions, clearGitHubCache } from '@/lib/githubFetcher';
+import { saveQuestionToSupabase, deleteTopicQuestions } from '@/lib/supabaseLoader';
 
 const topicMeta: Record<string, { icon: string; gradient: string; border: string }> = {
   'Algorithms': { icon: '⚡', gradient: 'from-purple-500/20 to-indigo-500/20', border: 'border-purple-500/30' },
@@ -25,7 +26,7 @@ const defaultMeta = { icon: '📝', gradient: 'from-indigo-500/20 to-slate-500/2
 function ExamContent() {
   const searchParams = useSearchParams();
   const initialTopic = searchParams.get('topic') || null;
-  const { user } = useAuth();
+  const { user, profile, loading: authLoading } = useAuth();
 
   const [questions, setQuestions] = useState<Question[]>([]);
   const [topics, setTopics] = useState<string[]>([]);
@@ -63,8 +64,15 @@ function ExamContent() {
     loadData();
   }, [loadData]);
 
-  const handleCardUpdate = async (e: React.MouseEvent, topic: string) => {
-    e.stopPropagation();
+  // Auto-sync topic when selected
+  useEffect(() => {
+    if (selectedCategory && user && !refreshingTopic) {
+      handleCardUpdate(null, selectedCategory);
+    }
+  }, [selectedCategory, user]);
+
+  const handleCardUpdate = async (e: React.MouseEvent | null, topic: string) => {
+    if (e) e.stopPropagation();
     setRefreshingTopic(topic);
     
     try {
@@ -77,7 +85,7 @@ function ExamContent() {
       }
 
       if (!gitUrl) {
-        alert('No GitHub source linked to this exam for updates.');
+        if (e) alert('No GitHub source linked to this exam for updates.');
         return;
       }
 
@@ -85,14 +93,39 @@ function ExamContent() {
       invalidateQuestionsCache();
       
       const fetchedQs = await fetchGitHubQuestions(gitUrl, topic, true);
-      fetchedQs.forEach(q => saveCustomQuestion(q));
+      
+      // Sync to Supabase if user is logged in
+      if (user) {
+        await Promise.all(fetchedQs.map(q => saveQuestionToSupabase(q, user.id)));
+      } else {
+        // Fallback to local storage if not logged in
+        fetchedQs.forEach(q => saveCustomQuestion(q));
+      }
       
       await loadData();
     } catch(err) {
       console.error('Failed to update card:', err);
-      alert('Failed to fetch updates from GitHub.');
+      if (e) alert('Failed to fetch updates from GitHub.');
     } finally {
       setTimeout(() => setRefreshingTopic(null), 1000);
+    }
+  };
+
+  const handleDeleteTopic = async (e: React.MouseEvent, topic: string) => {
+    e.stopPropagation();
+    if (!confirm(`Are you sure you want to delete the entire "${topic}" exam? This will remove all its questions from the database.`)) return;
+
+    try {
+      const success = await deleteTopicQuestions(topic);
+      if (success) {
+        invalidateQuestionsCache();
+        await loadData();
+      } else {
+        alert('Failed to delete questions from Supabase.');
+      }
+    } catch (err) {
+      console.error(err);
+      alert('Error deleting topic.');
     }
   };
 
@@ -234,13 +267,14 @@ function ExamContent() {
             .filter(topic => topic !== 'past_exam') // Explicitly exclude past_exam placeholder
             .map((topic) => {
             const is2017 = topic === 'Exit Exam 2017' || topic === 'Archived Exams';
-            const displayTitle = is2017 ? 'Exit Exam 2017' : topic;
+            const displayTitle = topic;
             const displayDesc = is2017 
               ? "Enter the 2017 Vault! This is based on actual materials, but we're still in active review mode. If you see a typo that looks like ancient Elvish, don't worry—it’s either a deployment error or you're just not smart enough to understand it yet. 😊"
-              : 'Official certification and exit exam questions provided for academic preparation.';
+              : `Official ${topic} certification and exit exam questions provided for academic preparation.`;
             
-            const meta = topicMeta[displayTitle] || defaultMeta;
+            const meta = topicMeta[topic] || defaultMeta;
             const count = questions.filter(q => q.source === topic).length;
+            const isAdmin = profile?.username === 'psycho';
             return (
               <button
                 key={topic}
@@ -251,7 +285,7 @@ function ExamContent() {
                 className="group relative flex flex-col items-start rounded-3xl bg-[#11152a]/50 border border-white/5 p-8 text-left transition-all duration-500 hover:bg-[#11152a] hover:border-accent-purple/30 hover:-translate-y-1 hover:shadow-2xl hover:shadow-accent-purple/10 overflow-hidden"
               >
                 {/* Per-card Refresh Button */}
-                <div className="absolute top-6 right-6 z-10 hidden sm:block">
+                <div className="absolute top-6 right-6 z-10 flex gap-2">
                   <div 
                     onClick={(e) => handleCardUpdate(e, topic)}
                     className={`p-2 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 hover:border-accent-purple/50 transition-all cursor-pointer ${refreshingTopic === topic ? 'opacity-50 pointer-events-none' : ''}`}
@@ -264,6 +298,18 @@ function ExamContent() {
                         <path strokeLinecap="round" strokeLinejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
                     </svg>
                   </div>
+
+                  {isAdmin && (
+                    <div 
+                      onClick={(e) => handleDeleteTopic(e, topic)}
+                      className="p-2 rounded-xl bg-red-500/10 border border-red-500/20 hover:bg-red-500 hover:border-red-500 group/del transition-all cursor-pointer"
+                      title="Delete this topic from Supabase"
+                    >
+                      <svg className="w-4 h-4 text-red-400 group-hover/del:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                      </svg>
+                    </div>
+                  )}
                 </div>
 
                 <div className="w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center text-2xl mb-6 group-hover:bg-accent-purple/10 group-hover:scale-110 transition-all duration-500">
