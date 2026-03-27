@@ -103,7 +103,7 @@ export default function ProfilePage() {
     setUpdateError(null);
   };
 
-  const rank = Math.max(1, 100 - Math.floor(xp / 50));
+  const rankDisplay = xp > 0 ? `#${Math.max(1, 100 - Math.floor(xp / 50))}` : 'Unranked';
   const classLetter = profile?.major?.substring(0, 1)?.toUpperCase() || 'C';
 
   return (
@@ -177,7 +177,7 @@ export default function ProfilePage() {
                   <div className="flex items-center gap-8">
                     <div className="flex flex-col items-center md:items-start">
                       <span className="text-[10px] uppercase font-bold tracking-[0.15em] text-gray-500/60 mb-1.5">Rank</span>
-                      <span className="text-3xl font-extrabold text-white tracking-tighter">#{rank}</span>
+                      <span className="text-3xl font-extrabold text-white tracking-tighter">{rankDisplay}</span>
                     </div>
                     <div className="w-[1px] h-12 bg-gradient-to-b from-transparent via-purple-500/20 to-transparent"></div>
                     <div className="flex flex-col items-center md:items-start">

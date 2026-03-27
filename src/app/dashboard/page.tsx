@@ -274,9 +274,11 @@ export default function Dashboard() {
                 </svg>
               </div>
               <div className="min-w-0">
-                <p className="text-2xl font-bold text-white truncate">#{Math.max(1, 1248 - (progress?.xp || 0))}</p>
+                <p className="text-xl font-bold text-white truncate">
+                  {(progress?.xp || 0) > 0 ? `#${Math.max(1, 1000 - Math.floor((progress?.xp || 0) / 10))}` : 'Unranked'}
+                </p>
                 <p className="text-xs text-accent-purple-light truncate">
-                  Top {Math.max(1, Math.round(100 - (progress?.xp || 0) / 10))}% of all students
+                  {(progress?.xp || 0) > 0 ? `Top ${Math.max(1, Math.max(1, 100 - Math.floor((progress?.xp || 0) / 50)))}% of all students` : 'Start practicing to rank up!'}
                 </p>
               </div>
             </div>
