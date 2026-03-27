@@ -5,11 +5,10 @@ import { useRouter } from 'next/navigation';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { type Note, type Question, type Byte } from '@/lib/dataLoader';
-import { fetchGitHubNote, fetchGitHubQuestions } from '@/lib/githubFetcher';
 import { useAuth } from '@/components/AuthProvider';
 import { saveNoteToSupabase, saveQuestionToSupabase, saveByteToSupabase } from '@/lib/supabaseLoader';
 import { parseQuestionsFromJson, parseQuestionsFromMarkdown } from '@/lib/parsers';
-import { saveCustomNote, saveCustomQuestion, saveCustomByte } from '@/lib/dataLoader';
+import { saveCustomNote, saveCustomByte } from '@/lib/dataLoader';
 
 // Types for the new unified flow
 type Category = 'notes' | 'questions' | null;
@@ -30,7 +29,6 @@ export default function UploadPage() {
   // Form Metadata
   const [major, setMajor] = useState<Major>('Both');
   const [year, setYear] = useState('');
-  const [course, setCourse] = useState('');
   const [title, setTitle] = useState('');
   const [topic, setTopic] = useState('');
   const [difficulty, setDifficulty] = useState<'easy' | 'medium' | 'hard'>('medium');
@@ -76,19 +74,19 @@ export default function UploadPage() {
   };
 
   const handleGitHubFetch = async () => {
-    if (!githubUrl || !course) {
-        setError('Please provide a URL and Course name.');
+    if (!githubUrl || !title) {
+        setError('Please provide a URL and Title.');
         return;
     }
     setIsFetching(true);
     setError('');
     try {
       if (category === 'notes') {
-        const note = await fetchGitHubNote(githubUrl, course);
+        const { fetchGitHubNote } = await import('@/lib/githubFetcher');
+        const note = await fetchGitHubNote(githubUrl, title);
         setFetchedData(note);
       } else {
-        const questions = await fetchGitHubQuestions(githubUrl, course);
-        setFetchedData(questions);
+        setError('Questions must be managed via the Question Manager page.');
       }
     } catch (err: any) {
       setError(err.message || 'Failed to fetch from GitHub');
@@ -118,7 +116,7 @@ export default function UploadPage() {
                 if (subType === 'byte') {
                     itemsToSave = [{
                         id: `byte_${Date.now()}`,
-                        topic: topic || course,
+                        topic: topic || title,
                         title: title,
                         content: manualContent,
                         source: 'Local',
@@ -127,7 +125,7 @@ export default function UploadPage() {
                 } else {
                     itemsToSave = [{
                         id: `note_${Date.now()}`,
-                        topic: course,
+                        topic: title,
                         title: title,
                         body: manualContent,
                         source: 'Local',
@@ -140,7 +138,7 @@ export default function UploadPage() {
                 if (manualContent.trim().startsWith('[') || manualContent.includes('---')) {
                     const parsed = manualContent.trim().startsWith('[') 
                         ? parseQuestionsFromJson(manualContent)
-                        : parseQuestionsFromMarkdown(manualContent, course);
+                        : parseQuestionsFromMarkdown(manualContent, title);
                     itemsToSave = parsed;
                 } else {
                     throw new Error('Please use the Bulk format for manual questions.');
@@ -153,9 +151,11 @@ export default function UploadPage() {
             item.major = major;
             if (category === 'questions') {
                 item.year = year;
+                // If it's an exam, we use the provided Title as the source. 
+                // For regular practice, we use 'Resource' or similar.
                 item.source = (subType === 'past_exam' || subType === 'model_exam') ? (title || 'Archived Exams') : 'Resource';
-                item.githubUrl = method === 'github' ? githubUrl : undefined;
-                await saveQuestionToSupabase(item, user.id);
+                if (subType === 'practice') item.topic = title;
+                await saveQuestionToSupabase(item);
             } else if (subType === 'byte') {
                 item.source = method === 'github' ? 'GitHub' : 'Local';
                 item.githubUrl = method === 'github' ? githubUrl : undefined;
@@ -271,12 +271,15 @@ export default function UploadPage() {
                               <option value="Software">Software Engineering</option>
                           </select>
                       </div>
-                      <InputGroup label="Course/Topic" value={course} onChange={setCourse} placeholder="Algorithms" required />
+                      <InputGroup 
+                          label={category === 'questions' ? "Exam Title (e.g. Exit Exam 2017)" : "Course/Topic"} 
+                          value={title} 
+                          onChange={setTitle} 
+                          placeholder={category === 'questions' ? "Exit Exam 2017" : "Algorithms"} 
+                          required 
+                      />
                       {(subType === 'past_exam' || subType === 'model_exam') && (
                           <InputGroup label="Exam Year" value={year} onChange={setYear} placeholder="2017" required />
-                      )}
-                      {method === 'manual' && category === 'notes' && (
-                          <InputGroup label="Content Title" value={title} onChange={setTitle} placeholder="Introduction to Graph" required />
                       )}
                   </div>
 

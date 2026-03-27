@@ -182,19 +182,6 @@ export default function ByteViewPage() {
                           {q.explanation}
                         </div>
                       )}
-                      {!isAnswered && q.hint && (
-                        <div className="mt-4">
-                          {revealedHints[q.id] ? (
-                            <div className="p-3 bg-yellow-500/10 border border-yellow-500/20 rounded-lg text-yellow-200/80 text-sm">
-                              💡 <strong>Hint:</strong> {q.hint}
-                            </div>
-                          ) : (
-                            <button onClick={() => setRevealedHints(prev => ({ ...prev, [q.id]: true }))} className="text-xs text-yellow-500/80 hover:text-yellow-400 underline decoration-dashed">
-                              Show Hint
-                            </button>
-                          )}
-                        </div>
-                      )}
                     </div>
                   );
                 })}

@@ -3,11 +3,10 @@
 import { useState, useEffect, useMemo, useCallback, Suspense } from 'react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
-import { getQuestions, getTopics, deleteCustomQuestion, type Question } from '@/lib/dataLoader';
+import { getQuestions, getTopics, type Question } from '@/lib/dataLoader';
 import { getProgress, recordAnswer, saveProgress, syncProgressToRemote } from '@/lib/progressManager';
 import { updateTopicAccuracy } from '@/lib/gamification';
 import { useAuth } from '@/components/AuthProvider';
-import { fetchGitHubQuestions, clearGitHubCache } from '@/lib/githubFetcher';
 
 const topicMeta: Record<string, { icon: string; gradient: string; border: string }> = {
   'Algorithms': { icon: '⚡', gradient: 'from-purple-500/20 to-indigo-500/20', border: 'border-purple-500/30 hover:border-purple-400/60' },
@@ -56,10 +55,7 @@ function QuestionsContent() {
 
   const loadQuestions = () => getQuestions().then(setQuestions);
 
-  const handleRefreshGithub = async () => {
-    clearGitHubCache();
-    await loadQuestions();
-  };
+
 
   useEffect(() => {
     setMounted(true);
@@ -109,28 +105,12 @@ function QuestionsContent() {
     if (isRandomMode) {
       filtered = [...filtered].sort(() => Math.random() - 0.5);
     }
-    if (majorFilter !== 'all') {
-      filtered = filtered.filter((q) => q.major === majorFilter || q.major === 'Both');
-    }
     return filtered;
-  }, [questions, selectedCategory, difficultyFilter, sourceFilter, isRandomMode, majorFilter]);
+  }, [questions, selectedCategory, difficultyFilter, sourceFilter, isRandomMode]);
 
   const currentQuestion = filteredQuestions[currentIndex];
 
-  // Auto-expand GitHub stubs
-  useEffect(() => {
-    if (currentQuestion && !currentQuestion.options?.length && currentQuestion.githubUrl) {
-      fetchGitHubQuestions(currentQuestion.githubUrl, currentQuestion.topic)
-        .then(allQs => {
-           // Find the specific question by text match
-           const matching = allQs.find(q => q.question === currentQuestion.question);
-           if (matching) {
-              setQuestions(prev => prev.map(q => q.id === currentQuestion.id ? { ...q, ...matching } : q));
-           }
-        })
-        .catch(err => console.error('Failed to auto-expand GH question:', err));
-    }
-  }, [currentQuestion]);
+
 
   const handleSelectAnswer = useCallback(
     (answer: string) => {
@@ -169,9 +149,10 @@ function QuestionsContent() {
     }
   }, [currentIndex]);
 
-  const handleDeleteQuestion = useCallback((questionId: string) => {
+  const handleDeleteQuestion = useCallback(async (questionId: string) => {
     if (deleteConfirm === questionId) {
-      deleteCustomQuestion(questionId);
+      const { deleteQuestionFromSupabase } = await import('@/lib/supabaseLoader');
+      await deleteQuestionFromSupabase(questionId);
       setDeleteConfirm(null);
       loadQuestions().then(() => {
         if (currentIndex > 0) setCurrentIndex(prev => prev - 1);
@@ -456,19 +437,6 @@ function QuestionsContent() {
             </svg>
             {isRandomMode ? 'Random ON' : 'Shuffle'}
           </button>
-
-          {questions.some(q => q.githubUrl) && profile?.username === 'psycho' && (
-            <button
-              onClick={handleRefreshGithub}
-              className="text-xs flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-dark-400/50 bg-dark-600 text-gray-400 hover:text-accent-cyan hover:border-accent-cyan/30 transition-all group"
-              title="Sync GitHub Questions"
-            >
-              <svg className="w-3.5 h-3.5 group-hover:rotate-180 transition-transform duration-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-              </svg>
-              Sync
-            </button>
-          )}
         </div>
       </div>
 
@@ -574,11 +542,7 @@ function QuestionsContent() {
             <span className="badge bg-dark-500 text-gray-400 text-[10px] sm:text-xs truncate max-w-[100px] sm:max-w-none">
               {currentQuestion.topic}
             </span>
-            {currentQuestion.year && (
-              <span className="badge bg-indigo-500/20 text-indigo-400 border border-indigo-500/30 text-[10px] sm:text-xs">
-                🗓️ {currentQuestion.year}
-              </span>
-            )}
+
             {progress.correctAnswers[currentQuestion.id] ? (
               <span className="badge bg-green-500/20 text-green-400 border border-green-500/30 text-[10px] sm:text-xs">
                 ✅ Completed
@@ -618,25 +582,7 @@ function QuestionsContent() {
               <h2 className="text-lg sm:text-xl font-semibold text-white leading-relaxed flex-1">
                 {currentQuestion.question}
               </h2>
-              {currentQuestion.hint && !selectedAnswer && (
-                <button
-                  onClick={() => setShowHint(!showHint)}
-                  className="btn-secondary text-xs flex-shrink-0 flex items-center gap-1.5"
-                >
-                  <svg className="w-4 h-4 text-accent-purple-light" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                  {showHint ? 'Hide Hint' : 'Show Hint'}
-                </button>
-              )}
             </div>
-
-            {showHint && currentQuestion.hint && !selectedAnswer && (
-              <div className="animate-slide-up mb-6 p-4 rounded-lg bg-accent-purple/10 border border-accent-purple/20 text-accent-purple-light text-sm">
-                <strong className="block mb-1">Hint:</strong>
-                {currentQuestion.hint}
-              </div>
-            )}
           </div>
 
           {/* Options */}

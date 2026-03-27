@@ -5,12 +5,11 @@ import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
-import { getQuestions, getTopics, type Question, invalidateQuestionsCache, saveCustomQuestion } from '@/lib/dataLoader';
+import { getQuestions, getTopics, type Question, invalidateQuestionsCache } from '@/lib/dataLoader';
 import { getProgress, recordAnswer, syncProgressToRemote } from '@/lib/progressManager';
 import { updateTopicAccuracy } from '@/lib/gamification';
 import { useAuth } from '@/components/AuthProvider';
-import { fetchGitHubQuestions, clearGitHubCache } from '@/lib/githubFetcher';
-import { saveQuestionToSupabase, deleteTopicQuestions } from '@/lib/supabaseLoader';
+import { deleteTopicQuestions } from '@/lib/supabaseLoader';
 
 const topicMeta: Record<string, { icon: string; gradient: string; border: string }> = {
   'Algorithms': { icon: '⚡', gradient: 'from-purple-500/20 to-indigo-500/20', border: 'border-purple-500/30' },
@@ -37,20 +36,15 @@ function ExamContent() {
   const [isFinished, setIsFinished] = useState(false);
   const [isReviewMode, setIsReviewMode] = useState(false);
   const [userAnswers, setUserAnswers] = useState<Record<string, string>>({});
-  const [majorFilter, setMajorFilter] = useState('all');
   const [quizScore, setQuizScore] = useState({ correct: 0, total: 0 });
-  const [refreshingTopic, setRefreshingTopic] = useState<string | null>(null);
   const [isDisclaimerAccepted, setIsDisclaimerAccepted] = useState(false);
 
   const loadData = useCallback(async () => {
     const allQs = await getQuestions();
     // ONLY include past exams and model exams
+    const excludeSources = ['Resource', 'Study Material', 'GitHub', 'Local'];
     const examQs = allQs.filter(q => 
-      q.source === 'past_exam' || 
-      q.source === 'Archived Exams' || 
-      q.source === 'model_exam' || 
-      q.source === 'Model Exit Exam' ||
-      q.source === 'Exit Exam 2017'
+      q.source && !excludeSources.includes(q.source)
     );
     setQuestions(examQs);
     
@@ -64,52 +58,7 @@ function ExamContent() {
     loadData();
   }, [loadData]);
 
-  // Auto-sync topic when selected
-  useEffect(() => {
-    if (selectedCategory && user && !refreshingTopic) {
-      handleCardUpdate(null, selectedCategory);
-    }
-  }, [selectedCategory, user]);
 
-  const handleCardUpdate = async (e: React.MouseEvent | null, topic: string) => {
-    if (e) e.stopPropagation();
-    setRefreshingTopic(topic);
-    
-    try {
-      let gitUrl: string | undefined = '';
-      if (topic === 'Exit Exam 2017' || topic === 'Archived Exams') {
-        gitUrl = 'https://raw.githubusercontent.com/kalchan12/Exit-exam-hole/main/Exit%20exam%20Questions/Exit%20Exam%202017/Exit%20Exam%202017.json';
-      } else {
-        const topicQ = questions.find(q => q.source === topic && q.githubUrl);
-        if (topicQ) gitUrl = topicQ.githubUrl;
-      }
-
-      if (!gitUrl) {
-        if (e) alert('No GitHub source linked to this exam for updates.');
-        return;
-      }
-
-      clearGitHubCache();
-      invalidateQuestionsCache();
-      
-      const fetchedQs = await fetchGitHubQuestions(gitUrl, topic, true);
-      
-      // Sync to Supabase if user is logged in
-      if (user) {
-        await Promise.all(fetchedQs.map(q => saveQuestionToSupabase(q, user.id)));
-      } else {
-        // Fallback to local storage if not logged in
-        fetchedQs.forEach(q => saveCustomQuestion(q));
-      }
-      
-      await loadData();
-    } catch(err) {
-      console.error('Failed to update card:', err);
-      if (e) alert('Failed to fetch updates from GitHub.');
-    } finally {
-      setTimeout(() => setRefreshingTopic(null), 1000);
-    }
-  };
 
   const handleDeleteTopic = async (e: React.MouseEvent, topic: string) => {
     e.stopPropagation();
@@ -132,31 +81,14 @@ function ExamContent() {
   const filteredQuestions = useMemo(() => {
     let filtered = questions;
     if (selectedCategory && selectedCategory !== 'all') {
-      // Filter by source (Exam Title)
       filtered = filtered.filter((q) => q.source === selectedCategory);
     }
-    if (majorFilter !== 'all') {
-      filtered = filtered.filter((q) => q.major === majorFilter || q.major === 'Both');
-    }
     return filtered;
-  }, [questions, selectedCategory, majorFilter]);
+  }, [questions, selectedCategory]);
 
   const currentQuestion = filteredQuestions[currentIndex];
 
-  // Auto-expand GitHub stubs
-  useEffect(() => {
-    if (currentQuestion && !currentQuestion.options?.length && currentQuestion.githubUrl) {
-      fetchGitHubQuestions(currentQuestion.githubUrl, currentQuestion.topic)
-        .then(allQs => {
-           // Find the specific question by text match
-           const matching = allQs.find(q => q.question === currentQuestion.question);
-           if (matching) {
-              setQuestions(prev => prev.map(q => q.id === currentQuestion.id ? { ...q, ...matching } : q));
-           }
-        })
-        .catch(err => console.error('Failed to auto-expand GH question:', err));
-    }
-  }, [currentQuestion]);
+
 
   const handleSelectAnswer = useCallback(
     (answer: string) => {
@@ -284,21 +216,7 @@ function ExamContent() {
                 }}
                 className="group relative flex flex-col items-start rounded-3xl bg-[#11152a]/50 border border-white/5 p-8 text-left transition-all duration-500 hover:bg-[#11152a] hover:border-accent-purple/30 hover:-translate-y-1 hover:shadow-2xl hover:shadow-accent-purple/10 overflow-hidden"
               >
-                {/* Per-card Refresh Button */}
                 <div className="absolute top-6 right-6 z-10 flex gap-2">
-                  <div 
-                    onClick={(e) => handleCardUpdate(e, topic)}
-                    className={`p-2 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 hover:border-accent-purple/50 transition-all cursor-pointer ${refreshingTopic === topic ? 'opacity-50 pointer-events-none' : ''}`}
-                    title="Fetch latest updates from GitHub"
-                  >
-                    <svg 
-                        className={`w-4 h-4 text-accent-purple ${refreshingTopic === topic ? 'animate-spin' : ''}`} 
-                        fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}
-                    >
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-                    </svg>
-                  </div>
-
                   {isAdmin && (
                     <div 
                       onClick={(e) => handleDeleteTopic(e, topic)}
@@ -396,20 +314,9 @@ function ExamContent() {
           {isReviewMode && (
             <span className="badge bg-accent-purple/20 text-accent-purple border border-accent-purple/30 text-[10px] uppercase font-bold">Reviewing</span>
           )}
-          <div className="flex items-center gap-4">
-          <select 
-            value={majorFilter} 
-            onChange={(e) => setMajorFilter(e.target.value)}
-            className="bg-dark-600 border border-dark-400/50 rounded-lg px-3 py-1.5 text-xs text-white focus:border-accent-purple focus:outline-none"
-          >
-            <option value="all">Any Major</option>
-            <option value="CSE">CSE Only</option>
-            <option value="Software">Software Only</option>
-          </select>
           <div className="flex items-center gap-2 bg-indigo-500/10 border border-indigo-500/20 rounded-full px-4 py-1.5">
             <span className="text-indigo-400 font-black text-sm">{currentIndex + 1} / {filteredQuestions.length}</span>
           </div>
-        </div>
         </div>
       </div>
 
@@ -421,11 +328,7 @@ function ExamContent() {
              <span className="badge bg-indigo-500/20 text-indigo-400 border border-indigo-500/30 text-[10px] uppercase tracking-tighter">
               {currentQuestion.source}
             </span>
-            {currentQuestion.year && (
-              <span className="badge bg-indigo-500/20 text-indigo-400 border border-indigo-500/30 text-[10px] sm:text-xs">
-                🗓️ {currentQuestion.year}
-              </span>
-            )}
+
             <span className="badge bg-dark-500 text-gray-400 text-[10px] uppercase">
               {currentQuestion.difficulty}
             </span>
@@ -438,9 +341,20 @@ function ExamContent() {
           </div>
 
 
-          <div className="text-2xl font-bold text-white leading-snug mb-10 prose prose-invert max-w-none prose-headings:text-white prose-p:text-white prose-strong:text-accent-purple-light prose-code:text-accent-cyan prose-pre:bg-dark-900/50 prose-pre:border prose-pre:border-white/10">
-            <ReactMarkdown remarkPlugins={[remarkGfm]}>
-              {currentQuestion.question}
+          <div className="text-2xl text-white leading-snug mb-10 prose prose-invert max-w-none prose-headings:text-white prose-p:text-white prose-strong:text-accent-purple-light prose-code:text-accent-cyan prose-pre:bg-dark-900/50 prose-pre:border prose-pre:border-white/10">
+            <ReactMarkdown 
+              remarkPlugins={[remarkGfm]}
+              components={{
+                img: ({node, ...props}) => (
+                  <img 
+                    {...props} 
+                    className="max-w-full sm:max-w-md h-auto rounded-xl mx-auto my-6 border border-white/10 shadow-2xl shadow-indigo-500/10" 
+                  />
+                ),
+                p: ({children}) => <p className="font-bold leading-relaxed">{children}</p>
+              }}
+            >
+              {`${currentIndex + 1}. ${currentQuestion.question}`}
             </ReactMarkdown>
           </div>
 

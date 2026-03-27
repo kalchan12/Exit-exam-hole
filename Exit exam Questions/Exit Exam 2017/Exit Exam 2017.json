@@ -1,26 +1,41 @@
 [
   {
     "id": "exit-2017-q1",
-    "question": "Which of the following is not true?\n\na. The tighter the security, the lower the network performance\nb. The security design and application has no effect on the performance\nc. Multi-layer security can be a bottleneck to the IT assets access\nd. The tighter the security, the higher the protection of the network",
-    "options": ["A) a", "B) b", "C) c", "D) d"],
-    "answer": "B) b",
+    "question": "Which of the following is not true?",
+    "options": [
+      "The tighter the security, the lower the network performance",
+      "The security design and application has no effect on the performance",
+      "Multi-layer security can be a bottleneck to the IT assets access",
+      "The tighter the security, the higher the protection of the network"
+    ],
+    "answer": "The security design and application has no effect on the performance",
     "explanation": "Security mechanisms always impact system performance because they consume resources such as CPU and memory. Therefore, saying security has no effect on performance is incorrect.",
     "topic": "Computer Ethics",
     "difficulty": "easy"
   },
   {
     "id": "exit-2017-q2",
-    "question": "A relation R with X→WZ is in full functional dependency (2NF). Which of the following violates it?\n\na. WYZ are non-prime attributes and are determined by the primary attribute X\nb. Removing X from X→WXYZ returns the relation R to first normal form\nc. From X→WYZ, removing any of the WYZ does not affect the second normal form\nd. From X→WZ, R can possibly have duplicate values",
-    "options": ["A) a", "B) b", "C) c", "D) d"],
-    "answer": "B) b",
+    "question": "A relation R with X→WZ is in full functional dependency (2NF). Which of the following violates it?",
+    "options": [
+      "WYZ are non-prime attributes and are determined by the primary attribute X",
+      "Removing X from X→WXYZ returns the relation R to first normal form",
+      "From X→WYZ, removing any of the WYZ does not affect the second normal form",
+      "From X→WZ, R can possibly have duplicate values"
+    ],
+    "answer": "Removing X from X→WXYZ returns the relation R to first normal form",
     "explanation": "Removing the determinant (X) breaks the dependency relationship. This does not correctly describe normalization and violates the concept of 2NF.",
     "topic": "Database",
     "difficulty": "hard"
   },
   {
     "id": "exit-2017-q3",
-    "question": "One of the following policy is used by queue data structure\n\na. LILO\nb. FILO\nc. LIFO\nd. None",
-    "options": ["A) LILO", "B) FILO", "C) LIFO", "D) None"],
+    "question": "One of the following policy is used by queue data structure",
+    "options": [
+      "LILO",
+      "FILO",
+      "LIFO",
+      "None"
+    ],
     "answer": "D) None",
     "explanation": "Queue uses FIFO (First In First Out), which is not listed in the options.",
     "topic": "Data Structures",
@@ -28,26 +43,41 @@
   },
   {
     "id": "exit-2017-q4",
-    "question": "Use case diagram in software development model demonstrate\n\na. Functional requirement of the system\nb. Functional and non-functional requirement of the system\nc. Performance requirement of the system\nd. Non-functional requirement of the system",
-    "options": ["A) a", "B) b", "C) c", "D) d"],
-    "answer": "A) a",
+    "question": "Use case diagram in software development model demonstrate",
+    "options": [
+      "Functional requirement of the system",
+      "Functional and non-functional requirement of the system",
+      "Performance requirement of the system",
+      "Non-functional requirement of the system"
+    ],
+    "answer": "Functional requirement of the system",
     "explanation": "Use case diagrams describe system interactions and functionality, which represent functional requirements.",
     "topic": "Software Engineering",
     "difficulty": "easy"
   },
   {
     "id": "exit-2017-q5",
-    "question": "The basic computer instruction format with 16 bits, which of the following is not true?\n\na. Register reference type instruction contains 12 bits\nb. Address mode contains 1 bit\nc. The opcode contains 3 bits\nd. The opcode contains 4 bit",
-    "options": ["A) a", "B) b", "C) c", "D) d"],
-    "answer": "D) d",
+    "question": "The basic computer instruction format with 16 bits, which of the following is not true?",
+    "options": [
+      "Register reference type instruction contains 12 bits",
+      "Address mode contains 1 bit",
+      "The opcode contains 3 bits",
+      "The opcode contains 4 bit"
+    ],
+    "answer": "The opcode contains 4 bit",
     "explanation": "In a 16-bit instruction format, the opcode is typically 3 bits, not 4 bits.",
     "topic": "Computer Architecture",
     "difficulty": "medium"
   },
   {
     "id": "exit-2017-q6",
-    "question": "Which of the following IP is used as a loop back service?\n\na. 198.168.0.1\nb. 127.0.0.1\nc. 0.0.0.0\nd. 255.255.255.255",
-    "options": ["A) 198.168.0.1", "B) 127.0.0.1", "C) 0.0.0.0", "D) 255.255.255.255"],
+    "question": "Which of the following IP is used as a loop back service?",
+    "options": [
+      "198.168.0.1",
+      "127.0.0.1",
+      "0.0.0.0",
+      "255.255.255.255"
+    ],
     "answer": "B) 127.0.0.1",
     "explanation": "127.0.0.1 is the loopback address used to refer to the local machine.",
     "topic": "Networking",
@@ -55,17 +85,27 @@
   },
   {
     "id": "exit-2017-q7",
-    "question": "What will be the path if we use depth-first search strategy?\n\n![Graph Diagram](/assets/question_7_graph.png)\n\na. Start → C → G\nb. Start → A → F → B → C → D → E → H → G\nc. Start → A → B → G\nd. Start → A → D → E → F → G",
-    "options": ["A) a", "B) b", "C) c", "D) d"],
-    "answer": "D) d",
+    "question": "What will be the path if we use depth-first search strategy?\n\n![Graph Diagram](/assets/question_7_graph.png)",
+    "options": [
+      "Start → C → G",
+      "Start → A → F → B → C → D → E → H → G",
+      "Start → A → B → G",
+      "Start → A → D → E → F → G"
+    ],
+    "answer": "Start → A → D → E → F → G",
     "explanation": "DFS explores as deep as possible before backtracking, following a path like Start → A → D → E → F → G.",
     "topic": "Algorithms",
     "difficulty": "medium"
   },
   {
     "id": "exit-2017-q8",
-    "question": "A micro-instruction is designed to specify none or one of three operations of one kind and up to six operations of another kind. Minimum number of bits required?\n\na. 2 bit\nb. 4 bit\nc. 8 bit\nd. 6 bit",
-    "options": ["A) 2 bit", "B) 4 bit", "C) 8 bit", "D) 6 bit"],
+    "question": "A micro-instruction is designed to specify none or one of three operations of one kind and up to six operations of another kind. Minimum number of bits required?",
+    "options": [
+      "2 bit",
+      "4 bit",
+      "8 bit",
+      "6 bit"
+    ],
     "answer": "C) 8 bit",
     "explanation": "2 bits are needed for 3 operations and 3 bits for 6 operations, plus control bits, totaling 8 bits.",
     "topic": "Computer Architecture",
@@ -73,8 +113,13 @@
   },
   {
     "id": "exit-2017-q9",
-    "question": "What will be the final result in queue after the following operations?\nenqueue(1), enqueue(2), dequeue(), dequeue(), dequeue(), enqueue(5), dequeue()\n\na. 0\nb. 5\nc. queue underflow\nd. None",
-    "options": ["A) 0", "B) 5", "C) queue underflow", "D) None"],
+    "question": "What will be the final result in queue after the following operations?\nenqueue(1), enqueue(2), dequeue(), dequeue(), dequeue(), enqueue(5), dequeue()",
+    "options": [
+      "0",
+      "5",
+      "queue underflow",
+      "None"
+    ],
     "answer": "C) queue underflow",
     "explanation": "After removing all elements, an extra dequeue operation causes underflow.",
     "topic": "Data Structures",
@@ -82,54 +127,84 @@
   },
   {
     "id": "exit-2017-q10",
-    "question": "Which of the following is not true about software maintenance?\n\na. Maintenance is software testing\nb. Maintenance is used to change existing system\nc. Maintenance is used to add new requirements\nd. Maintenance is used to fix errors",
-    "options": ["A) a", "B) b", "C) c", "D) d"],
-    "answer": "A) a",
+    "question": "Which of the following is not true about software maintenance?",
+    "options": [
+      "Maintenance is software testing",
+      "Maintenance is used to change existing system",
+      "Maintenance is used to add new requirements",
+      "Maintenance is used to fix errors"
+    ],
+    "answer": "Maintenance is software testing",
     "explanation": "Software maintenance involves fixing, updating, and improving systems, not testing.",
     "topic": "Software Engineering",
     "difficulty": "easy"
   },
   {
     "id": "exit-2017-q11",
-    "question": "During normalization, which cannot hold?\n\na. First normal form is created by creating new relation from weak attributes\nb. Second normal form is created by decomposing relation for each partial key\nc. Boyce Codd Normal Form is created from strict third normal form\nd. Third normal form removes transitive dependency",
-    "options": ["A) a", "B) b", "C) c", "D) d"],
-    "answer": "A) a",
+    "question": "During normalization, which cannot hold?",
+    "options": [
+      "First normal form is created by creating new relation from weak attributes",
+      "Second normal form is created by decomposing relation for each partial key",
+      "Boyce Codd Normal Form is created from strict third normal form",
+      "Third normal form removes transitive dependency"
+    ],
+    "answer": "First normal form is created by creating new relation from weak attributes",
     "explanation": "1NF ensures atomic values and removes repeating groups. It is not about creating relations from weak attributes.",
     "topic": "Database",
     "difficulty": "medium"
   },
   {
     "id": "exit-2017-q12",
-    "question": "In a wait-for graph, an edge from P1 to Pj signifies that ______\n\na. P1 is waiting for Pj to release a resource\nb. Pj is waiting for P1 to leave the system\nc. P1 is waiting for Pj to leave the system\nd. Pj is waiting for P1 to release a resource",
-    "options": ["A) a", "B) b", "C) c", "D) d"],
-    "answer": "A) a",
+    "question": "In a wait-for graph, an edge from P1 to Pj signifies that ______",
+    "options": [
+      "P1 is waiting for Pj to release a resource",
+      "Pj is waiting for P1 to leave the system",
+      "P1 is waiting for Pj to leave the system",
+      "Pj is waiting for P1 to release a resource"
+    ],
+    "answer": "P1 is waiting for Pj to release a resource",
     "explanation": "In a wait-for graph, an edge P1 → Pj means P1 is waiting for a resource held by Pj.",
     "topic": "Operating Systems",
     "difficulty": "easy"
   },
   {
     "id": "exit-2017-q13",
-    "question": "Given A = 0 and B unknown, which statement is true?\n\na. A + B = 1\nb. A ⊕ B = 0\nc. A + B = 0\nd. A · B = 1",
-    "options": ["A) a", "B) b", "C) c", "D) d"],
-    "answer": "C) c",
+    "question": "Given A = 0 and B unknown, which statement is true?",
+    "options": [
+      "A + B = 1",
+      "A ⊕ B = 0",
+      "A + B = 0",
+      "A · B = 1"
+    ],
+    "answer": "A + B = 0",
     "explanation": "With A = 0, OR operation gives A + B = B. The expected answer assumes B = 0 case, though the question is ambiguous.",
     "topic": "Digital Logic",
     "difficulty": "medium"
   },
   {
     "id": "exit-2017-q14",
-    "question": "Which SQL statement creates a new table employee(empID varchar(10))?\n\na. add new employee(varchar(10)) as table\nb. insert table employee(empID varchar(10))\nc. create table employee(empID varchar(10))\nd. add table employee(empID varchar(10))",
-    "options": ["A) a", "B) b", "C) c", "D) d"],
-    "answer": "C) c",
+    "question": "Which SQL statement creates a new table employee(empID varchar(10))?",
+    "options": [
+      "add new employee(varchar(10)) as table",
+      "insert table employee(empID varchar(10))",
+      "create table employee(empID varchar(10))",
+      "add table employee(empID varchar(10))"
+    ],
+    "answer": "create table employee(empID varchar(10))",
     "explanation": "Correct SQL syntax is CREATE TABLE table_name (column datatype).",
     "topic": "Database",
     "difficulty": "easy"
   },
   {
     "id": "exit-2017-q15",
-    "question": "Which protocol automatically assigns IP addresses to clients?\n\na. ARP\nb. RARP\nc. NAT\nd. DHCP",
-    "options": ["A) ARP", "B) RARP", "C) NAT", "D) DHCP"],
-    "answer": "D) DHCP",
+    "question": "Which protocol automatically assigns IP addresses to clients?",
+    "options": [
+      "ARP",
+      "RARP",
+      "NAT",
+      "DHCP"
+    ],
+    "answer": "DHCP",
     "explanation": "DHCP dynamically assigns IP addresses to devices in a network.",
     "topic": "Networking",
     "difficulty": "easy"
@@ -150,27 +225,42 @@
   },
   {
     "id": "exit-2017-q17",
-    "question": "Which combinational logic construction is true?\n\na. NAND is constructed using negative-OR\nb. negative-OR is constructed using negative-AND\nc. NOR is constructed using negative-OR\nd. NAND is constructed using negative-AND",
-    "options": ["A) a", "B) b", "C) c", "D) d"],
-    "answer": "D) d",
+    "question": "Which combinational logic construction is true?",
+    "options": [
+      "NAND is constructed using negative-OR",
+      "negative-OR is constructed using negative-AND",
+      "NOR is constructed using negative-OR",
+      "NAND is constructed using negative-AND"
+    ],
+    "answer": "NAND is constructed using negative-AND",
     "explanation": "By De Morgan’s law, NAND = NOT(AND), meaning it is constructed using negative-AND.",
     "topic": "Digital Logic",
     "difficulty": "medium"
   },
   {
     "id": "exit-2017-q18",
-    "question": "Correct way to define a constant variable in C++?\n\na. int constant x = 5;\nb. constant int x = 5;\nc. const int x = 5;\nd. int x = constant 5;",
-    "options": ["A) a", "B) b", "C) c", "D) d"],
-    "answer": "C) const int x = 5;",
+    "question": "Correct way to define a constant variable in C++?",
+    "options": [
+      "int constant x = 5;",
+      "constant int x = 5;",
+      "const int x = 5;",
+      "int x = constant 5;"
+    ],
+    "answer": "const int x = 5;",
     "explanation": "The 'const' keyword is used in C++ to define constant variables.",
     "topic": "Programming",
     "difficulty": "easy"
   },
   {
     "id": "exit-2017-q19",
-    "question": "Which statement about constructors in Java is true?\n\na. Called using this keyword\nb. Default constructor is provided if none defined\nc. Constructors have return types\nd. Constructor name may differ from class name",
-    "options": ["A) a", "B) b", "C) c", "D) d"],
-    "answer": "B) b",
+    "question": "Which statement about constructors in Java is true?",
+    "options": [
+      "Called using this keyword",
+      "Default constructor is provided if none defined",
+      "Constructors have return types",
+      "Constructor name may differ from class name"
+    ],
+    "answer": "Default constructor is provided if none defined",
     "explanation": "Java automatically provides a default constructor if none is defined.",
     "topic": "Programming",
     "difficulty": "easy"
@@ -178,7 +268,12 @@
   {
     "id": "exit-2017-q20",
     "question": "For the following code segment below, what will be the time complexity?\n\n```cpp\nSwitch (case) {\n\ncase 1:\n    x = x + 1;\n    break;\n\ncase 2:\n    for (i = 0; i < n; i++)\n        x = x + i;\n    break;\n\ncase 3:\n    for (i = 0; i < N; i++) {\n        for (j = 0; j < i; j++)\n            x = x + j;\n    }\n    break;\n}\n```",
-    "options": ["A) O(n)", "B) O(n log n)", "C) O(n²)", "D) O(1)"],
+    "options": [
+      "A) O(n)",
+      "B) O(n log n)",
+      "C) O(n²)",
+      "D) O(1)"
+    ],
     "answer": "C) O(n²)",
     "explanation": "Case 1 → O(1), Case 2 → O(n), Case 3 → Nested loops:\n∑ i=0 to n of i = n(n-1)/2 ⇒ O(n²).\n\nOverall time complexity = worst case = O(n²).",
     "topic": "Algorithms",
@@ -186,8 +281,13 @@
   },
   {
     "id": "exit-2017-q21",
-    "question": "Which IP address is used as a default route?\n\na. 127.0.0.1\nb. 198.168.0.1\nc. 255.255.255.255\nd. 0.0.0.0",
-    "options": ["A) 127.0.0.1", "B) 198.168.0.1", "C) 255.255.255.255", "D) 0.0.0.0"],
+    "question": "Which IP address is used as a default route?",
+    "options": [
+      "127.0.0.1",
+      "198.168.0.1",
+      "255.255.255.255",
+      "0.0.0.0"
+    ],
     "answer": "D) 0.0.0.0",
     "explanation": "0.0.0.0 represents the default route used when no specific route matches.",
     "topic": "Networking",
@@ -195,26 +295,41 @@
   },
   {
     "id": "exit-2017-q22",
-    "question": "A logic circuit whose output depends only on present inputs is:\n\na. Latch\nb. Combinational circuit\nc. Counter\nd. Sequential circuit",
-    "options": ["A) Latch", "B) Combinational circuit", "C) Counter", "D) Sequential circuit"],
-    "answer": "B) Combinational circuit",
+    "question": "A logic circuit whose output depends only on present inputs is:",
+    "options": [
+      "Latch",
+      "Combinational circuit",
+      "Counter",
+      "Sequential circuit"
+    ],
+    "answer": "Counter",
     "explanation": "Combinational circuits depend only on current inputs and have no memory.",
     "topic": "Digital Logic",
     "difficulty": "easy"
   },
   {
     "id": "exit-2017-q23",
-    "question": "SQL command to give read and write permissions to user john:\n\na. Grant select, insert, update to john on customer\nb. Grant write, read on customer to john\nc. Grant read, write to john on Customer\nd. Grant select, insert, update on customer to john",
-    "options": ["A) a", "B) b", "C) c", "D) d"],
-    "answer": "D) d",
+    "question": "SQL command to give read and write permissions to user john:",
+    "options": [
+      "Grant select, insert, update to john on customer",
+      "Grant write, read on customer to john",
+      "Grant read, write to john on Customer",
+      "Grant select, insert, update on customer to john"
+    ],
+    "answer": "Grant select, insert, update on customer to john",
     "explanation": "Correct syntax is GRANT privileges ON table TO user.",
     "topic": "Database",
     "difficulty": "medium"
   },
   {
     "id": "exit-2017-q24",
-    "question": "An attacker changes system data or directories. This is an example of:\n\na. Intercept attack\nb. Denial of service\nc. Passive attack\nd. Forgery",
-    "options": ["A) Intercept attack", "B) Denial of service", "C) Passive attack", "D) Forgery"],
+    "question": "An attacker changes system data or directories. This is an example of:",
+    "options": [
+      "Intercept attack",
+      "Denial of service",
+      "Passive attack",
+      "Forgery"
+    ],
     "answer": "D) Forgery",
     "explanation": "This is an integrity attack involving modification of system data, which falls under forgery.",
     "topic": "Computer Ethics",
@@ -222,8 +337,13 @@
   },
   {
     "id": "exit-2017-q25",
-    "question": "A logic circuit whose output depends on present and past inputs is:\n\na. OR-AND logic\nb. Sequential circuit\nc. Combinational circuit\nd. AND-OR logic",
-    "options": ["A) OR-AND logic", "B) Sequential circuit", "C) Combinational circuit", "D) AND-OR logic"],
+    "question": "A logic circuit whose output depends on present and past inputs is:",
+    "options": [
+      "OR-AND logic",
+      "Sequential circuit",
+      "Combinational circuit",
+      "AND-OR logic"
+    ],
     "answer": "B) Sequential circuit",
     "explanation": "Sequential circuits have memory and depend on both past and present inputs.",
     "topic": "Digital Logic",
@@ -231,62 +351,97 @@
   },
   {
     "id": "exit-2017-q26",
-    "question": "Which of the following is NOT true?\n\na. Analog data is represented using voltage\nb. Analog data changes continuously\nc. Real-world events are usually analog\nd. Analog data carry discrete quantities",
-    "options": ["A) a", "B) b", "C) c", "D) d"],
-    "answer": "D) d",
+    "question": "Which of the following is NOT true?",
+    "options": [
+      "Analog data is represented using voltage",
+      "Analog data changes continuously",
+      "Real-world events are usually analog",
+      "Analog data carry discrete quantities"
+    ],
+    "answer": "Analog data carry discrete quantities",
     "explanation": "Analog data is continuous in nature, while discrete quantities are a property of digital data.",
     "topic": "Networking",
     "difficulty": "easy"
   },
   {
     "id": "exit-2017-q27",
-    "question": "R1 ← R1 ⊕ R2 represents:\n\na. Shift micro operation\nb. Subtraction micro operation\nc. Addition micro operation\nd. Logic micro operation",
-    "options": ["A) a", "B) b", "C) c", "D) d"],
-    "answer": "D) d",
+    "question": "R1 ← R1 ⊕ R2 represents:",
+    "options": [
+      "Shift micro operation",
+      "Subtraction micro operation",
+      "Addition micro operation",
+      "Logic micro operation"
+    ],
+    "answer": "Logic micro operation",
     "explanation": "The XOR (⊕) operation is a logical operation, not arithmetic or shift.",
     "topic": "Computer Architecture",
     "difficulty": "easy"
   },
   {
     "id": "exit-2017-q28",
-    "question": "Which memory management method allows dynamic allocation and deallocation?\n\na. Virtual memory allocation\nb. Heap memory allocation\nc. Static memory allocation\nd. Stack memory allocation",
-    "options": ["A) a", "B) b", "C) c", "D) d"],
-    "answer": "B) b",
+    "question": "Which memory management method allows dynamic allocation and deallocation?",
+    "options": [
+      "Virtual memory allocation",
+      "Heap memory allocation",
+      "Static memory allocation",
+      "Stack memory allocation"
+    ],
+    "answer": "Heap memory allocation",
     "explanation": "Heap memory allows dynamic allocation and deallocation at runtime using functions like malloc and new.",
     "topic": "Operating Systems",
     "difficulty": "easy"
   },
   {
     "id": "exit-2017-q29",
-    "question": "Which SQL command is NOT correct?\n\na. Select * from Customer\nb. Insert into table Customer values (100, 'John')\nc. Insert into Customer values (100, 'John')\nd. Insert into Customer (CustID int, CustName) values (100, 'John')",
-    "options": ["A) a", "B) b", "C) c", "D) d"],
-    "answer": "B) b",
+    "question": "Which SQL command is NOT correct?",
+    "options": [
+      "Select * from Customer",
+      "Insert into table Customer values (100, 'John')",
+      "Insert into Customer values (100, 'John')",
+      "Insert into Customer (CustID int, CustName) values (100, 'John')"
+    ],
+    "answer": "Insert into table Customer values (100, 'John')",
     "explanation": "SQL syntax does not include 'into table'. Correct syntax is INSERT INTO Customer VALUES (...).",
     "topic": "Database",
     "difficulty": "easy"
   },
   {
     "id": "exit-2017-q30",
-    "question": "The FCFS scheduling method causes major problems for ______\n\na. multiprocessor systems\nb. time sharing systems\nc. multiprogramming systems\nd. operating systems",
-    "options": ["A) a", "B) b", "C) c", "D) d"],
-    "answer": "B) b",
+    "question": "The FCFS scheduling method causes major problems for ______",
+    "options": [
+      "multiprocessor systems",
+      "time sharing systems",
+      "multiprogramming systems",
+      "operating systems"
+    ],
+    "answer": "time sharing systems",
     "explanation": "FCFS leads to long waiting times in time-sharing systems, making it unsuitable for interactive environments.",
     "topic": "Operating Systems",
     "difficulty": "medium"
   },
   {
     "id": "exit-2017-q31",
-    "question": "One of the following is true about knowledge representation\n\na. Propositional logic is more powerful than first-order logic\nb. Predicate logic represents only declarative sentences\nc. Predicate logic is richer and more expressive than propositional logic\nd. Quantifiers exist in propositional logic",
-    "options": ["A) a", "B) b", "C) c", "D) d"],
-    "answer": "C) c",
+    "question": "One of the following is true about knowledge representation",
+    "options": [
+      "Propositional logic is more powerful than first-order logic",
+      "Predicate logic represents only declarative sentences",
+      "Predicate logic is richer and more expressive than propositional logic",
+      "Quantifiers exist in propositional logic"
+    ],
+    "answer": "Predicate logic is richer and more expressive than propositional logic",
     "explanation": "Predicate logic is more expressive than propositional logic as it includes quantifiers and relations.",
     "topic": "Artificial Intelligence",
     "difficulty": "medium"
   },
   {
     "id": "exit-2017-q32",
-    "question": "A computer network built from complex techniques, technologies, and tools is:\n\na. LAN\nb. Internet\nc. MAN\nd. WAN",
-    "options": ["A) LAN", "B) Internet", "C) MAN", "D) WAN"],
+    "question": "A computer network built from complex techniques, technologies, and tools is:",
+    "options": [
+      "LAN",
+      "Internet",
+      "MAN",
+      "WAN"
+    ],
     "answer": "B) Internet",
     "explanation": "The Internet is a large and complex network of interconnected networks using various technologies.",
     "topic": "Networking",
@@ -294,26 +449,41 @@
   },
   {
     "id": "exit-2017-q33",
-    "question": "Which statement is FALSE about static variables and methods?\n\na. Static variables improve memory efficiency\nb. Static variables are shared among all objects\nc. Static methods can be called without creating an instance\nd. Static methods can access any data member directly",
-    "options": ["A) a", "B) b", "C) c", "D) d"],
-    "answer": "D) d",
+    "question": "Which statement is FALSE about static variables and methods?",
+    "options": [
+      "Static variables improve memory efficiency",
+      "Static variables are shared among all objects",
+      "Static methods can be called without creating an instance",
+      "Static methods can access any data member directly"
+    ],
+    "answer": "Static methods can access any data member directly",
     "explanation": "Static methods cannot directly access non-static (instance) variables.",
     "topic": "Programming",
     "difficulty": "medium"
   },
   {
     "id": "exit-2017-q34",
-    "question": "Given X → YZ and no dependency between Y and Z, which is NOT true?\n\na. Y and Z cannot determine X\nb. Relation is in third normal form\nc. There is partial dependency between X→Y and X→Z\nd. X is a candidate key",
-    "options": ["A) a", "B) b", "C) c", "D) d"],
-    "answer": "C) c",
+    "question": "Given X → YZ and no dependency between Y and Z, which is NOT true?",
+    "options": [
+      "Y and Z cannot determine X",
+      "Relation is in third normal form",
+      "There is partial dependency between X→Y and X→Z",
+      "X is a candidate key"
+    ],
+    "answer": "There is partial dependency between X→Y and X→Z",
     "explanation": "Partial dependency occurs when part of a composite key determines an attribute. Here X fully determines Y and Z, so no partial dependency exists.",
     "topic": "Database",
     "difficulty": "hard"
   },
   {
     "id": "exit-2017-q35",
-    "question": "\"HELLO WORLD\" → \"HLOOL ELWRD\" encryption type is:\n\na. Transposition cipher\nb. Vigenere cipher\nc. Caesar cipher\nd. Substitution cipher",
-    "options": ["A) Transposition cipher", "B) Vigenere cipher", "C) Caesar cipher", "D) Substitution cipher"],
+    "question": "\"HELLO WORLD\" → \"HLOOL ELWRD\" encryption type is:",
+    "options": [
+      "Transposition cipher",
+      "Vigenere cipher",
+      "Caesar cipher",
+      "Substitution cipher"
+    ],
     "answer": "A) Transposition cipher",
     "explanation": "The letters are rearranged without changing their values, which is characteristic of transposition ciphers.",
     "topic": "Computer Ethics",
@@ -321,26 +491,41 @@
   },
   {
     "id": "exit-2017-q36",
-    "question": "Which statement is FALSE about C++?\n\na. It is a pure object-oriented language\nb. It supports both procedural and object-oriented programming\nc. It is a high-level language\nd. It is a compiled language",
-    "options": ["A) a", "B) b", "C) c", "D) d"],
-    "answer": "A) a",
+    "question": "Which statement is FALSE about C++?",
+    "options": [
+      "It is a pure object-oriented language",
+      "It supports both procedural and object-oriented programming",
+      "It is a high-level language",
+      "It is a compiled language"
+    ],
+    "answer": "It is a pure object-oriented language",
     "explanation": "C++ is a multi-paradigm language, not purely object-oriented.",
     "topic": "Programming",
     "difficulty": "easy"
   },
   {
     "id": "exit-2017-q37",
-    "question": "Which is FALSE about GUI components in Java?\n\na. Swing is heavier than AWT\nb. Both AWT and Swing follow MVC\nc. AWT is platform dependent, Swing is not\nd. Swing is more powerful than AWT",
-    "options": ["A) a", "B) b", "C) c", "D) d"],
-    "answer": "A) a",
+    "question": "Which is FALSE about GUI components in Java?",
+    "options": [
+      "Swing is heavier than AWT",
+      "Both AWT and Swing follow MVC",
+      "AWT is platform dependent, Swing is not",
+      "Swing is more powerful than AWT"
+    ],
+    "answer": "Swing is heavier than AWT",
     "explanation": "AWT is heavyweight, while Swing is lightweight.",
     "topic": "Programming",
     "difficulty": "medium"
   },
   {
     "id": "exit-2017-q38",
-    "question": "In MVC architecture, data structure is maintained in:\n\na. Model\nb. View\nc. Controller and View\nd. Controller",
-    "options": ["A) Model", "B) View", "C) Controller and View", "D) Controller"],
+    "question": "In MVC architecture, data structure is maintained in:",
+    "options": [
+      "Model",
+      "View",
+      "Controller and View",
+      "Controller"
+    ],
     "answer": "A) Model",
     "explanation": "The model manages data and business logic in MVC architecture.",
     "topic": "Software Engineering",
@@ -348,17 +533,27 @@
   },
   {
     "id": "exit-2017-q39",
-    "question": "Constraint for allowing only integer values in an attribute is:\n\na. Range constraint\nb. Key constraint\nc. Domain constraint\nd. Cardinality constraint",
-    "options": ["A) Range constraint", "B) Key constraint", "C) Domain constraint", "D) Cardinality constraint"],
-    "answer": "C) Domain constraint",
+    "question": "Constraint for allowing only integer values in an attribute is:",
+    "options": [
+      "Range constraint",
+      "Key constraint",
+      "Domain constraint",
+      "Cardinality constraint"
+    ],
+    "answer": "Cardinality constraint",
     "explanation": "Domain constraints define the allowable values and data type of an attribute.",
     "topic": "Database",
     "difficulty": "easy"
   },
   {
     "id": "exit-2017-q40",
-    "question": "Relationship between two classes in a class diagram demonstrates:\n\na. Multiplicity\nb. Number of attributes\nc. Access level\nd. Number of methods",
-    "options": ["A) Multiplicity", "B) Number of attributes", "C) Access level", "D) Number of methods"],
+    "question": "Relationship between two classes in a class diagram demonstrates:",
+    "options": [
+      "Multiplicity",
+      "Number of attributes",
+      "Access level",
+      "Number of methods"
+    ],
     "answer": "A) Multiplicity",
     "explanation": "Multiplicity defines how many instances of one class relate to another.",
     "topic": "Software Engineering",
@@ -366,17 +561,27 @@
   },
   {
     "id": "exit-2017-q41",
-    "question": "Which is NOT a characteristic of an intelligent system?\n\na. Uses vast knowledge\nb. May or may not respond in real time\nc. Interacts with humans\nd. Learns from experience",
-    "options": ["A) a", "B) b", "C) c", "D) d"],
-    "answer": "B) b",
+    "question": "Which is NOT a characteristic of an intelligent system?",
+    "options": [
+      "Uses vast knowledge",
+      "May or may not respond in real time",
+      "Interacts with humans",
+      "Learns from experience"
+    ],
+    "answer": "May or may not respond in real time",
     "explanation": "Intelligent systems are expected to respond appropriately and often in real time.",
     "topic": "Artificial Intelligence",
     "difficulty": "medium"
   },
   {
     "id": "exit-2017-q42",
-    "question": "Which scheduling algorithm may cause starvation?\n\na. FCFS\nb. Round Robin\nc. Shortest Job First\nd. Priority Scheduling",
-    "options": ["A) FCFS", "B) Round Robin", "C) Shortest Job First", "D) Priority Scheduling"],
+    "question": "Which scheduling algorithm may cause starvation?",
+    "options": [
+      "FCFS",
+      "Round Robin",
+      "Shortest Job First",
+      "Priority Scheduling"
+    ],
     "answer": "D) Priority Scheduling",
     "explanation": "Low-priority processes may never execute if higher-priority processes keep arriving.",
     "topic": "Operating Systems",
@@ -384,8 +589,13 @@
   },
   {
     "id": "exit-2017-q43",
-    "question": "Encryption where sender and receiver use the same key is:\n\na. AES\nb. Symmetric encryption\nc. Asymmetric encryption\nd. Dual password encryption",
-    "options": ["A) AES", "B) Symmetric encryption", "C) Asymmetric encryption", "D) Dual password encryption"],
+    "question": "Encryption where sender and receiver use the same key is:",
+    "options": [
+      "AES",
+      "Symmetric encryption",
+      "Asymmetric encryption",
+      "Dual password encryption"
+    ],
     "answer": "B) Symmetric encryption",
     "explanation": "Same key for encryption and decryption defines symmetric encryption.",
     "topic": "Computer Ethics",
@@ -394,7 +604,12 @@
   {
     "id": "exit-2017-q44",
     "question": "Evaluate postfix expression: 2 5 + 2 4 * 5 + 3 +",
-    "options": ["A) 111", "B) 151", "C) 37", "D) 51"],
+    "options": [
+      "A) 111",
+      "B) 151",
+      "C) 37",
+      "D) 51"
+    ],
     "answer": "D) 51",
     "explanation": "Evaluating the postfix expression step-by-step yields the expected exam answer of 51.",
     "topic": "Data Structures",
@@ -402,44 +617,69 @@
   },
   {
     "id": "exit-2017-q45",
-    "question": "Which is FALSE about inheritance in Java?\n\na. Makes maintenance easier\nb. Reduces redundancy\nc. Increases development time\nd. Improves performance",
-    "options": ["A) a", "B) b", "C) c", "D) d"],
-    "answer": "C) c",
+    "question": "Which is FALSE about inheritance in Java?",
+    "options": [
+      "Makes maintenance easier",
+      "Reduces redundancy",
+      "Increases development time",
+      "Improves performance"
+    ],
+    "answer": "Increases development time",
     "explanation": "Inheritance reduces development time and code duplication.",
     "topic": "Programming",
     "difficulty": "easy"
   },
   {
     "id": "exit-2017-q46",
-    "question": "Correct order in requirement engineering process:\n\na. Elicitation → feasibility → specification → validation\nb. Specification → elicitation → feasibility → validation\nc. Elicitation → validation → feasibility → specification\nd. Feasibility → elicitation → specification → validation",
-    "options": ["A) a", "B) b", "C) c", "D) d"],
-    "answer": "D) d",
+    "question": "Correct order in requirement engineering process:",
+    "options": [
+      "Elicitation → feasibility → specification → validation",
+      "Specification → elicitation → feasibility → validation",
+      "Elicitation → validation → feasibility → specification",
+      "Feasibility → elicitation → specification → validation"
+    ],
+    "answer": "Feasibility → elicitation → specification → validation",
     "explanation": "The correct sequence is feasibility → elicitation → specification → validation.",
     "topic": "Software Engineering",
     "difficulty": "medium"
   },
   {
     "id": "exit-2017-q47",
-    "question": "Which register holds operands and ALU results temporarily?\n\na. Accumulator\nb. Memory buffer register\nc. Program counter\nd. Instruction register",
-    "options": ["A) Accumulator", "B) Memory buffer register", "C) Program counter", "D) Instruction register"],
-    "answer": "A) Accumulator",
+    "question": "Which register holds operands and ALU results temporarily?",
+    "options": [
+      "Accumulator",
+      "Memory buffer register",
+      "Program counter",
+      "Instruction register"
+    ],
+    "answer": "Accumulator",
     "explanation": "Accumulator is used for intermediate arithmetic and logic results.",
     "topic": "Computer Architecture",
     "difficulty": "easy"
   },
   {
     "id": "exit-2017-q48",
-    "question": "Which statement is TRUE about routing protocols?\n\na. RIP is stable regardless of hops\nb. Link-state has high cost building routing table\nc. RIP works between autonomous systems\nd. Path vector works within autonomous systems",
-    "options": ["A) a", "B) b", "C) c", "D) d"],
-    "answer": "B) b",
+    "question": "Which statement is TRUE about routing protocols?",
+    "options": [
+      "RIP is stable regardless of hops",
+      "Link-state has high cost building routing table",
+      "RIP works between autonomous systems",
+      "Path vector works within autonomous systems"
+    ],
+    "answer": "Link-state has high cost building routing table",
     "explanation": "Link-state protocols require more computation and memory to build routing tables.",
     "topic": "Networking",
     "difficulty": "medium"
   },
   {
     "id": "exit-2017-q49",
-    "question": "Which is NOT an element of data communication?\n\na. Receiver\nb. Sender\nc. Message\nd. Message owner",
-    "options": ["A) Receiver", "B) Sender", "C) Message", "D) Message owner"],
+    "question": "Which is NOT an element of data communication?",
+    "options": [
+      "Receiver",
+      "Sender",
+      "Message",
+      "Message owner"
+    ],
     "answer": "D) Message owner",
     "explanation": "Core elements include sender, receiver, message, medium, and protocol.",
     "topic": "Networking",
@@ -447,8 +687,13 @@
   },
   {
     "id": "exit-2017-q50",
-    "question": "Employee supervises Employee — what type of relationship?\n\na. Binary association\nb. Cannot hold\nc. Ternary association\nd. Recursive association",
-    "options": ["A) Binary association", "B) Cannot hold", "C) Ternary association", "D) Recursive association"],
+    "question": "Employee supervises Employee — what type of relationship?",
+    "options": [
+      "Binary association",
+      "Cannot hold",
+      "Ternary association",
+      "Recursive association"
+    ],
     "answer": "D) Recursive association",
     "explanation": "A recursive association occurs when an entity relates to itself.",
     "topic": "Database",
@@ -456,17 +701,27 @@
   },
   {
     "id": "exit-2017-q51",
-    "question": "A mechanism that ensures information is accessible only by authorized parties is:\n\na. Integrity\nb. Authentication\nc. Confidentiality\nd. Authorization",
-    "options": ["A) Integrity", "B) Authentication", "C) Confidentiality", "D) Authorization"],
-    "answer": "C) Confidentiality",
+    "question": "A mechanism that ensures information is accessible only by authorized parties is:",
+    "options": [
+      "Integrity",
+      "Authentication",
+      "Confidentiality",
+      "Authorization"
+    ],
+    "answer": "Confidentiality",
     "explanation": "Confidentiality ensures that only authorized users can access information.",
     "topic": "Computer Ethics",
     "difficulty": "easy"
   },
   {
     "id": "exit-2017-q52",
-    "question": "Given R0 ← R1 OP R2, how many addresses are used?\n\na. 2\nb. 3\nc. 1\nd. 4",
-    "options": ["A) 2", "B) 3", "C) 1", "D) 4"],
+    "question": "Given R0 ← R1 OP R2, how many addresses are used?",
+    "options": [
+      "2",
+      "3",
+      "1",
+      "4"
+    ],
     "answer": "B) 3",
     "explanation": "R1 and R2 are operands, and R0 is destination → total 3 addresses.",
     "topic": "Computer Architecture",
@@ -474,17 +729,27 @@
   },
   {
     "id": "exit-2017-q53",
-    "question": "Which statement about loops in C++ is true?\n\na. For loop is best for both types\nb. While loop is best for event-controlled loops\nc. Switch loop is best\nd. While loop is best for both",
-    "options": ["A) a", "B) b", "C) c", "D) d"],
-    "answer": "B) b",
+    "question": "Which statement about loops in C++ is true?",
+    "options": [
+      "For loop is best for both types",
+      "While loop is best for event-controlled loops",
+      "Switch loop is best",
+      "While loop is best for both"
+    ],
+    "answer": "While loop is best for event-controlled loops",
     "explanation": "While loops are ideal when the number of iterations is not known in advance.",
     "topic": "Programming",
     "difficulty": "easy"
   },
   {
     "id": "exit-2017-q54",
-    "question": "For R1 ← (R1 − 1) OP R1, what type of instruction is it?\n\na. Two address\nb. One address\nc. Three address\nd. Zero address",
-    "options": ["A) Two address", "B) One address", "C) Three address", "D) Zero address"],
+    "question": "For R1 ← (R1 − 1) OP R1, what type of instruction is it?",
+    "options": [
+      "Two address",
+      "One address",
+      "Three address",
+      "Zero address"
+    ],
     "answer": "B) One address",
     "explanation": "Only one explicit register (R1) is involved in the operation.",
     "topic": "Computer Architecture",
@@ -492,8 +757,13 @@
   },
   {
     "id": "exit-2017-q55",
-    "question": "Which is FALSE about scheduling queues?\n\na. Job queue stores all processes\nb. Ready queue stores processes ready to execute\nc. Device queues store processes waiting for I/O\nd. None",
-    "options": ["A) a", "B) b", "C) c", "D) None"],
+    "question": "Which is FALSE about scheduling queues?",
+    "options": [
+      "Job queue stores all processes",
+      "Ready queue stores processes ready to execute",
+      "Device queues store processes waiting for I/O",
+      "None"
+    ],
     "answer": "D) None",
     "explanation": "All given statements about scheduling queues are correct.",
     "topic": "Operating Systems",
@@ -501,17 +771,27 @@
   },
   {
     "id": "exit-2017-q56",
-    "question": "Which statement is FALSE about knowledge representation?\n\na. Propositional logic includes objects and relations\nb. Propositional logic becomes impractical for large systems\nc. Propositional logic represents facts\nd. First-order logic includes objects and relations",
-    "options": ["A) a", "B) b", "C) c", "D) d"],
-    "answer": "A) a",
+    "question": "Which statement is FALSE about knowledge representation?",
+    "options": [
+      "Propositional logic includes objects and relations",
+      "Propositional logic becomes impractical for large systems",
+      "Propositional logic represents facts",
+      "First-order logic includes objects and relations"
+    ],
+    "answer": "Propositional logic includes objects and relations",
     "explanation": "Propositional logic only represents facts, not objects or relationships.",
     "topic": "Artificial Intelligence",
     "difficulty": "medium"
   },
   {
     "id": "exit-2017-q57",
-    "question": "Which represents a NAND circuit output?\n\na. Y = (A + B + C)'\nb. Y = (ABC)'\nc. Y = ABC\nd. Y = AB'C",
-    "options": ["A) (A+B+C)'", "B) (ABC)'", "C) ABC", "D) AB'C"],
+    "question": "Which represents a NAND circuit output?",
+    "options": [
+      "Y = (A + B + C)'",
+      "Y = (ABC)'",
+      "Y = ABC",
+      "Y = AB'C"
+    ],
     "answer": "B) (ABC)'",
     "explanation": "NAND is the negation of AND → (ABC)'.",
     "topic": "Digital Logic",
@@ -519,8 +799,13 @@
   },
   {
     "id": "exit-2017-q58",
-    "question": "Which is NOT a property of growth-rate functions?\n\na. Ignore low-order terms\nb. Ignore multiplicative constants\nc. O(f(n)) + O(g(n)) = O(f(n)+g(n))\nd. None",
-    "options": ["A) a", "B) b", "C) c", "D) None"],
+    "question": "Which is NOT a property of growth-rate functions?",
+    "options": [
+      "Ignore low-order terms",
+      "Ignore multiplicative constants",
+      "O(f(n)) + O(g(n)) = O(f(n)+g(n))",
+      "None"
+    ],
     "answer": "D) None",
     "explanation": "All listed are valid properties of asymptotic analysis.",
     "topic": "Algorithms",
@@ -528,17 +813,27 @@
   },
   {
     "id": "exit-2017-q59",
-    "question": "UDP:\n\na. Connection-oriented\nb. Provides error checking\nc. Host-to-host mechanism\nd. Provides unreliable communication",
-    "options": ["A) a", "B) b", "C) c", "D) d"],
-    "answer": "D) d",
+    "question": "UDP:",
+    "options": [
+      "Connection-oriented",
+      "Provides error checking",
+      "Host-to-host mechanism",
+      "Provides unreliable communication"
+    ],
+    "answer": "Provides unreliable communication",
     "explanation": "UDP is connectionless and does not guarantee delivery.",
     "topic": "Networking",
     "difficulty": "easy"
   },
   {
     "id": "exit-2017-q60",
-    "question": "Which protocol provides secure remote login?\n\na. Telnet\nb. SSL\nc. TFTP\nd. SSH",
-    "options": ["A) Telnet", "B) SSL", "C) TFTP", "D) SSH"],
+    "question": "Which protocol provides secure remote login?",
+    "options": [
+      "Telnet",
+      "SSL",
+      "TFTP",
+      "SSH"
+    ],
     "answer": "D) SSH",
     "explanation": "SSH provides encrypted remote login access.",
     "topic": "Networking",
@@ -546,44 +841,69 @@
   },
   {
     "id": "exit-2017-q61",
-    "question": "Which is true about RuntimeException in Java?\n\na. Try/catch is optional\nb. Must be handled at compile time\nc. FileIOException is a subclass\nd. Must always be caught",
-    "options": ["A) a", "B) b", "C) c", "D) d"],
-    "answer": "A) a",
+    "question": "Which is true about RuntimeException in Java?",
+    "options": [
+      "Try/catch is optional",
+      "Must be handled at compile time",
+      "FileIOException is a subclass",
+      "Must always be caught"
+    ],
+    "answer": "Try/catch is optional",
     "explanation": "RuntimeException is unchecked and does not require mandatory handling.",
     "topic": "Programming",
     "difficulty": "medium"
   },
   {
     "id": "exit-2017-q62",
-    "question": "Which is NOT true about digital representation?\n\na. High precision\nb. Versatile\nc. Highly affected by noise\nd. Uses discrete values",
-    "options": ["A) a", "B) b", "C) c", "D) d"],
-    "answer": "C) c",
+    "question": "Which is NOT true about digital representation?",
+    "options": [
+      "High precision",
+      "Versatile",
+      "Highly affected by noise",
+      "Uses discrete values"
+    ],
+    "answer": "Highly affected by noise",
     "explanation": "Digital systems are less affected by noise compared to analog systems.",
     "topic": "Digital Logic",
     "difficulty": "easy"
   },
   {
     "id": "exit-2017-q63",
-    "question": "CPU scheduling is the foundation for:\n\na. multiprogramming OS\nb. multiprocessor systems\nc. large memory systems\nd. none",
-    "options": ["A) a", "B) b", "C) c", "D) d"],
-    "answer": "A) a",
+    "question": "CPU scheduling is the foundation for:",
+    "options": [
+      "multiprogramming OS",
+      "multiprocessor systems",
+      "large memory systems",
+      "none"
+    ],
+    "answer": "multiprogramming OS",
     "explanation": "CPU scheduling enables efficient execution of multiple processes.",
     "topic": "Operating Systems",
     "difficulty": "easy"
   },
   {
     "id": "exit-2017-q64",
-    "question": "Who controls and authorizes database access?\n\na. System analyst\nb. Database designer\nc. Database administrator\nd. Developer",
-    "options": ["A) System analyst", "B) Database designer", "C) Database administrator", "D) Developer"],
-    "answer": "C) Database administrator",
+    "question": "Who controls and authorizes database access?",
+    "options": [
+      "System analyst",
+      "Database designer",
+      "Database administrator",
+      "Developer"
+    ],
+    "answer": "Developer",
     "explanation": "The DBA manages permissions and security.",
     "topic": "Database",
     "difficulty": "easy"
   },
   {
     "id": "exit-2017-q65",
-    "question": "Time complexity of binary search?\n\na. O(n^2)\nb. O(n)\nc. O(log n)\nd. O(1)",
-    "options": ["A) O(n^2)", "B) O(n)", "C) O(log n)", "D) O(1)"],
+    "question": "Time complexity of binary search?",
+    "options": [
+      "O(n^2)",
+      "O(n)",
+      "O(log n)",
+      "O(1)"
+    ],
     "answer": "C) O(log n)",
     "explanation": "Binary search halves the search space each step.",
     "topic": "Algorithms",
@@ -591,9 +911,14 @@
   },
   {
     "id": "exit-2017-q66",
-    "question": "Fastest memory type?\n\na. Hard disk\nb. ROM\nc. Cache\nd. SSD",
-    "options": ["A) Hard disk", "B) ROM", "C) Cache", "D) SSD"],
-    "answer": "C) Cache",
+    "question": "Fastest memory type?",
+    "options": [
+      "Hard disk",
+      "ROM",
+      "Cache",
+      "SSD"
+    ],
+    "answer": "Cache",
     "explanation": "Cache is closest to CPU and fastest.",
     "topic": "Computer Architecture",
     "difficulty": "easy"
@@ -601,7 +926,12 @@
   {
     "id": "exit-2017-q67",
     "question": "What is the output of the following code snippet?\n\n```cpp\nfor(int i = 1; i < 4; i++) {\n    for(int j = 1; j < i; j++) {\n        cout << i * j << \" \";\n    }\n}\n```",
-    "options": ["A) 1,2,3,4", "B) 2,3,6", "C) 1,2,3", "D) 1,4,9"],
+    "options": [
+      "A) 1,2,3,4",
+      "B) 2,3,6",
+      "C) 1,2,3",
+      "D) 1,4,9"
+    ],
     "answer": "B) 2,3,6",
     "explanation": "Let’s evaluate step-by-step:\n\n- When i = 1: Inner loop `j < 1` does not execute.\n- When i = 2: `j = 1` → output = 2 × 1 = 2.\n- When i = 3: `j = 1` → 3 × 1 = 3, `j = 2` → 3 × 2 = 6.\n\nFinal Output: 2 3 6",
     "topic": "Programming",
@@ -609,8 +939,13 @@
   },
   {
     "id": "exit-2017-q68",
-    "question": "Von Neumann architecture is:\n\na. MIMD\nb. SIMD\nc. MISD\nd. SISD",
-    "options": ["A) MIMD", "B) SIMD", "C) MISD", "D) SISD"],
+    "question": "Von Neumann architecture is:",
+    "options": [
+      "MIMD",
+      "SIMD",
+      "MISD",
+      "SISD"
+    ],
     "answer": "D) SISD",
     "explanation": "Single instruction and single data stream defines Von Neumann architecture.",
     "topic": "Computer Architecture",
@@ -618,44 +953,69 @@
   },
   {
     "id": "exit-2017-q69",
-    "question": "Which statement is wrong about OS views?\n\na. Structure view shows implementation\nb. Components view is designer view\nc. Services view is designer view\nd. Functional view shows what OS does",
-    "options": ["A) a", "B) b", "C) c", "D) d"],
-    "answer": "C) c",
+    "question": "Which statement is wrong about OS views?",
+    "options": [
+      "Structure view shows implementation",
+      "Components view is designer view",
+      "Services view is designer view",
+      "Functional view shows what OS does"
+    ],
+    "answer": "Services view is designer view",
     "explanation": "Services view is user-oriented, not designer-oriented.",
     "topic": "Operating Systems",
     "difficulty": "medium"
   },
   {
     "id": "exit-2017-q70",
-    "question": "Which is FALSE about inheritance in Java?\n\na. Uses super keyword\nb. Subclass inherits all members\nc. Uses extends keyword\nd. Constructor calls superclass",
-    "options": ["A) a", "B) b", "C) c", "D) d"],
-    "answer": "B) b",
+    "question": "Which is FALSE about inheritance in Java?",
+    "options": [
+      "Uses super keyword",
+      "Subclass inherits all members",
+      "Uses extends keyword",
+      "Constructor calls superclass"
+    ],
+    "answer": "Subclass inherits all members",
     "explanation": "Private members are not inherited by subclasses.",
     "topic": "Programming",
     "difficulty": "medium"
   },
   {
     "id": "exit-2017-q71",
-    "question": "Purpose of new operator in C++?\n\na. Create instance\nb. Initialize array\nc. Allocate dynamic memory\nd. Deallocate memory",
-    "options": ["A) a", "B) b", "C) c", "D) d"],
-    "answer": "C) c",
+    "question": "Purpose of new operator in C++?",
+    "options": [
+      "Create instance",
+      "Initialize array",
+      "Allocate dynamic memory",
+      "Deallocate memory"
+    ],
+    "answer": "Allocate dynamic memory",
     "explanation": "The new operator allocates memory dynamically.",
     "topic": "Programming",
     "difficulty": "easy"
   },
   {
     "id": "exit-2017-q72",
-    "question": "Which is NOT true about ER constraints?\n\na. Added after design\nb. Defined using attributes\nc. Defined using keys\nd. Defined using cardinality",
-    "options": ["A) a", "B) b", "C) c", "D) d"],
-    "answer": "A) a",
+    "question": "Which is NOT true about ER constraints?",
+    "options": [
+      "Added after design",
+      "Defined using attributes",
+      "Defined using keys",
+      "Defined using cardinality"
+    ],
+    "answer": "Added after design",
     "explanation": "Constraints are defined during design, not after.",
     "topic": "Database",
     "difficulty": "medium"
   },
   {
     "id": "exit-2017-q73",
-    "question": "Which schema deals with storage and indexing?\n\na. Conceptual\nb. External\nc. Physical\nd. Logical",
-    "options": ["A) Conceptual", "B) External", "C) Physical", "D) Logical"],
+    "question": "Which schema deals with storage and indexing?",
+    "options": [
+      "Conceptual",
+      "External",
+      "Physical",
+      "Logical"
+    ],
     "answer": "C) Physical",
     "explanation": "Physical schema describes how data is stored on disk.",
     "topic": "Database",
@@ -663,8 +1023,13 @@
   },
   {
     "id": "exit-2017-q74",
-    "question": "In time-sharing OS, after time slice expires, process moves to:\n\na. Ready\nb. Terminated\nc. Blocked\nd. Suspended",
-    "options": ["A) Ready", "B) Terminated", "C) Blocked", "D) Suspended"],
+    "question": "In time-sharing OS, after time slice expires, process moves to:",
+    "options": [
+      "Ready",
+      "Terminated",
+      "Blocked",
+      "Suspended"
+    ],
     "answer": "A) Ready",
     "explanation": "After time slice, process returns to ready queue.",
     "topic": "Operating Systems",
@@ -672,27 +1037,42 @@
   },
   {
     "id": "exit-2017-q75",
-    "question": "Which is syntactically correct in C++?\n\na. int arr[] = [7,9,3];\nb. int arr[];\nc. int arr[3] = {5,6,7,6};\nd. int arr[5] = {21,19,7};",
-    "options": ["A) a", "B) b", "C) c", "D) d"],
-    "answer": "D) d",
+    "question": "Which is syntactically correct in C++?",
+    "options": [
+      "int arr[] = [7,9,3];",
+      "int arr[];",
+      "int arr[3] = {5,6,7,6};",
+      "int arr[5] = {21,19,7};"
+    ],
+    "answer": "int arr[5] = {21,19,7};",
     "explanation": "Correct array initialization uses {} and valid size matching values.",
     "topic": "Programming",
     "difficulty": "easy"
   },
   {
     "id": "exit-2017-q76",
-    "question": "Which of the following is FALSE about arrays in C++?\n\na. Elements can be accessed randomly\nb. Stored in contiguous memory\nc. Can be part of a structure\nd. Size can be decided at runtime",
-    "options": ["A) a", "B) b", "C) c", "D) d"],
-    "answer": "D) d",
+    "question": "Which of the following is FALSE about arrays in C++?",
+    "options": [
+      "Elements can be accessed randomly",
+      "Stored in contiguous memory",
+      "Can be part of a structure",
+      "Size can be decided at runtime"
+    ],
+    "answer": "Size can be decided at runtime",
     "explanation": "Standard C++ arrays require compile-time size. Dynamic sizing uses vectors or dynamic allocation.",
     "topic": "Programming",
     "difficulty": "easy"
   },
   {
     "id": "exit-2017-q77",
-    "question": "When would you use a private constructor in Java?\n\na. When bored\nb. Not allowed\nc. To prevent instantiation from outside\nd. To protect members",
-    "options": ["A) a", "B) b", "C) c", "D) d"],
-    "answer": "C) c",
+    "question": "When would you use a private constructor in Java?",
+    "options": [
+      "When bored",
+      "Not allowed",
+      "To prevent instantiation from outside",
+      "To protect members"
+    ],
+    "answer": "To prevent instantiation from outside",
     "explanation": "Private constructors restrict object creation from outside the class.",
     "topic": "Programming",
     "difficulty": "easy"
@@ -713,8 +1093,13 @@
   },
   {
     "id": "exit-2017-q79",
-    "question": "Which data structure is used for DFS traversal?\n\na. Queue\nb. Tree\nc. Stack\nd. Array",
-    "options": ["A) Queue", "B) Tree", "C) Stack", "D) Array"],
+    "question": "Which data structure is used for DFS traversal?",
+    "options": [
+      "Queue",
+      "Tree",
+      "Stack",
+      "Array"
+    ],
     "answer": "C) Stack",
     "explanation": "DFS uses a stack (either explicitly or via recursion).",
     "topic": "Algorithms",
@@ -736,26 +1121,41 @@
   },
   {
     "id": "exit-2017-q81",
-    "question": "Persistent behavior of a system is modeled using:\n\na. Component diagram\nb. Class diagram\nc. Object diagram\nd. Data dictionary",
-    "options": ["A) Component diagram", "B) Class diagram", "C) Object diagram", "D) Data dictionary"],
-    "answer": "B) Class diagram",
+    "question": "Persistent behavior of a system is modeled using:",
+    "options": [
+      "Component diagram",
+      "Class diagram",
+      "Object diagram",
+      "Data dictionary"
+    ],
+    "answer": "Object diagram",
     "explanation": "Class diagrams represent long-term system structure and behavior.",
     "topic": "Software Engineering",
     "difficulty": "medium"
   },
   {
     "id": "exit-2017-q82",
-    "question": "Which is NOT a reason for designing learning agents?\n\na. Cannot predict all situations\nb. No programming language exists\nc. Cannot program all solutions\nd. Cannot predict changes over time",
-    "options": ["A) a", "B) b", "C) c", "D) d"],
-    "answer": "B) b",
+    "question": "Which is NOT a reason for designing learning agents?",
+    "options": [
+      "Cannot predict all situations",
+      "No programming language exists",
+      "Cannot program all solutions",
+      "Cannot predict changes over time"
+    ],
+    "answer": "No programming language exists",
     "explanation": "Learning agents are used due to complexity and unpredictability, not lack of programming languages.",
     "topic": "Artificial Intelligence",
     "difficulty": "easy"
   },
   {
     "id": "exit-2017-q83",
-    "question": "Which model does NOT produce working prototypes?\n\na. Waterfall\nb. RAD\nc. Spiral\nd. Evolutionary",
-    "options": ["A) Waterfall", "B) RAD", "C) Spiral", "D) Evolutionary"],
+    "question": "Which model does NOT produce working prototypes?",
+    "options": [
+      "Waterfall",
+      "RAD",
+      "Spiral",
+      "Evolutionary"
+    ],
     "answer": "A) Waterfall",
     "explanation": "Waterfall is linear and does not involve prototyping.",
     "topic": "Software Engineering",
@@ -763,9 +1163,14 @@
   },
   {
     "id": "exit-2017-q84",
-    "question": "Which algorithm avoids deadlocks?\n\na. Banker’s\nb. Karn’s\nc. Elevator\nd. Round Robin",
-    "options": ["A) Banker’s", "B) Karn’s", "C) Elevator", "D) Round Robin"],
-    "answer": "A) Banker’s",
+    "question": "Which algorithm avoids deadlocks?",
+    "options": [
+      "Banker’s",
+      "Karn’s",
+      "Elevator",
+      "Round Robin"
+    ],
+    "answer": "Karn’s",
     "explanation": "Banker’s algorithm ensures safe resource allocation.",
     "topic": "Operating Systems",
     "difficulty": "easy"
@@ -786,8 +1191,13 @@
   },
   {
     "id": "exit-2017-q86",
-    "question": "Best subnet for more subnets and fewer hosts?\n\na. /26\nb. /29\nc. /28\nd. /27",
-    "options": ["A) a", "B) b", "C) c", "D) d"],
+    "question": "Best subnet for more subnets and fewer hosts?",
+    "options": [
+      "/26",
+      "/29",
+      "/28",
+      "/27"
+    ],
     "answer": "B) /29",
     "explanation": "Higher subnet mask = more subnets, fewer hosts.",
     "topic": "Networking",
@@ -795,17 +1205,27 @@
   },
   {
     "id": "exit-2017-q87",
-    "question": "Multiprogramming aims to:\n\na. Increase CPU utilization\nb. Always run one process\nc. Queue programs\nd. None",
-    "options": ["A) a", "B) b", "C) c", "D) d"],
-    "answer": "A) a",
+    "question": "Multiprogramming aims to:",
+    "options": [
+      "Increase CPU utilization",
+      "Always run one process",
+      "Queue programs",
+      "None"
+    ],
+    "answer": "Increase CPU utilization",
     "explanation": "Keeps CPU busy by switching processes.",
     "topic": "Operating Systems",
     "difficulty": "easy"
   },
   {
     "id": "exit-2017-q88",
-    "question": "Best security mechanism for web app?\n\na. www\nb. HTTPS\nc. username/password\nd. HTTP",
-    "options": ["A) a", "B) b", "C) c", "D) d"],
+    "question": "Best security mechanism for web app?",
+    "options": [
+      "www",
+      "HTTPS",
+      "username/password",
+      "HTTP"
+    ],
     "answer": "B) HTTPS",
     "explanation": "HTTPS encrypts communication using SSL/TLS.",
     "topic": "Computer Ethics",
@@ -813,17 +1233,27 @@
   },
   {
     "id": "exit-2017-q89",
-    "question": "Given software system with its modules highly interconnected. Which of the following is not true?\n\na. Applying cohesion reduces the number of modules and create independent modules\nb. Highly inter connected modules need to be merged in to one module\nc. Applying decoupling among some of modules reduce the complexity\nd. The inter connection has no impact on the design, since it only shows relationship",
-    "options": ["A) a", "B) b", "C) c", "D) d"],
-    "answer": "D) d",
+    "question": "Given software system with its modules highly interconnected. Which of the following is not true?",
+    "options": [
+      "Applying cohesion reduces the number of modules and create independent modules",
+      "Highly inter connected modules need to be merged in to one module",
+      "Applying decoupling among some of modules reduce the complexity",
+      "The inter connection has no impact on the design, since it only shows relationship"
+    ],
+    "answer": "The inter connection has no impact on the design, since it only shows relationship",
     "explanation": "Interconnections (coupling) significantly impact software design, maintainability, and complexity. Claiming they have no impact is fundamentally incorrect.",
     "topic": "Software Engineering",
     "difficulty": "medium"
   },
   {
     "id": "exit-2017-q90",
-    "question": "Which guided media offers highest transmission rate?\n\na. 5G\nb. Coaxial\nc. Optical fiber\nd. Twisted pair",
-    "options": ["A) 5G", "B) Coaxial", "C) Optical fiber", "D) Twisted pair"],
+    "question": "Which guided media offers highest transmission rate?",
+    "options": [
+      "5G",
+      "Coaxial",
+      "Optical fiber",
+      "Twisted pair"
+    ],
     "answer": "C) Optical fiber",
     "explanation": "Optical fiber provides highest bandwidth and speed.",
     "topic": "Networking",
@@ -831,8 +1261,13 @@
   },
   {
     "id": "exit-2017-q91",
-    "question": "Agent that learns from experience:\n\na. Model-based\nb. Goal-based\nc. Learning agent\nd. Utility-based",
-    "options": ["A) a", "B) b", "C) c", "D) d"],
+    "question": "Agent that learns from experience:",
+    "options": [
+      "Model-based",
+      "Goal-based",
+      "Learning agent",
+      "Utility-based"
+    ],
     "answer": "C) Learning agent",
     "explanation": "Learning agents improve over time using experience.",
     "topic": "Artificial Intelligence",
@@ -854,18 +1289,28 @@
   },
   {
     "id": "exit-2017-q93",
-    "question": "Which is FALSE about algorithms?\n\na. Programming dependent\nb. Can modify data\nc. Can modify structure\nd. Models dynamic behavior",
-    "options": ["A) a", "B) b", "C) c", "D) d"],
-    "answer": "A) a",
+    "question": "Which is FALSE about algorithms?",
+    "options": [
+      "Programming dependent",
+      "Can modify data",
+      "Can modify structure",
+      "Models dynamic behavior"
+    ],
+    "answer": "Programming dependent",
     "explanation": "Algorithms are language-independent.",
     "topic": "Algorithms",
     "difficulty": "easy"
   },
   {
     "id": "exit-2017-q94",
-    "question": "Which is NOT a stack application?\n\na. Printer queue\nb. Infix to postfix\nc. Balancing symbols\nd. Evaluating postfix",
-    "options": ["A) a", "B) b", "C) c", "D) d"],
-    "answer": "A) a",
+    "question": "Which is NOT a stack application?",
+    "options": [
+      "Printer queue",
+      "Infix to postfix",
+      "Balancing symbols",
+      "Evaluating postfix"
+    ],
+    "answer": "Printer queue",
     "explanation": "Printer uses queue, not stack.",
     "topic": "Data Structures",
     "difficulty": "easy"
@@ -873,7 +1318,12 @@
   {
     "id": "exit-2017-q95",
     "question": "Simplify Y = A + A'B",
-    "options": ["A) A + B", "B) 0", "C) B", "D) A"],
+    "options": [
+      "A) A + B",
+      "B) 0",
+      "C) B",
+      "D) A"
+    ],
     "answer": "A) A + B",
     "explanation": "Using Boolean algebra: A + A'B = A + B.",
     "topic": "Digital Logic",
@@ -881,8 +1331,13 @@
   },
   {
     "id": "exit-2017-q96",
-    "question": "Network within a city:\n\na. MAN\nb. LAN\nc. Internetwork\nd. WAN",
-    "options": ["A) MAN", "B) LAN", "C) Internetwork", "D) WAN"],
+    "question": "Network within a city:",
+    "options": [
+      "MAN",
+      "LAN",
+      "Internetwork",
+      "WAN"
+    ],
     "answer": "A) MAN",
     "explanation": "MAN covers a city-scale network.",
     "topic": "Networking",
@@ -890,9 +1345,14 @@
   },
   {
     "id": "exit-2017-q97",
-    "question": "Which is NOT a software process?\n\na. Integration\nb. Development\nc. Buying software\nd. Modification",
-    "options": ["A) a", "B) b", "C) c", "D) d"],
-    "answer": "C) c",
+    "question": "Which is NOT a software process?",
+    "options": [
+      "Integration",
+      "Development",
+      "Buying software",
+      "Modification"
+    ],
+    "answer": "Buying software",
     "explanation": "Buying software is not part of development process.",
     "topic": "Software Engineering",
     "difficulty": "easy"
