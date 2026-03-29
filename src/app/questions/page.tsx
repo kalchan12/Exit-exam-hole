@@ -318,24 +318,24 @@ function QuestionsContent() {
               <button
                 key={topic}
                 onClick={() => selectCategory(topic)}
-                className="group relative flex flex-col items-start rounded-3xl bg-[#11152a]/50 border border-white/5 p-8 text-left transition-all duration-500 hover:bg-[#11152a] hover:border-accent-purple/30 hover:-translate-y-1 hover:shadow-2xl hover:shadow-accent-purple/10"
+                className="group relative flex flex-col items-start rounded-3xl bg-[#11152a]/50 border border-white/5 p-5 sm:p-8 text-left transition-all duration-500 hover:bg-[#11152a] hover:border-accent-purple/30 hover:-translate-y-1 hover:shadow-2xl hover:shadow-accent-purple/10"
               >
-                <div className="w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center text-2xl mb-8 group-hover:bg-accent-purple/10 group-hover:scale-110 transition-all duration-500">
+                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-white/5 flex items-center justify-center text-xl sm:text-2xl mb-4 sm:mb-8 group-hover:bg-accent-purple/10 group-hover:scale-110 transition-all duration-500">
                   {meta.icon}
                 </div>
-                <h3 className="text-xl font-black text-white italic uppercase tracking-tighter mb-2 group-hover:text-white/90 transition-colors h-14 flex items-center">
-                  {topic.split(' ').map((word, i) => <span key={i} className="block">{word}{i === 0 && topic.includes(' ') ? <br /> : ''}</span>)}
+                <h3 className="text-lg sm:text-xl font-black text-white italic uppercase tracking-tighter mb-1 sm:mb-2 group-hover:text-white/90 transition-colors h-12 flex items-center">
+                  {topic.split(' ').map((word, i) => <span key={i} className="block">{word}{i === 0 && topic.includes(' ') && word.length < 10 ? <br /> : ' '}</span>)}
                 </h3>
-                <p className="text-xs text-gray-500 leading-relaxed mb-8 h-12 line-clamp-3">
+                <p className="text-[11px] sm:text-xs text-gray-500 leading-tight sm:leading-relaxed mb-4 sm:mb-8 h-10 line-clamp-3">
                    {topicSubtopics[topic] || 'Focus on fundamental concepts and advanced applications.'}
                 </p>
                 
                 <div className="w-full mt-auto">
-                  <div className="flex items-center justify-between text-[10px] font-black uppercase tracking-[0.1em] text-accent-purple-light mb-3">
+                  <div className="flex items-center justify-between text-[9px] sm:text-[10px] font-black uppercase tracking-[0.1em] text-accent-purple-light mb-2 sm:mb-3">
                     <span>Progress</span>
                     <span>{solved} / {count} ({percent}%)</span>
                   </div>
-                  <div className="w-full h-1.5 bg-white/5 rounded-full overflow-hidden">
+                  <div className="w-full h-1 sm:h-1.5 bg-white/5 rounded-full overflow-hidden">
                     <div 
                       className="h-full bg-accent-purple rounded-full transition-all duration-1000 ease-out shadow-[0_0_10px_rgba(124,58,237,0.5)]"
                       style={{ width: `${percent}%` }}
@@ -533,8 +533,8 @@ function QuestionsContent() {
           </div>
         </div>
       ) : currentQuestion ? (
-        <div className="card p-6 sm:p-8 animate-in slide-in-from-bottom-5 duration-500">
-          <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 mb-4 sm:mb-6">
+        <div className="card p-4 sm:p-8 animate-in slide-in-from-bottom-5 duration-500">
+          <div className="flex flex-wrap items-center gap-1 sm:gap-2 mb-3 sm:mb-6">
             <span className="badge-source text-[10px] sm:text-xs truncate max-w-[120px] sm:max-w-none">{sourceLabel(currentQuestion.source)}</span>
             <span className={`${difficultyColor(currentQuestion.difficulty)} text-[10px] sm:text-xs capitalize`}>
               {currentQuestion.difficulty}
@@ -578,21 +578,21 @@ function QuestionsContent() {
 
           {/* Question Text & Hint */}
           <div>
-            <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3 sm:gap-4 mb-4">
-              <h2 className="text-lg sm:text-xl font-semibold text-white leading-relaxed flex-1">
+            <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-2 sm:gap-4 mb-3 sm:mb-4">
+              <h2 className="text-sm sm:text-xl font-semibold text-white leading-snug sm:leading-relaxed flex-1">
                 {currentQuestion.question}
               </h2>
             </div>
           </div>
 
           {/* Options */}
-          <div className="space-y-3 mb-6">
+          <div className="space-y-2 sm:space-y-3 mb-4 sm:mb-6">
             {currentQuestion.options.map((option, idx) => {
               const isSelected = selectedAnswer === option;
               const isCorrect = option === currentQuestion.answer;
               const isAnswered = selectedAnswer !== null;
 
-              let optionClass = 'card p-4 cursor-pointer transition-all duration-200 border-2 ';
+              let optionClass = 'card p-2.5 px-3 sm:p-4 cursor-pointer transition-all duration-200 border-2 ';
               if (!isAnswered) {
                 optionClass += 'border-transparent hover:border-accent-purple/40 hover:bg-dark-600/60';
               } else if (isCorrect) {
@@ -608,9 +608,9 @@ function QuestionsContent() {
                   key={idx}
                   onClick={() => handleSelectAnswer(option)}
                   disabled={isAnswered}
-                  className={`${optionClass} w-full text-left flex items-start sm:items-center gap-3`}
+                  className={`${optionClass} w-full text-left flex items-start sm:items-center gap-2 sm:gap-3`}
                 >
-                  <span className={`w-6 h-6 sm:w-8 sm:h-8 rounded-lg flex items-center justify-center text-xs sm:text-sm font-semibold flex-shrink-0 mt-0.5 sm:mt-0 ${
+                  <span className={`w-6 h-6 sm:w-8 sm:h-8 rounded-md sm:rounded-lg flex items-center justify-center text-[10px] sm:text-sm font-semibold flex-shrink-0 mt-0.5 sm:mt-0 ${
                     isAnswered && isCorrect
                       ? 'bg-green-500/20 text-green-400'
                       : isAnswered && isSelected
@@ -619,16 +619,16 @@ function QuestionsContent() {
                   }`}>
                     {String.fromCharCode(65 + idx)}
                   </span>
-                  <span className={`text-sm sm:text-base leading-relaxed ${isAnswered && isCorrect ? 'text-green-400' : isAnswered && isSelected ? 'text-red-400' : 'text-gray-200'}`}>
+                  <span className={`text-xs sm:text-base font-medium leading-snug sm:leading-relaxed ${isAnswered && isCorrect ? 'text-green-400' : isAnswered && isSelected ? 'text-red-400' : 'text-gray-200'}`}>
                     {option}
                   </span>
                   {isAnswered && isCorrect && (
-                    <svg className="w-4 h-4 sm:w-5 sm:h-5 text-green-400 ml-auto flex-shrink-0 mt-1 sm:mt-0" fill="currentColor" viewBox="0 0 24 24">
+                    <svg className="w-3.5 h-3.5 sm:w-5 sm:h-5 text-green-400 ml-auto flex-shrink-0" fill="currentColor" viewBox="0 0 24 24">
                       <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" />
                     </svg>
                   )}
                   {isAnswered && isSelected && !isCorrect && (
-                    <svg className="w-4 h-4 sm:w-5 sm:h-5 text-red-400 ml-auto flex-shrink-0 mt-1 sm:mt-0" fill="currentColor" viewBox="0 0 24 24">
+                    <svg className="w-3.5 h-3.5 sm:w-5 sm:h-5 text-red-400 ml-auto flex-shrink-0" fill="currentColor" viewBox="0 0 24 24">
                       <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z" />
                     </svg>
                   )}
