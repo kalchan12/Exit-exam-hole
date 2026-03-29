@@ -1,7 +1,7 @@
 'use client';
 
-import { useState } from 'react';
-import { usePathname } from 'next/navigation';
+import { useState, useEffect } from 'react';
+import { usePathname, useRouter } from 'next/navigation';
 import Sidebar from './Sidebar';
 import { useAuth } from './AuthProvider';
 import GuestUpsellModal from './GuestUpsellModal';
@@ -9,9 +9,17 @@ import GuestUpsellModal from './GuestUpsellModal';
 export default function ClientLayout({ children }: { children: React.ReactNode }) {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const pathname = usePathname();
+  const router = useRouter();
   const { user, isGuest, loading } = useAuth();
   
   const isAuthRoute = pathname === '/' || pathname?.startsWith('/auth');
+
+  // Trigger redirect for unauthenticated users trying to access protected routes
+  useEffect(() => {
+    if (!loading && !user && !isGuest && !isAuthRoute) {
+      router.push('/auth/login');
+    }
+  }, [loading, user, isGuest, isAuthRoute, router]);
 
   // If it's a known non-dashboard route (root or /auth/*), 
   // just show the children without sidebar padding.
