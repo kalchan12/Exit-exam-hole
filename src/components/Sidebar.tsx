@@ -134,6 +134,9 @@ const navGroups = [
   }
 ];
 
+// Items to hide from mobile sidebar because they are in Bottom Nav
+const bottomNavItems = ['Dashboard', 'Questions', 'Exit Exam', 'Profile'];
+
 interface SidebarProps {
   isCollapsed: boolean;
   setIsCollapsed: (val: boolean) => void;
