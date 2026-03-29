@@ -187,7 +187,7 @@ export default function UploadPage() {
       {/* Header */}
       <div className="flex items-end justify-between border-b border-white/5 pb-6">
         <div>
-          <h1 className="text-4xl font-black text-white uppercase italic tracking-tighter">Unified Hub</h1>
+          <h1 className="text-2xl sm:text-4xl font-black text-white uppercase italic tracking-tighter">Unified Hub</h1>
           <p className="text-gray-500 text-sm mt-1 uppercase font-bold tracking-widest">
             Step {step} of 4: {
                 step === 1 ? 'Select Category' :
@@ -363,14 +363,14 @@ function SelectionCard({ title, desc, icon, onClick, variant = 'purple' }: { tit
         <button 
             type="button"
             onClick={onClick}
-            className={`group p-8 text-left rounded-3xl border-2 transition-all duration-300 relative overflow-hidden bg-[#11152a] min-h-[160px] flex flex-col justify-center ${
+            className={`group p-5 sm:p-8 text-left rounded-2xl sm:rounded-3xl border-2 transition-all duration-300 relative overflow-hidden bg-[#11152a] min-h-[100px] sm:min-h-[160px] flex flex-col justify-center ${
                 variant === 'purple' 
                 ? 'border-white/5 hover:border-accent-purple/40 hover:shadow-2xl hover:shadow-purple-500/10' 
                 : 'border-white/5 hover:border-indigo-500/40 hover:shadow-2xl hover:shadow-indigo-500/10'
             }`}
         >
-            <div className="text-4xl mb-3 group-hover:scale-110 transition-transform origin-left">{icon}</div>
-            <h3 className="text-cl font-black text-white italic uppercase tracking-tighter mb-1 leading-tight">{title}</h3>
+            <div className="text-2xl sm:text-4xl mb-2 sm:mb-3 group-hover:scale-110 transition-transform origin-left">{icon}</div>
+            <h3 className="text-base sm:text-xl font-black text-white italic uppercase tracking-tighter mb-1 leading-tight">{title}</h3>
             <p className="text-[10px] text-gray-500 font-bold uppercase tracking-wider leading-relaxed">{desc}</p>
             <div className={`absolute top-0 right-0 w-24 h-24 blur-3xl opacity-0 group-hover:opacity-20 transition-opacity ${variant === 'purple' ? 'bg-accent-purple' : 'bg-indigo-500'}`} />
         </button>

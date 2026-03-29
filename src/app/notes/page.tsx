@@ -171,9 +171,9 @@ export default function NotesPage() {
           return (
             <div key={note.id} className="card overflow-hidden hover:ring-1 hover:ring-accent-purple/50 transition-all duration-300 group relative">
               <Link href={`/notes/view?id=${note.id}`} className="block">
-                <div className="p-5 flex flex-col h-full">
+                <div className="p-4 sm:p-5 flex flex-col h-full">
                   <div className="flex items-start gap-4">
-                    <div className={`w-12 h-12 rounded-xl bg-[#11152a] bg-gradient-to-br ${colors} flex items-center justify-center text-xl flex-shrink-0 group-hover:scale-105 transition-transform`}>
+                    <div className={`w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-[#11152a] bg-gradient-to-br ${colors} flex items-center justify-center text-lg sm:text-xl flex-shrink-0 group-hover:scale-105 transition-transform`}>
                       {icon}
                     </div>
                     <div className="flex-1 min-w-0">
@@ -183,13 +183,13 @@ export default function NotesPage() {
                         </span>
                         <span className="text-xs text-gray-500 whitespace-nowrap">• {formatDate(note.date)}</span>
                       </div>
-                      <h3 className="text-lg font-semibold text-white mt-1 pr-16 group-hover:text-accent-purple-light transition-colors line-clamp-2">
+                      <h3 className="text-base sm:text-lg font-semibold text-white mt-1 pr-16 group-hover:text-accent-purple-light transition-colors line-clamp-2">
                         {note.title}
                       </h3>
                     </div>
                   </div>
                   {note.summary && (
-                    <p className="text-gray-400 text-sm mt-3 leading-relaxed line-clamp-2 pl-16">{note.summary}</p>
+                    <p className="text-gray-400 text-xs sm:text-sm mt-2 sm:mt-3 leading-relaxed line-clamp-2 pl-14 sm:pl-16">{note.summary}</p>
                   )}
                   <div className="mt-4 pt-4 border-t border-dark-400/20 flex flex-wrap items-center gap-2">
                     {completedNotes[note.id] && (
