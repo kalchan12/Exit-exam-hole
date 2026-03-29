@@ -156,7 +156,7 @@ export default function StatsPage() {
             </div>
             <span className="text-[10px] sm:text-xs text-gray-400 uppercase tracking-wider truncate">Total XP</span>
           </div>
-          <p className="text-3xl font-bold text-white">{progress?.xp || 0}</p>
+          <p className="text-2xl sm:text-3xl font-bold text-white">{progress?.xp || 0}</p>
           <p className="text-xs text-accent-purple-light mt-1">Level {levelInfo.level} — {levelInfo.title}</p>
         </div>
 
@@ -167,7 +167,7 @@ export default function StatsPage() {
             </div>
             <span className="text-[10px] sm:text-xs text-gray-400 uppercase tracking-wider truncate">Streak</span>
           </div>
-          <p className="text-3xl font-bold text-white">{progress?.streak || 0}</p>
+          <p className="text-2xl sm:text-3xl font-bold text-white">{progress?.streak || 0}</p>
           <p className="text-xs text-orange-400 mt-1">Consecutive correct</p>
         </div>
 
@@ -180,7 +180,7 @@ export default function StatsPage() {
             </div>
             <span className="text-[10px] sm:text-xs text-gray-400 uppercase tracking-wider truncate">Accuracy</span>
           </div>
-          <p className="text-3xl font-bold text-white">{overallAccuracy}%</p>
+          <p className="text-2xl sm:text-3xl font-bold text-white">{overallAccuracy}%</p>
           <p className="text-xs text-green-400 mt-1">{totalCorrect}/{totalAnswered} correct</p>
         </div>
 
@@ -193,7 +193,7 @@ export default function StatsPage() {
             </div>
             <span className="text-[10px] sm:text-xs text-gray-400 uppercase tracking-wider truncate">Answered</span>
           </div>
-          <p className="text-3xl font-bold text-white">{totalAnswered}</p>
+          <p className="text-2xl sm:text-3xl font-bold text-white">{totalAnswered}</p>
           <p className="text-xs text-blue-400 mt-1">of {questions.length} questions</p>
         </div>
       </div>
@@ -279,19 +279,19 @@ export default function StatsPage() {
         <h3 className="text-lg font-bold text-white mb-4">Quick Statistics</h3>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <div className="p-4 rounded-xl bg-dark-600/40 text-center">
-            <p className="text-2xl font-bold text-accent-purple-light">
+            <p className="text-lg sm:text-2xl font-bold text-accent-purple-light">
               {questions.length > 0 ? Math.round((totalAnswered / questions.length) * 100) : 0}%
             </p>
             <p className="text-xs text-gray-400 mt-1">Questions Completed</p>
           </div>
           <div className="p-4 rounded-xl bg-dark-600/40 text-center">
-            <p className="text-2xl font-bold text-neon-green">
+            <p className="text-lg sm:text-2xl font-bold text-neon-green">
               {progress?.lastActiveDate || 'Never'}
             </p>
             <p className="text-xs text-gray-400 mt-1">Last Active</p>
           </div>
           <div className="p-4 rounded-xl bg-dark-600/40 text-center">
-            <p className="text-2xl font-bold text-neon-blue">
+            <p className="text-lg sm:text-2xl font-bold text-neon-blue">
               {topics.length}
             </p>
             <p className="text-xs text-gray-400 mt-1">Topics Available</p>

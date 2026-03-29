@@ -70,12 +70,12 @@ export default function ProgressPage() {
   })).sort((a, b) => b.mastery - a.mastery);
 
   return (
-    <div className="max-w-6xl mx-auto px-6 py-8 md:py-12 space-y-10 animate-in fade-in duration-700 pb-32">
+    <div className="max-w-6xl mx-auto px-4 sm:px-6 py-6 sm:py-8 md:py-12 space-y-6 sm:space-y-10 animate-in fade-in duration-700 pb-32">
       {/* Header Section */}
       <div className="flex items-start justify-between">
         <div className="space-y-1">
           <p className="text-[10px] font-black text-purple-500 uppercase tracking-[0.3em] mb-1">Your Growth</p>
-          <h1 className="text-4xl md:text-5xl font-black text-white tracking-tighter leading-tight">
+          <h1 className="text-2xl sm:text-4xl md:text-5xl font-black text-white tracking-tighter leading-tight">
             User Progress
           </h1>
         </div>
@@ -92,17 +92,17 @@ export default function ProgressPage() {
       </div>
 
       {/* Main Progress Card */}
-      <div className="bg-[#111226]/50 border border-white/5 rounded-[2.5rem] p-8 md:p-10 relative overflow-hidden group shadow-2xl">
+      <div className="bg-[#111226]/50 border border-white/5 rounded-2xl sm:rounded-[2.5rem] p-5 sm:p-8 md:p-10 relative overflow-hidden group shadow-2xl">
         {/* Glow effect */}
         <div className="absolute top-0 right-0 w-80 h-80 bg-purple-600/10 blur-[100px] -mr-40 -mt-40 pointer-events-none group-hover:bg-purple-600/20 transition-all duration-700"></div>
 
         <div className="relative z-10 space-y-8">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div className="space-y-1">
-              <h2 className="text-xl md:text-2xl font-black text-white uppercase tracking-tight">Current Rank: {levelInfo.title} (Lvl {levelInfo.level})</h2>
-              <p className="text-gray-500 text-sm font-bold">Next Rank: Tier {Math.ceil((levelInfo.level + 1) / 5)} (Requires {levelInfo.nextLevelXP} XP)</p>
+              <h2 className="text-base sm:text-xl md:text-2xl font-black text-white uppercase tracking-tight">Current Rank: {levelInfo.title} (Lvl {levelInfo.level})</h2>
+              <p className="text-gray-500 text-xs sm:text-sm font-bold">Next Rank: Tier {Math.ceil((levelInfo.level + 1) / 5)} (Requires {levelInfo.nextLevelXP} XP)</p>
             </div>
-            <div className="text-6xl md:text-7xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-fuchsia-400 tracking-tighter opacity-90">
+            <div className="text-3xl sm:text-6xl md:text-7xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-fuchsia-400 tracking-tighter opacity-90">
               {levelInfo.progress}%
             </div>
           </div>
@@ -123,12 +123,12 @@ export default function ProgressPage() {
           { icon: <Target size={18} />, label: "Global Accuracy", val: `${accuracy}%`, color: "blue", accent: "text-blue-500" },
           { icon: <Shield size={18} />, label: "Status Level", val: levelInfo.title, color: "rose", accent: "text-rose-500" }
         ].map((stat, i) => (
-          <div key={i} className="bg-[#111226]/50 border border-white/5 rounded-3xl p-8 flex flex-col justify-between min-h-[160px] group hover:border-white/10 transition-all">
-            <div className={`w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center ${stat.accent} opacity-80 group-hover:scale-110 transition-transform`}>
+          <div key={i} className="bg-[#111226]/50 border border-white/5 rounded-2xl sm:rounded-3xl p-5 sm:p-8 flex flex-col justify-between min-h-[120px] sm:min-h-[160px] group hover:border-white/10 transition-all">
+            <div className={`w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl bg-white/5 flex items-center justify-center ${stat.accent} opacity-80 group-hover:scale-110 transition-transform`}>
               {stat.icon}
             </div>
             <div>
-              <div className="text-3xl font-black text-white tracking-tighter mb-1 leading-none truncate">{stat.val}</div>
+              <div className="text-xl sm:text-3xl font-black text-white tracking-tighter mb-1 leading-none truncate">{stat.val}</div>
               <p className="text-[10px] text-gray-500 uppercase font-black tracking-widest leading-none">{stat.label}</p>
             </div>
           </div>
