@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useMemo, useCallback } from 'react';
 import Link from 'next/link';
-import { getNotes, getTopics, deleteCustomNote, saveCustomNote, type Note } from '@/lib/dataLoader';
+import { getNotes, getTopics, saveCustomNote, type Note } from '@/lib/dataLoader';
 import { fetchGitHubNote } from '@/lib/githubFetcher';
 import { getProgress } from '@/lib/progressManager';
 import { useAuth } from '@/components/AuthProvider';
@@ -17,7 +17,6 @@ export default function NotesPage() {
   const [sortOrder, setSortOrder] = useState<'newest' | 'oldest'>('newest');
   const [searchQuery, setSearchQuery] = useState('');
   const [mounted, setMounted] = useState(false);
-  const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null);
   const [refreshingId, setRefreshingId] = useState<string | null>(null);
   const [completedNotes, setCompletedNotes] = useState<Record<string, boolean>>({});
 
@@ -29,19 +28,6 @@ export default function NotesPage() {
     getTopics().then(setTopics);
     setCompletedNotes(getProgress().completedNotes || {});
   }, []);
-
-  const handleDelete = (noteId: string, e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    if (deleteConfirm === noteId) {
-      deleteCustomNote(noteId);
-      setDeleteConfirm(null);
-      loadNotes();
-    } else {
-      setDeleteConfirm(noteId);
-      setTimeout(() => setDeleteConfirm(null), 3000);
-    }
-  };
 
   const handleRefreshGithub = async (note: Note, e: React.MouseEvent) => {
     e.preventDefault();
@@ -237,21 +223,6 @@ export default function NotesPage() {
                       )}
                     </button>
                   )}
-
-                  {/* Delete */}
-                  <button
-                    onClick={(e) => handleDelete(note.id, e)}
-                    title={deleteConfirm === note.id ? 'Click again to confirm' : 'Delete note'}
-                    className={`w-8 h-8 rounded-lg bg-dark-700/90 border flex items-center justify-center transition-all ${
-                      deleteConfirm === note.id
-                        ? 'border-red-500/60 bg-red-500/15 hover:bg-red-500/25'
-                        : 'border-dark-400/30 hover:border-red-500/50 hover:bg-red-500/10'
-                    }`}
-                  >
-                    <svg className={`w-3.5 h-3.5 ${deleteConfirm === note.id ? 'text-red-400' : 'text-gray-400 hover:text-red-400'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                    </svg>
-                  </button>
                 </div>
               )}
             </div>
