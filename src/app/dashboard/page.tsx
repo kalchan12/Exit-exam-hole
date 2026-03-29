@@ -93,44 +93,44 @@ export default function Dashboard() {
   return (
     <div className="space-y-8 animate-in">
       {/* Hero Card */}
-      <div className="relative overflow-hidden rounded-3xl bg-[#11152a] p-8 border border-accent-purple/20 shadow-2xl">
+      <div className="relative overflow-hidden rounded-2xl sm:rounded-3xl bg-[#11152a] p-5 sm:p-8 border border-accent-purple/20 shadow-2xl">
         <div className="absolute top-0 right-0 w-96 h-96 bg-accent-purple/10 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2" />
         <div className="relative z-10 flex flex-col md:flex-row justify-between gap-8">
           <div className="flex-1">
             <span className="text-[10px] uppercase font-black tracking-[0.3em] text-accent-purple-light mb-4 block">
               Welcome Back, {user?.user_metadata?.username || user?.email?.split('@')[0] || 'User'}
             </span>
-            <h2 className="text-4xl sm:text-5xl font-black text-white mb-4 italic tracking-tighter">
+            <h2 className="text-2xl sm:text-5xl font-black text-white mb-3 sm:mb-4 italic tracking-tighter">
               READY TO <span className="text-accent-purple">ASCEND?</span>
             </h2>
-            <p className="text-gray-400 max-w-md leading-relaxed mb-8 text-sm">
+            <p className="text-gray-400 max-w-md leading-relaxed mb-5 sm:mb-8 text-xs sm:text-sm">
                 Your performance is trending upward. Continue where you left off in <span className="text-white font-bold uppercase">{progress?.lastTopic || 'General Study'}</span>.
             </p>
-            <div className="flex flex-wrap gap-4">
-                <Link href="/questions" className="btn-primary px-8 py-3 rounded-xl font-black uppercase italic tracking-widest text-sm">
+            <div className="flex flex-wrap gap-3 sm:gap-4">
+                <Link href="/questions" className="btn-primary px-5 sm:px-8 py-2.5 sm:py-3 rounded-xl font-black uppercase italic tracking-widest text-xs sm:text-sm">
                     Resume Study
                 </Link>
-                <Link href="/exam" className="px-8 py-3 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 text-white font-black uppercase italic tracking-widest text-sm transition-all">
+                <Link href="/exam" className="px-5 sm:px-8 py-2.5 sm:py-3 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 text-white font-black uppercase italic tracking-widest text-xs sm:text-sm transition-all">
                     Exit Exam
                 </Link>
             </div>
           </div>
           
           {user && (
-            <div className="flex gap-4 sm:gap-8 items-center bg-black/20 backdrop-blur-md p-6 rounded-3xl border border-white/5">
+            <div className="flex gap-4 sm:gap-8 items-center bg-black/20 backdrop-blur-md p-4 sm:p-6 rounded-2xl sm:rounded-3xl border border-white/5">
                 <div className="text-center">
-                    <div className="text-3xl font-black text-white italic">{progress?.xp || 0}</div>
-                    <div className="text-[10px] text-gray-500 uppercase font-black tracking-widest">XP</div>
+                    <div className="text-xl sm:text-3xl font-black text-white italic">{progress?.xp || 0}</div>
+                    <div className="text-[8px] sm:text-[10px] text-gray-500 uppercase font-black tracking-widest">XP</div>
                 </div>
-                <div className="w-[1px] h-10 bg-white/10" />
+                <div className="w-[1px] h-8 sm:h-10 bg-white/10" />
                 <div className="text-center">
-                    <div className="text-3xl font-black text-neon-green italic">{progress?.streak || 0}</div>
-                    <div className="text-[10px] text-gray-500 uppercase font-black tracking-widest">🔥 Streak</div>
+                    <div className="text-xl sm:text-3xl font-black text-neon-green italic">{progress?.streak || 0}</div>
+                    <div className="text-[8px] sm:text-[10px] text-gray-500 uppercase font-black tracking-widest">🔥 Streak</div>
                 </div>
-                <div className="w-[1px] h-10 bg-white/10" />
+                <div className="w-[1px] h-8 sm:h-10 bg-white/10" />
                 <div className="text-center">
-                    <div className="text-3xl font-black text-accent-purple italic">{overallAccuracy} %</div>
-                    <div className="text-[10px] text-gray-500 uppercase font-black tracking-widest">Accuracy</div>
+                    <div className="text-xl sm:text-3xl font-black text-accent-purple italic">{overallAccuracy} %</div>
+                    <div className="text-[8px] sm:text-[10px] text-gray-500 uppercase font-black tracking-widest">Accuracy</div>
                 </div>
             </div>
           )}
@@ -140,8 +140,8 @@ export default function Dashboard() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Main Column */}
         <div className="lg:col-span-2 space-y-4">
-          <div className="card p-8 bg-gradient-to-br from-white/[0.05] to-transparent border-white/10">
-            <h3 className="text-2xl font-bold text-white mb-4">Start Your Journey</h3>
+          <div className="card p-5 sm:p-8 bg-gradient-to-br from-white/[0.05] to-transparent border-white/10">
+            <h3 className="text-lg sm:text-2xl font-bold text-white mb-3 sm:mb-4">Start Your Journey</h3>
             <p className="text-gray-400 mb-6 leading-relaxed">
               Begin practicing questions or taking the full mock exit exam to test your knowledge across all computer science domains.
             </p>
@@ -192,7 +192,7 @@ export default function Dashboard() {
                     </p>
                     <div className="flex items-center gap-4 mb-4">
                       <div className="text-center">
-                        <p className="text-3xl font-bold text-white">{progress?.streak || 0}</p>
+                        <p className="text-2xl sm:text-3xl font-bold text-white">{progress?.streak || 0}</p>
                         <p className="text-[10px] text-gray-500 uppercase tracking-wider">Day Streak</p>
                       </div>
                       <div className="flex gap-0.5">
