@@ -131,11 +131,11 @@ export default function ProfilePage() {
             <div key="view" className="animate-in fade-in duration-300">
               <div className="flex flex-col md:flex-row min-h-[420px]">
                 {/* ── Left Column: Avatar + Name + Actions ── */}
-                <div className="flex flex-col items-center justify-center p-10 md:p-12 md:border-r border-purple-500/10 md:w-[270px] shrink-0">
+                <div className="flex flex-col items-center justify-center p-5 sm:p-10 md:p-12 md:border-r border-purple-500/10 md:w-[270px] shrink-0">
                   {/* Avatar with glow ring */}
                   <div className="relative group/avatar mb-5">
                     <div className="absolute -inset-1 bg-gradient-to-br from-purple-500/20 to-fuchsia-500/20 rounded-2xl blur-sm"></div>
-                    <div className="relative w-28 h-28 rounded-2xl overflow-hidden bg-white/5 ring-2 ring-purple-500/30 flex items-center justify-center shadow-2xl shadow-purple-500/10">
+                    <div className="relative w-20 h-20 sm:w-28 sm:h-28 rounded-2xl overflow-hidden bg-white/5 ring-2 ring-purple-500/30 flex items-center justify-center shadow-2xl shadow-purple-500/10">
                       {avatarPreview ? (
                         <img src={avatarPreview} alt="Profile" className="w-full h-full object-cover" />
                       ) : (
@@ -152,7 +152,7 @@ export default function ProfilePage() {
                   </div>
 
                   {/* Name & Username */}
-                  <h1 className="text-2xl font-bold text-white tracking-tight text-center leading-tight">
+                  <h1 className="text-xl sm:text-2xl font-bold text-white tracking-tight text-center leading-tight">
                     {profile?.full_name || "New Explorer"}
                   </h1>
                   <p className="text-gray-500 text-sm font-medium mt-1">@{profile?.username || "username"}</p>
@@ -172,22 +172,22 @@ export default function ProfilePage() {
                 </div>
 
                 {/* ── Right Column: Stats & Info ── */}
-                <div className="flex-1 p-10 md:p-12 flex flex-col justify-center space-y-8">
+                <div className="flex-1 p-5 sm:p-10 md:p-12 flex flex-col justify-center space-y-6 sm:space-y-8">
                   {/* Stats Row */}
-                  <div className="flex items-center gap-8">
+                  <div className="flex items-center gap-4 sm:gap-8">
                     <div className="flex flex-col items-center md:items-start">
                       <span className="text-[10px] uppercase font-bold tracking-[0.15em] text-gray-500/60 mb-1.5">Rank</span>
-                      <span className="text-3xl font-extrabold text-white tracking-tighter">{rankDisplay}</span>
+                      <span className="text-xl sm:text-3xl font-extrabold text-white tracking-tighter">{rankDisplay}</span>
                     </div>
                     <div className="w-[1px] h-12 bg-gradient-to-b from-transparent via-purple-500/20 to-transparent"></div>
                     <div className="flex flex-col items-center md:items-start">
                       <span className="text-[10px] uppercase font-bold tracking-[0.15em] text-gray-500/60 mb-1.5">XP</span>
-                      <span className="text-3xl font-extrabold text-white tracking-tighter">{xp}</span>
+                      <span className="text-xl sm:text-3xl font-extrabold text-white tracking-tighter">{xp}</span>
                     </div>
                     <div className="w-[1px] h-12 bg-gradient-to-b from-transparent via-purple-500/20 to-transparent"></div>
                     <div className="flex flex-col items-center md:items-start">
                       <span className="text-[10px] uppercase font-bold tracking-[0.15em] text-gray-500/60 mb-1.5">Class</span>
-                      <span className="text-3xl font-extrabold text-purple-400 tracking-tighter">{classLetter}</span>
+                      <span className="text-xl sm:text-3xl font-extrabold text-purple-400 tracking-tighter">{classLetter}</span>
                     </div>
                   </div>
 
@@ -228,12 +228,12 @@ export default function ProfilePage() {
           ) : (
             /* ─── EDIT MODE ─── */
             <div key="edit" className="animate-in fade-in duration-300">
-              <div className="p-10 md:p-12 space-y-7 min-h-[420px] flex flex-col justify-center">
+              <div className="p-5 sm:p-10 md:p-12 space-y-5 sm:space-y-7 min-h-[420px] flex flex-col justify-center">
                 {/* Avatar + Name Row */}
                 <div className="flex flex-col md:flex-row items-center gap-6">
                   <div className="relative group/avatar">
                     <div className="absolute -inset-1 bg-gradient-to-br from-purple-500/20 to-fuchsia-500/20 rounded-2xl blur-sm"></div>
-                    <div className="relative w-28 h-28 rounded-2xl overflow-hidden bg-white/5 ring-2 ring-purple-500/30 flex items-center justify-center">
+                    <div className="relative w-20 h-20 sm:w-28 sm:h-28 rounded-2xl overflow-hidden bg-white/5 ring-2 ring-purple-500/30 flex items-center justify-center">
                       {avatarPreview ? (
                         <img src={avatarPreview} alt="Profile" className="w-full h-full object-cover" />
                       ) : (
@@ -263,7 +263,7 @@ export default function ProfilePage() {
                       value={formData.fullName}
                       onChange={(e) => setFormData({...formData, fullName: e.target.value})}
                       placeholder="Full Name"
-                      className="w-full bg-white/[0.04] border border-white/10 rounded-xl px-5 py-3.5 text-white text-lg font-bold focus:outline-none focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/20 transition-all"
+                      className="w-full bg-white/[0.04] border border-white/10 rounded-xl px-4 sm:px-5 py-3 sm:py-3.5 text-white text-base sm:text-lg font-bold focus:outline-none focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/20 transition-all"
                     />
                   </div>
                 </div>
