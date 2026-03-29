@@ -323,8 +323,8 @@ function ExamContent() {
       {currentQuestion && !isFinished ? (
         <div className="flex flex-col lg:flex-row gap-6 items-start">
           {/* Main Question Area */}
-          <div className="glass-card p-6 sm:p-10 border-indigo-500/20 flex-1 w-full relative">
-            <div className="flex items-center gap-2 mb-8">
+          <div className="glass-card p-4 sm:p-10 border-indigo-500/20 flex-1 w-full relative">
+            <div className="flex items-center gap-1.5 sm:gap-2 mb-4 sm:mb-8">
              <span className="badge bg-indigo-500/20 text-indigo-400 border border-indigo-500/30 text-[10px] uppercase tracking-tighter">
               {currentQuestion.source}
             </span>
@@ -341,7 +341,7 @@ function ExamContent() {
           </div>
 
 
-          <div className="text-2xl text-white leading-snug mb-10 prose prose-invert max-w-none prose-headings:text-white prose-p:text-white prose-strong:text-accent-purple-light prose-code:text-accent-cyan prose-pre:bg-dark-900/50 prose-pre:border prose-pre:border-white/10">
+          <div className="text-base sm:text-2xl font-bold text-white leading-snug sm:leading-snug mb-5 sm:mb-10 prose prose-sm sm:prose-lg prose-invert max-w-none prose-headings:text-white prose-p:text-white prose-strong:text-accent-purple-light prose-code:text-accent-cyan prose-pre:bg-dark-900/50 prose-pre:border prose-pre:border-white/10">
             <ReactMarkdown 
               remarkPlugins={[remarkGfm]}
               components={{
@@ -358,13 +358,13 @@ function ExamContent() {
             </ReactMarkdown>
           </div>
 
-          <div className="grid gap-4 mb-10">
+          <div className="grid gap-2 sm:gap-4 mb-6 sm:mb-10">
             {currentQuestion.options.map((option, idx) => {
               const isSelected = userAnswers[currentQuestion.id] === option;
               const isCorrect = option === currentQuestion.answer;
               const isAnswered = !!userAnswers[currentQuestion.id];
 
-              let style = "p-5 rounded-2xl border-2 transition-all text-left relative overflow-hidden ";
+              let style = "py-4 px-3 sm:p-5 rounded-xl sm:rounded-2xl border-2 transition-all text-left relative overflow-hidden ";
               
               if (isReviewMode) {
                 if (isCorrect) {
@@ -384,20 +384,20 @@ function ExamContent() {
 
               return (
                 <button key={idx} onClick={() => handleSelectAnswer(option)} disabled={isReviewMode} className={style}>
-                  <div className="flex items-center gap-4">
-                    <span className={`w-8 h-8 rounded-lg flex items-center justify-center font-black ${isSelected && !isReviewMode ? 'bg-indigo-500 text-white' : 'bg-white/10'}`}>
+                  <div className="flex items-center gap-2 sm:gap-4">
+                    <span className={`w-6 h-6 sm:w-8 sm:h-8 rounded-md sm:rounded-lg flex items-center justify-center text-[10px] sm:text-sm font-black flex-shrink-0 ${isSelected && !isReviewMode ? 'bg-indigo-500 text-white' : 'bg-white/10'}`}>
                       {String.fromCharCode(65 + idx)}
                     </span>
-                    <span className="font-medium text-lg">
+                    <span className="font-medium text-xs sm:text-lg leading-snug">
                       {option.replace(/^[A-Z]\)\s?/, '')}
                     </span>
                     {isReviewMode && isCorrect && (
-                      <svg className="w-5 h-5 text-green-400 ml-auto" fill="currentColor" viewBox="0 0 24 24">
+                      <svg className="w-3.5 h-3.5 sm:w-5 sm:h-5 text-green-400 ml-auto flex-shrink-0" fill="currentColor" viewBox="0 0 24 24">
                         <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" />
                       </svg>
                     )}
                     {isReviewMode && isSelected && !isCorrect && (
-                      <svg className="w-5 h-5 text-red-400 ml-auto" fill="currentColor" viewBox="0 0 24 24">
+                      <svg className="w-3.5 h-3.5 sm:w-5 sm:h-5 text-red-400 ml-auto flex-shrink-0" fill="currentColor" viewBox="0 0 24 24">
                         <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z" />
                       </svg>
                     )}
@@ -418,9 +418,9 @@ function ExamContent() {
             </div>
           )}
 
-          <div className="flex items-center justify-between pt-6 border-t border-white/5">
-            <button onClick={handlePrevious} disabled={currentIndex === 0} className="text-gray-500 hover:text-white disabled:opacity-0 transition-all font-bold text-sm uppercase">Previous</button>
-            <button onClick={handleNext} disabled={currentIndex >= filteredQuestions.length - 1} className="btn-primary px-10 py-3 bg-indigo-600 hover:bg-indigo-500 text-sm italic font-black uppercase tracking-widest disabled:opacity-50">Next Question</button>
+          <div className="flex items-center justify-between pt-4 sm:pt-6 border-t border-white/5">
+            <button onClick={handlePrevious} disabled={currentIndex === 0} className="text-gray-500 hover:text-white disabled:opacity-0 transition-all font-bold text-xs sm:text-sm uppercase">Previous</button>
+            <button onClick={handleNext} disabled={currentIndex >= filteredQuestions.length - 1} className="btn-primary px-6 sm:px-10 py-2.5 sm:py-3 bg-indigo-600 hover:bg-indigo-500 text-xs sm:text-sm italic font-black uppercase tracking-widest disabled:opacity-50">Next Question</button>
           </div>
         </div>
 
