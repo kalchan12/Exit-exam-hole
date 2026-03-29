@@ -82,20 +82,6 @@ const navGroups = [
     ]
   },
   {
-    group: 'Tools',
-    items: [
-      {
-        label: 'Upload',
-        href: '/upload',
-        icon: (
-          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
-          </svg>
-        ),
-      },
-    ]
-  },
-  {
     group: 'Admin',
     items: [
       {
@@ -110,6 +96,15 @@ const navGroups = [
       {
         label: 'Question Manager',
         href: '/admin/questions',
+        icon: (
+          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
+          </svg>
+        ),
+      },
+      {
+        label: 'Note Manager',
+        href: '/admin/notes',
         icon: (
           <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
@@ -201,9 +196,9 @@ export default function Sidebar({ isCollapsed, setIsCollapsed }: SidebarProps) {
           const visibleItems = group.items.filter(item => {
             if (!user && (item.label === 'Progress' || item.label === 'Upload' || item.label === 'Profile')) return false;
             
-            // Restrict Admin and Upload to 'psycho'
+            // Restrict Admin to 'psycho'
             const isAdmin = profile?.username === 'psycho';
-            if ((group.group === 'Tools' || group.group === 'Admin') && !isAdmin) return false;
+            if (group.group === 'Admin' && !isAdmin) return false;
             
             return true;
           });
