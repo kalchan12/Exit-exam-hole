@@ -1,0 +1,1403 @@
+[
+  {
+    "id": "exit-2018-mid-q1",
+    "question": "Consider the following CSS snippet:\n\n```css\nnav ul {\n    list-style-type: none;\n    margin: 0;\n    padding: 0;\n}\n```\n\nWhat problem does this solve when creating a navigation bar?",
+    "options": [
+      "Removes bullet points and default spacing, allowing custom layout",
+      "Aligns the navbar to the right of the page",
+      "Adds hover effects to list items",
+      "Converts the list into a dropdown menu"
+    ],
+    "answer": "Removes bullet points and default spacing, allowing custom layout.",
+    "explanation": "Removes bullet points and default spacing, allowing custom layout.",
+    "topic": "Web Development",
+    "difficulty": "medium"
+  },
+  {
+    "id": "exit-2018-mid-q2",
+    "question": "Which AI approach most directly supports understanding biological intelligence behavior as a scientific goal?",
+    "options": [
+      "Weak AI",
+      "Applied AI",
+      "Cognitive AI",
+      "Strong AI"
+    ],
+    "answer": "Cognitive AI",
+    "explanation": "Cognitive AI focuses on understanding and modeling human thought processes.",
+    "topic": "Artificial Intelligence",
+    "difficulty": "medium"
+  },
+  {
+    "id": "exit-2018-mid-q3",
+    "question": "In client-server database architecture, what is the primary role of the server?",
+    "options": [
+      "Provide the GUI for end users",
+      "Initiate all network connections and poll clients for updates",
+      "Store and manage shared data, enforce ACID properties, and process client requests",
+      "Cache all user sessions locally for offline access"
+    ],
+    "answer": "Store and manage shared data, enforce ACID properties, and process client requests.",
+    "explanation": "The server in a client-server architecture manages data storage, processing queries, and enforcing constraints like ACID properties.",
+    "topic": "Database",
+    "difficulty": "medium"
+  },
+  {
+    "id": "exit-2018-mid-q4",
+    "question": "Which automaton is powerful enough to recognize the language L = {aⁿbⁿcⁿ | n ≥ 1}?",
+    "options": [
+      "DFA",
+      "Linear Bounded Automaton (LBA)",
+      "NFA",
+      "Pushdown Automaton (PDA)"
+    ],
+    "answer": "Linear Bounded Automaton (LBA)",
+    "explanation": "Context-sensitive languages like {aⁿbⁿcⁿ | n ≥ 1} are recognized by Linear Bounded Automata (LBA).",
+    "topic": "Automata Theory",
+    "difficulty": "medium"
+  },
+  {
+    "id": "exit-2018-mid-q5",
+    "question": "In two-phase locking (2PL), during which phase may a transaction acquire locks but not release any?",
+    "options": [
+      "Growing phase",
+      "Commit phase",
+      "Validation phase",
+      "Shrinking phase"
+    ],
+    "answer": "Growing phase",
+    "explanation": "In 2PL, the growing phase allows acquiring new locks but prevents releasing any locks.",
+    "topic": "Database",
+    "difficulty": "medium"
+  },
+  {
+    "id": "exit-2018-mid-q6",
+    "question": "To extend the connectivity of processor bus we use:",
+    "options": [
+      "SCSI",
+      "PCI",
+      "Controllers",
+      "Multi bus"
+    ],
+    "answer": "Multi bus",
+    "explanation": "Multiple buses (Multi bus) architectures are used to extend processor bus connectivity.",
+    "topic": "Computer Architecture",
+    "difficulty": "medium"
+  },
+  {
+    "id": "exit-2018-mid-q7",
+    "question": "Combinational circuit differ from sequential circuit primarily because",
+    "options": [
+      "Combinational circuit cannot be built using logic circuit",
+      "The output of combinational circuit depends only on the present input, not on past output.",
+      "Sequential circuit have no feedback while combinational circuit do",
+      "The combinational circuit requires clock signal, but sequential circuit do not"
+    ],
+    "answer": "The output of combinational circuit depends only on the present input, not on past output.",
+    "explanation": "Combinational circuits have no memory components; their output is strictly a function of the current input.",
+    "topic": "Digital Logic",
+    "difficulty": "medium"
+  },
+  {
+    "id": "exit-2018-mid-q8",
+    "question": "Why is Greedy Best-First Search not guaranteed to be optimal or complete?",
+    "options": [
+      "It ignores path cost g(n) and relies only on h(n)",
+      "It always chooses the shallowest node",
+      "It expands nodes in FIFO order",
+      "It requires full knowledge of the goal state in advance"
+    ],
+    "answer": "It ignores path cost g(n) and relies only on h(n).",
+    "explanation": "Greedy search only looks at the heuristic h(n) and ignores the cost g(n) accumulated so far, which can lead it down sub-optimal paths or infinite loops.",
+    "topic": "Artificial Intelligence",
+    "difficulty": "medium"
+  },
+  {
+    "id": "exit-2018-mid-q9",
+    "question": "From the following statement which is correct about this pointer in c++?",
+    "options": [
+      "This pointer passed as hidden argument in all non-static variables of the class.",
+      "This pointer passed as hidden argument in all static variables of the class.",
+      "This pointer passed as hidden argument in all static function of the class.",
+      "This pointer passed as hidden argument in all function of the class."
+    ],
+    "answer": "This pointer passed as hidden argument in all non-static variables of the class.",
+    "explanation": "The 'this' pointer is implicitly passed to non-static member functions, representing the instance calling the method.",
+    "topic": "Programming",
+    "difficulty": "medium"
+  },
+  {
+    "id": "exit-2018-mid-q10",
+    "question": "In class diagram, if class Car has solid diamond points to class Engine, what does this indicates?",
+    "options": [
+      "Car uses Engine temporarily",
+      "Engine can exist independently of the Car",
+      "Engine is the part of Car and cannot exist without it",
+      "Car inherits from Engine"
+    ],
+    "answer": "Engine is the part of Car and cannot exist without it.",
+    "explanation": "A solid diamond represents Composition, meaning the part (Engine) cannot exist independently of the whole (Car).",
+    "topic": "Software Engineering",
+    "difficulty": "medium"
+  },
+  {
+    "id": "exit-2018-mid-q11",
+    "question": "The amount of time the algorithm takes on the smallest possible set of inputs is called_____",
+    "options": [
+      "Average time",
+      "Small time",
+      "Worst time",
+      "Best time"
+    ],
+    "answer": "Best time",
+    "explanation": "Best time",
+    "topic": "Algorithms",
+    "difficulty": "medium"
+  },
+  {
+    "id": "exit-2018-mid-q12",
+    "question": "For a weak entity set to be meaningful, it must be associated with another entity set, called the",
+    "options": [
+      "Identifying set",
+      "Strong entity set",
+      "Neighbor set",
+      "Owner set"
+    ],
+    "answer": "Strong entity set",
+    "explanation": "Strong entity set",
+    "topic": "Database",
+    "difficulty": "medium"
+  },
+  {
+    "id": "exit-2018-mid-q13",
+    "question": "Which one of the following is not the application level service?",
+    "options": [
+      "Proxies and agents",
+      "Installing a new service",
+      "E-mail configuration",
+      "Quality of service"
+    ],
+    "answer": "Installing a new service",
+    "explanation": "Installing a new service",
+    "topic": "Networking",
+    "difficulty": "medium"
+  },
+  {
+    "id": "exit-2018-mid-q14",
+    "question": "A language that allows the DBA or user to describe and name the entities, attributes, and relationships required for the application is__________",
+    "options": [
+      "Transaction control language (TCL)",
+      "Data control language (DCL)",
+      "Data Manipulation Language (DML)",
+      "Data Definition Language (DDL)"
+    ],
+    "answer": "Data Definition Language (DDL)",
+    "explanation": "Data Definition Language (DDL)",
+    "topic": "Database",
+    "difficulty": "medium"
+  },
+  {
+    "id": "exit-2018-mid-q15",
+    "question": "Which one of the following is linear data structure?",
+    "options": [
+      "Tree",
+      "Array",
+      "Queue",
+      "Linked list"
+    ],
+    "answer": "Array",
+    "explanation": "Array",
+    "topic": "Data Structures",
+    "difficulty": "medium"
+  },
+  {
+    "id": "exit-2018-mid-q16",
+    "question": "What is the main purpose of syntax-directed translation in a compiler?",
+    "options": [
+      "To interleave semantic analysis with syntax analysis using attributes attached to grammar symbols",
+      "To generate optimized machine code directly",
+      "To tokenize the source code",
+      "To replace the parser with a finite automaton"
+    ],
+    "answer": "To interleave semantic analysis with syntax analysis using attributes attached to grammar symbols.",
+    "explanation": "To interleave semantic analysis with syntax analysis using attributes attached to grammar symbols.",
+    "topic": "Compiler Design",
+    "difficulty": "medium"
+  },
+  {
+    "id": "exit-2018-mid-q17",
+    "question": "What will be the output of the following program segment?\n\n```java\npublic class Calculation {\n    public static void main(String[] args) {\n        int sum = 0;\n        for(int j = 1; j<=10; j++) {\n            sum = sum + j;\n        }\n        System.out.println(+sum);\n    }\n}\n```",
+    "options": [
+      "55",
+      "44",
+      "33",
+      "66"
+    ],
+    "answer": "55",
+    "explanation": "55",
+    "topic": "Programming",
+    "difficulty": "medium"
+  },
+  {
+    "id": "exit-2018-mid-q18",
+    "question": "Which keyword is used in Java to create a subclass that inherits from a superclass?",
+    "options": [
+      "Inherits",
+      "Superclass",
+      "Extends",
+      "Implements"
+    ],
+    "answer": "Extends",
+    "explanation": "Extends",
+    "topic": "Programming",
+    "difficulty": "easy"
+  },
+  {
+    "id": "exit-2018-mid-q19",
+    "question": "What is the output of the following C++ code fragment?\n\n```cpp\nint a = 6, b = 8;\nint x = 2, y = 4;\nint c(x > y ? (a--, x) : (b--, y));\ncout << \"a=\" << a;\ncout << \" b=\" << b;\ncout << \" c=\" << c;\n```",
+    "options": [
+      "a=6 b=5 c=4",
+      "a=6 b=7 c=5",
+      "a=8 b=6 c=5",
+      "a=6 b=7 c=4"
+    ],
+    "answer": "a=6 b=7 c=4",
+    "explanation": "a=6 b=7 c=4",
+    "topic": "Programming",
+    "difficulty": "hard"
+  },
+  {
+    "id": "exit-2018-mid-q20",
+    "question": "___________is a collection of related fields that can be treated as a unit by some application program.",
+    "options": [
+      "Rows",
+      "Field",
+      "Record",
+      "Database"
+    ],
+    "answer": "Record",
+    "explanation": "Record",
+    "topic": "Database",
+    "difficulty": "easy"
+  },
+  {
+    "id": "exit-2018-mid-q21",
+    "question": "Straight directed translation uses:",
+    "options": [
+      "Purely lexical rules",
+      "Backtracking algorithms",
+      "Grammar without attributes",
+      "Grammar with sematic rule"
+    ],
+    "answer": "Grammar with semantic rule",
+    "explanation": "Grammar with semantic rule",
+    "topic": "Compiler Design",
+    "difficulty": "medium"
+  },
+  {
+    "id": "exit-2018-mid-q22",
+    "question": "Which one of the following is the first operation or step in CPU instruction cycle?",
+    "options": [
+      "Executing the instruction",
+      "Handling interrupt",
+      "Decoding the instruction",
+      "Fetching the instruction"
+    ],
+    "answer": "Fetching the instruction",
+    "explanation": "Fetching the instruction",
+    "topic": "Computer Architecture",
+    "difficulty": "easy"
+  },
+  {
+    "id": "exit-2018-mid-q23",
+    "question": "Which search strategy tries to expand the node that is closest to the goal, on the grounds that this is likely to lead to a solution quickly; Thus, it evaluates nodes by using just the heuristic function: f ( n) = h ( n).",
+    "options": [
+      "Uniform-cost search",
+      "Greedy best-first search",
+      "Depth-first search",
+      "A* search"
+    ],
+    "answer": "Greedy best-first search",
+    "explanation": "Greedy best-first search",
+    "topic": "Artificial Intelligence",
+    "difficulty": "medium"
+  },
+  {
+    "id": "exit-2018-mid-q24",
+    "question": "Which one of the following is a top-down parser without backtracking?",
+    "options": [
+      "LR parser",
+      "Brute force parser",
+      "Operator precedence parser",
+      "Predictive parser"
+    ],
+    "answer": "Predictive parser",
+    "explanation": "Predictive parser",
+    "topic": "Compiler Design",
+    "difficulty": "medium"
+  },
+  {
+    "id": "exit-2018-mid-q25",
+    "question": "How many layers are there in OSI reference model?",
+    "options": [
+      "7",
+      "6",
+      "5",
+      "4"
+    ],
+    "answer": "7",
+    "explanation": "7",
+    "topic": "Networking",
+    "difficulty": "easy"
+  },
+  {
+    "id": "exit-2018-mid-q26",
+    "question": "Which one of the following is a computer structural component that provides for communication among CPU, main memory and I/O?",
+    "options": [
+      "System unit",
+      "Computer network",
+      "CPU",
+      "System interconnection"
+    ],
+    "answer": "System interconnection",
+    "explanation": "System interconnection",
+    "topic": "Computer Architecture",
+    "difficulty": "medium"
+  },
+  {
+    "id": "exit-2018-mid-q27",
+    "question": "Assume that we are able to specify that Mr. Getahun can view the database record, but cannot change the value of the record. Which security management technique was used in this scenario?",
+    "options": [
+      "Access Control",
+      "Availability",
+      "Non-repudiation",
+      "Integrity"
+    ],
+    "answer": "Access Control",
+    "explanation": "Access Control",
+    "topic": "Security",
+    "difficulty": "medium"
+  },
+  {
+    "id": "exit-2018-mid-q28",
+    "question": "Suppose, a developer proposes using deferred update with no checkpoints in a hightransaction OLTP system. What is the most serious drawback?",
+    "options": [
+      "Log scans become prohibitively expensive after long uptime",
+      "Increased disk I/O due to frequent page copying",
+      "Shared locks cannot be used",
+      "View serializability cannot be ensured"
+    ],
+    "answer": "Log scans become prohibitively expensive after long uptime.",
+    "explanation": "Log scans become prohibitively expensive after long uptime.",
+    "topic": "Database",
+    "difficulty": "medium"
+  },
+  {
+    "id": "exit-2018-mid-q29",
+    "question": "Which one of the following function of operating system is categorized under process management?",
+    "options": [
+      "Allocates the device in the efficient way",
+      "De-allocates the resources.",
+      "Allocates the memory when the process requests it to do so.",
+      "Allocates the processor (CPU) to a process"
+    ],
+    "answer": "Allocates the processor (CPU) to a process.",
+    "explanation": "Allocates the processor (CPU) to a process.",
+    "topic": "Operating Systems",
+    "difficulty": "medium"
+  },
+  {
+    "id": "exit-2018-mid-q30",
+    "question": "Which of the following statements is TRUE?",
+    "options": [
+      "Every regular language is context-free.",
+      "Every context-free language is regular.",
+      "Every context-sensitive language is regular.",
+      "Every recursively enumerable language is recursive"
+    ],
+    "answer": "Every regular language is context-free.",
+    "explanation": "Every regular language is context-free.",
+    "topic": "Automata Theory",
+    "difficulty": "medium"
+  },
+  {
+    "id": "exit-2018-mid-q31",
+    "question": "____________ is a data transfer method in computer organization and architecture that allows an I/O device to transfer data directly to or from memory without the involvement of the CPU.",
+    "options": [
+      "Asynchronous data transfer",
+      "Direct Memory Access (DMA)",
+      "Interrupt-driven transfer",
+      "Programmed I/O transfer"
+    ],
+    "answer": "Direct Memory Access (DMA)",
+    "explanation": "Direct Memory Access (DMA)",
+    "topic": "Computer Architecture",
+    "difficulty": "medium"
+  },
+  {
+    "id": "exit-2018-mid-q32",
+    "question": "Which one of the following php method is used to retrieve the information from the form control through the parameters sent in the URL?",
+    "options": [
+      "$_REQUEST[]",
+      "$_POST[]",
+      "$_GET[]",
+      "isset()"
+    ],
+    "answer": "$_GET[]",
+    "explanation": "$_GET[]",
+    "topic": "Web Development",
+    "difficulty": "medium"
+  },
+  {
+    "id": "exit-2018-mid-q33",
+    "question": "Which statement is NOT true about digital signature?",
+    "options": [
+      "Digital signature is not encryption algorithm",
+      "In digital signature Sender encrypts message with its private key",
+      "In digital signature Sender encrypts message with its public key",
+      "Digital signature provides authentication services"
+    ],
+    "answer": "In digital signature, Sender encrypts message with its public key.",
+    "explanation": "In digital signature, Sender encrypts message with its public key.",
+    "topic": "Security",
+    "difficulty": "medium"
+  },
+  {
+    "id": "exit-2018-mid-q34",
+    "question": "Which one of the following ip address class uses first two octets for network addresses and last two for host addressing?",
+    "options": [
+      "Class C",
+      "Class D",
+      "Class A",
+      "Class B"
+    ],
+    "answer": "Class B",
+    "explanation": "Class B",
+    "topic": "Networking",
+    "difficulty": "medium"
+  },
+  {
+    "id": "exit-2018-mid-q35",
+    "question": "Which of the following best defines a heuristic in the context of AI search?",
+    "options": [
+      "A function that estimates how close a state is to the goal",
+      "A guaranteed optimal path to the goal",
+      "A method that always avoids revisiting states",
+      "A brute-force enumeration of all possible states"
+    ],
+    "answer": "A function that estimates how close a state is to the goal.",
+    "explanation": "A function that estimates how close a state is to the goal.",
+    "topic": "Artificial Intelligence",
+    "difficulty": "medium"
+  },
+  {
+    "id": "exit-2018-mid-q36",
+    "question": "Which one of the following party performs the technical evaluation work, using the evidence supplied by the developers, and additional testing of the product, to confirm that it satisfies the functional and assurance requirements specified in the security target?",
+    "options": [
+      "Evaluator",
+      "Certifier",
+      "Sponsor",
+      "Developer"
+    ],
+    "answer": "Evaluator",
+    "explanation": "Evaluator",
+    "topic": "Software Engineering",
+    "difficulty": "medium"
+  },
+  {
+    "id": "exit-2018-mid-q37",
+    "question": "Assume that you have a huge company like university; bank industry, etc. have their own data center to store and control the different type of the data. Which type of RAID technology is the most preferable to use?",
+    "options": [
+      "RAID level 3",
+      "RAID level1",
+      "RAID level 2",
+      "RAID level 0"
+    ],
+    "answer": "RAID level 1",
+    "explanation": "RAID level 1",
+    "topic": "Computer Architecture",
+    "difficulty": "medium"
+  },
+  {
+    "id": "exit-2018-mid-q38",
+    "question": "Which analysis technique is INAPPROPRIATE for determining the lower bound of comparison-based sorting, and why?",
+    "options": [
+      "Decision tree model — because it assumes only array indexing is allowed",
+      "Recurrence relations — because sorting isn’t naturally recursive",
+      "Asymptotic analysis — because it ignores constants",
+      "Decision tree model — because it gives an information-theoretic lower bound of Ω(nlogn)"
+    ],
+    "answer": "Recurrence relations — because sorting isn’t naturally recursive.",
+    "explanation": "Recurrence relations — because sorting isn’t naturally recursive.",
+    "topic": "Algorithms",
+    "difficulty": "hard"
+  },
+  {
+    "id": "exit-2018-mid-q39",
+    "question": "In CSS, which property is used to change the text color of an element?",
+    "options": [
+      "text-color",
+      "font-color",
+      "color",
+      "Foreground"
+    ],
+    "answer": "color",
+    "explanation": "color",
+    "topic": "Web Development",
+    "difficulty": "easy"
+  },
+  {
+    "id": "exit-2018-mid-q40",
+    "question": "From the flowing function which one is used to create the table",
+    "options": [
+      "CREATE table_name (column_name, column type);",
+      "CREATE table_name (column_type, column name);",
+      "CREATE TABLE table_name (column_name, column type);",
+      "CREATE TABLE table_name (column_type, column name);"
+    ],
+    "answer": "CREATE TABLE table_name (column_name, column type);",
+    "explanation": "CREATE TABLE table_name (column_name, column type);",
+    "topic": "Database",
+    "difficulty": "medium"
+  },
+  {
+    "id": "exit-2018-mid-q41",
+    "question": "What is the primary function of an operating system?",
+    "options": [
+      "To connect to the internet",
+      "To create documents and spreadsheets",
+      "To design computer hardware",
+      "To act as an intermediary between users and computer hardware"
+    ],
+    "answer": "To act as an intermediary between users and computer hardware.",
+    "explanation": "To act as an intermediary between users and computer hardware.",
+    "topic": "Operating Systems",
+    "difficulty": "medium"
+  },
+  {
+    "id": "exit-2018-mid-q42",
+    "question": "How much time units or T( n) taken to compute the following piece of code?\n\n```cpp\nint total(int n) {\n    int sum = 0;\n    for (int i = 1; i <= n; i++)\n        sum = sum + 1;\n    return sum;\n}\n```",
+    "options": [
+      "5n+5",
+      "4n2+4",
+      "6n+2",
+      "4n+4"
+    ],
+    "answer": "6n+2",
+    "explanation": "6n+2",
+    "topic": "Algorithms",
+    "difficulty": "medium"
+  },
+  {
+    "id": "exit-2018-mid-q43",
+    "question": "An object oriented principle that contains information in an object, exposing only selected information is____________.",
+    "options": [
+      "Abstraction",
+      "Inheritance",
+      "Polymorphism",
+      "Encapsulation"
+    ],
+    "answer": "Encapsulation",
+    "explanation": "Encapsulation",
+    "topic": "Programming",
+    "difficulty": "medium"
+  },
+  {
+    "id": "exit-2018-mid-q44",
+    "question": "Stack is follows ____policy:",
+    "options": [
+      "LIFO",
+      "FIFO",
+      "FILO",
+      "FCFS"
+    ],
+    "answer": "LIFO",
+    "explanation": "LIFO",
+    "topic": "Data Structures",
+    "difficulty": "medium"
+  },
+  {
+    "id": "exit-2018-mid-q45",
+    "question": "From the following alternatives which one is FALSE about database system?",
+    "options": [
+      "It is very difficult to protect a file under the system",
+      "In database system the user is not required to write the procedures",
+      "In database system, DBMS provides a good protection mechanism.",
+      "It contains a wide variety of sophisticated techniques to store and retrieve the data."
+    ],
+    "answer": "It is very difficult to protect a file under the system.",
+    "explanation": "It is very difficult to protect a file under the system.",
+    "topic": "Database",
+    "difficulty": "medium"
+  },
+  {
+    "id": "exit-2018-mid-q46",
+    "question": "Which one of the following is categorized under Log based Recovery Techniques in database?",
+    "options": [
+      "Recovery in Multi-database Systems",
+      "ARIES Recovery Algorithm",
+      "Shadow Paging Technique",
+      "Deferred Database Modification"
+    ],
+    "answer": "ARIES Recovery Algorithm",
+    "explanation": "ARIES Recovery Algorithm",
+    "topic": "Database",
+    "difficulty": "medium"
+  },
+  {
+    "id": "exit-2018-mid-q47",
+    "question": "What is the first step to convert context free grammar (CFG) into Greibach Normal Form (GNF)?",
+    "options": [
+      "Convert the grammar into CNF",
+      "If any production rule in the grammar is not in GNF form, convert it.",
+      "Convert the grammar into GNF",
+      "If the grammar exists left recursion, eliminate it."
+    ],
+    "answer": "If the grammar exists left recursion, eliminate it.",
+    "explanation": "If the grammar exists left recursion, eliminate it.",
+    "topic": "Automata Theory",
+    "difficulty": "hard"
+  },
+  {
+    "id": "exit-2018-mid-q48",
+    "question": "A user installs a new printer. The OS automatically detects and configures it. This is an example of:",
+    "options": [
+      "Plug-and-play functionality",
+      "Manual driver installation",
+      "Manual hardware management",
+      "Resource allocation"
+    ],
+    "answer": "Plug-and-play functionality",
+    "explanation": "Plug-and-play functionality",
+    "topic": "Operating Systems",
+    "difficulty": "easy"
+  },
+  {
+    "id": "exit-2018-mid-q49",
+    "question": "Which of the following is NOT property of an algorithm?",
+    "options": [
+      "Finiteness",
+      "Definiteness",
+      "Correctness",
+      "Platform dependence"
+    ],
+    "answer": "Platform dependence",
+    "explanation": "Platform dependence",
+    "topic": "Algorithms",
+    "difficulty": "easy"
+  },
+  {
+    "id": "exit-2018-mid-q50",
+    "question": "Which Redundant Array of Independent Disks (RAID) is known by striping with parity and fault tolerance?",
+    "options": [
+      "RAID 2",
+      "RAID 1",
+      "RAID 5",
+      "RAID 0"
+    ],
+    "answer": "RAID 5",
+    "explanation": "RAID 5",
+    "topic": "Computer Architecture",
+    "difficulty": "medium"
+  },
+  {
+    "id": "exit-2018-mid-q51",
+    "question": "Assume that you are computer science expert and you need to develop large programs within short period of time. Finally, you have planned to provide portable program to the concerned body. Which type of programming language is preferable for the above scenario?",
+    "options": [
+      "Low level",
+      "Machine level",
+      "High level",
+      "Assembly"
+    ],
+    "answer": "High level",
+    "explanation": "High level",
+    "topic": "Programming",
+    "difficulty": "easy"
+  },
+  {
+    "id": "exit-2018-mid-q52",
+    "question": "Which type of heuristic search strategy that evaluates nodes by combining g ( n), the cost to reach the node, and h ( n.), the cost to get from the node to the goal: f ( n) = g ( n) + h ( n) Since g( n) gives the path cost from the start node to node n, and h( n) is the estimated cost of the cheapest path from n to the goal, we have f ( n) = estimated cost of the cheapest solution through n ?",
+    "options": [
+      "A* search",
+      "Greedy Best-First Search",
+      "Uniform-cost search",
+      "Depth-first search"
+    ],
+    "answer": "A* search",
+    "explanation": "A* search",
+    "topic": "Artificial Intelligence",
+    "difficulty": "medium"
+  },
+  {
+    "id": "exit-2018-mid-q53",
+    "question": "If input is “a” is for syntax tree, which function is used to create tree?",
+    "options": [
+      "mknode(num, value)",
+      "mkleaf(num, value)",
+      "mkleaf(id, entry)",
+      "mknode(op, left, right)"
+    ],
+    "answer": "mknode(op, left, right)",
+    "explanation": "mknode(op, left, right)",
+    "topic": "Compiler Design",
+    "difficulty": "hard"
+  },
+  {
+    "id": "exit-2018-mid-q54",
+    "question": "Suppose Mr. Negesa might act as Mr. Dereje and send message to Registrar X, the registrar might be lead to believe that message indeed come from Mr. Dereje. What types of attack Mr. Negesa has committed?",
+    "options": [
+      "Denial of service",
+      "Modification of message",
+      "Masquerade",
+      "Replay"
+    ],
+    "answer": "Masquerade",
+    "explanation": "Masquerade",
+    "topic": "Security",
+    "difficulty": "medium"
+  },
+  {
+    "id": "exit-2018-mid-q55",
+    "question": "From the following statement which one is disadvantage of waterfall model?",
+    "options": [
+      "model is simple and easy to understand and use",
+      "It is easy manage due to the rigidity of the model",
+      "Not suitable for projects where requirements are at a moderate to high risk of changing",
+      "In this model phases are processed and completed one at a time"
+    ],
+    "answer": "Not suitable for projects where requirements are at a moderate to high risk of changing.",
+    "explanation": "Not suitable for projects where requirements are at a moderate to high risk of changing.",
+    "topic": "Software Engineering",
+    "difficulty": "easy"
+  },
+  {
+    "id": "exit-2018-mid-q56",
+    "question": "Consider a directed line(->) from the relationship set advisor to both entity sets instructor and student. This indicates _________ cardinality",
+    "options": [
+      "Many to one",
+      "Many to many",
+      "One to one",
+      "One to many"
+    ],
+    "answer": "Many to one",
+    "explanation": "Many to one",
+    "topic": "Database",
+    "difficulty": "medium"
+  },
+  {
+    "id": "exit-2018-mid-q57",
+    "question": "In a system, resources cannot be forcibly taken from processes; they must be released voluntarily. Which deadlock condition does this represent?",
+    "options": [
+      "No Preemption",
+      "Hold and Wait",
+      "Mutual Exclusion",
+      "Circular Wait"
+    ],
+    "answer": "No Preemption",
+    "explanation": "No Preemption",
+    "topic": "Operating Systems",
+    "difficulty": "medium"
+  },
+  {
+    "id": "exit-2018-mid-q58",
+    "question": "Which statement is WRONGLY described about code generation?",
+    "options": [
+      "Code generation can be considered as the start phase of compilation",
+      "The target program is the output of the code generator",
+      "The code generation phase needs complete error-free intermediate code as an input requires",
+      "It used to produce the target code for three-address statements."
+    ],
+    "answer": "Code generation can be considered as the start phase of compilation.",
+    "explanation": "Code generation can be considered as the start phase of compilation.",
+    "topic": "Compiler Design",
+    "difficulty": "medium"
+  },
+  {
+    "id": "exit-2018-mid-q59",
+    "question": "____________is a service that allows organizations and individuals to post a website or a web page onto the Internet.",
+    "options": [
+      "Web hosting",
+      "Internet service provider",
+      "Web client",
+      "Domain name registration"
+    ],
+    "answer": "Web hosting",
+    "explanation": "Web hosting",
+    "topic": "Web Development",
+    "difficulty": "easy"
+  },
+  {
+    "id": "exit-2018-mid-q60",
+    "question": "In singly linked list, the node contains",
+    "options": [
+      "Data and index",
+      "Data and one pointer ( the next node)",
+      "Only data",
+      "Data and two pointers"
+    ],
+    "answer": "Data and one pointer (the next node)",
+    "explanation": "Data and one pointer (the next node)",
+    "topic": "Data Structures",
+    "difficulty": "medium"
+  },
+  {
+    "id": "exit-2018-mid-q61",
+    "question": "Which of the following statement is non-functional requirement?",
+    "options": [
+      "The system allow user to generate PDF report.",
+      "The system respond to user’s request within 2 second under normal load",
+      "The system allow user to store data on relational database",
+      "The system allow user to submit emergency report"
+    ],
+    "answer": "The system respond to user’s request within 2 seconds under normal load.",
+    "explanation": "The system respond to user’s request within 2 seconds under normal load.",
+    "topic": "Software Engineering",
+    "difficulty": "medium"
+  },
+  {
+    "id": "exit-2018-mid-q62",
+    "question": "In object design, what does the contract typically includes?",
+    "options": [
+      "The class diagram and sequence diagram",
+      "Project budget and timeline",
+      "Invariants, preconditions, post conditions",
+      "The use case names and actors role"
+    ],
+    "answer": "Invariants, preconditions, post conditions.",
+    "explanation": "Invariants, preconditions, post conditions.",
+    "topic": "Software Engineering",
+    "difficulty": "hard"
+  },
+  {
+    "id": "exit-2018-mid-q63",
+    "question": "Which of the following OSI layers is NOT correctly matched to its corresponding data Units (PDU)?",
+    "options": [
+      "Application layer ---> Data",
+      "Transport layer ---> Segment",
+      "Physical layer ---> Bit",
+      "Network layer ---> Frame"
+    ],
+    "answer": "Network layer ---> Frame.",
+    "explanation": "Network layer ---> Frame.",
+    "topic": "Networking",
+    "difficulty": "medium"
+  },
+  {
+    "id": "exit-2018-mid-q64",
+    "question": "Which data structure follows LIFO principle?",
+    "options": [
+      "Graphs",
+      "Queues",
+      "Stacks",
+      "Trees"
+    ],
+    "answer": "Stacks",
+    "explanation": "Stacks",
+    "topic": "Data Structures",
+    "difficulty": "easy"
+  },
+  {
+    "id": "exit-2018-mid-q65",
+    "question": "Consider the following code snippet\n\n```java\nclass Animal { void sound() { System.out.println(\"Animal sound\"); } }\nclass Dog extends Animal { void sound() { System.out.println(\"Bark!\"); } }\n```\n\nWhich OOP concept is illustrated when Dog provides its own version of sound?",
+    "options": [
+      "Method overriding",
+      "Method overloading",
+      "Abstraction",
+      "Encapsulation"
+    ],
+    "answer": "Method overriding",
+    "explanation": "Method overriding",
+    "topic": "Programming",
+    "difficulty": "medium"
+  },
+  {
+    "id": "exit-2018-mid-q66",
+    "question": "Which type of grammar is used to generate all possible patterns of strings in a given formal language?",
+    "options": [
+      "Context-free",
+      "Context-sensitive",
+      "Recursively enumerable",
+      "Regular"
+    ],
+    "answer": "Recursively enumerable",
+    "explanation": "Recursively enumerable",
+    "topic": "Automata Theory",
+    "difficulty": "hard"
+  },
+  {
+    "id": "exit-2018-mid-q67",
+    "question": "Which tool is used to troubleshoot the network connectivity?",
+    "options": [
+      "Ipconfig",
+      "Ping",
+      "Encryption",
+      "Firewall"
+    ],
+    "answer": "Ping",
+    "explanation": "Ping",
+    "topic": "Networking",
+    "difficulty": "easy"
+  },
+  {
+    "id": "exit-2018-mid-q68",
+    "question": "The time complexity for binary search is__________",
+    "options": [
+      "O(n*log(n )2)",
+      "O(n2)",
+      "O( n)",
+      "O(logn)"
+    ],
+    "answer": "O(log n)",
+    "explanation": "O(log n)",
+    "topic": "Algorithms",
+    "difficulty": "medium"
+  },
+  {
+    "id": "exit-2018-mid-q69",
+    "question": "Which type of access specifier is accessible within the same package or subclasses in a different package?",
+    "options": [
+      "Public",
+      "Default",
+      "Private",
+      "Protected"
+    ],
+    "answer": "Protected",
+    "explanation": "Protected",
+    "topic": "Programming",
+    "difficulty": "medium"
+  },
+  {
+    "id": "exit-2018-mid-q70",
+    "question": "What is the basic goal of Normalization?",
+    "options": [
+      "To decrease data integrity",
+      "To reduce redundancy",
+      "To maximize transitive dependency",
+      "To increase dependency"
+    ],
+    "answer": "To reduce redundancy",
+    "explanation": "To reduce redundancy",
+    "topic": "Database",
+    "difficulty": "medium"
+  },
+  {
+    "id": "exit-2018-mid-q71",
+    "question": "Which protocol is mostly used for communication between client and server in a web application?",
+    "options": [
+      "FTP",
+      "SMTP",
+      "HTTP",
+      "SSH"
+    ],
+    "answer": "HTTP",
+    "explanation": "HTTP",
+    "topic": "Web Development",
+    "difficulty": "easy"
+  },
+  {
+    "id": "exit-2018-mid-q72",
+    "question": "Which of the following layers is responsible for encryption, translation and compression?",
+    "options": [
+      "Presentation layer",
+      "Data link layer",
+      "Transport layer",
+      "Network layer"
+    ],
+    "answer": "Presentation layer",
+    "explanation": "Presentation layer",
+    "topic": "Networking",
+    "difficulty": "medium"
+  },
+  {
+    "id": "exit-2018-mid-q73",
+    "question": "What is the extension of JavaScript file?",
+    "options": [
+      ".javaS",
+      ".JS",
+      ".java",
+      "CSS"
+    ],
+    "answer": ".JS",
+    "explanation": ".JS",
+    "topic": "Web Development",
+    "difficulty": "easy"
+  },
+  {
+    "id": "exit-2018-mid-q74",
+    "question": "Why is perception still a challenge for AI—even though systems can recognize faces?",
+    "options": [
+      "Because perception is unrelated to reasoning",
+      "Because AI lacks actuators",
+      "Because perception requires common-sense knowledge and robust natural language understanding in open ended worlds",
+      "Because sensors are too expensive"
+    ],
+    "answer": "Because perception requires common-sense knowledge and robust natural language understanding in open ended worlds.",
+    "explanation": "Because perception requires common-sense knowledge and robust natural language understanding in open ended worlds.",
+    "topic": "Artificial Intelligence",
+    "difficulty": "medium"
+  },
+  {
+    "id": "exit-2018-mid-q75",
+    "question": "Which service used to translate domain names to ip address?",
+    "options": [
+      "HTTPS",
+      "DHCP",
+      "HTTP",
+      "DNS"
+    ],
+    "answer": "DNS",
+    "explanation": "DNS",
+    "topic": "Networking",
+    "difficulty": "easy"
+  },
+  {
+    "id": "exit-2018-mid-q76",
+    "question": "Which one of following monitors incoming and outgoing network traffic and decides whether to allow or block specific traffic based on a defined set of security rules?",
+    "options": [
+      "Intrusion detection system (IDS)",
+      "Proxy server",
+      "Virtual Private network",
+      "Firewall"
+    ],
+    "answer": "Firewall",
+    "explanation": "Firewall",
+    "topic": "Security",
+    "difficulty": "easy"
+  },
+  {
+    "id": "exit-2018-mid-q77",
+    "question": "Consider attributes ID, CITY and NAME. Which one of this can be considered as a super key?",
+    "options": [
+      "NAME",
+      "ID",
+      "CITY",
+      "CITY, ID"
+    ],
+    "answer": "CITY, ID",
+    "explanation": "CITY, ID",
+    "topic": "Database",
+    "difficulty": "medium"
+  },
+  {
+    "id": "exit-2018-mid-q78",
+    "question": "You want to ensure that a method calculateTax() in class Employee cannot be overridden by any subclass. What declaration achieves this?",
+    "options": [
+      "Abstract double calculateTax();",
+      "Final double calculateTax(){…}",
+      "Private double calculateTax(){…}",
+      "Static double calculateTax(){…}"
+    ],
+    "answer": "Final double calculateTax(){…}",
+    "explanation": "Final double calculateTax(){…}",
+    "topic": "Programming",
+    "difficulty": "medium"
+  },
+  {
+    "id": "exit-2018-mid-q79",
+    "question": "Which one of the following identifier name is INVALID in C++ programming language?",
+    "options": [
+      "delete",
+      "for_cpp",
+      "jan2025",
+      "Hello"
+    ],
+    "answer": "delete",
+    "explanation": "delete",
+    "topic": "Programming",
+    "difficulty": "easy"
+  },
+  {
+    "id": "exit-2018-mid-q80",
+    "question": "Which one of the following UML building block that defines the static part of the model and represents physical and conceptual elements?",
+    "options": [
+      "Structural things",
+      "Behavioral things",
+      "An notational things",
+      "Grouping things"
+    ],
+    "answer": "Structural things",
+    "explanation": "Structural things",
+    "topic": "Software Engineering",
+    "difficulty": "medium"
+  },
+  {
+    "id": "exit-2018-mid-q81",
+    "question": "Which scenario is best suited for UDP rather than TCP protocol?",
+    "options": [
+      "Live video streaming",
+      "Email transmission",
+      "Downloading the files",
+      "Database update"
+    ],
+    "answer": "Live video streaming",
+    "explanation": "Live video streaming",
+    "topic": "Networking",
+    "difficulty": "medium"
+  },
+  {
+    "id": "exit-2018-mid-q82",
+    "question": "Which type of transparency in distributed database system distributes a relation into sub relations where each sub relation is defined by a subset of the columns of the original relation?",
+    "options": [
+      "Replication",
+      "Location",
+      "Horizontal",
+      "Vertical"
+    ],
+    "answer": "Vertical",
+    "explanation": "Vertical",
+    "topic": "Database",
+    "difficulty": "hard"
+  },
+  {
+    "id": "exit-2018-mid-q83",
+    "question": "In which of the following Learning methods an agent receives feedback in the form of rewards or penalties to maximize cumulative reward?",
+    "options": [
+      "Supervised learning",
+      "Reinforcement learning",
+      "Semi-supervised learning",
+      "Unsupervised learning"
+    ],
+    "answer": "Reinforcement learning",
+    "explanation": "Reinforcement learning",
+    "topic": "Artificial Intelligence",
+    "difficulty": "medium"
+  },
+  {
+    "id": "exit-2018-mid-q84",
+    "question": "After deploying a new software system, users reports that the system slows during peak hour. Which software quality attribute primarily affected?",
+    "options": [
+      "Maintainability",
+      "Performance",
+      "Reliability",
+      "Usability"
+    ],
+    "answer": "Performance",
+    "explanation": "Performance",
+    "topic": "Software Engineering",
+    "difficulty": "easy"
+  },
+  {
+    "id": "exit-2018-mid-q85",
+    "question": "Which one of the following is WRONGLY stated about an importance of security policy?",
+    "options": [
+      "To help minimize risk.",
+      "To ensure the confidentiality, integrity and availability of data.",
+      "To coordinate and enforce a security program across an organization.",
+      "To use the system in a passive way"
+    ],
+    "answer": "To use the system in a passive way.",
+    "explanation": "To use the system in a passive way.",
+    "topic": "Security",
+    "difficulty": "easy"
+  },
+  {
+    "id": "exit-2018-mid-q86",
+    "question": "Which of the following is NOT a task of the lexical analyzer?",
+    "options": [
+      "Generating parse trees",
+      "Correlating errors with line numbers",
+      "Entering identifiers into the symbol table",
+      "Stripping whitespace and comments"
+    ],
+    "answer": "Generating parse trees",
+    "explanation": "Generating parse trees",
+    "topic": "Compiler Design",
+    "difficulty": "medium"
+  },
+  {
+    "id": "exit-2018-mid-q87",
+    "question": "Which sorting algorithm compares each pair of adjacent elements from the beginning of an array and, if they are in reversed order, swaps them; if at least one swaps has been done, repeat step 1.",
+    "options": [
+      "Insertion sort",
+      "Bubble sort",
+      "Selection sort",
+      "Shell sort"
+    ],
+    "answer": "Bubble sort",
+    "explanation": "Bubble sort",
+    "topic": "Algorithms",
+    "difficulty": "easy"
+  },
+  {
+    "id": "exit-2018-mid-q88",
+    "question": "Which one of the following computer security goal prevents the disclosure of sensitive information to unauthorized users or systems on computer networks?",
+    "options": [
+      "Confidentiality",
+      "Integrity",
+      "Cyberspace",
+      "Availability"
+    ],
+    "answer": "Confidentiality",
+    "explanation": "Confidentiality",
+    "topic": "Security",
+    "difficulty": "easy"
+  },
+  {
+    "id": "exit-2018-mid-q89",
+    "question": "Assume that you have IPv4 addresses in binary notation 11000001 10000011 00011011 11111111 and you are requested to change into dotted decimal notation. What is the equivalent IP address in decimal dotted notation?",
+    "options": [
+      "192.174.27.255",
+      "192.134.67.254",
+      "193.130.28.254",
+      "193.131.27.255"
+    ],
+    "answer": "193.131.27.255",
+    "explanation": "193.131.27.255",
+    "topic": "Networking",
+    "difficulty": "medium"
+  },
+  {
+    "id": "exit-2018-mid-q90",
+    "question": "ou have given that Grammar G1 −({S, A, B}, {a, b}, S, {S → AB, A → a, B → b}). Which one is terminal symbol in the give?",
+    "options": [
+      "a,b",
+      "S",
+      "S → AB, A → a, B → b",
+      "S,A,B"
+    ],
+    "answer": "a, b",
+    "explanation": "a, b",
+    "topic": "Automata Theory",
+    "difficulty": "easy"
+  },
+  {
+    "id": "exit-2018-mid-q91",
+    "question": "Among the following one is NOT the application of queue in the real world.",
+    "options": [
+      "It is used in operating systems for handling interrupts.",
+      "It is used to maintain the play list in media players in order",
+      "It is used in Depth First search",
+      "It is widely used as waiting lists for a single shared resource"
+    ],
+    "answer": "It is used in Depth First search.",
+    "explanation": "It is used in Depth First search.",
+    "topic": "Data Structures",
+    "difficulty": "medium"
+  },
+  {
+    "id": "exit-2018-mid-q92",
+    "question": "Which one of the following is disadvantage of circuit switching?",
+    "options": [
+      "Predictable performance",
+      "Low latency",
+      "Guaranteed bandwidth",
+      "Limited scalability"
+    ],
+    "answer": "Limited scalability",
+    "explanation": "Limited scalability",
+    "topic": "Networking",
+    "difficulty": "medium"
+  },
+  {
+    "id": "exit-2018-mid-q93",
+    "question": "A developer stores user login status in both\n$_SESSION['user_id'] on the server\ndocument.cookie = \"logged_in=1\" on the client\nAn attacker tampers with cookies to set logged_in=1 without authenticating. Which statement is the most accurate?",
+    "options": [
+      "The system is vulnerable — cookie-only checks bypass server session validation",
+      "The system is secure — session data cannot be forged without the server-side secret",
+      "The system is vulnerable only if session_id is exposed",
+      "The system is secure if HTTPS is used,"
+    ],
+    "answer": "The system is vulnerable — cookie-only checks bypass server session validation.",
+    "explanation": "The system is vulnerable — cookie-only checks bypass server session validation.",
+    "topic": "Security",
+    "difficulty": "hard"
+  },
+  {
+    "id": "exit-2018-mid-q94",
+    "question": "The language L = {wwᴿ | w ∈ {a, b}*} (even-length palindromes) is:",
+    "options": [
+      "Regular",
+      "Non-deterministic CFL but not deterministic",
+      "Deterministic CFL",
+      "Context-sensitive but not context-free"
+    ],
+    "answer": "Non-deterministic CFL but not deterministic",
+    "explanation": "Non-deterministic CFL but not deterministic",
+    "topic": "Automata Theory",
+    "difficulty": "hard"
+  },
+  {
+    "id": "exit-2018-mid-q95",
+    "question": "______________is one of the candidate keys chosen by the database designer to uniquely identify the entity set.",
+    "options": [
+      "Super key",
+      "Candidate key",
+      "Social security key",
+      "Primary key"
+    ],
+    "answer": "Primary key",
+    "explanation": "Primary key",
+    "topic": "Database",
+    "difficulty": "easy"
+  },
+  {
+    "id": "exit-2018-mid-q96",
+    "question": "Which of the following statement about function overloading is TRUE?",
+    "options": [
+      "Overload function have same name but different parameters/type",
+      "Overload function is not supported",
+      "Overload function must have different return type",
+      "Overload function must have the same number of parameters"
+    ],
+    "answer": "Overload function have same name but different parameters/type.",
+    "explanation": "Overload function have same name but different parameters/type.",
+    "topic": "Programming",
+    "difficulty": "medium"
+  },
+  {
+    "id": "exit-2018-mid-q97",
+    "question": "How does an operating system improve efficiency in a multi-user environment?",
+    "options": [
+      "By allowing only one user to access the system at a time",
+      "By disabling all background services",
+      "By using time-sharing and process scheduling to allocate CPU time fairly among users and processes",
+      "By requiring manual intervention for each task"
+    ],
+    "answer": "By using time-sharing and process scheduling to allocate CPU time fairly among users and processes.",
+    "explanation": "By using time-sharing and process scheduling to allocate CPU time fairly among users and processes.",
+    "topic": "Operating Systems",
+    "difficulty": "easy"
+  },
+  {
+    "id": "exit-2018-mid-q98",
+    "question": "Which one of the following is not feature of dynamic web page?",
+    "options": [
+      "Contents can be generated on-the-fly",
+      "Changing content or lively",
+      "Contain the same prebuilt content each time the page is loaded",
+      "Ability to connect to a database"
+    ],
+    "answer": "Contain the same prebuilt content each time the page is loaded.",
+    "explanation": "Contain the same prebuilt content each time the page is loaded.",
+    "topic": "Web Development",
+    "difficulty": "easy"
+  },
+  {
+    "id": "exit-2018-mid-q99",
+    "question": "Why should form <input> elements include an associated <label> with the for attribute?",
+    "options": [
+      "It enables offline form storage",
+      "It encrypts user data",
+      "It increases form submission speed",
+      "It improves accessibility: screen readers announce the label when the input is focused"
+    ],
+    "answer": "It improves accessibility: screen readers announce the label when the input is focused.",
+    "explanation": "It improves accessibility: screen readers announce the label when the input is focused.",
+    "topic": "Web Development",
+    "difficulty": "medium"
+  },
+  {
+    "id": "exit-2018-mid-q100",
+    "question": "What is the name of the logic gate based on the following graphical symbol?",
+    "imageUrl": "assets/q100_nand_gate.png",
+    "options": [
+      "XOR",
+      "NOR",
+      "NAND",
+      "AND"
+    ],
+    "answer": "NAND",
+    "explanation": "The graphical symbol with a D-shape and a small circle (inversion bubble) at the output represents a NAND gate.",
+    "topic": "Digital Logic",
+    "difficulty": "medium"
+  }
+]

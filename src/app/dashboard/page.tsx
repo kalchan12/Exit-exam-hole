@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback, useMemo } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { getQuestions, type Question } from '@/lib/dataLoader';
@@ -8,7 +8,6 @@ import { getProgress, syncOnLogin, onSyncStatus, type ProgressState } from '@/li
 import {
   getLevel,
   calculateOverallAccuracy,
-  calculateTopicMastery,
   getDailyChallenge,
   getWeakTopics,
 } from '@/lib/gamification';
@@ -48,11 +47,7 @@ export default function Dashboard() {
     }
   }, [user]);
 
-  const questionTopicMap = useMemo(() => {
-    const map: Record<string, string> = {};
-    questions.forEach((q) => { map[q.id] = q.topic; });
-    return map;
-  }, [questions]);
+
 
   const levelInfo = useMemo(() => {
     if (!progress) return { level: 1, title: 'Beginner', nextLevelXP: 100, progress: 0 };
