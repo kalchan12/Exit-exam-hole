@@ -1387,7 +1387,7 @@
   },
   {
     "id": "exit-2018-mid-q100",
-    "question": "What is the name of the logic gate based on the following graphical symbol?",
+    "question": "What is the name of the logic gate based on the following graphical symbol?\n\n![NAND Gate](/assets/q100_nand_gate.png)",
     "imageUrl": "assets/q100_nand_gate.png",
     "options": [
       "XOR",
