@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useMemo, useCallback, Suspense } from 'react';
+import { useState, useEffect, useMemo, useCallback, useRef, Suspense } from 'react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import ReactMarkdown from 'react-markdown';
@@ -38,6 +38,8 @@ function ExamContent() {
   const [userAnswers, setUserAnswers] = useState<Record<string, string>>({});
   const [quizScore, setQuizScore] = useState({ correct: 0, total: 0 });
   const [isDisclaimerAccepted, setIsDisclaimerAccepted] = useState(false);
+  const [timeLeft, setTimeLeft] = useState<number | null>(null);
+  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const loadData = useCallback(async () => {
     const allQs = await getQuestions();
@@ -107,13 +109,64 @@ function ExamContent() {
   );
 
   const handleFinish = () => {
+    if (filteredQuestions.length === 0) return;
     let correct = 0;
     filteredQuestions.forEach(q => {
       if (userAnswers[q.id] === q.answer) correct++;
     });
     setQuizScore({ correct, total: filteredQuestions.length });
     setIsFinished(true);
+    if (timerRef.current) {
+      clearInterval(timerRef.current);
+      timerRef.current = null;
+    }
   };
+
+  // Format time as MM:SS or H:MM:SS
+  const formatTime = (seconds: number): string => {
+    const hrs = Math.floor(seconds / 3600);
+    const mins = Math.floor((seconds % 3600) / 60);
+    const secs = seconds % 60;
+    if (hrs > 0) {
+      return `${hrs}:${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+    }
+    return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+  };
+
+  // Start timer when exam begins (disclaimer accepted and questions loaded)
+  useEffect(() => {
+    if (!isDisclaimerAccepted || filteredQuestions.length === 0) return;
+
+    const totalSeconds = filteredQuestions.length * 60;
+    setTimeLeft(totalSeconds);
+
+    timerRef.current = setInterval(() => {
+      setTimeLeft(prev => {
+        if (prev === null || prev <= 1) return 0;
+        return prev - 1;
+      });
+    }, 1000);
+
+    return () => {
+      if (timerRef.current) clearInterval(timerRef.current);
+    };
+  }, [isDisclaimerAccepted, filteredQuestions.length]);
+
+  // Stop timer when exam is finished
+  useEffect(() => {
+    if (isFinished && timerRef.current) {
+      clearInterval(timerRef.current);
+      timerRef.current = null;
+    }
+  }, [isFinished]);
+
+  // Auto-submit when timer reaches 0
+  useEffect(() => {
+    if (timeLeft === 0 && !isFinished) {
+      handleFinish();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [timeLeft, isFinished]);
 
   const handleNext = useCallback(() => {
     if (currentIndex < filteredQuestions.length - 1) {
@@ -133,6 +186,12 @@ function ExamContent() {
     setIsFinished(false);
     setIsReviewMode(false);
     setQuizScore({ correct: 0, total: 0 });
+    setTimeLeft(null);
+    setIsDisclaimerAccepted(false);
+    if (timerRef.current) {
+      clearInterval(timerRef.current);
+      timerRef.current = null;
+    }
   };
 
   const getHumorMessage = (percentage: number) => {
@@ -302,7 +361,11 @@ function ExamContent() {
     <div className="space-y-6 animate-in">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4">
-          <button onClick={() => setSelectedCategory(null)} className="btn-secondary py-2 text-xs">
+          <button onClick={() => {
+            if (timerRef.current) { clearInterval(timerRef.current); timerRef.current = null; }
+            setTimeLeft(null);
+            setSelectedCategory(null);
+          }} className="btn-secondary py-2 text-xs">
             ← Exit Exam
           </button>
           <div>
@@ -313,6 +376,24 @@ function ExamContent() {
         <div className="flex items-center gap-4">
           {isReviewMode && (
             <span className="badge bg-accent-purple/20 text-accent-purple border border-accent-purple/30 text-[10px] uppercase font-bold">Reviewing</span>
+          )}
+          {timeLeft !== null && !isReviewMode && (
+            <div className={`flex items-center gap-2 px-4 py-1.5 rounded-full border backdrop-blur-md transition-all duration-500 ${
+              timeLeft <= 60 
+                ? 'bg-red-500/20 border-red-500/50 animate-pulse' 
+                : timeLeft <= 300 
+                  ? 'bg-orange-500/15 border-orange-500/40' 
+                  : 'bg-emerald-500/10 border-emerald-500/20'
+            }`}>
+              <svg className={`w-4 h-4 ${timeLeft <= 60 ? 'text-red-400' : timeLeft <= 300 ? 'text-orange-400' : 'text-emerald-400'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <span className={`font-black text-sm tabular-nums tracking-wider ${
+                timeLeft <= 60 ? 'text-red-400' : timeLeft <= 300 ? 'text-orange-400' : 'text-emerald-400'
+              }`}>
+                {formatTime(timeLeft)}
+              </span>
+            </div>
           )}
           <div className="flex items-center gap-2 bg-indigo-500/10 border border-indigo-500/20 rounded-full px-4 py-1.5">
             <span className="text-indigo-400 font-black text-sm">{currentIndex + 1} / {filteredQuestions.length}</span>
@@ -496,14 +577,20 @@ function ExamContent() {
             </p>
           </div>
 
-          <div className="grid grid-cols-2 gap-4 max-w-sm mx-auto">
+          <div className="grid grid-cols-3 gap-4 max-w-lg mx-auto">
             <div className="p-6 rounded-2xl bg-white/5 border border-white/10">
               <div className="text-3xl font-black text-white italic">{Math.round((quizScore.correct / quizScore.total) * 100)}%</div>
               <div className="text-[10px] text-gray-500 font-black uppercase tracking-widest mt-1">Score</div>
             </div>
             <div className="p-6 rounded-2xl bg-white/5 border border-white/10">
               <div className="text-3xl font-black text-accent-purple italic">{quizScore.correct}/{quizScore.total}</div>
-              <div className="text-[10px] text-gray-500 font-black uppercase tracking-widest mt-1">Answered</div>
+              <div className="text-[10px] text-gray-500 font-black uppercase tracking-widest mt-1">Correct</div>
+            </div>
+            <div className="p-6 rounded-2xl bg-white/5 border border-white/10">
+              <div className={`text-xl font-black italic ${timeLeft === 0 ? 'text-red-400' : 'text-emerald-400'}`}>
+                {timeLeft === 0 ? "Time's up!" : formatTime((filteredQuestions.length * 60) - (timeLeft || 0))}
+              </div>
+              <div className="text-[10px] text-gray-500 font-black uppercase tracking-widest mt-1">Time</div>
             </div>
           </div>
 
