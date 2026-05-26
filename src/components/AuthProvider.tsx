@@ -139,73 +139,96 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const signUp = useCallback(async (email: string, password: string, profileData: any) => {
-    let avatarUrl = null;
+    setLoading(true);
+    try {
+      let avatarUrl = null;
 
-    // 1. Upload avatar if provided
-    if (profileData.avatarFile) {
-      const fileExt = profileData.avatarFile.name.split('.').pop();
-      const fileName = `${Math.random()}.${fileExt}`;
-      const filePath = `${fileName}`;
+      // 1. Upload avatar if provided
+      if (profileData.avatarFile) {
+        const fileExt = profileData.avatarFile.name.split('.').pop();
+        const fileName = `${Math.random()}.${fileExt}`;
+        const filePath = `${fileName}`;
 
-      const { error: uploadError } = await supabase.storage
-        .from('avatars')
-        .upload(filePath, profileData.avatarFile);
-
-      if (uploadError) {
-        console.error('Error uploading avatar:', uploadError);
-      } else {
-        const { data: { publicUrl } } = supabase.storage
+        const { error: uploadError } = await supabase.storage
           .from('avatars')
-          .getPublicUrl(filePath);
-        avatarUrl = publicUrl;
-      }
-    }
+          .upload(filePath, profileData.avatarFile);
 
-    // 2. Sign up user and pass metadata for the trigger to pick up
-    const { data: authData, error: authError } = await supabase.auth.signUp({ 
-      email, 
-      password,
-      options: {
-        data: {
-          username: profileData.username,
-          full_name: profileData.fullName,
-          major: profileData.major,
-          gender: profileData.gender,
-          avatar_url: avatarUrl,
+        if (uploadError) {
+          console.error('Error uploading avatar:', uploadError);
+        } else {
+          const { data: { publicUrl } } = supabase.storage
+            .from('avatars')
+            .getPublicUrl(filePath);
+          avatarUrl = publicUrl;
         }
       }
-    });
-    
-    if (authError) return { error: authError.message };
-    if (!authData.user) return { error: 'Failed to create user' };
 
-    return { error: null };
+      // 2. Sign up user and pass metadata for the trigger to pick up
+      const { data: authData, error: authError } = await supabase.auth.signUp({ 
+        email, 
+        password,
+        options: {
+          data: {
+            username: profileData.username,
+            full_name: profileData.fullName,
+            major: profileData.major,
+            gender: profileData.gender,
+            avatar_url: avatarUrl,
+          }
+        }
+      });
+      
+      if (authError) {
+        setLoading(false);
+        return { error: authError.message };
+      }
+      if (!authData.user) {
+        setLoading(false);
+        return { error: 'Failed to create user' };
+      }
+
+      setLoading(false);
+      return { error: null };
+    } catch (err: any) {
+      setLoading(false);
+      return { error: err.message || 'An unexpected error occurred' };
+    }
   }, []);
 
   const signIn = useCallback(async (usernameOrEmail: string, password: string) => {
-    let emailToUse = usernameOrEmail;
+    setLoading(true);
+    try {
+      let emailToUse = usernameOrEmail;
 
-    if (!usernameOrEmail.includes('@')) {
-      const { data: profile, error: profileError } = await supabase
-        .from('profiles')
-        .select('email')
-        .eq('username', usernameOrEmail)
-        .single();
+      if (!usernameOrEmail.includes('@')) {
+        const { data: profile, error: profileError } = await supabase
+          .from('profiles')
+          .select('email')
+          .eq('username', usernameOrEmail)
+          .single();
+          
+        if (profileError || !profile || !profile.email) {
+          setLoading(false);
+          return { error: 'Username not found' };
+        }
         
-      if (profileError || !profile || !profile.email) {
-        return { error: 'Username not found' };
+        emailToUse = profile.email;
       }
-      
-      emailToUse = profile.email;
-    }
 
-    const { error } = await supabase.auth.signInWithPassword({ 
-      email: emailToUse, 
-      password 
-    });
-    
-    if (error) return { error: error.message };
-    return { error: null };
+      const { error } = await supabase.auth.signInWithPassword({ 
+        email: emailToUse, 
+        password 
+      });
+      
+      if (error) {
+        setLoading(false);
+        return { error: error.message };
+      }
+      return { error: null };
+    } catch (err: any) {
+      setLoading(false);
+      return { error: err.message || 'An unexpected error occurred' };
+    }
   }, []);
 
   const loginAsGuest = useCallback(() => {
