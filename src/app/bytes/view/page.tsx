@@ -79,7 +79,7 @@ export default function ByteViewPage() {
 
   return (
     <div className="max-w-3xl mx-auto pb-20 animate-in">
-      <Link href="/bytes" className="inline-flex items-center gap-2 text-sm text-gray-400 hover:text-accent-cyan transition-colors mb-6">
+      <Link href="/bytes" className="inline-flex items-center gap-2 text-sm text-gray-400 hover:text-accent-purple-glow transition-colors mb-6">
         <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
           <path strokeLinecap="round" strokeLinejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
         </svg>
@@ -90,13 +90,13 @@ export default function ByteViewPage() {
         {/* Header */}
         <div className="overflow-hidden relative bg-gradient-to-r from-dark-800 to-dark-700 p-8 sm:p-10 border-b border-dark-400/30">
           <div className="absolute top-0 right-0 p-8 opacity-10 pointer-events-none">
-            <svg className="w-48 h-48 text-accent-cyan" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1}>
+            <svg className="w-48 h-48 text-accent-purple" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
             </svg>
           </div>
           <div className="relative z-10">
             <div className="flex flex-wrap items-center gap-3 mb-4">
-               <span className="text-[10px] font-bold uppercase tracking-wider px-2.5 py-1.5 rounded-md border text-accent-cyan-light border-accent-cyan/30 bg-accent-cyan/10">
+               <span className="text-[10px] font-bold uppercase tracking-wider px-2.5 py-1.5 rounded-md border text-accent-purple-glow border-accent-purple/30 bg-accent-purple/10">
                  {byte.topic}
                </span>
                <span className="text-gray-500 text-sm">{byte.date ? new Date(byte.date).toLocaleDateString() : 'Unknown Date'}</span>
@@ -109,7 +109,7 @@ export default function ByteViewPage() {
 
         {/* Text Content */}
         <div className="p-8 sm:p-10">
-          <div className="prose prose-invert prose-cyan max-w-none text-gray-300 md:text-lg leading-relaxed mb-10">
+          <div className="prose prose-invert prose-purple max-w-none text-gray-300 md:text-lg leading-relaxed mb-10">
             <ReactMarkdown remarkPlugins={[remarkGfm]}>
               {byte.content}
             </ReactMarkdown>
@@ -142,7 +142,7 @@ export default function ByteViewPage() {
           {relatedQuestions.length > 0 && (
             <div className="mt-12 bg-dark-700/30 border border-dark-400/30 rounded-xl p-6 sm:p-8">
               <h3 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
-                <svg className="w-6 h-6 text-accent-cyan" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <svg className="w-6 h-6 text-accent-purple" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
                 Check Your Understanding
@@ -163,7 +163,7 @@ export default function ByteViewPage() {
                           const isSuccess = isAnswered && option === q.answer;
                           const isFail = isAnswered && isSelected && !isCorrect;
                           let btnClass = "w-full text-left px-4 py-3 rounded-lg border transition-all duration-200 flex items-center justify-between ";
-                          if (!isAnswered) btnClass += "border-dark-400/30 hover:border-accent-cyan/50 hover:bg-dark-700/50 bg-dark-700/20 text-gray-300";
+                          if (!isAnswered) btnClass += "border-dark-400/30 hover:border-accent-purple/50 hover:bg-dark-700/50 bg-dark-700/20 text-gray-300";
                           else if (isSuccess) btnClass += "border-green-500 bg-green-500/10 text-green-400 font-medium";
                           else if (isFail) btnClass += "border-red-500 bg-red-500/10 text-red-400";
                           else btnClass += "border-dark-400/30 opacity-50 bg-dark-700/10 text-gray-500";
@@ -194,10 +194,10 @@ export default function ByteViewPage() {
       {/* Navigation Footer */}
       <div className="flex items-center justify-between mt-8">
         {prevByte ? (
-          <Link href={`/bytes/view?id=${prevByte.id}`} className="group flex-1 max-w-[48%] bg-dark-800/80 border border-dark-400/30 hover:border-accent-cyan/50 rounded-xl p-4 transition-all">
+          <Link href={`/bytes/view?id=${prevByte.id}`} className="group flex-1 max-w-[48%] bg-dark-800/80 border border-dark-400/30 hover:border-accent-purple/50 rounded-xl p-4 transition-all">
             <div className="text-xs text-gray-500 mb-2 uppercase tracking-wide">Previous Byte</div>
             <div className="flex items-center gap-2">
-              <svg className="w-5 h-5 text-accent-cyan flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <svg className="w-5 h-5 text-accent-purple flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
               </svg>
               <span className="text-gray-300 font-medium truncate group-hover:text-white transition-colors">{prevByte.title}</span>
@@ -205,11 +205,11 @@ export default function ByteViewPage() {
           </Link>
         ) : <div className="flex-1 max-w-[48%]" />}
         {nextByte ? (
-          <Link href={`/bytes/view?id=${nextByte.id}`} className="group flex-1 max-w-[48%] bg-dark-800/80 border border-dark-400/30 hover:border-accent-cyan/50 rounded-xl p-4 transition-all text-right">
+          <Link href={`/bytes/view?id=${nextByte.id}`} className="group flex-1 max-w-[48%] bg-dark-800/80 border border-dark-400/30 hover:border-accent-purple/50 rounded-xl p-4 transition-all text-right">
             <div className="text-xs text-gray-500 mb-2 uppercase tracking-wide">Next Byte</div>
             <div className="flex items-center gap-2 justify-end">
               <span className="text-gray-300 font-medium truncate group-hover:text-white transition-colors">{nextByte.title}</span>
-              <svg className="w-5 h-5 text-accent-cyan flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <svg className="w-5 h-5 text-accent-purple flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
               </svg>
             </div>

@@ -141,13 +141,13 @@ export default function DocumentsPage() {
     <div className="max-w-6xl mx-auto space-y-8 animate-in pb-20">
       {/* Header */}
       <div className="relative overflow-hidden rounded-2xl sm:rounded-3xl bg-[#11152a] p-5 sm:p-8 border border-accent-purple/20 shadow-2xl">
-        <div className="absolute top-0 right-0 w-96 h-96 bg-red-500/10 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2" />
+        <div className="absolute top-0 right-0 w-96 h-96 bg-accent-purple/10 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2" />
         <div className="relative z-10">
-          <span className="text-[10px] uppercase font-black tracking-[0.3em] text-red-400 mb-4 block">
+          <span className="text-[10px] uppercase font-black tracking-[0.3em] text-accent-purple-glow mb-4 block">
             Study Resources
           </span>
           <h1 className="text-2xl sm:text-5xl font-black text-white mb-3 italic tracking-tighter">
-            PDF <span className="text-red-400">DOCUMENTS</span>
+            PDF <span className="text-accent-purple-glow">DOCUMENTS</span>
           </h1>
           <p className="text-gray-400 max-w-lg leading-relaxed text-xs sm:text-sm">
             Access course materials, past exams, and study guides uploaded by instructors. Read them directly in your browser.
@@ -219,11 +219,11 @@ export default function DocumentsPage() {
               className="glass-card p-5 text-left flex flex-col gap-3 group hover:border-accent-purple/40 hover:shadow-lg hover:shadow-purple-500/5 transition-all border-white/5 relative overflow-hidden"
             >
               {/* Glow effect on hover */}
-              <div className="absolute top-0 right-0 w-32 h-32 bg-red-500/0 group-hover:bg-red-500/10 rounded-full blur-[40px] transition-all -translate-y-1/2 translate-x-1/2" />
+              <div className="absolute top-0 right-0 w-32 h-32 bg-accent-purple/0 group-hover:bg-accent-purple/10 rounded-full blur-[40px] transition-all -translate-y-1/2 translate-x-1/2" />
 
               <div className="relative z-10 flex items-start gap-3">
-                <div className="w-12 h-12 rounded-xl bg-red-500/20 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
-                  <svg className="w-6 h-6 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                <div className="w-12 h-12 rounded-xl bg-accent-purple/20 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
+                  <svg className="w-6 h-6 text-accent-purple-glow" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
                   </svg>
                 </div>
@@ -241,7 +241,7 @@ export default function DocumentsPage() {
                 <span className="text-[10px] px-2 py-1 rounded-full bg-dark-500 text-gray-400 font-bold uppercase">
                   {doc.major || 'Both'}
                 </span>
-                <span className="text-[10px] px-2 py-1 rounded-full bg-red-500/10 text-red-400 border border-red-500/20 font-bold uppercase">
+                <span className="text-[10px] px-2 py-1 rounded-full bg-accent-purple/10 text-accent-purple-glow border border-accent-purple/20 font-bold uppercase">
                   PDF
                 </span>
                 <span className="text-[10px] text-gray-600 font-bold ml-auto">

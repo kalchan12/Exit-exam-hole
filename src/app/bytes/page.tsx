@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { getBytes, getCourses, deleteCustomByte, type Byte } from '@/lib/dataLoader';
 import { clearGitHubCache } from '@/lib/githubFetcher';
 
-const FolderIcon = ({ className = "w-10 h-10 text-accent-cyan" }: { className?: string }) => (
+const FolderIcon = ({ className = "w-10 h-10 text-accent-purple" }: { className?: string }) => (
   <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
     <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 13.5h3.86a2.25 2.25 0 012.008 1.24l.885 1.77a2.25 2.25 0 002.007 1.24h1.98a2.25 2.25 0 002.007-1.24l.885-1.77a2.25 2.25 0 012.007-1.24h3.86m-18 0h18a2.25 2.25 0 012.25 2.25v4.5A2.25 2.25 0 0120.25 21H3.75A2.25 2.25 0 011.5 18.75v-4.5A2.25 2.25 0 013.75 13.5zm0-3h16.5a1.5 1.5 0 001.5-1.5V6.75A1.5 1.5 0 0020.25 5.25H9.75a1.5 1.5 0 01-1.12-.5l-1.01-1.26a1.5 1.5 0 00-1.12-.5H3.75A1.5 1.5 0 002.25 4.5v4.25a1.5 1.5 0 001.5 1.5z" />
   </svg>
@@ -158,7 +158,7 @@ export default function BytesPage() {
         <div>
           <h1 className="text-2xl font-black text-white uppercase italic tracking-tighter flex items-center gap-2">
             Learning Bytes
-            <span className="badge bg-accent-cyan/10 text-accent-cyan border border-accent-cyan/30 text-[10px] font-black uppercase tracking-widest px-2 py-0.5 mt-1">Matrix</span>
+            <span className="badge bg-accent-purple/10 text-accent-purple-glow border border-accent-purple/20 text-[10px] font-black uppercase tracking-widest px-2 py-0.5 mt-1">Matrix</span>
           </h1>
           <p className="text-gray-500 text-xs mt-1 uppercase font-bold tracking-widest">
             {searchQuery 
@@ -174,7 +174,7 @@ export default function BytesPage() {
         {bytes.some(b => b.githubUrl) && (
           <button 
             onClick={handleRefreshGithub}
-            className="text-[10px] font-black uppercase tracking-widest flex items-center gap-1.5 px-3 py-2 rounded-xl bg-white/5 border border-white/10 text-gray-400 hover:text-accent-cyan hover:border-accent-cyan/30 transition-all group"
+            className="text-[10px] font-black uppercase tracking-widest flex items-center gap-1.5 px-3 py-2 rounded-xl bg-white/5 border border-white/10 text-gray-400 hover:text-accent-purple hover:border-accent-purple/30 transition-all group"
           >
             <svg className="w-3.5 h-3.5 group-hover:rotate-180 transition-transform duration-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
@@ -195,7 +195,7 @@ export default function BytesPage() {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search all learning bytes globally..."
-            className="w-full bg-black/20 border border-white/10 rounded-xl pl-10 pr-4 py-2.5 text-xs text-white placeholder-gray-500 focus:border-accent-cyan focus:outline-none transition-all font-bold tracking-wide"
+            className="w-full bg-black/20 border border-white/10 rounded-xl pl-10 pr-4 py-2.5 text-xs text-white placeholder-gray-500 focus:border-accent-purple focus:outline-none transition-all font-bold tracking-wide"
           />
         </div>
         <select 
@@ -227,7 +227,7 @@ export default function BytesPage() {
               <span className="text-gray-700 font-black">/</span>
               <button 
                 onClick={() => { setCurrentSubTopic(null); }}
-                className={`hover:text-white transition-colors ${!currentSubTopic ? 'text-accent-cyan' : ''}`}
+                className={`hover:text-white transition-colors ${!currentSubTopic ? 'text-accent-purple' : ''}`}
               >
                 {currentSubject}
               </button>
@@ -272,20 +272,20 @@ export default function BytesPage() {
                   setCurrentSubject(course);
                   setCurrentSubTopic(null);
                 }}
-                className="group text-left p-5 rounded-2xl border border-white/5 bg-black/20 hover:border-accent-cyan/40 hover:bg-[#11152a] hover:shadow-xl hover:shadow-cyan-500/5 transition-all duration-300 flex items-center gap-4 relative overflow-hidden"
+                className="group text-left p-5 rounded-2xl border border-white/5 bg-black/20 hover:border-accent-purple/40 hover:bg-[#11152a] hover:shadow-xl hover:shadow-purple-500/5 transition-all duration-300 flex items-center gap-4 relative overflow-hidden"
               >
-                <div className="w-12 h-12 rounded-xl bg-accent-cyan/10 flex items-center justify-center group-hover:scale-110 transition-transform flex-shrink-0">
-                  <FolderIcon className="w-6 h-6 text-accent-cyan" />
+                <div className="w-12 h-12 rounded-xl bg-accent-purple/10 flex items-center justify-center group-hover:scale-110 transition-transform flex-shrink-0">
+                  <FolderIcon className="w-6 h-6 text-accent-purple" />
                 </div>
                 <div className="min-w-0 flex-1">
-                  <h3 className="text-white font-bold text-sm truncate leading-tight group-hover:text-accent-cyan-light transition-colors">
+                  <h3 className="text-white font-bold text-sm truncate leading-tight group-hover:text-accent-purple-light transition-colors">
                     {course}
                   </h3>
                   <p className="text-gray-500 text-[10px] font-black uppercase tracking-wider mt-1.5">
                     {count} {count === 1 ? 'Byte' : 'Bytes'}
                   </p>
                 </div>
-                <div className="absolute top-0 right-0 w-24 h-24 blur-[40px] opacity-0 group-hover:opacity-20 bg-accent-cyan transition-opacity pointer-events-none" />
+                <div className="absolute top-0 right-0 w-24 h-24 blur-[40px] opacity-0 group-hover:opacity-20 bg-accent-purple transition-opacity pointer-events-none" />
               </button>
             );
           })}
@@ -320,7 +320,7 @@ export default function BytesPage() {
           })}
           {subTopics.length === 0 && (
             <div className="col-span-full glass-card p-12 text-center border-white/5 bg-black/20">
-              <div className="text-3xl mb-4 text-accent-cyan">📂</div>
+              <div className="text-3xl mb-4 text-accent-purple">📂</div>
               <h3 className="text-sm font-black text-gray-400 uppercase tracking-wider">Empty Folder</h3>
               <p className="text-gray-500 text-xs font-bold mt-1 uppercase">There are no sub-topics created in this course yet.</p>
             </div>
@@ -334,7 +334,7 @@ export default function BytesPage() {
           ))}
           {filteredBytes.length === 0 && (
             <div className="col-span-full glass-card p-12 text-center border-white/5 bg-black/20">
-              <div className="text-3xl mb-4 text-accent-cyan">⚡</div>
+              <div className="text-3xl mb-4 text-accent-purple">⚡</div>
               <h3 className="text-sm font-black text-gray-400 uppercase tracking-wider">No Bytes</h3>
               <p className="text-gray-500 text-xs font-bold mt-1 uppercase">No bytes in this sub-topic matching your filter.</p>
             </div>
@@ -357,7 +357,7 @@ function ByteCard({
   getTopicColor: (topic: string) => string;
 }) {
   return (
-    <div className="relative group glass-card p-5 sm:p-6 overflow-hidden hover:border-accent-cyan/40 hover:shadow-xl hover:shadow-cyan-500/5 transition-all duration-300 flex flex-col h-full bg-black/20 border-white/5">
+    <div className="relative group glass-card p-5 sm:p-6 overflow-hidden hover:border-accent-purple/40 hover:shadow-xl hover:shadow-purple-500/5 transition-all duration-300 flex flex-col h-full bg-black/20 border-white/5">
       <Link href={`/bytes/view?id=${byte.id}`} className="flex-1 flex flex-col">
         <div className="flex flex-wrap gap-2 mb-4">
           <span className={`badge ${getTopicColor(byte.topic)} text-[10px] font-black uppercase tracking-wider px-2 py-0.5`}>
@@ -375,7 +375,7 @@ function ByteCard({
           )}
         </div>
         
-        <h3 className="text-sm sm:text-base font-bold text-white mb-2 group-hover:text-accent-cyan-light transition-colors line-clamp-2">
+        <h3 className="text-sm sm:text-base font-bold text-white mb-2 group-hover:text-accent-purple-light transition-colors line-clamp-2">
           {byte.title}
         </h3>
         
@@ -402,7 +402,7 @@ function ByteCard({
               </span>
             )}
           </div>
-          <span className="text-accent-cyan group-hover:translate-x-1 transition-transform flex items-center gap-0.5 text-[10px]">
+          <span className="text-accent-purple-glow group-hover:translate-x-1 transition-transform flex items-center gap-0.5 text-[10px]">
             Read
             <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
