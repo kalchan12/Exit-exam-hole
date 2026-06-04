@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { useAuth } from '@/components/AuthProvider';
-import { getNotes, getBytes, invalidateNotesCache, invalidateBytesCache, type Note, type Byte, saveCustomNote, saveCustomByte, deleteCustomNote, deleteCustomByte } from '@/lib/dataLoader';
+import { getNotes, getBytes, getCourses, saveCustomCourse, invalidateNotesCache, invalidateBytesCache, type Note, type Byte, saveCustomNote, saveCustomByte, deleteCustomNote, deleteCustomByte } from '@/lib/dataLoader';
 
 type Tab = 'add' | 'list';
 type SubType = 'long_note' | 'short_note' | 'byte' | null;
@@ -24,6 +24,13 @@ export default function AdminNotesPage() {
   const [major, setMajor] = useState<Major>('Both');
   const [title, setTitle] = useState('');
   const [topic, setTopic] = useState('');
+  
+  // Course & Sub-topic state
+  const [courses, setCourses] = useState<string[]>([]);
+  const [selectedCourse, setSelectedCourse] = useState('');
+  const [subTopic, setSubTopic] = useState('');
+  const [newCourseName, setNewCourseName] = useState('');
+  const [isAddingCourse, setIsAddingCourse] = useState(false);
   
   // GitHub Content
   const [githubUrl, setGithubUrl] = useState('');
@@ -47,13 +54,17 @@ export default function AdminNotesPage() {
   const loadData = useCallback(async () => {
     invalidateNotesCache();
     invalidateBytesCache();
-    const [fetchedNotes, fetchedBytes] = await Promise.all([getNotes(), getBytes()]);
+    const [fetchedNotes, fetchedBytes, fetchedCourses] = await Promise.all([getNotes(), getBytes(), getCourses()]);
     // Combine arrays for management list
     const combined = [
         ...fetchedNotes.map(n => ({ ...n, _type: 'note' })), 
         ...fetchedBytes.map(b => ({ ...b, _type: 'byte' }))
     ];
     setNotes(combined);
+    setCourses(fetchedCourses);
+    if (fetchedCourses.length > 0) {
+      setSelectedCourse(prev => prev || fetchedCourses[0]);
+    }
   }, []);
 
   useEffect(() => { loadData(); }, [loadData]);
@@ -67,12 +78,16 @@ export default function AdminNotesPage() {
     setGithubUrl('');
     setTitle('');
     setTopic('');
+    setSubTopic('');
+    setNewCourseName('');
+    setIsAddingCourse(false);
     setIsFetching(false);
   };
 
   const handleGitHubFetch = async () => {
-    if (!githubUrl || !title || !topic) {
-        setError('Please provide a URL, Topic, and Title first.');
+    const courseToUse = selectedCourse || topic;
+    if (!githubUrl || !title || !courseToUse || (subType === 'byte' && !subTopic)) {
+        setError(subType === 'byte' ? 'Please provide a URL, Course, Sub-topic, and Title first.' : 'Please provide a URL, Course, and Title first.');
         return;
     }
     setIsFetching(true);
@@ -95,6 +110,22 @@ export default function AdminNotesPage() {
     return 'Short Note';
   };
 
+  const handleAddCourse = async () => {
+    if (!newCourseName.trim()) return;
+    const name = newCourseName.trim();
+    saveCustomCourse(name);
+    try {
+      const { saveCourseToSupabase } = await import('@/lib/supabaseLoader');
+      await saveCourseToSupabase(name);
+    } catch (e) {
+      console.error('Failed to save course to Supabase:', e);
+    }
+    setCourses(prev => [...prev.filter(c => c !== name), name].sort());
+    setSelectedCourse(name);
+    setNewCourseName('');
+    setIsAddingCourse(false);
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!user) return;
@@ -104,24 +135,30 @@ export default function AdminNotesPage() {
     try {
       if (!fetchedData) throw new Error('Please fetch content from GitHub first.');
 
+      const { saveNoteToSupabase, saveByteToSupabase } = await import('@/lib/supabaseLoader');
+      const courseToUse = selectedCourse || topic || courses[0];
+
       if (subType === 'byte') {
           const byteItem: Byte = {
               id: `byte_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`,
-              topic: topic,
+              topic: courseToUse,
+              sub_topic: subTopic,
               title: title,
-              content: '', // content stripped, rendered from Github directly
+              content: fetchedData.body || fetchedData.content || '',
               source: 'GitHub',
               major: major,
               githubUrl: githubUrl,
               date: new Date().toISOString()
           };
           saveCustomByte(byteItem);
+          const ok = await saveByteToSupabase(byteItem, user.id);
+          if (!ok) console.warn('Note/Byte saved locally but remote DB sync failed (check schema/RLS).');
       } else {
           const noteItem: Note = {
               id: `note_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`,
-              topic: topic,
+              topic: courseToUse,
               title: title,
-              body: '', // body stripped, rendered from Github directly
+              body: fetchedData.body || fetchedData.content || '',
               source: 'GitHub',
               label: determineNoteLabel(),
               major: major,
@@ -129,6 +166,8 @@ export default function AdminNotesPage() {
               date: new Date().toISOString()
           };
           saveCustomNote(noteItem);
+          const ok = await saveNoteToSupabase(noteItem, user.id);
+          if (!ok) console.warn('Note/Byte saved locally but remote DB sync failed (check schema/RLS).');
       }
 
       setSuccess(`Successfully synchronized ${subType?.replace('_', ' ')} with GitHub!`);
@@ -236,7 +275,7 @@ export default function AdminNotesPage() {
                 <div className="glass-card p-6 sm:p-10 border-white/5 animate-in fade-in zoom-in-95">
                     <form onSubmit={handleSubmit} className="space-y-8">
                         {/* Common Metadata */}
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                             <div className="space-y-1">
                                 <label className="text-[10px] uppercase font-black tracking-widest text-gray-400 ml-1">Major Focus</label>
                                 <select value={major} onChange={(e: any) => setMajor(e.target.value)} className="modern-input w-full">
@@ -245,18 +284,71 @@ export default function AdminNotesPage() {
                                     <option value="Software">Software Engineering</option>
                                 </select>
                             </div>
-                            <InputGroup 
-                                label="Topic/Subject" 
-                                value={topic} 
-                                onChange={setTopic} 
-                                placeholder="E.g. Database Systems" 
-                                required 
-                            />
+                            
+                            <div className="space-y-1">
+                                <label className="text-[10px] uppercase font-black tracking-widest text-gray-400 ml-1">Subject / Course <span className="text-accent-purple">*</span></label>
+                                {isAddingCourse ? (
+                                    <div className="flex gap-2">
+                                        <input
+                                            type="text"
+                                            value={newCourseName}
+                                            onChange={(e) => setNewCourseName(e.target.value)}
+                                            className="modern-input flex-1"
+                                            placeholder="New Course..."
+                                            required
+                                        />
+                                        <button
+                                            type="button"
+                                            onClick={handleAddCourse}
+                                            className="px-3 py-2 rounded-lg bg-accent-purple text-white text-xs font-bold uppercase tracking-wider"
+                                        >
+                                            Add
+                                        </button>
+                                        <button
+                                            type="button"
+                                            onClick={() => setIsAddingCourse(false)}
+                                            className="text-xs text-gray-400 hover:text-white px-1"
+                                        >
+                                            Cancel
+                                        </button>
+                                    </div>
+                                ) : (
+                                    <div className="flex gap-2">
+                                        <select
+                                            value={selectedCourse}
+                                            onChange={(e) => setSelectedCourse(e.target.value)}
+                                            className="modern-input flex-1"
+                                        >
+                                            {courses.map((c) => (
+                                                <option key={c} value={c}>{c}</option>
+                                            ))}
+                                        </select>
+                                        <button
+                                            type="button"
+                                            onClick={() => setIsAddingCourse(true)}
+                                            className="px-3 py-2 rounded-lg bg-white/5 border border-white/10 hover:border-accent-purple/40 text-gray-400 hover:text-white text-[10px] font-black uppercase tracking-wider transition-all"
+                                        >
+                                            + New
+                                        </button>
+                                    </div>
+                                )}
+                            </div>
+
+                            {subType === 'byte' && (
+                                <InputGroup 
+                                    label="Sub-topic" 
+                                    value={subTopic} 
+                                    onChange={setSubTopic} 
+                                    placeholder="E.g. Deadlock" 
+                                    required 
+                                />
+                            )}
+
                             <InputGroup 
                                 label="Specific Title" 
                                 value={title} 
                                 onChange={setTitle} 
-                                placeholder="E.g. Normalization Forms" 
+                                placeholder={subType === 'byte' ? "E.g. Banker's Algorithm" : "E.g. Normalization Forms"} 
                                 required 
                             />
                         </div>
