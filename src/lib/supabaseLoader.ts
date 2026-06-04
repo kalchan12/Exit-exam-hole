@@ -119,6 +119,7 @@ export async function saveByteToSupabase(byte: Byte, userId: string): Promise<bo
       id: byte.id,
       user_id: userId,
       topic: byte.topic,
+      sub_topic: byte.sub_topic || '',
       title: byte.title,
       content: byte.content,
       images: byte.images,
@@ -132,6 +133,18 @@ export async function saveByteToSupabase(byte: Byte, userId: string): Promise<bo
 
   if (error) {
     console.error('Error saving byte to Supabase:', error);
+    return false;
+  }
+  return true;
+}
+
+export async function saveCourseToSupabase(courseName: string): Promise<boolean> {
+  const { error } = await supabase
+    .from('courses')
+    .upsert({ name: courseName }, { onConflict: 'name' });
+
+  if (error) {
+    console.error('Error saving course to Supabase:', error);
     return false;
   }
   return true;
