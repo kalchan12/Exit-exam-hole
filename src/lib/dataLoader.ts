@@ -33,7 +33,8 @@ export interface Note {
 
 export interface Byte {
   id: string;
-  topic: string;
+  topic: string; // The Subject/Course name
+  sub_topic?: string; // The Sub-topic (e.g. Deadlock)
   title: string;
   content: string;
   images?: string[];
@@ -55,6 +56,24 @@ let bytesCache: Byte[] | null = null;
 
 const LOCAL_STORAGE_NOTES_KEY = 'cs_prep_custom_notes';
 const LOCAL_STORAGE_BYTES_KEY = 'cs_prep_custom_bytes';
+const LOCAL_STORAGE_COURSES_KEY = 'cs_prep_custom_courses';
+
+export const DEFAULT_COURSES = [
+  "Fundamentals of Programming",
+  "Data Structures & Algorithms",
+  "Object Oriented Programming",
+  "Database Systems",
+  "Fundamentals of Software Engineering",
+  "Microcomputer & Interfacing",
+  "Operating Systems",
+  "Digital Logic Design",
+  "Computer Architecture & Organization",
+  "Data Communication and Computer Networks",
+  "Computer Systems Security",
+  "Distributed Systems",
+  "Compiler Design",
+  "Introduction to Artificial Intelligence"
+];
 
 // ─── Questions (Supabase ONLY) ───
 
@@ -144,6 +163,31 @@ function getCustomBytes(): Byte[] {
   } catch { return []; }
 }
 
+export function getCustomCourses(): string[] {
+  if (typeof window === 'undefined') return [];
+  try {
+    const data = localStorage.getItem(LOCAL_STORAGE_COURSES_KEY);
+    return data ? JSON.parse(data) : [];
+  } catch { return []; }
+}
+
+export async function getCourses(): Promise<string[]> {
+  try {
+    const { data, error } = await supabase.from('courses').select('name');
+    let dbCourses: string[] = [];
+    if (!error && data) {
+      dbCourses = data.map((c: any) => c.name);
+    }
+    const custom = getCustomCourses();
+    const all = Array.from(new Set([...DEFAULT_COURSES, ...custom, ...dbCourses]));
+    return all.sort();
+  } catch (e) {
+    const custom = getCustomCourses();
+    const all = Array.from(new Set([...DEFAULT_COURSES, ...custom]));
+    return all.sort();
+  }
+}
+
 export function saveCustomNote(note: Note) {
   const current = getCustomNotes();
   const updated = [...current.filter(n => n.id !== note.id), note];
@@ -170,6 +214,14 @@ export function deleteCustomByte(byteId: string) {
   const updated = current.filter(b => b.id !== byteId);
   localStorage.setItem(LOCAL_STORAGE_BYTES_KEY, JSON.stringify(updated));
   bytesCache = null;
+}
+
+export function saveCustomCourse(courseName: string) {
+  const current = getCustomCourses();
+  if (!current.includes(courseName)) {
+    const updated = [...current, courseName];
+    localStorage.setItem(LOCAL_STORAGE_COURSES_KEY, JSON.stringify(updated));
+  }
 }
 
 export function invalidateNotesCache() { notesCache = null; }
@@ -224,6 +276,7 @@ export async function getBytes(): Promise<Byte[]> {
         videoUrl: b.video_url,
         relatedQuestionIds: b.related_question_ids,
         githubUrl: b.github_url,
+        sub_topic: b.sub_topic,
       }));
     }
 
