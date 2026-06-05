@@ -1,1 +1,15 @@
-[]
+[
+  {
+    "id": "byte_1780660976686_qe2j9",
+    "topic": "Data Communication and Computer Networks",
+    "sub_topic": "OSI Model",
+    "title": "Computer Networking",
+    "content": "### Video Lesson: Computer Networking\nWatch the attached video resource below to learn about this subtopic.",
+    "images": [],
+    "videoUrl": "https://www.youtube.com/embed/CRdL1PcherM",
+    "source": "Local",
+    "major": "Both",
+    "relatedQuestionIds": [],
+    "date": "2026-06-05T12:02:56.686Z"
+  }
+]

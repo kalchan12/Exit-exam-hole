@@ -60,6 +60,11 @@ export default function AdminBytesPage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [filterCourse, setFilterCourse] = useState('all');
 
+  // Editing state variables
+  const [editingByteId, setEditingByteId] = useState<string | null>(null);
+  const [originalDate, setOriginalDate] = useState<string>('');
+  const [originalRelatedQuestionIds, setOriginalRelatedQuestionIds] = useState<string[]>([]);
+
   useEffect(() => {
     if (!authLoading && profile?.username !== 'psycho') {
       router.replace('/dashboard');
@@ -114,6 +119,9 @@ export default function AdminBytesPage() {
     setSuccess('');
     setIsAddingCourse(false);
     setNewCourseName('');
+    setEditingByteId(null);
+    setOriginalDate('');
+    setOriginalRelatedQuestionIds([]);
   };
 
   const handleCreateCourseFolder = async (e: React.FormEvent) => {
@@ -151,6 +159,24 @@ export default function AdminBytesPage() {
     }
   };
 
+  const normalizeVideoUrl = (url: string): string => {
+    let normalized = url.trim();
+    if (!normalized) return '';
+    if (normalized.includes('youtube.com/watch?v=')) {
+      const videoId = new URL(normalized).searchParams.get('v');
+      if (videoId) {
+        normalized = `https://www.youtube.com/embed/${videoId}`;
+      }
+    } else if (normalized.includes('youtu.be/')) {
+      const parts = normalized.split('/');
+      const videoId = parts[parts.length - 1].split('?')[0];
+      if (videoId) {
+        normalized = `https://www.youtube.com/embed/${videoId}`;
+      }
+    }
+    return normalized;
+  };
+
   const handleVerifyAndPreview = async () => {
     setError('');
     
@@ -158,6 +184,8 @@ export default function AdminBytesPage() {
       setError('Please provide a specific title for this byte.');
       return;
     }
+
+    const normVideo = normalizeVideoUrl(videoUrl);
 
     if (sourceType === 'github') {
       if (!githubUrl.trim()) {
@@ -177,8 +205,9 @@ export default function AdminBytesPage() {
           images: result.images,
           source: 'GitHub',
           githubUrl: githubUrl,
+          videoUrl: normVideo || undefined,
           major: major,
-          date: new Date().toISOString()
+          date: originalDate || new Date().toISOString()
         });
         setStep(3);
       } catch (err: any) {
@@ -187,23 +216,9 @@ export default function AdminBytesPage() {
         setIsFetching(false);
       }
     } else if (sourceType === 'video') {
-      if (!videoUrl.trim()) {
-        setError('Please enter a Video URL.');
+      if (!normVideo) {
+        setError('Please enter a valid Video URL.');
         return;
-      }
-      // Check if it's youtube or similar, normalize embed link
-      let normalizedVideoUrl = videoUrl.trim();
-      if (normalizedVideoUrl.includes('youtube.com/watch?v=')) {
-        const videoId = new URL(normalizedVideoUrl).searchParams.get('v');
-        if (videoId) {
-          normalizedVideoUrl = `https://www.youtube.com/embed/${videoId}`;
-        }
-      } else if (normalizedVideoUrl.includes('youtu.be/')) {
-        const parts = normalizedVideoUrl.split('/');
-        const videoId = parts[parts.length - 1].split('?')[0];
-        if (videoId) {
-          normalizedVideoUrl = `https://www.youtube.com/embed/${videoId}`;
-        }
       }
 
       setPreviewData({
@@ -211,10 +226,10 @@ export default function AdminBytesPage() {
         topic: selectedCourse,
         sub_topic: subTopic.trim() || 'General',
         content: `### Video Lesson: ${title}\nWatch the attached video resource below to learn about this subtopic.`,
-        videoUrl: normalizedVideoUrl,
+        videoUrl: normVideo,
         source: 'Local',
         major: major,
-        date: new Date().toISOString()
+        date: originalDate || new Date().toISOString()
       });
       setStep(3);
     } else {
@@ -227,9 +242,10 @@ export default function AdminBytesPage() {
         topic: selectedCourse,
         sub_topic: subTopic.trim() || 'General',
         content: manualContent,
+        videoUrl: normVideo || undefined,
         source: 'Local',
         major: major,
-        date: new Date().toISOString()
+        date: originalDate || new Date().toISOString()
       });
       setStep(3);
     }
@@ -242,7 +258,7 @@ export default function AdminBytesPage() {
     
     try {
       const byteItem: Byte = {
-        id: `byte_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`,
+        id: editingByteId || `byte_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`,
         topic: selectedCourse,
         sub_topic: previewData.sub_topic || 'General',
         title: previewData.title || title,
@@ -252,7 +268,8 @@ export default function AdminBytesPage() {
         source: previewData.githubUrl ? 'GitHub' : 'Local',
         major: major,
         githubUrl: previewData.githubUrl,
-        date: new Date().toISOString()
+        relatedQuestionIds: originalRelatedQuestionIds,
+        date: previewData.date || new Date().toISOString()
       };
 
       // 1. Save to local storage cache
@@ -275,7 +292,7 @@ export default function AdminBytesPage() {
         }
       }
 
-      setSuccess('Byte successfully saved and synchronized!');
+      setSuccess(editingByteId ? 'Byte successfully updated!' : 'Byte successfully saved and synchronized!');
       setTimeout(async () => {
         await loadData();
         resetWizard();
@@ -320,6 +337,50 @@ export default function AdminBytesPage() {
     }
   };
 
+  const handleStartEdit = (byte: Byte) => {
+    setError('');
+    setSuccess('');
+    setEditingByteId(byte.id);
+    setSelectedCourse(byte.topic);
+    setSubTopic(byte.sub_topic || '');
+    setTitle(byte.title);
+    setMajor(byte.major || 'Both');
+    setOriginalDate(byte.date || '');
+    setOriginalRelatedQuestionIds(byte.relatedQuestionIds || []);
+    
+    // Determine source type
+    if (byte.githubUrl) {
+      setSourceType('github');
+      setGithubUrl(byte.githubUrl);
+      setVideoUrl(byte.videoUrl || '');
+      setManualContent('');
+    } else if (byte.videoUrl) {
+      // If video URL exists but no githubUrl, check if it has manual content or is a simple video lesson
+      const boilerplate = `### Video Lesson: ${byte.title}\nWatch the attached video resource below to learn about this subtopic.`;
+      const isBoilerplate = byte.content?.trim() === boilerplate.trim() || byte.content?.includes('Watch the attached video resource below');
+      
+      if (isBoilerplate) {
+        setSourceType('video');
+        setVideoUrl(byte.videoUrl);
+        setGithubUrl('');
+        setManualContent('');
+      } else {
+        setSourceType('manual');
+        setVideoUrl(byte.videoUrl);
+        setGithubUrl('');
+        setManualContent(byte.content || '');
+      }
+    } else {
+      setSourceType('manual');
+      setGithubUrl('');
+      setVideoUrl('');
+      setManualContent(byte.content || '');
+    }
+    
+    setStep(2);
+    setTab('add');
+  };
+
   // Filter list of bytes
   const filteredBytes = useMemo(() => {
     return bytes.filter(b => {
@@ -347,14 +408,18 @@ export default function AdminBytesPage() {
       <div className="flex flex-col md:flex-row md:items-end md:justify-between border-b border-white/5 pb-6 gap-4">
         <div>
           <h1 className="text-3xl sm:text-4xl font-black text-white uppercase italic tracking-tighter flex items-center gap-2">
-            Byte Manager
+            {editingByteId ? 'Edit Byte' : 'Byte Manager'}
             <span className="badge bg-accent-purple/10 text-accent-purple-glow border border-accent-purple/20 text-[10px] font-black uppercase tracking-widest px-2 py-0.5 mt-1">Admin</span>
           </h1>
           <p className="text-gray-500 text-xs sm:text-sm mt-1 uppercase font-bold tracking-widest">
             {tab === 'add' 
-              ? `Step ${step} of 3: ${
-                  step === 1 ? 'Choose Course Folder' : step === 2 ? 'Configure Byte details' : 'Preview & Publish'
-                }`
+              ? editingByteId 
+                ? `Editing Mode — Step ${step} of 3: ${
+                    step === 1 ? 'Change Course Folder' : step === 2 ? 'Update Byte details' : 'Preview & Save'
+                  }`
+                : `Step ${step} of 3: ${
+                    step === 1 ? 'Choose Course Folder' : step === 2 ? 'Configure Byte details' : 'Preview & Publish'
+                  }`
               : `Manage existing learning bytes (${filteredBytes.length} loaded)`
             }
           </p>
@@ -368,7 +433,7 @@ export default function AdminBytesPage() {
                 tab === 'add' ? 'bg-accent-purple text-white shadow-lg shadow-purple-500/20' : 'text-gray-400 hover:text-white hover:bg-white/5'
               }`}
             >
-              Add Byte
+              {editingByteId ? 'Editing Byte' : 'Add Byte'}
             </button>
             <button
               onClick={() => setTab('list')}
@@ -385,7 +450,7 @@ export default function AdminBytesPage() {
               onClick={resetWizard}
               className="px-4 py-2 text-xs font-black uppercase tracking-wider text-accent-purple hover:text-white border border-accent-purple/20 hover:border-white/20 rounded-xl transition-all"
             >
-              ← Restart Flow
+              {editingByteId ? '← Cancel Edit' : '← Restart Flow'}
             </button>
           )}
         </div>
@@ -623,7 +688,7 @@ export default function AdminBytesPage() {
                   </div>
 
                   {sourceType === 'github' && (
-                    <div className="space-y-2 animate-in fade-in duration-200">
+                    <div className="space-y-4 animate-in fade-in duration-200">
                       <div className="space-y-1">
                         <label className="text-[10px] uppercase font-black tracking-widest text-gray-400 ml-1">GitHub Raw URL (.md) <span className="text-accent-purple">*</span></label>
                         <input
@@ -633,6 +698,16 @@ export default function AdminBytesPage() {
                           placeholder="https://raw.githubusercontent.com/.../lesson.md"
                           className="modern-input w-full"
                           required
+                        />
+                      </div>
+                      <div className="space-y-1">
+                        <label className="text-[10px] uppercase font-black tracking-widest text-gray-400 ml-1">Video URL (Optional)</label>
+                        <input
+                          type="text"
+                          value={videoUrl}
+                          onChange={(e) => setVideoUrl(e.target.value)}
+                          placeholder="https://www.youtube.com/watch?v=..."
+                          className="modern-input w-full"
                         />
                       </div>
                       <p className="text-[10px] text-gray-500 leading-relaxed uppercase font-semibold">
@@ -661,7 +736,7 @@ export default function AdminBytesPage() {
                   )}
 
                   {sourceType === 'manual' && (
-                    <div className="space-y-2 animate-in fade-in duration-200">
+                    <div className="space-y-4 animate-in fade-in duration-200">
                       <div className="space-y-1">
                         <label className="text-[10px] uppercase font-black tracking-widest text-gray-400 ml-1">Markdown Body <span className="text-accent-purple">*</span></label>
                         <textarea
@@ -671,6 +746,16 @@ export default function AdminBytesPage() {
                           rows={8}
                           className="modern-input w-full font-mono text-xs leading-relaxed resize-y"
                           required
+                        />
+                      </div>
+                      <div className="space-y-1">
+                        <label className="text-[10px] uppercase font-black tracking-widest text-gray-400 ml-1">Video URL (Optional)</label>
+                        <input
+                          type="text"
+                          value={videoUrl}
+                          onChange={(e) => setVideoUrl(e.target.value)}
+                          placeholder="https://www.youtube.com/watch?v=..."
+                          className="modern-input w-full"
                         />
                       </div>
                     </div>
@@ -870,12 +955,20 @@ export default function AdminBytesPage() {
                     View Live →
                   </button>
                   
-                  <button 
-                    onClick={() => handleDelete(byte.id)} 
-                    className="text-[10px] font-black uppercase tracking-widest px-2.5 py-1 rounded bg-red-500/10 text-red-500 hover:bg-red-500/20 transition-all opacity-0 group-hover:opacity-100"
-                  >
-                    Delete
-                  </button>
+                  <div className="flex gap-2">
+                    <button 
+                      onClick={() => handleStartEdit(byte)} 
+                      className="text-[10px] font-black uppercase tracking-widest px-2.5 py-1 rounded bg-accent-purple/10 text-accent-purple hover:bg-accent-purple/20 transition-all opacity-0 group-hover:opacity-100"
+                    >
+                      Edit
+                    </button>
+                    <button 
+                      onClick={() => handleDelete(byte.id)} 
+                      className="text-[10px] font-black uppercase tracking-widest px-2.5 py-1 rounded bg-red-500/10 text-red-500 hover:bg-red-500/20 transition-all opacity-0 group-hover:opacity-100"
+                    >
+                      Delete
+                    </button>
+                  </div>
                 </div>
               </div>
             ))}
