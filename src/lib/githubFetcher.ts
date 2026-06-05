@@ -1,4 +1,4 @@
-import { Note, Question } from './dataLoader';
+import { Note, Question, Byte } from './dataLoader';
 import { parseQuestionsFromMarkdown, parseQuestionsFromJson } from './parsers';
 
 /**
@@ -125,3 +125,30 @@ export function clearGitHubCache() {
     }
     keys.forEach(k => localStorage.removeItem(k));
 }
+
+/**
+ * Fetches a raw Markdown file from a URL and parses it into a Byte object.
+ */
+export async function fetchGitHubByte(url: string, course: string = 'General', forceRefresh = false): Promise<Byte> {
+  try {
+    const markdown = await fetchWithCache(url, forceRefresh);
+    const images = extractImagesFromMarkdown(markdown);
+
+    const byte: Byte = {
+      id: `gh_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`,
+      topic: course,
+      title: 'Untitled Byte',
+      content: markdown,
+      images,
+      source: 'GitHub',
+      githubUrl: url,
+      date: new Date().toISOString()
+    };
+
+    return byte;
+  } catch (error) {
+    console.error('Error in fetchGitHubByte:', error);
+    throw error;
+  }
+}
+

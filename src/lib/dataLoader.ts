@@ -172,20 +172,29 @@ export function getCustomCourses(): string[] {
 }
 
 export async function getCourses(): Promise<string[]> {
+  let localFileCourses: string[] = [];
+  try {
+    const res = await fetch('/data/courses.json');
+    if (res.ok) {
+      localFileCourses = await res.json();
+    }
+  } catch (e) {
+    // Ignore fetch error if file doesn't exist
+  }
+
+  let dbCourses: string[] = [];
   try {
     const { data, error } = await supabase.from('courses').select('name');
-    let dbCourses: string[] = [];
     if (!error && data) {
       dbCourses = data.map((c: any) => c.name);
     }
-    const custom = getCustomCourses();
-    const all = Array.from(new Set([...DEFAULT_COURSES, ...custom, ...dbCourses]));
-    return all.sort();
   } catch (e) {
-    const custom = getCustomCourses();
-    const all = Array.from(new Set([...DEFAULT_COURSES, ...custom]));
-    return all.sort();
+    // Ignore database errors
   }
+
+  const custom = getCustomCourses();
+  const all = Array.from(new Set([...DEFAULT_COURSES, ...custom, ...localFileCourses, ...dbCourses]));
+  return all.sort();
 }
 
 export function saveCustomNote(note: Note) {
@@ -230,45 +239,60 @@ export function invalidateBytesCache() { bytesCache = null; }
 export async function getNotes(): Promise<Note[]> {
   if (notesCache) return notesCache;
 
+  let systemData: Note[] = [];
   try {
     const res = await fetch('/data/notes.json');
-    if (!res.ok) throw new Error('Failed to fetch notes.json');
-    const systemData: Note[] = await res.json();
-    const customData = getCustomNotes();
+    if (res.ok) {
+      systemData = await res.json();
+    }
+  } catch (error) {
+    console.warn('Failed to fetch notes.json:', error);
+  }
 
-    let supabaseData: Note[] = [];
+  const customData = getCustomNotes();
+
+  let supabaseData: Note[] = [];
+  try {
     const { data, error } = await supabase.from('notes').select('*');
     if (!error && data) {
       supabaseData = data.map(n => ({
         ...n,
         githubUrl: n.github_url,
       }));
+    } else if (error) {
+      console.warn('Supabase notes error:', error.message);
     }
-
-    const merged = [
-      ...systemData.map(n => ({ ...n, source: 'system' as const })),
-      ...customData,
-      ...supabaseData,
-    ];
-    const unique = Array.from(new Map(merged.map(item => [item.id, item])).values());
-    notesCache = unique;
-    return unique;
-  } catch (error) {
-    console.warn('Failed to load system notes:', error);
-    return getCustomNotes();
+  } catch (dbErr) {
+    console.warn('Supabase notes fetch crashed:', dbErr);
   }
+
+  const merged = [
+    ...systemData.map(n => ({ ...n, source: n.source || ('system' as const) })),
+    ...customData,
+    ...supabaseData,
+  ];
+  const unique = Array.from(new Map(merged.map(item => [item.id, item])).values());
+  notesCache = unique;
+  return unique;
 }
 
 export async function getBytes(): Promise<Byte[]> {
   if (bytesCache) return bytesCache;
 
+  let systemData: Byte[] = [];
   try {
     const res = await fetch('/data/bytes.json');
-    if (!res.ok) throw new Error('Failed to fetch bytes.json');
-    const systemData: Byte[] = await res.json();
-    const customData = getCustomBytes();
+    if (res.ok) {
+      systemData = await res.json();
+    }
+  } catch (error) {
+    console.warn('Failed to fetch bytes.json:', error);
+  }
 
-    let supabaseData: Byte[] = [];
+  const customData = getCustomBytes();
+
+  let supabaseData: Byte[] = [];
+  try {
     const { data, error } = await supabase.from('bytes').select('*');
     if (!error && data) {
       supabaseData = data.map(b => ({
@@ -278,20 +302,21 @@ export async function getBytes(): Promise<Byte[]> {
         githubUrl: b.github_url,
         sub_topic: b.sub_topic,
       }));
+    } else if (error) {
+      console.warn('Supabase bytes error:', error.message);
     }
-
-    const merged = [
-      ...systemData.map(b => ({ ...b, source: 'system' as const })),
-      ...customData,
-      ...supabaseData,
-    ];
-    const unique = Array.from(new Map(merged.map(item => [item.id, item])).values());
-    bytesCache = unique;
-    return unique;
-  } catch (error) {
-    console.warn('Failed to load system bytes:', error);
-    return getCustomBytes();
+  } catch (dbErr) {
+    console.warn('Supabase bytes fetch crashed:', dbErr);
   }
+
+  const merged = [
+    ...systemData.map(b => ({ ...b, source: b.source || ('system' as const) })),
+    ...customData,
+    ...supabaseData,
+  ];
+  const unique = Array.from(new Map(merged.map(item => [item.id, item])).values());
+  bytesCache = unique;
+  return unique;
 }
 
 export async function getNotesByTopic(topic: string): Promise<Note[]> {
