@@ -114,12 +114,17 @@ export default function AdminNotesPage() {
     if (!newCourseName.trim()) return;
     const name = newCourseName.trim();
     saveCustomCourse(name);
+    
     try {
+      const { saveCourseToLocalFile } = await import('@/app/admin/actions');
+      await saveCourseToLocalFile(name);
+      
       const { saveCourseToSupabase } = await import('@/lib/supabaseLoader');
       await saveCourseToSupabase(name);
     } catch (e) {
-      console.error('Failed to save course to Supabase:', e);
+      console.warn('Bypassed course remote database save:', e);
     }
+    
     setCourses(prev => [...prev.filter(c => c !== name), name].sort());
     setSelectedCourse(name);
     setNewCourseName('');
@@ -128,14 +133,12 @@ export default function AdminNotesPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!user) return;
     setError('');
     setIsFetching(true);
 
     try {
       if (!fetchedData) throw new Error('Please fetch content from GitHub first.');
 
-      const { saveNoteToSupabase, saveByteToSupabase } = await import('@/lib/supabaseLoader');
       const courseToUse = selectedCourse || topic || courses[0];
 
       if (subType === 'byte') {
@@ -150,9 +153,23 @@ export default function AdminNotesPage() {
               githubUrl: githubUrl,
               date: new Date().toISOString()
           };
+          
           saveCustomByte(byteItem);
-          const ok = await saveByteToSupabase(byteItem, user.id);
-          if (!ok) console.warn('Note/Byte saved locally but remote DB sync failed (check schema/RLS).');
+          
+          const { saveByteToLocalFile } = await import('@/app/admin/actions');
+          const localResult = await saveByteToLocalFile(byteItem);
+          if (!localResult.success) {
+            throw new Error(localResult.error || 'Failed to save byte locally.');
+          }
+
+          if (user) {
+            try {
+              const { saveByteToSupabase } = await import('@/lib/supabaseLoader');
+              await saveByteToSupabase(byteItem, user.id);
+            } catch (dbErr) {
+              console.warn('Supabase database sync bypassed:', dbErr);
+            }
+          }
       } else {
           const noteItem: Note = {
               id: `note_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`,
@@ -165,9 +182,23 @@ export default function AdminNotesPage() {
               githubUrl: githubUrl,
               date: new Date().toISOString()
           };
+          
           saveCustomNote(noteItem);
-          const ok = await saveNoteToSupabase(noteItem, user.id);
-          if (!ok) console.warn('Note/Byte saved locally but remote DB sync failed (check schema/RLS).');
+          
+          const { saveNoteToLocalFile } = await import('@/app/admin/actions');
+          const localResult = await saveNoteToLocalFile(noteItem);
+          if (!localResult.success) {
+            throw new Error(localResult.error || 'Failed to save note locally.');
+          }
+
+          if (user) {
+            try {
+              const { saveNoteToSupabase } = await import('@/lib/supabaseLoader');
+              await saveNoteToSupabase(noteItem, user.id);
+            } catch (dbErr) {
+              console.warn('Supabase database sync bypassed:', dbErr);
+            }
+          }
       }
 
       setSuccess(`Successfully synchronized ${subType?.replace('_', ' ')} with GitHub!`);
@@ -188,13 +219,30 @@ export default function AdminNotesPage() {
     if (!confirm('Are you sure you want to remove this tracked resource?')) return;
     
     try {
-      const { supabase } = await import('@/lib/supabaseClient');
       if (type === 'byte') {
         deleteCustomByte(id);
-        await supabase.from('bytes').delete().eq('id', id);
+        
+        const { deleteByteFromLocalFile } = await import('@/app/admin/actions');
+        await deleteByteFromLocalFile(id);
+        
+        try {
+          const { supabase } = await import('@/lib/supabaseClient');
+          await supabase.from('bytes').delete().eq('id', id);
+        } catch (dbErr) {
+          console.warn('Bypassed DB deletion:', dbErr);
+        }
       } else {
         deleteCustomNote(id);
-        await supabase.from('notes').delete().eq('id', id);
+        
+        const { deleteNoteFromLocalFile } = await import('@/app/admin/actions');
+        await deleteNoteFromLocalFile(id);
+        
+        try {
+          const { supabase } = await import('@/lib/supabaseClient');
+          await supabase.from('notes').delete().eq('id', id);
+        } catch (dbErr) {
+          console.warn('Bypassed DB deletion:', dbErr);
+        }
       }
       
       setSuccess('Resource removed successfully.');
