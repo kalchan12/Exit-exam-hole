@@ -116,17 +116,32 @@ export default function ByteViewPage() {
           </div>
 
           {/* Media */}
-          {(byte.images?.length || byte.videoUrl) && (
+          {(byte.images?.length || byte.videoUrl || (byte.videoUrls && byte.videoUrls.length > 0)) && (
             <div className="my-10 space-y-6">
-              {byte.videoUrl && (
-                <div className="aspect-video rounded-xl overflow-hidden shadow-lg border border-dark-400/20 bg-dark-900">
-                  <iframe
-                    src={byte.videoUrl.replace("watch?v=", "embed/")}
-                    className="w-full h-full"
-                    allowFullScreen
-                    title="Video Embed"
-                  />
-                </div>
+              {/* List of videoUrls */}
+              {byte.videoUrls && byte.videoUrls.length > 0 ? (
+                byte.videoUrls.map((url, idx) => (
+                  <div key={idx} className="aspect-video rounded-xl overflow-hidden shadow-lg border border-dark-400/20 bg-dark-900">
+                    <iframe
+                      src={url.replace("watch?v=", "embed/")}
+                      className="w-full h-full"
+                      allowFullScreen
+                      title={`Video Embed ${idx + 1}`}
+                    />
+                  </div>
+                ))
+              ) : (
+                /* Fallback legacy videoUrl */
+                byte.videoUrl && (
+                  <div className="aspect-video rounded-xl overflow-hidden shadow-lg border border-dark-400/20 bg-dark-900">
+                    <iframe
+                      src={byte.videoUrl.replace("watch?v=", "embed/")}
+                      className="w-full h-full"
+                      allowFullScreen
+                      title="Video Embed"
+                    />
+                  </div>
+                )
               )}
               {byte.images && byte.images.length > 0 && (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

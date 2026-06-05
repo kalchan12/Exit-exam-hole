@@ -64,6 +64,9 @@ export default function AdminBytesPage() {
   const [editingByteId, setEditingByteId] = useState<string | null>(null);
   const [originalDate, setOriginalDate] = useState<string>('');
   const [originalRelatedQuestionIds, setOriginalRelatedQuestionIds] = useState<string[]>([]);
+  const [videoUrls, setVideoUrls] = useState<string[]>([]);
+  const [newVideoUrl, setNewVideoUrl] = useState('');
+  const [refreshingByteId, setRefreshingByteId] = useState<string | null>(null);
 
   useEffect(() => {
     if (!authLoading && profile?.username !== 'psycho') {
@@ -122,6 +125,8 @@ export default function AdminBytesPage() {
     setEditingByteId(null);
     setOriginalDate('');
     setOriginalRelatedQuestionIds([]);
+    setVideoUrls([]);
+    setNewVideoUrl('');
   };
 
   const handleCreateCourseFolder = async (e: React.FormEvent) => {
@@ -177,6 +182,22 @@ export default function AdminBytesPage() {
     return normalized;
   };
 
+  const handleAddVideoUrl = () => {
+    if (!newVideoUrl.trim()) return;
+    const normalized = normalizeVideoUrl(newVideoUrl);
+    if (!normalized) {
+      setError('Please enter a valid YouTube or video URL.');
+      return;
+    }
+    if (videoUrls.includes(normalized)) {
+      setError('This video is already in the list.');
+      return;
+    }
+    setError('');
+    setVideoUrls(prev => [...prev, normalized]);
+    setNewVideoUrl('');
+  };
+
   const handleVerifyAndPreview = async () => {
     setError('');
     
@@ -185,7 +206,12 @@ export default function AdminBytesPage() {
       return;
     }
 
-    const normVideo = normalizeVideoUrl(videoUrl);
+    // Accumulate all video links
+    let finalVideoUrls = [...videoUrls];
+    const typedVideo = normalizeVideoUrl(newVideoUrl || videoUrl);
+    if (typedVideo && !finalVideoUrls.includes(typedVideo)) {
+      finalVideoUrls.push(typedVideo);
+    }
 
     if (sourceType === 'github') {
       if (!githubUrl.trim()) {
@@ -205,7 +231,8 @@ export default function AdminBytesPage() {
           images: result.images,
           source: 'GitHub',
           githubUrl: githubUrl,
-          videoUrl: normVideo || undefined,
+          videoUrl: finalVideoUrls[0] || undefined,
+          videoUrls: finalVideoUrls,
           major: major,
           date: originalDate || new Date().toISOString()
         });
@@ -216,7 +243,7 @@ export default function AdminBytesPage() {
         setIsFetching(false);
       }
     } else if (sourceType === 'video') {
-      if (!normVideo) {
+      if (finalVideoUrls.length === 0) {
         setError('Please enter a valid Video URL.');
         return;
       }
@@ -226,7 +253,8 @@ export default function AdminBytesPage() {
         topic: selectedCourse,
         sub_topic: subTopic.trim() || 'General',
         content: `### Video Lesson: ${title}\nWatch the attached video resource below to learn about this subtopic.`,
-        videoUrl: normVideo,
+        videoUrl: finalVideoUrls[0],
+        videoUrls: finalVideoUrls,
         source: 'Local',
         major: major,
         date: originalDate || new Date().toISOString()
@@ -242,7 +270,8 @@ export default function AdminBytesPage() {
         topic: selectedCourse,
         sub_topic: subTopic.trim() || 'General',
         content: manualContent,
-        videoUrl: normVideo || undefined,
+        videoUrl: finalVideoUrls[0] || undefined,
+        videoUrls: finalVideoUrls,
         source: 'Local',
         major: major,
         date: originalDate || new Date().toISOString()
@@ -264,7 +293,8 @@ export default function AdminBytesPage() {
         title: previewData.title || title,
         content: previewData.content || '',
         images: previewData.images || [],
-        videoUrl: previewData.videoUrl,
+        videoUrl: previewData.videoUrls?.[0] || previewData.videoUrl || undefined,
+        videoUrls: previewData.videoUrls || [],
         source: previewData.githubUrl ? 'GitHub' : 'Local',
         major: major,
         githubUrl: previewData.githubUrl,
@@ -348,11 +378,14 @@ export default function AdminBytesPage() {
     setOriginalDate(byte.date || '');
     setOriginalRelatedQuestionIds(byte.relatedQuestionIds || []);
     
+    const initialVideoUrls = byte.videoUrls || (byte.videoUrl ? [byte.videoUrl] : []);
+    setVideoUrls(initialVideoUrls);
+    setVideoUrl(''); // Clear input box
+    
     // Determine source type
     if (byte.githubUrl) {
       setSourceType('github');
       setGithubUrl(byte.githubUrl);
-      setVideoUrl(byte.videoUrl || '');
       setManualContent('');
     } else if (byte.videoUrl) {
       // If video URL exists but no githubUrl, check if it has manual content or is a simple video lesson
@@ -361,24 +394,67 @@ export default function AdminBytesPage() {
       
       if (isBoilerplate) {
         setSourceType('video');
-        setVideoUrl(byte.videoUrl);
         setGithubUrl('');
         setManualContent('');
       } else {
         setSourceType('manual');
-        setVideoUrl(byte.videoUrl);
         setGithubUrl('');
         setManualContent(byte.content || '');
       }
     } else {
       setSourceType('manual');
       setGithubUrl('');
-      setVideoUrl('');
       setManualContent(byte.content || '');
     }
     
     setStep(2);
     setTab('add');
+  };
+
+  const handleRefreshGitHubContent = async (byte: Byte) => {
+    if (!byte.githubUrl) return;
+    setError('');
+    setSuccess('');
+    setRefreshingByteId(byte.id);
+
+    try {
+      const { fetchGitHubByte } = await import('@/lib/githubFetcher');
+      const result = await fetchGitHubByte(byte.githubUrl, byte.topic);
+      
+      const updatedByte: Byte = {
+        ...byte,
+        content: result.content,
+        images: result.images || []
+      };
+
+      // 1. Save to local storage cache
+      saveCustomByte(updatedByte);
+
+      // 2. Save to local JSON file
+      const { saveByteToLocalFile } = await import('@/app/admin/actions');
+      const localResult = await saveByteToLocalFile(updatedByte);
+      if (!localResult.success) {
+        throw new Error(localResult.error || 'Failed to save byte locally.');
+      }
+
+      // 3. Try to save to Supabase optionally
+      if (user) {
+        try {
+          const { saveByteToSupabase } = await import('@/lib/supabaseLoader');
+          await saveByteToSupabase(updatedByte, user.id);
+        } catch (dbErr) {
+          console.warn('Database sync bypassed:', dbErr);
+        }
+      }
+
+      setSuccess(`Successfully refreshed content for "${byte.title}" from GitHub!`);
+      await loadData();
+      setTimeout(() => setSuccess(''), 3000);
+    } catch (err: any) {
+      setError(err.message || 'Failed to refresh GitHub content.');
+    } finally {
+      setRefreshingByteId(null);
+    }
   };
 
   // Filter list of bytes
@@ -688,7 +764,7 @@ export default function AdminBytesPage() {
                   </div>
 
                   {sourceType === 'github' && (
-                    <div className="space-y-4 animate-in fade-in duration-200">
+                    <div className="space-y-2 animate-in fade-in duration-200">
                       <div className="space-y-1">
                         <label className="text-[10px] uppercase font-black tracking-widest text-gray-400 ml-1">GitHub Raw URL (.md) <span className="text-accent-purple">*</span></label>
                         <input
@@ -700,16 +776,6 @@ export default function AdminBytesPage() {
                           required
                         />
                       </div>
-                      <div className="space-y-1">
-                        <label className="text-[10px] uppercase font-black tracking-widest text-gray-400 ml-1">Video URL (Optional)</label>
-                        <input
-                          type="text"
-                          value={videoUrl}
-                          onChange={(e) => setVideoUrl(e.target.value)}
-                          placeholder="https://www.youtube.com/watch?v=..."
-                          className="modern-input w-full"
-                        />
-                      </div>
                       <p className="text-[10px] text-gray-500 leading-relaxed uppercase font-semibold">
                         Make sure the URL is direct raw file content (e.g. starts with raw.githubusercontent.com).
                       </p>
@@ -717,26 +783,15 @@ export default function AdminBytesPage() {
                   )}
 
                   {sourceType === 'video' && (
-                    <div className="space-y-2 animate-in fade-in duration-200">
-                      <div className="space-y-1">
-                        <label className="text-[10px] uppercase font-black tracking-widest text-gray-400 ml-1">YouTube / Embed Video URL <span className="text-accent-purple">*</span></label>
-                        <input
-                          type="text"
-                          value={videoUrl}
-                          onChange={(e) => setVideoUrl(e.target.value)}
-                          placeholder="https://www.youtube.com/watch?v=..."
-                          className="modern-input w-full"
-                          required
-                        />
-                      </div>
-                      <p className="text-[10px] text-gray-500 leading-relaxed uppercase font-semibold">
-                        Supports YouTube links which will automatically get converted to embed iframe players.
+                    <div className="space-y-2 animate-in fade-in duration-200 bg-black/20 p-4 rounded-xl border border-white/5">
+                      <p className="text-xs text-gray-400 leading-relaxed uppercase font-bold">
+                        Video Lesson Mode selected. Please add one or more video links using the manager below.
                       </p>
                     </div>
                   )}
 
                   {sourceType === 'manual' && (
-                    <div className="space-y-4 animate-in fade-in duration-200">
+                    <div className="space-y-2 animate-in fade-in duration-200">
                       <div className="space-y-1">
                         <label className="text-[10px] uppercase font-black tracking-widest text-gray-400 ml-1">Markdown Body <span className="text-accent-purple">*</span></label>
                         <textarea
@@ -748,18 +803,60 @@ export default function AdminBytesPage() {
                           required
                         />
                       </div>
-                      <div className="space-y-1">
-                        <label className="text-[10px] uppercase font-black tracking-widest text-gray-400 ml-1">Video URL (Optional)</label>
-                        <input
-                          type="text"
-                          value={videoUrl}
-                          onChange={(e) => setVideoUrl(e.target.value)}
-                          placeholder="https://www.youtube.com/watch?v=..."
-                          className="modern-input w-full"
-                        />
-                      </div>
                     </div>
                   )}
+
+                  {/* Video URL Manager */}
+                  <div className="space-y-3 pt-4 border-t border-white/5 animate-in fade-in">
+                    <label className="text-[10px] uppercase font-black tracking-widest text-gray-400 ml-1">
+                      {sourceType === 'video' ? 'Video Links (At least one required) *' : 'Video Links (Optional)'}
+                    </label>
+
+                    {/* List of current videos */}
+                    {videoUrls.length > 0 && (
+                      <div className="space-y-2 bg-black/20 p-3 rounded-xl border border-white/5 max-h-48 overflow-y-auto">
+                        {videoUrls.map((url, idx) => (
+                          <div key={idx} className="flex items-center justify-between gap-3 text-xs bg-black/40 px-3 py-2 rounded-lg border border-white/5">
+                            <span className="text-gray-300 font-mono truncate flex-1">{url}</span>
+                            <button
+                              type="button"
+                              onClick={() => setVideoUrls(prev => prev.filter((_, i) => i !== idx))}
+                              className="text-red-400 hover:text-red-300 font-bold px-1.5 py-0.5 rounded hover:bg-red-500/10 transition-all text-[10px] uppercase tracking-wider"
+                            >
+                              Remove
+                            </button>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+
+                    {/* Input to add a new video */}
+                    <div className="flex gap-2">
+                      <input
+                        type="text"
+                        value={newVideoUrl}
+                        onChange={(e) => setNewVideoUrl(e.target.value)}
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter') {
+                            e.preventDefault();
+                            handleAddVideoUrl();
+                          }
+                        }}
+                        placeholder="https://www.youtube.com/watch?v=..."
+                        className="modern-input flex-1 text-xs"
+                      />
+                      <button
+                        type="button"
+                        onClick={handleAddVideoUrl}
+                        className="px-4 py-2 bg-accent-purple/20 text-accent-purple hover:bg-accent-purple hover:text-white rounded-xl border border-accent-purple/30 text-xs font-black uppercase tracking-wider transition-all"
+                      >
+                        Add Video
+                      </button>
+                    </div>
+                    <p className="text-[9px] text-gray-500 uppercase font-semibold">
+                      Supports YouTube links. Press "Add Video" or Enter to add.
+                    </p>
+                  </div>
                 </div>
               </div>
 
@@ -826,15 +923,28 @@ export default function AdminBytesPage() {
                 {/* Rendered content */}
                 <div className="p-8 space-y-6">
                   {/* Video Embed Frame */}
-                  {previewData.videoUrl && (
-                    <div className="aspect-video rounded-xl overflow-hidden shadow-lg border border-white/5 bg-black/60 max-w-2xl mx-auto">
-                      <iframe
-                        src={previewData.videoUrl}
-                        className="w-full h-full"
-                        allowFullScreen
-                        title="Video Preview"
-                      />
-                    </div>
+                  {previewData.videoUrls && previewData.videoUrls.length > 0 ? (
+                    previewData.videoUrls.map((url, index) => (
+                      <div key={index} className="aspect-video rounded-xl overflow-hidden shadow-lg border border-white/5 bg-black/60 max-w-2xl mx-auto mb-4">
+                        <iframe
+                          src={url}
+                          className="w-full h-full"
+                          allowFullScreen
+                          title={`Video Preview ${index + 1}`}
+                        />
+                      </div>
+                    ))
+                  ) : (
+                    previewData.videoUrl && (
+                      <div className="aspect-video rounded-xl overflow-hidden shadow-lg border border-white/5 bg-black/60 max-w-2xl mx-auto">
+                        <iframe
+                          src={previewData.videoUrl}
+                          className="w-full h-full"
+                          allowFullScreen
+                          title="Video Preview"
+                        />
+                      </div>
+                    )
                   )}
 
                   {/* Markdown lesson content */}
@@ -956,6 +1066,17 @@ export default function AdminBytesPage() {
                   </button>
                   
                   <div className="flex gap-2">
+                    {byte.githubUrl && (
+                      <button 
+                        disabled={refreshingByteId === byte.id}
+                        onClick={() => handleRefreshGitHubContent(byte)} 
+                        className={`text-[10px] font-black uppercase tracking-widest px-2.5 py-1 rounded bg-amber-500/10 text-amber-500 hover:bg-amber-500/20 transition-all opacity-0 group-hover:opacity-100 ${
+                          refreshingByteId === byte.id ? 'animate-pulse cursor-not-allowed' : ''
+                        }`}
+                      >
+                        {refreshingByteId === byte.id ? 'Refreshing...' : 'Refresh Content'}
+                      </button>
+                    )}
                     <button 
                       onClick={() => handleStartEdit(byte)} 
                       className="text-[10px] font-black uppercase tracking-widest px-2.5 py-1 rounded bg-accent-purple/10 text-accent-purple hover:bg-accent-purple/20 transition-all opacity-0 group-hover:opacity-100"

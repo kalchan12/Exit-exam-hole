@@ -113,27 +113,39 @@ export async function saveNoteToSupabase(note: Note, userId: string): Promise<bo
 }
 
 export async function saveByteToSupabase(byte: Byte, userId: string): Promise<boolean> {
+  const baseData = {
+    id: byte.id,
+    user_id: userId,
+    topic: byte.topic,
+    sub_topic: byte.sub_topic || '',
+    title: byte.title,
+    content: byte.content,
+    images: byte.images,
+    video_url: byte.videoUrl,
+    related_question_ids: byte.relatedQuestionIds,
+    source: byte.source,
+    major: (byte as any).major || 'Both',
+    date: byte.date,
+    github_url: byte.githubUrl,
+  };
+
   const { error } = await supabase
     .from('bytes')
     .upsert({
-      id: byte.id,
-      user_id: userId,
-      topic: byte.topic,
-      sub_topic: byte.sub_topic || '',
-      title: byte.title,
-      content: byte.content,
-      images: byte.images,
-      video_url: byte.videoUrl,
-      related_question_ids: byte.relatedQuestionIds,
-      source: byte.source,
-      major: (byte as any).major || 'Both',
-      date: byte.date,
-      github_url: byte.githubUrl,
+      ...baseData,
+      video_urls: byte.videoUrls || [],
     });
 
   if (error) {
-    console.error('Error saving byte to Supabase:', error);
-    return false;
+    console.warn('Upsert with video_urls failed, retrying without video_urls:', error.message);
+    const { error: retryError } = await supabase
+      .from('bytes')
+      .upsert(baseData);
+      
+    if (retryError) {
+      console.error('Error saving byte to Supabase (retry):', retryError);
+      return false;
+    }
   }
   return true;
 }

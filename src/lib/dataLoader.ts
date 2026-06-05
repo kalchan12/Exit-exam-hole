@@ -39,6 +39,7 @@ export interface Byte {
   content: string;
   images?: string[];
   videoUrl?: string;
+  videoUrls?: string[];
   relatedQuestionIds?: string[];
   date?: string;
   source?: 'Local' | 'GitHub' | 'Cloud' | 'system';
@@ -298,6 +299,7 @@ export async function getBytes(): Promise<Byte[]> {
       supabaseData = data.map(b => ({
         ...b,
         videoUrl: b.video_url,
+        videoUrls: b.video_urls || (b.video_url ? [b.video_url] : []),
         relatedQuestionIds: b.related_question_ids,
         githubUrl: b.github_url,
         sub_topic: b.sub_topic,
@@ -310,8 +312,15 @@ export async function getBytes(): Promise<Byte[]> {
   }
 
   const merged = [
-    ...systemData.map(b => ({ ...b, source: b.source || ('system' as const) })),
-    ...customData,
+    ...systemData.map(b => ({
+      ...b,
+      videoUrls: b.videoUrls || (b.videoUrl ? [b.videoUrl] : []),
+      source: b.source || ('system' as const)
+    })),
+    ...customData.map(b => ({
+      ...b,
+      videoUrls: b.videoUrls || (b.videoUrl ? [b.videoUrl] : [])
+    })),
     ...supabaseData,
   ];
   const unique = Array.from(new Map(merged.map(item => [item.id, item])).values());
