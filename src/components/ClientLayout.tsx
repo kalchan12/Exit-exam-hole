@@ -50,7 +50,7 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
           isCollapsed ? 'lg:ml-20' : 'lg:ml-64'
         }`}
       >
-        <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-4 lg:py-8">
+        <div className="max-w-full mx-auto px-3 sm:px-6 lg:px-8 py-4 lg:py-8">
           {children}
         </div>
       </main>

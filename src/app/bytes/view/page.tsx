@@ -78,7 +78,7 @@ export default function ByteViewPage() {
   const nextByte = currentIndex < allBytes.length - 1 ? allBytes[currentIndex + 1] : null;
 
   return (
-    <div className="max-w-3xl mx-auto pb-20 animate-in">
+    <div className="max-w-7xl mx-auto pb-20 animate-in">
       <Link href="/bytes" className="inline-flex items-center gap-2 text-sm text-gray-400 hover:text-accent-purple-glow transition-colors mb-6">
         <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
           <path strokeLinecap="round" strokeLinejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
