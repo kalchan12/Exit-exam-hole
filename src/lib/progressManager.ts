@@ -7,6 +7,7 @@ export interface ProgressState {
   lastActiveDate: string;
   lastTopic: string;
   completedNotes: Record<string, boolean>;
+  completedBytes: Record<string, boolean>;
 }
 
 const STORAGE_KEY = 'cs_exam_prep_progress';
@@ -20,6 +21,7 @@ const defaultState: ProgressState = {
   lastActiveDate: '',
   lastTopic: '',
   completedNotes: {},
+  completedBytes: {},
 };
 
 function isValidProgress(data: unknown): data is ProgressState {
@@ -50,6 +52,7 @@ export function getProgress(): ProgressState {
     }
 
     if (!parsed.completedNotes) parsed.completedNotes = {};
+    if (!parsed.completedBytes) parsed.completedBytes = {};
     return parsed;
   } catch {
     console.warn('Failed to read progress, resetting...');
@@ -82,24 +85,27 @@ export function recordAnswer(
 
   if (isCorrect) {
     state.xp += 10;
-    state.streak += 1;
-  } else {
-    state.streak = 0;
   }
 
-  // Recalculate topic accuracy
-  const topicQuestionIds = Object.keys(state.answeredQuestions).filter(
-    (id) => {
-      // We'll store topic mapping locally
-      return true; // Will be refined in gamification
-    }
-  );
-
-  state.lastActiveDate = new Date().toISOString().split('T')[0];
-  state.lastTopic = topic;
-
+  updateStreak(state, topic);
   saveProgress(state);
   return state;
+}
+
+function updateStreak(state: ProgressState, topic: string): void {
+  const today = new Date().toISOString().split('T')[0];
+  if (state.lastActiveDate === today) {
+    state.lastTopic = topic;
+    return;
+  }
+  const yesterday = new Date(Date.now() - 86400000).toISOString().split('T')[0];
+  if (state.lastActiveDate === yesterday) {
+    state.streak += 1;
+  } else if (state.lastActiveDate !== today) {
+    state.streak = 0;
+  }
+  state.lastActiveDate = today;
+  state.lastTopic = topic;
 }
 
 export function getAnsweredCount(): number {
@@ -116,7 +122,18 @@ export function recordNoteCompleted(noteId: string): void {
   const state = getProgress();
   if (!state.completedNotes[noteId]) {
     state.completedNotes[noteId] = true;
-    state.xp += 5; // Give some minor XP for reading a note
+    state.xp += 5;
+    updateStreak(state, state.lastTopic || 'Notes');
+    saveProgress(state);
+  }
+}
+
+export function recordByteCompleted(byteId: string): void {
+  const state = getProgress();
+  if (!state.completedBytes[byteId]) {
+    state.completedBytes[byteId] = true;
+    state.xp += 5;
+    updateStreak(state, state.lastTopic || 'Bytes');
     saveProgress(state);
   }
 }
@@ -124,6 +141,11 @@ export function recordNoteCompleted(noteId: string): void {
 export function getCompletedNotesCount(): number {
   const state = getProgress();
   return Object.keys(state.completedNotes || {}).length;
+}
+
+export function getCompletedBytesCount(): number {
+  const state = getProgress();
+  return Object.keys(state.completedBytes || {}).length;
 }
 
 export function resetProgress(): void {
