@@ -95,14 +95,12 @@ export async function saveNoteToSupabase(note: Note, userId: string): Promise<bo
       topic: note.topic,
       course: note.course,
       title: note.title,
-      body: note.body,
-      images: note.images,
-      links: note.links,
       source: note.source,
       label: note.label,
       major: note.major || 'Both',
       date: note.date,
       github_url: note.githubUrl,
+      video_url: note.videoUrl,
     });
 
   if (error) {

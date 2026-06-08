@@ -26,6 +26,7 @@ export default function AdminNotesPage() {
   const [newCourseName, setNewCourseName] = useState('');
   const [isAddingCourse, setIsAddingCourse] = useState(false);
   const [githubUrl, setGithubUrl] = useState('');
+  const [videoUrl, setVideoUrl] = useState('');
   const [fetchedData, setFetchedData] = useState<any>(null);
   const [isFetching, setIsFetching] = useState(false);
   const [error, setError] = useState('');
@@ -63,6 +64,7 @@ export default function AdminNotesPage() {
     setSuccess('');
     setFetchedData(null);
     setGithubUrl('');
+    setVideoUrl('');
     setTitle('');
     setIsAddingCourse(false);
     setIsFetching(false);
@@ -119,11 +121,11 @@ export default function AdminNotesPage() {
         id: `note_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`,
         topic: selectedCourse,
         title: title,
-        body: fetchedData.body || fetchedData.content || '',
         source: 'GitHub',
         label: 'Course Material',
         major: major,
         githubUrl: githubUrl,
+        videoUrl: videoUrl || undefined,
         date: new Date().toISOString()
       };
 
@@ -359,7 +361,7 @@ export default function AdminNotesPage() {
               </div>
 
               <form onSubmit={handleSubmit} className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-1">
                     <label className="text-[10px] uppercase font-black tracking-widest text-gray-400 ml-1">Title <span className="text-accent-purple">*</span></label>
                     <input
@@ -383,6 +385,9 @@ export default function AdminNotesPage() {
                       <option value="Software">Software Engineering</option>
                     </select>
                   </div>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-1">
                     <label className="text-[10px] uppercase font-black tracking-widest text-gray-400 ml-1">GitHub Raw URL (.md) <span className="text-accent-purple">*</span></label>
                     <input
@@ -393,6 +398,18 @@ export default function AdminNotesPage() {
                       className="modern-input w-full"
                       required
                     />
+                    <p className="text-[9px] text-gray-500 mt-1 uppercase font-semibold">Content is fetched live from GitHub at render time.</p>
+                  </div>
+                  <div className="space-y-1">
+                    <label className="text-[10px] uppercase font-black tracking-widest text-gray-400 ml-1">YouTube Video URL (optional)</label>
+                    <input
+                      type="text"
+                      value={videoUrl}
+                      onChange={(e) => setVideoUrl(e.target.value)}
+                      placeholder="https://www.youtube.com/watch?v=..."
+                      className="modern-input w-full"
+                    />
+                    <p className="text-[9px] text-gray-500 mt-1 uppercase font-semibold">Video will appear at the bottom of the note.</p>
                   </div>
                 </div>
 

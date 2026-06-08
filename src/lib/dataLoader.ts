@@ -29,6 +29,7 @@ export interface Note {
   label?: 'Course Material' | 'Syllabus' | 'Short Note' | string;
   major?: 'CSE' | 'Software' | 'Both';
   githubUrl?: string;
+  videoUrl?: string;
 }
 
 export interface Byte {
@@ -259,6 +260,7 @@ export async function getNotes(): Promise<Note[]> {
       supabaseData = data.map(n => ({
         ...n,
         githubUrl: n.github_url,
+        videoUrl: n.video_url,
       }));
     } else if (error) {
       console.warn('Supabase notes error:', error.message);

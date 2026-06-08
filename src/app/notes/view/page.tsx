@@ -309,6 +309,29 @@ export default function NoteViewPage() {
           </div>
         )}
 
+        {/* Video embed on last page */}
+        {isLastPage && note.videoUrl && (
+          <div className="mt-10 border-t border-gray-200 dark:border-white/5 pt-8">
+            <h4 className="text-xs font-black uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-4">
+              <svg className="w-4 h-4 inline mr-1.5 -mt-0.5" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+              </svg>
+              Video Lesson
+            </h4>
+            <div className="aspect-video rounded-2xl overflow-hidden shadow-2xl border border-gray-200 dark:border-white/5 bg-black">
+              <iframe
+                src={note.videoUrl.includes('youtube') || note.videoUrl.includes('youtu.be')
+                  ? note.videoUrl.replace('watch?v=', 'embed/').replace('youtu.be/', 'youtube.com/embed/')
+                  : note.videoUrl
+                }
+                className="w-full h-full"
+                allowFullScreen
+                title="Video Lesson"
+              />
+            </div>
+          </div>
+        )}
+
         {/* Completion Action */}
         {isLastPage && (
           <div className="mt-12 flex flex-col items-center justify-center p-8 rounded-2xl bg-gray-100 dark:bg-white/[0.03] border border-gray-200 dark:border-white/5 text-center relative overflow-hidden">
