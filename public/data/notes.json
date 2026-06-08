@@ -1,1 +1,18 @@
-[]
+[
+  {
+    "id": "note_1780913462711_b9z27",
+    "topic": "Operating Systems",
+    "title": "Chapter 1",
+    "source": "GitHub",
+    "label": "Course Material",
+    "major": "Both",
+    "githubUrl": "https://github.com/kalchan12/Cyber-Notes_and_Other_Stuffs/blob/main/Exit-Exam%20notes(CSE)/Notes/Operating%20System/Chapter%201%20Operating%20System%20Fundamentals.md",
+    "videoUrl": "https://www.youtube.com/embed/vBURTt97EkA",
+    "videoUrls": [
+      "https://www.youtube.com/embed/vBURTt97EkA",
+      "https://www.youtube.com/embed/26QPDBe-NB8",
+      "https://www.youtube.com/embed/pVzRTmdd9j0"
+    ],
+    "date": "2026-06-08T10:11:02.711Z"
+  }
+]
