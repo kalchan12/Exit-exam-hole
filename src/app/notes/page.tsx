@@ -32,19 +32,21 @@ export default function NotesPage() {
   const handleRefreshGithub = async (note: Note, e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    if (!note.links || note.links.length === 0) return;
-    const githubUrl = note.links.find(l => l.includes('github.com') || l.includes('raw.githubusercontent.com'));
+    const githubUrl = note.githubUrl;
     if (!githubUrl) return;
 
     setRefreshingId(note.id);
     try {
       const freshNote = await fetchGitHubNote(githubUrl, note.course || note.topic);
-      // Keep original id and date, update content
       saveCustomNote({
         ...freshNote,
         id: note.id,
         date: new Date().toISOString(),
         label: note.label,
+        major: note.major,
+        videoUrl: note.videoUrl,
+        videoUrls: note.videoUrls,
+        githubUrl: note.githubUrl,
       });
       loadNotes();
     } catch (err) {
@@ -191,10 +193,10 @@ export default function NotesPage() {
                     {note.major && note.major !== 'Both' && (
                       <span className="badge bg-accent-purple/10 text-accent-purple-light border border-accent-purple/20 text-xs">{note.major}</span>
                     )}
-                    {note.videoUrl && (
+                    {(note.videoUrl || (note.videoUrls && note.videoUrls.length > 0)) && (
                       <span className="badge bg-rose-500/15 text-rose-400 border border-rose-500/30 text-xs flex items-center gap-1">
                         <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" /></svg>
-                        Video
+                        Video{note.videoUrls && note.videoUrls.length > 1 ? 's' : ''}
                       </span>
                     )}
                     {note.body && (

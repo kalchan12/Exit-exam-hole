@@ -27,6 +27,8 @@ export default function AdminNotesPage() {
   const [isAddingCourse, setIsAddingCourse] = useState(false);
   const [githubUrl, setGithubUrl] = useState('');
   const [videoUrl, setVideoUrl] = useState('');
+  const [videoUrls, setVideoUrls] = useState<string[]>([]);
+  const [newVideoUrl, setNewVideoUrl] = useState('');
   const [fetchedData, setFetchedData] = useState<any>(null);
   const [isFetching, setIsFetching] = useState(false);
   const [error, setError] = useState('');
@@ -65,6 +67,8 @@ export default function AdminNotesPage() {
     setFetchedData(null);
     setGithubUrl('');
     setVideoUrl('');
+    setVideoUrls([]);
+    setNewVideoUrl('');
     setTitle('');
     setIsAddingCourse(false);
     setIsFetching(false);
@@ -109,6 +113,36 @@ export default function AdminNotesPage() {
     setIsAddingCourse(false);
   };
 
+  const normalizeVideoUrl = (url: string): string => {
+    let normalized = url.trim();
+    if (!normalized) return '';
+    if (normalized.includes('youtube.com/watch?v=')) {
+      const videoId = new URL(normalized).searchParams.get('v');
+      if (videoId) normalized = `https://www.youtube.com/embed/${videoId}`;
+    } else if (normalized.includes('youtu.be/')) {
+      const parts = normalized.split('/');
+      const videoId = parts[parts.length - 1].split('?')[0];
+      if (videoId) normalized = `https://www.youtube.com/embed/${videoId}`;
+    }
+    return normalized;
+  };
+
+  const handleAddVideoUrl = () => {
+    if (!newVideoUrl.trim()) return;
+    const normalized = normalizeVideoUrl(newVideoUrl);
+    if (!normalized) {
+      setError('Please enter a valid YouTube or video URL.');
+      return;
+    }
+    if (videoUrls.includes(normalized)) {
+      setError('This video is already in the list.');
+      return;
+    }
+    setError('');
+    setVideoUrls(prev => [...prev, normalized]);
+    setNewVideoUrl('');
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
@@ -116,6 +150,10 @@ export default function AdminNotesPage() {
 
     try {
       if (!fetchedData) throw new Error('Please fetch content from GitHub first.');
+
+      const allVideoUrls = videoUrl
+        ? (videoUrls.includes(videoUrl) ? videoUrls : [...videoUrls, videoUrl])
+        : videoUrls;
 
       const noteItem: Note = {
         id: `note_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`,
@@ -125,7 +163,8 @@ export default function AdminNotesPage() {
         label: 'Course Material',
         major: major,
         githubUrl: githubUrl,
-        videoUrl: videoUrl || undefined,
+        videoUrl: allVideoUrls[0] || undefined,
+        videoUrls: allVideoUrls,
         date: new Date().toISOString()
       };
 
@@ -400,16 +439,46 @@ export default function AdminNotesPage() {
                     />
                     <p className="text-[9px] text-gray-500 mt-1 uppercase font-semibold">Content is fetched live from GitHub at render time.</p>
                   </div>
-                  <div className="space-y-1">
-                    <label className="text-[10px] uppercase font-black tracking-widest text-gray-400 ml-1">YouTube Video URL (optional)</label>
-                    <input
-                      type="text"
-                      value={videoUrl}
-                      onChange={(e) => setVideoUrl(e.target.value)}
-                      placeholder="https://www.youtube.com/watch?v=..."
-                      className="modern-input w-full"
-                    />
-                    <p className="text-[9px] text-gray-500 mt-1 uppercase font-semibold">Video will appear at the bottom of the note.</p>
+                  <div className="space-y-3">
+                    <label className="text-[10px] uppercase font-black tracking-widest text-gray-400 ml-1">Video Links (optional)</label>
+
+                    {videoUrls.length > 0 && (
+                      <div className="space-y-2 bg-black/20 p-3 rounded-xl border border-white/5 max-h-48 overflow-y-auto">
+                        {videoUrls.map((url, idx) => (
+                          <div key={idx} className="flex items-center justify-between gap-3 text-xs bg-black/40 px-3 py-2 rounded-lg border border-white/5">
+                            <span className="text-gray-300 font-mono truncate flex-1">{url}</span>
+                            <button
+                              type="button"
+                              onClick={() => setVideoUrls(prev => prev.filter((_, i) => i !== idx))}
+                              className="text-red-400 hover:text-red-300 font-bold px-1.5 py-0.5 rounded hover:bg-red-500/10 transition-all text-[10px] uppercase tracking-wider"
+                            >
+                              Remove
+                            </button>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+
+                    <div className="flex gap-2">
+                      <input
+                        type="text"
+                        value={newVideoUrl}
+                        onChange={(e) => setNewVideoUrl(e.target.value)}
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter') { e.preventDefault(); handleAddVideoUrl(); }
+                        }}
+                        placeholder="https://www.youtube.com/watch?v=..."
+                        className="modern-input flex-1 text-xs"
+                      />
+                      <button
+                        type="button"
+                        onClick={handleAddVideoUrl}
+                        className="px-4 py-2 bg-accent-purple/20 text-accent-purple hover:bg-accent-purple hover:text-white rounded-xl border border-accent-purple/30 text-xs font-black uppercase tracking-wider transition-all"
+                      >
+                        Add
+                      </button>
+                    </div>
+                    <p className="text-[9px] text-gray-500 uppercase font-semibold">Videos appear at the bottom of the note.</p>
                   </div>
                 </div>
 

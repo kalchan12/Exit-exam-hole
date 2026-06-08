@@ -30,6 +30,7 @@ export interface Note {
   major?: 'CSE' | 'Software' | 'Both';
   githubUrl?: string;
   videoUrl?: string;
+  videoUrls?: string[];
 }
 
 export interface Byte {
@@ -261,6 +262,7 @@ export async function getNotes(): Promise<Note[]> {
         ...n,
         githubUrl: n.github_url,
         videoUrl: n.video_url,
+        videoUrls: n.video_urls,
       }));
     } else if (error) {
       console.warn('Supabase notes error:', error.message);

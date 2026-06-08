@@ -101,6 +101,7 @@ export async function saveNoteToSupabase(note: Note, userId: string): Promise<bo
       date: note.date,
       github_url: note.githubUrl,
       video_url: note.videoUrl,
+      video_urls: note.videoUrls || [],
     });
 
   if (error) {
