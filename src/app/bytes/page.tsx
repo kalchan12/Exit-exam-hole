@@ -250,7 +250,7 @@ export default function BytesPage() {
       {/* RENDER VIEW PORTIONS */}
       {searchQuery ? (
         // Flat search results list
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
           {filteredBytes.map((byte) => (
             <ByteCard key={byte.id} byte={byte} onDelete={handleDelete} deleteConfirm={deleteConfirm} getTopicColor={getTopicColor} />
           ))}
@@ -330,7 +330,7 @@ export default function BytesPage() {
         </div>
       ) : (
         // Sub-topic View: List of actual Bytes
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
           {filteredBytes.map((byte) => (
             <ByteCard key={byte.id} byte={byte} onDelete={handleDelete} deleteConfirm={deleteConfirm} getTopicColor={getTopicColor} />
           ))}
@@ -359,37 +359,37 @@ function ByteCard({
   getTopicColor: (topic: string) => string;
 }) {
   return (
-    <div className="relative group glass-card p-5 sm:p-6 overflow-hidden hover:border-accent-purple/40 hover:shadow-xl hover:shadow-purple-500/5 transition-all duration-300 flex flex-col h-full bg-white dark:bg-black/20 border-gray-200 dark:border-white/5 min-h-[220px]">
+    <div className="relative group glass-card p-4 overflow-hidden hover:border-accent-purple/40 hover:shadow-xl hover:shadow-purple-500/5 transition-all duration-300 flex flex-col h-full bg-white dark:bg-black/20 border-gray-200 dark:border-white/5 min-h-[180px]">
       <Link href={`/bytes/view?id=${byte.id}`} className="flex-1 flex flex-col">
-        <div className="flex flex-wrap gap-2 mb-4">
-          <span className={`badge ${getTopicColor(byte.topic)} text-[10px] font-black uppercase tracking-wider px-2 py-0.5`}>
+        <div className="flex flex-wrap gap-1.5 mb-3">
+          <span className={`badge ${getTopicColor(byte.topic)} text-[9px] font-black uppercase tracking-wider px-1.5 py-0.5`}>
             {byte.topic}
           </span>
           {byte.sub_topic && (
-            <span className="badge bg-gray-100 dark:bg-white/5 border border-gray-200 dark:border-white/10 text-gray-500 dark:text-gray-400 text-[10px] font-black uppercase tracking-wider px-2 py-0.5">
+            <span className="badge bg-gray-100 dark:bg-white/5 border border-gray-200 dark:border-white/10 text-gray-500 dark:text-gray-400 text-[9px] font-black uppercase tracking-wider px-1.5 py-0.5">
               {byte.sub_topic}
             </span>
           )}
           {byte.major && byte.major !== 'Both' && (
-            <span className="badge bg-accent-purple/10 text-accent-purple-light border border-accent-purple/20 text-[10px] font-black uppercase tracking-wider px-2 py-0.5">
+            <span className="badge bg-accent-purple/10 text-accent-purple-light border border-accent-purple/20 text-[9px] font-black uppercase tracking-wider px-1.5 py-0.5">
               {byte.major}
             </span>
           )}
         </div>
         
-        <h3 className="text-sm sm:text-base font-bold text-gray-900 dark:text-white mb-2 group-hover:text-accent-purple-light transition-colors line-clamp-2">
+        <h3 className="text-xs sm:text-sm font-bold text-gray-900 dark:text-white mb-1.5 group-hover:text-accent-purple-light transition-colors line-clamp-2 leading-snug">
           {byte.title}
         </h3>
         
-        <p className="text-gray-500 dark:text-gray-400 text-xs leading-relaxed line-clamp-3 mb-6 flex-1">
+        <p className="text-gray-500 dark:text-gray-400 text-[11px] leading-relaxed line-clamp-2 mb-3 flex-1">
           {byte.content}
         </p>
         
-        <div className="mt-auto pt-4 border-t border-gray-200 dark:border-white/5 flex items-center justify-between text-xs font-black uppercase tracking-widest text-gray-500 dark:text-gray-400">
-          <div className="flex gap-3">
+        <div className="mt-auto pt-3 border-t border-gray-200 dark:border-white/5 flex items-center justify-between text-[10px] font-black uppercase tracking-widest text-gray-500 dark:text-gray-400">
+          <div className="flex gap-2">
             {byte.relatedQuestionIds && byte.relatedQuestionIds.length > 0 && (
               <span className="flex items-center gap-1 text-accent-purple-light" title="Interactive reinforcement questions">
-                <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
                 {byte.relatedQuestionIds.length} Qs
@@ -397,16 +397,16 @@ function ByteCard({
             )}
             {byte.images && byte.images.length > 0 && (
               <span className="flex items-center gap-1 text-gray-500 dark:text-gray-400" title="Contains visual assets">
-                <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                 </svg>
                 Media
               </span>
             )}
           </div>
-          <span className="text-accent-purple-glow group-hover:translate-x-1 transition-transform flex items-center gap-0.5 text-[10px]">
+          <span className="text-accent-purple-glow group-hover:translate-x-1 transition-transform flex items-center gap-0.5 text-[9px]">
             Read
-            <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+            <svg className="w-2.5 h-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
             </svg>
           </span>
@@ -414,17 +414,17 @@ function ByteCard({
       </Link>
       
       {byte.source !== 'system' && (
-        <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity z-10">
+        <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity z-10">
           <button
             onClick={(e) => onDelete(byte.id, e)}
             title={deleteConfirm === byte.id ? 'Click again to confirm delete' : 'Delete byte'}
-            className={`w-7 h-7 rounded-lg bg-white dark:bg-black/40 border flex items-center justify-center transition-all ${
+            className={`w-6 h-6 rounded-lg bg-white dark:bg-black/40 border flex items-center justify-center transition-all ${
               deleteConfirm === byte.id
                 ? 'border-red-500/60 bg-red-500/10 hover:bg-red-500/20'
                 : 'border-gray-200 dark:border-white/10 hover:border-red-500/50 hover:bg-red-500/10'
             }`}
           >
-            <svg className={`w-3.5 h-3.5 ${deleteConfirm === byte.id ? 'text-red-400' : 'text-gray-500 dark:text-gray-400 group-hover:text-red-400'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <svg className={`w-3 h-3 ${deleteConfirm === byte.id ? 'text-red-400' : 'text-gray-500 dark:text-gray-400 group-hover:text-red-400'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
             </svg>
           </button>

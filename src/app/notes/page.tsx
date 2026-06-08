@@ -1,16 +1,12 @@
 'use client';
 
 import { useState, useEffect, useMemo } from 'react';
-import ReactMarkdown from 'react-markdown';
-import remarkGfm from 'remark-gfm';
-import { getNotes, getCourses, getTopics, saveCustomNote, type Note } from '@/lib/dataLoader';
-import { fetchGitHubNote } from '@/lib/githubFetcher';
-import { getProgress, recordNoteCompleted, syncProgressToRemote } from '@/lib/progressManager';
-import { useAuth } from '@/components/AuthProvider';
+import Link from 'next/link';
+import { getNotes, getCourses, getTopics, type Note } from '@/lib/dataLoader';
+import { getProgress } from '@/lib/progressManager';
 import { markSectionChecked, getUnreadCount } from '@/lib/notifications';
 
 export default function NotesPage() {
-  const { profile, user } = useAuth();
   const [notes, setNotes] = useState<Note[]>([]);
   const [courses, setCourses] = useState<string[]>([]);
   const [topics, setTopics] = useState<string[]>([]);
@@ -20,48 +16,19 @@ export default function NotesPage() {
   const [sortOrder, setSortOrder] = useState<'newest' | 'oldest'>('newest');
   const [searchQuery, setSearchQuery] = useState('');
   const [mounted, setMounted] = useState(false);
-  const [refreshingId, setRefreshingId] = useState<string | null>(null);
+  const [loaded, setLoaded] = useState(false);
   const [completedNotes, setCompletedNotes] = useState<Record<string, boolean>>({});
-  const [expandedNotes, setExpandedNotes] = useState<Record<string, boolean>>({});
-  const [noteBodies, setNoteBodies] = useState<Record<string, string>>({});
-  const [loadingBody, setLoadingBody] = useState<Record<string, boolean>>({});
   const [selectedCourse, setSelectedCourse] = useState<string | null>(null);
 
   const loadNotes = () => getNotes().then(setNotes);
 
   useEffect(() => {
     setMounted(true);
-    loadNotes();
-    getCourses().then(setCourses);
+    Promise.all([loadNotes(), getCourses().then(setCourses)]).then(() => setLoaded(true));
     getTopics().then(setTopics);
     setCompletedNotes(getProgress().completedNotes || {});
     markSectionChecked('notes');
   }, []);
-
-  const handleRefreshGithub = async (note: Note) => {
-    const githubUrl = note.githubUrl;
-    if (!githubUrl) return;
-
-    setRefreshingId(note.id);
-    try {
-      const freshNote = await fetchGitHubNote(githubUrl, note.course || note.topic);
-      saveCustomNote({
-        ...freshNote,
-        id: note.id,
-        date: new Date().toISOString(),
-        label: note.label,
-        major: note.major,
-        videoUrl: note.videoUrl,
-        videoUrls: note.videoUrls,
-        githubUrl: note.githubUrl,
-      });
-      loadNotes();
-    } catch (err) {
-      console.error('Failed to refresh from GitHub:', err);
-    } finally {
-      setRefreshingId(null);
-    }
-  };
 
   const filteredNotes = useMemo(() => {
     let filtered = notes;
@@ -149,35 +116,18 @@ export default function NotesPage() {
     'Introduction to Artificial Intelligence': '🤖',
   };
 
-  const isGithub = (note: Note) => note.source === 'GitHub';
-
   const formatDate = (isoString?: string) => {
     if (!isoString) return 'Unknown Date';
     return new Date(isoString).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
   };
 
-  const toggleNote = async (note: Note) => {
-    const id = note.id;
-    const willExpand = !expandedNotes[id];
-    setExpandedNotes(prev => ({ ...prev, [id]: willExpand }));
-    if (willExpand && !noteBodies[id] && !note.body && note.githubUrl) {
-      setLoadingBody(prev => ({ ...prev, [id]: true }));
-      try {
-        const fresh = await fetchGitHubNote(note.githubUrl, note.course || note.topic);
-        setNoteBodies(prev => ({ ...prev, [id]: fresh.body || '' }));
-      } catch (e) {
-        console.error('Failed to fetch note body', e);
-      } finally {
-        setLoadingBody(prev => ({ ...prev, [id]: false }));
-      }
-    }
-  };
-
-  if (!mounted) {
+  if (!mounted || !loaded) {
     return (
       <div className="animate-pulse space-y-6">
         <div className="h-12 bg-gray-200 dark:bg-dark-700 rounded-xl w-48" />
-        <div className="space-y-4">{[1, 2, 3].map((i) => <div key={i} className="h-24 bg-gray-200 dark:bg-dark-700 rounded-xl" />)}</div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          {[1, 2, 3, 4].map((i) => <div key={i} className="h-40 bg-gray-200 dark:bg-dark-700 rounded-xl" />)}
+        </div>
       </div>
     );
   }
@@ -212,114 +162,57 @@ export default function NotesPage() {
           </div>
         )}
 
-        <div className="space-y-2">
+        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
           {courseNotes.map((note) => {
-            const isNoteOpen = expandedNotes[note.id];
-            const isLoading = loadingBody[note.id];
             const isCompleted = completedNotes[note.id];
-            const hasBody = note.body || noteBodies[note.id] || note.githubUrl;
+            const colors = topicColors[selectedCourse] || 'from-gray-500/20 to-gray-600/20 border-gray-500/30';
 
             return (
-              <div key={note.id} className={`card overflow-hidden border-gray-200 dark:border-white/5 transition-colors ${isNoteOpen ? 'ring-1 ring-accent-purple/30' : ''}`}>
-                <button
-                  onClick={() => toggleNote(note)}
-                  className="w-full flex items-center gap-3 px-5 py-4 hover:bg-gray-50 dark:hover:bg-white/[0.02] transition-colors text-left"
-                >
-                  <svg className={`w-4 h-4 text-gray-400 flex-shrink-0 transition-transform ${isNoteOpen ? 'rotate-90' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-                  </svg>
+              <Link
+                key={note.id}
+                href={`/notes/view?id=${note.id}`}
+                className="group glass-card p-4 overflow-hidden hover:border-accent-purple/40 hover:shadow-xl hover:shadow-purple-500/5 transition-all duration-300 flex flex-col bg-white dark:bg-black/20 border-gray-200 dark:border-white/5 min-h-[160px]"
+              >
+                <div className="flex items-start gap-3 mb-3">
+                  <div className={`w-8 h-8 rounded-lg bg-gradient-to-br ${colors} flex items-center justify-center text-sm flex-shrink-0 group-hover:scale-105 transition-transform`}>
+                    {icon}
+                  </div>
                   <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2 flex-wrap">
-                      <h3 className={`font-semibold text-sm sm:text-base ${isNoteOpen ? 'text-accent-purple-light' : 'text-gray-900 dark:text-white'}`}>
-                        {note.title}
-                      </h3>
-                      {isCompleted && <span className="text-xs text-emerald-400 font-medium">✅ Done</span>}
-                    </div>
-                    {note.summary && <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5 line-clamp-1">{note.summary}</p>}
+                    <h3 className="text-sm font-bold text-gray-900 dark:text-white group-hover:text-accent-purple-light transition-colors line-clamp-2 leading-snug">
+                      {note.title}
+                    </h3>
                   </div>
-                  <div className="flex items-center gap-2 flex-shrink-0">
-                    <span className="text-xs text-gray-400">{formatDate(note.date)}</span>
-                    {note.label && <span className="badge bg-gray-100 dark:bg-dark-500 text-gray-600 dark:text-gray-300 text-[10px] px-2 py-0.5 hidden sm:inline">{note.label}</span>}
-                    {(note.videoUrl || (note.videoUrls && note.videoUrls.length > 0)) && <span className="text-xs text-rose-400">🎬</span>}
-                  </div>
-                </button>
+                </div>
 
-                {isNoteOpen && (
-                  <div className="px-5 pb-6 pt-2 border-t border-gray-200 dark:border-white/5 animate-in fade-in slide-in-from-top-2 duration-200">
-                    {note.key_points && note.key_points.length > 0 && (
-                      <div className="flex flex-wrap gap-1.5 mb-4">
-                        {note.key_points.map((kp, i) => (
-                          <span key={i} className="text-xs bg-gray-100 dark:bg-dark-600 text-gray-500 dark:text-gray-400 px-2.5 py-1 rounded-full border border-gray-200 dark:border-dark-400/30">{kp}</span>
-                        ))}
-                      </div>
-                    )}
-
-                    {isLoading ? (
-                      <div className="space-y-3 animate-pulse">
-                        <div className="h-4 bg-gray-200 dark:bg-dark-600 rounded w-full" />
-                        <div className="h-4 bg-gray-200 dark:bg-dark-600 rounded w-5/6" />
-                        <div className="h-4 bg-gray-200 dark:bg-dark-600 rounded w-4/6" />
-                      </div>
-                    ) : hasBody ? (
-                      <div className="prose prose-sm dark:prose-invert max-w-none mb-4 prose-headings:text-gray-900 dark:prose-headings:text-white prose-a:text-accent-purple-light prose-strong:text-gray-900 dark:prose-strong:text-white prose-code:text-accent-purple-light prose-pre:bg-gray-100 dark:prose-pre:bg-dark-700 prose-pre:border prose-pre:border-gray-200 dark:prose-pre:border-dark-400/30 prose-pre:rounded-xl prose-li:text-gray-600 dark:prose-li:text-gray-300 prose-p:text-gray-600 dark:prose-p:text-gray-300">
-                        <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                          {note.body || noteBodies[note.id] || ''}
-                        </ReactMarkdown>
-                      </div>
-                    ) : (
-                      <p className="text-sm text-gray-400 italic mb-4">No content available for this chapter.</p>
-                    )}
-
-                    {note.videoUrl && (
-                      <div className="mb-4 aspect-video rounded-xl overflow-hidden border border-gray-200 dark:border-dark-400/30">
-                        <iframe src={note.videoUrl} className="w-full h-full" allowFullScreen title="Video" />
-                      </div>
-                    )}
-                    {note.videoUrls && note.videoUrls.length > 0 && (
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
-                        {note.videoUrls.map((v, i) => (
-                          <div key={i} className="aspect-video rounded-xl overflow-hidden border border-gray-200 dark:border-dark-400/30">
-                            <iframe src={v} className="w-full h-full" allowFullScreen title={`Video ${i + 1}`} />
-                          </div>
-                        ))}
-                      </div>
-                    )}
-                    {note.images && note.images.length > 0 && (
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
-                        {note.images.map((img, i) => (
-                          <img key={i} src={img} alt={`Image ${i + 1}`} className="rounded-xl border border-gray-200 dark:border-dark-400/30 w-full object-cover shadow-lg" />
-                        ))}
-                      </div>
-                    )}
-
-                    <div className="flex items-center gap-3 pt-4 border-t border-gray-200 dark:border-white/5">
-                      {!isCompleted ? (
-                        <button
-                          onClick={() => {
-                            recordNoteCompleted(note.id);
-                            setCompletedNotes(prev => ({ ...prev, [note.id]: true }));
-                            if (user) syncProgressToRemote(user.id);
-                          }}
-                          className="px-4 py-2 text-xs font-semibold rounded-lg bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 hover:bg-emerald-500/20 transition-colors"
-                        >
-                          Mark as Completed
-                        </button>
-                      ) : (
-                        <span className="px-4 py-2 text-xs font-semibold rounded-lg bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">✅ Completed (+5 XP)</span>
-                      )}
-                      {isGithub(note) && profile?.username === 'psycho' && (
-                        <button
-                          onClick={() => handleRefreshGithub(note)}
-                          disabled={refreshingId === note.id}
-                          className="px-3 py-2 text-xs font-medium rounded-lg bg-blue-500/10 text-blue-400 border border-blue-500/20 hover:bg-blue-500/20 transition-colors disabled:opacity-50"
-                        >
-                          {refreshingId === note.id ? 'Refreshing...' : '↻ Refresh from GitHub'}
-                        </button>
-                      )}
-                    </div>
-                  </div>
+                {note.summary && (
+                  <p className="text-gray-500 dark:text-gray-400 text-[11px] leading-relaxed line-clamp-2 mb-3 flex-1">
+                    {note.summary}
+                  </p>
                 )}
-              </div>
+
+                <div className="mt-auto pt-3 border-t border-gray-200 dark:border-white/5 flex items-center justify-between text-[10px] font-black uppercase tracking-widest text-gray-500 dark:text-gray-400">
+                  <div className="flex items-center gap-2">
+                    <span>{formatDate(note.date)}</span>
+                    {(note.videoUrl || (note.videoUrls && note.videoUrls.length > 0)) && (
+                      <span className="text-rose-400" title="Has video">🎬</span>
+                    )}
+                  </div>
+                  <div className="flex items-center gap-2">
+                    {isCompleted && <span className="text-emerald-400">✅ Done</span>}
+                    {note.label && (
+                      <span className="badge bg-gray-100 dark:bg-dark-500 text-gray-600 dark:text-gray-300 px-1.5 py-0.5">
+                        {note.label}
+                      </span>
+                    )}
+                    <span className="text-accent-purple-glow group-hover:translate-x-1 transition-transform flex items-center gap-0.5">
+                      Open
+                      <svg className="w-2.5 h-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                      </svg>
+                    </span>
+                  </div>
+                </div>
+              </Link>
             );
           })}
         </div>
