@@ -202,14 +202,14 @@ export default function Sidebar({ isCollapsed, setIsCollapsed }: SidebarProps) {
               </svg>
             </div>
             <div>
-              <h1 className="text-white font-bold text-lg leading-tight italic uppercase tracking-tighter">Exit Exam</h1>
+              <h1 className="text-gray-900 dark:text-white font-bold text-lg leading-tight italic uppercase tracking-tighter">Exit Exam</h1>
               <p className="text-[10px] text-accent-purple-light font-black uppercase tracking-widest mt-0.5">User Edition</p>
             </div>
           </div>
         )}
         <button 
           onClick={() => setIsCollapsed(!isCollapsed)} 
-          className="text-gray-400 hover:text-white transition-colors p-2 rounded-lg hover:bg-white/5 hidden lg:flex"
+          className="text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-white/5 hidden lg:flex"
         >
           <svg className={`w-6 h-6 transition-all duration-300 ${isCollapsed ? 'opacity-100 scale-100' : 'opacity-80 scale-90'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
@@ -239,17 +239,17 @@ export default function Sidebar({ isCollapsed, setIsCollapsed }: SidebarProps) {
             <div key={group.group} className="relative">
               {/* Group Separator */}
               {index > 0 && !isCollapsed && (
-                <div className="mx-4 my-2 h-px bg-white/5" />
+                <div className="mx-4 my-2 h-px bg-gray-200 dark:bg-white/5" />
               )}
 
-              <div className={`space-y-1 rounded-2xl transition-all duration-500 ${isExpanded && !isCollapsed && !isMain ? 'bg-white/[0.02] ring-1 ring-white/10 p-1 mb-2 shadow-2xl' : ''}`}>
+              <div className={`space-y-1 rounded-2xl transition-all duration-500 ${isExpanded && !isCollapsed && !isMain ? 'bg-gray-50/50 dark:bg-white/[0.02] ring-1 ring-gray-200 dark:ring-white/10 p-1 mb-2 shadow-sm' : ''}`}>
                 {!isMain && !isCollapsed && (
                   <button 
                     onClick={() => toggleGroup(group.group)}
-                    className="w-full flex items-center justify-between px-4 py-2 text-[10px] font-black uppercase tracking-[0.2em] text-gray-500 hover:text-white group transition-all"
+                    className="w-full flex items-center justify-between px-4 py-2 text-[10px] font-black uppercase tracking-[0.2em] text-gray-500 hover:text-gray-900 dark:hover:text-white group transition-all"
                   >
                     <span className={`transition-colors duration-300 ${isExpanded ? 'text-accent-purple tracking-[0.3em]' : ''}`}>{group.group}</span>
-                    <div className={`p-1 rounded-md bg-white/5 transition-transform duration-300 ${isExpanded ? 'rotate-180 bg-accent-purple/20 text-accent-purple' : ''}`}>
+                    <div className={`p-1 rounded-md bg-gray-100 dark:bg-white/5 transition-transform duration-300 ${isExpanded ? 'rotate-180 bg-accent-purple/20 text-accent-purple' : ''}`}>
                       <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
                         <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
                       </svg>
@@ -268,8 +268,8 @@ export default function Sidebar({ isCollapsed, setIsCollapsed }: SidebarProps) {
                           group relative flex items-center gap-3 transition-all duration-300 rounded-xl
                           ${isActive 
                             ? 'bg-purple-gradient text-white shadow-lg shadow-purple-500/25' 
-                            : 'text-gray-400 hover:text-white hover:bg-white/5'
-                          }
+                            : 'text-gray-500 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-white/5'
+                           }
                           ${isCollapsed ? 'justify-center px-0 py-3' : 'px-4 py-2.5'}
                         `}
                         title={isCollapsed ? item.label : undefined}
@@ -296,7 +296,7 @@ export default function Sidebar({ isCollapsed, setIsCollapsed }: SidebarProps) {
       </nav>
 
       {/* User Section */}
-      <div className="px-4 py-6 border-t border-white/5 space-y-4">
+      <div className="px-4 py-6 border-t border-gray-200 dark:border-white/5 space-y-4">
         {user && (
           <div className={`flex items-center ${isCollapsed ? 'justify-center' : 'gap-3 px-2'} group`}>
              <div className="w-10 h-10 rounded-xl bg-accent-purple/20 border border-accent-purple/30 flex items-center justify-center flex-shrink-0 text-accent-purple font-black shadow-lg shadow-purple-500/10">
@@ -304,7 +304,7 @@ export default function Sidebar({ isCollapsed, setIsCollapsed }: SidebarProps) {
              </div>
              {!isCollapsed && (
                <div className="flex-1 min-w-0">
-                  <p className="text-xs text-white font-black uppercase italic truncate">{user.user_metadata?.username || userEmail.split('@')[0]}</p>
+                  <p className="text-xs text-gray-900 dark:text-white font-black uppercase italic truncate">{user.user_metadata?.username || userEmail.split('@')[0]}</p>
                   <button onClick={signOut} className="text-[10px] font-black uppercase tracking-widest text-red-400/70 hover:text-red-400 transition-colors">Sign Out</button>
                </div>
              )}
@@ -327,7 +327,7 @@ export default function Sidebar({ isCollapsed, setIsCollapsed }: SidebarProps) {
 
         <button
           onClick={toggleTheme}
-          className={`w-full flex items-center transition-all rounded-xl text-gray-400 hover:text-white hover:bg-white/5 ${isCollapsed ? 'justify-center p-3' : 'gap-3 px-4 py-3'}`}
+          className={`w-full flex items-center transition-all rounded-xl text-gray-500 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-white/5 ${isCollapsed ? 'justify-center p-3' : 'gap-3 px-4 py-3'}`}
         >
           {theme === 'dark' ? (
             <svg className="w-5 h-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -347,40 +347,40 @@ export default function Sidebar({ isCollapsed, setIsCollapsed }: SidebarProps) {
   return (
     <>
       {/* Mobile Top Header */}
-      <header className="lg:hidden fixed top-0 left-0 right-0 h-16 bg-[#0a0b1e]/80 backdrop-blur-xl border-b border-white/5 z-[60] px-4 flex items-center justify-between">
+      <header className="lg:hidden fixed top-0 left-0 right-0 h-16 sidebar-header-bg backdrop-blur-xl z-[60] px-4 flex items-center justify-between">
          <div className="flex items-center gap-3">
             <div className="w-8 h-8 rounded-lg bg-purple-gradient-diagonal flex items-center justify-center flex-shrink-0 shadow-lg shadow-purple-500/20">
               <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
               </svg>
             </div>
-            <h1 className="text-white font-black text-sm uppercase italic tracking-tighter">Exit Exam</h1>
+            <h1 className="dark:text-white text-gray-900 font-black text-sm uppercase italic tracking-tighter">Exit Exam</h1>
          </div>
          <button 
            onClick={() => setIsMobileOpen(!isMobileOpen)}
-           className="relative w-12 h-12 flex flex-col items-center justify-center rounded-2xl bg-white/5 text-white active:scale-90 transition-all group overflow-hidden"
+           className="relative w-12 h-12 flex flex-col items-center justify-center rounded-2xl bg-gray-100 dark:bg-white/5 text-gray-700 dark:text-white active:scale-90 transition-all group overflow-hidden"
          >
             <div className={`absolute inset-0 bg-purple-gradient opacity-0 group-active:opacity-20 transition-opacity`} />
             <div className="space-y-1.5 flex flex-col items-end">
-              <div className={`h-0.5 bg-white rounded-full transition-all duration-300 ${isMobileOpen ? 'w-6 -rotate-45 translate-y-2' : 'w-6'}`} />
-              <div className={`h-0.5 bg-white rounded-full transition-all duration-300 ${isMobileOpen ? 'opacity-0 w-0' : 'w-4'}`} />
-              <div className={`h-0.5 bg-white rounded-full transition-all duration-300 ${isMobileOpen ? 'w-6 rotate-45 -translate-y-2' : 'w-5'}`} />
+              <div className={`h-0.5 bg-gray-600 dark:bg-white rounded-full transition-all duration-300 ${isMobileOpen ? 'w-6 -rotate-45 translate-y-2' : 'w-6'}`} />
+              <div className={`h-0.5 bg-gray-600 dark:bg-white rounded-full transition-all duration-300 ${isMobileOpen ? 'opacity-0 w-0' : 'w-4'}`} />
+              <div className={`h-0.5 bg-gray-600 dark:bg-white rounded-full transition-all duration-300 ${isMobileOpen ? 'w-6 rotate-45 -translate-y-2' : 'w-5'}`} />
             </div>
          </button>
       </header>
 
       {/* Desktop Sidebar Sidebar */}
-      <aside className={`hidden lg:flex flex-col h-screen fixed left-0 top-0 bg-[#0a0b1e]/80 backdrop-blur-md border-r border-[#7c3aed]/10 z-50 transition-all duration-300 ${isCollapsed ? 'w-20' : 'w-64'}`}>
+      <aside className={`hidden lg:flex flex-col h-screen fixed left-0 top-0 sidebar-bg backdrop-blur-md z-50 transition-all duration-300 ${isCollapsed ? 'w-20' : 'w-64'}`}>
         {sidebarContent}
       </aside>
 
       {/* Mobile Sidebar Overlay */}
       <div 
-        className={`lg:hidden fixed inset-0 bg-black/60 backdrop-blur-sm z-[70] transition-opacity duration-300 ${isMobileOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
+        className={`lg:hidden fixed inset-0 mobile-menu-overlay backdrop-blur-sm z-[70] transition-opacity duration-300 ${isMobileOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
         onClick={() => setIsMobileOpen(false)}
       />
       <aside 
-        className={`lg:hidden fixed left-0 top-0 bottom-0 w-[280px] bg-[#0a0b1e] border-r border-white/10 z-[80] transition-transform duration-300 transform ${isMobileOpen ? 'translate-x-0' : '-translate-x-full'}`}
+        className={`lg:hidden fixed left-0 top-0 bottom-0 w-[280px] sidebar-mobile-bg border-r border-gray-200 dark:border-white/10 z-[80] transition-transform duration-300 transform ${isMobileOpen ? 'translate-x-0' : '-translate-x-full'}`}
       >
         {sidebarContent}
       </aside>

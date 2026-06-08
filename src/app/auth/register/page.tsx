@@ -96,19 +96,19 @@ export default function RegisterPage() {
 
   if (success) {
     return (
-      <div className="min-h-screen flex items-center justify-center py-12 px-4 bg-[#0B0F1A] bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-[#131A2B] via-[#0B0F1A] to-[#050812]">
+<div className="min-h-screen flex items-center justify-center py-12 px-4 bg-gray-50 dark:bg-[#0B0F1A] bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-[#131A2B] via-[#0B0F1A] to-[#050812]">
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-violet-600/10 rounded-full blur-[120px] mix-blend-screen"></div>
           <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-600/10 rounded-full blur-[120px] mix-blend-screen"></div>
         </div>
-        <div className="max-w-md w-full bg-white/[0.03] backdrop-blur-2xl border border-white/10 rounded-[2rem] shadow-[0_8px_32px_0_rgba(0,0,0,0.3)] p-8 sm:p-10 text-center relative z-10 animate-in fade-in duration-500 slide-in-from-bottom-4">
+        <div className="max-w-md w-full bg-white dark:bg-white/[0.03] backdrop-blur-2xl border border-gray-200 dark:border-white/10 rounded-[2rem] shadow-[0_8px_32px_0_rgba(0,0,0,0.3)] p-8 sm:p-10 text-center relative z-10 animate-in fade-in duration-500 slide-in-from-bottom-4">
           <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-green-400 to-emerald-500 flex items-center justify-center mx-auto mb-6 shadow-[0_0_30px_rgba(16,185,129,0.4)] transform transition-transform hover:scale-105 duration-300">
             <svg className="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
             </svg>
           </div>
-          <h2 className="text-3xl font-bold text-white mb-2 tracking-tight">Registration Successful!</h2>
-          <p className="text-purple-200/60 font-medium mb-8">
+          <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-2 tracking-tight">Registration Successful!</h2>
+          <p className="text-gray-500 dark:text-purple-200/60 font-medium mb-8">
             Check your email to confirm your account. You will be redirected to the login page shortly.
           </p>
           <Link href="/auth/login" className="w-full py-4 text-lg font-semibold bg-gradient-to-r from-violet-600 to-purple-500 hover:from-violet-500 hover:to-purple-400 text-white rounded-2xl shadow-[0_0_20px_rgba(124,58,237,0.3)] hover:shadow-[0_0_30px_rgba(124,58,237,0.5)] transition-all duration-300 hover:-translate-y-0.5 inline-block">
@@ -120,21 +120,21 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center py-12 px-4 bg-[#0B0F1A] bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-[#131A2B] via-[#0B0F1A] to-[#050812]">
+    <div className="min-h-screen flex items-center justify-center py-12 px-4 bg-gray-50 dark:bg-[#0B0F1A] bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-[#131A2B] via-[#0B0F1A] to-[#050812]">
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-[10%] right-[10%] w-96 h-96 bg-violet-600/10 rounded-full blur-[120px] mix-blend-screen"></div>
         <div className="absolute bottom-[10%] left-[10%] w-96 h-96 bg-purple-600/10 rounded-full blur-[120px] mix-blend-screen"></div>
       </div>
 
-      <div className="w-full max-w-2xl bg-white/[0.03] backdrop-blur-2xl border border-white/10 rounded-[2rem] shadow-[0_8px_32px_0_rgba(0,0,0,0.3)] p-8 sm:p-10 relative z-10 animate-in fade-in duration-500 slide-in-from-bottom-4">
+      <div className="w-full max-w-2xl bg-white dark:bg-white/[0.03] backdrop-blur-2xl border border-gray-200 dark:border-white/10 rounded-[2rem] shadow-[0_8px_32px_0_rgba(0,0,0,0.3)] p-8 sm:p-10 relative z-10 animate-in fade-in duration-500 slide-in-from-bottom-4">
         <div className="text-center mb-10">
           <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-violet-600 to-purple-500 flex items-center justify-center shadow-[0_0_30px_rgba(124,58,237,0.4)] mx-auto mb-6 transform transition-transform hover:scale-105 duration-300">
             <svg className="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
             </svg>
           </div>
-          <h2 className="text-3xl font-bold text-white tracking-tight mb-2">Create Account</h2>
-          <p className="text-purple-200/60 font-medium">Join Exit Exam Platform and master your exams.</p>
+          <h2 className="text-3xl font-bold text-gray-900 dark:text-white tracking-tight mb-2">Create Account</h2>
+          <p className="text-gray-500 dark:text-purple-200/60 font-medium">Join Exit Exam Platform and master your exams.</p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">
@@ -160,7 +160,7 @@ export default function RegisterPage() {
                 }}
                 className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
               />
-              <div className={`w-28 h-28 rounded-full flex flex-col items-center justify-center overflow-hidden transition-all duration-300 ${avatarFile ? 'ring-2 ring-purple-500 ring-offset-4 ring-offset-[#0B0F1A]' : 'border-2 border-dashed border-purple-500/40 bg-white/[0.02] group-hover:border-purple-400 group-hover:bg-white/[0.04]'}`}>
+              <div className={`w-28 h-28 rounded-full flex flex-col items-center justify-center overflow-hidden transition-all duration-300 ${avatarFile ? 'ring-2 ring-purple-500 ring-offset-4 ring-offset-[#0B0F1A]' : 'border-2 border-dashed border-purple-500/40 bg-white/[0.02] group-hover:border-purple-400 group-hover:bg-white dark:bg-white/[0.04]'}`}>
                 {avatarFile ? (
                   <img src={URL.createObjectURL(avatarFile)} alt="Avatar Preview" className="w-full h-full object-cover" />
                 ) : (
@@ -175,8 +175,8 @@ export default function RegisterPage() {
                 <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
               </div>
             </div>
-            <p className="text-purple-200/60 font-medium text-sm mt-4">Upload profile picture(optional)</p>
-            <div className="mt-3 w-full max-w-xs text-center px-5 py-3.5 bg-white/[0.03] border border-purple-500/10 rounded-xl shadow-inner">
+            <p className="text-gray-500 dark:text-purple-200/60 font-medium text-sm mt-4">Upload profile picture(optional)</p>
+            <div className="mt-3 w-full max-w-xs text-center px-5 py-3.5 bg-white dark:bg-white/[0.03] border border-purple-500/10 rounded-xl shadow-inner">
               <p className="text-sm font-bold italic leading-relaxed text-transparent bg-clip-text bg-gradient-to-r from-violet-400 via-purple-400 to-fuchsia-400" style={{ fontFamily: "'Inter', 'Segoe UI', sans-serif" }}>
                 &ldquo; Only Upload if you think you are Beautiful / Handsome otherwise you are wasting my Storage &rdquo;
               </p>
@@ -186,7 +186,7 @@ export default function RegisterPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* Full Name */}
             <div className="group">
-              <label className="block text-sm font-medium text-purple-200/80 mb-2 transition-colors group-focus-within:text-purple-400">Full Name <span className="text-violet-400">*</span></label>
+              <label className="block text-sm font-medium text-gray-600 dark:text-purple-200/80 mb-2 transition-colors group-focus-within:text-purple-400">Full Name <span className="text-violet-400">*</span></label>
               <input
                 type="text"
                 name="fullName"
@@ -194,13 +194,13 @@ export default function RegisterPage() {
                 value={formData.fullName}
                 onChange={handleChange}
                 placeholder="John Doe"
-                className="w-full bg-white/[0.04] border border-white/10 rounded-2xl px-5 py-4 text-white placeholder-white/30 focus:border-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-500/20 transition-all duration-300 hover:bg-white/[0.06]"
+                className="w-full bg-white dark:bg-white/[0.04] border border-gray-200 dark:border-white/10 rounded-2xl px-5 py-4 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-white/30 focus:border-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-500/20 transition-all duration-300 hover:bg-white/[0.06]"
               />
             </div>
 
             {/* Username */}
             <div className="group">
-              <label className="block text-sm font-medium text-purple-200/80 mb-2 transition-colors group-focus-within:text-purple-400">Username <span className="text-violet-400">*</span></label>
+              <label className="block text-sm font-medium text-gray-600 dark:text-purple-200/80 mb-2 transition-colors group-focus-within:text-purple-400">Username <span className="text-violet-400">*</span></label>
               <input
                 type="text"
                 name="username"
@@ -208,13 +208,13 @@ export default function RegisterPage() {
                 value={formData.username}
                 onChange={handleChange}
                 placeholder="johndoe123"
-                className="w-full bg-white/[0.04] border border-white/10 rounded-2xl px-5 py-4 text-white placeholder-white/30 focus:border-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-500/20 transition-all duration-300 hover:bg-white/[0.06]"
+                className="w-full bg-white dark:bg-white/[0.04] border border-gray-200 dark:border-white/10 rounded-2xl px-5 py-4 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-white/30 focus:border-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-500/20 transition-all duration-300 hover:bg-white/[0.06]"
               />
             </div>
 
             {/* Email */}
             <div className="group md:col-span-2">
-              <label className="block text-sm font-medium text-purple-200/80 mb-2 transition-colors group-focus-within:text-purple-400">Email Address <span className="text-violet-400">*</span></label>
+              <label className="block text-sm font-medium text-gray-600 dark:text-purple-200/80 mb-2 transition-colors group-focus-within:text-purple-400">Email Address <span className="text-violet-400">*</span></label>
               <input
                 type="email"
                 name="email"
@@ -222,13 +222,13 @@ export default function RegisterPage() {
                 value={formData.email}
                 onChange={handleChange}
                 placeholder="john@example.com"
-                className="w-full bg-white/[0.04] border border-white/10 rounded-2xl px-5 py-4 text-white placeholder-white/30 focus:border-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-500/20 transition-all duration-300 hover:bg-white/[0.06]"
+                className="w-full bg-white dark:bg-white/[0.04] border border-gray-200 dark:border-white/10 rounded-2xl px-5 py-4 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-white/30 focus:border-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-500/20 transition-all duration-300 hover:bg-white/[0.06]"
               />
             </div>
 
             {/* Password */}
             <div className="group">
-              <label className="block text-sm font-medium text-purple-200/80 mb-2 transition-colors group-focus-within:text-purple-400">Password <span className="text-violet-400">*</span></label>
+              <label className="block text-sm font-medium text-gray-600 dark:text-purple-200/80 mb-2 transition-colors group-focus-within:text-purple-400">Password <span className="text-violet-400">*</span></label>
               <input
                 type="password"
                 name="password"
@@ -237,7 +237,7 @@ export default function RegisterPage() {
                 value={formData.password}
                 onChange={handleChange}
                 placeholder="••••••••"
-                className="w-full bg-white/[0.04] border border-white/10 rounded-2xl px-5 py-4 text-white placeholder-white/30 focus:border-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-500/20 transition-all duration-300 hover:bg-white/[0.06]"
+                className="w-full bg-white dark:bg-white/[0.04] border border-gray-200 dark:border-white/10 rounded-2xl px-5 py-4 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-white/30 focus:border-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-500/20 transition-all duration-300 hover:bg-white/[0.06]"
               />
               <div className="mt-2 text-xs">
                 {formData.password ? (
@@ -260,7 +260,7 @@ export default function RegisterPage() {
 
             {/* Repeat Password */}
             <div className="group">
-              <label className="block text-sm font-medium text-purple-200/80 mb-2 transition-colors group-focus-within:text-purple-400">Repeat Password <span className="text-violet-400">*</span></label>
+              <label className="block text-sm font-medium text-gray-600 dark:text-purple-200/80 mb-2 transition-colors group-focus-within:text-purple-400">Repeat Password <span className="text-violet-400">*</span></label>
               <input
                 type="password"
                 name="repeatPassword"
@@ -269,13 +269,13 @@ export default function RegisterPage() {
                 value={formData.repeatPassword}
                 onChange={handleChange}
                 placeholder="••••••••"
-                className="w-full bg-white/[0.04] border border-white/10 rounded-2xl px-5 py-4 text-white placeholder-white/30 focus:border-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-500/20 transition-all duration-300 hover:bg-white/[0.06]"
+                className="w-full bg-white dark:bg-white/[0.04] border border-gray-200 dark:border-white/10 rounded-2xl px-5 py-4 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-white/30 focus:border-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-500/20 transition-all duration-300 hover:bg-white/[0.06]"
               />
             </div>
 
             {/* Major */}
             <div className="group">
-              <label className="block text-sm font-medium text-purple-200/80 mb-2 transition-colors group-focus-within:text-purple-400">Major <span className="text-violet-400">*</span></label>
+              <label className="block text-sm font-medium text-gray-600 dark:text-purple-200/80 mb-2 transition-colors group-focus-within:text-purple-400">Major <span className="text-violet-400">*</span></label>
               <input
                 type="text"
                 name="major"
@@ -283,20 +283,20 @@ export default function RegisterPage() {
                 value={formData.major}
                 onChange={handleChange}
                 placeholder="Computer Science"
-                className="w-full bg-white/[0.04] border border-white/10 rounded-2xl px-5 py-4 text-white placeholder-white/30 focus:border-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-500/20 transition-all duration-300 hover:bg-white/[0.06]"
+                className="w-full bg-white dark:bg-white/[0.04] border border-gray-200 dark:border-white/10 rounded-2xl px-5 py-4 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-white/30 focus:border-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-500/20 transition-all duration-300 hover:bg-white/[0.06]"
               />
             </div>
 
             {/* Gender */}
             <div className="group">
-              <label className="block text-sm font-medium text-purple-200/80 mb-2 transition-colors group-focus-within:text-purple-400">Gender <span className="text-violet-400">*</span></label>
+              <label className="block text-sm font-medium text-gray-600 dark:text-purple-200/80 mb-2 transition-colors group-focus-within:text-purple-400">Gender <span className="text-violet-400">*</span></label>
               <div className="relative">
                 <select
                   name="gender"
                   required
                   value={formData.gender}
                   onChange={handleChange}
-                  className="w-full bg-white/[0.04] border border-white/10 rounded-2xl px-5 py-4 text-white hover:bg-white/[0.06] focus:border-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-500/20 transition-all duration-300 appearance-none [&>option]:bg-[#0B0F1A] [&>option]:text-white"
+                  className="w-full bg-white dark:bg-white/[0.04] border border-gray-200 dark:border-white/10 rounded-2xl px-5 py-4 text-gray-900 dark:text-white hover:bg-white/[0.06] focus:border-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-500/20 transition-all duration-300 appearance-none [&>option]:bg-white dark:[&>option]:bg-[#0B0F1A] [&>option]:text-gray-900 dark:[&>option]:text-white"
                 >
                   <option value="male">Male</option>
                   <option value="female">Female</option>
@@ -314,7 +314,7 @@ export default function RegisterPage() {
 
           {/* Bio */}
           <div className="group">
-            <label className="block text-sm font-medium text-purple-200/80 mb-2 transition-colors group-focus-within:text-purple-400 flex items-center gap-2">
+            <label className="block text-sm font-medium text-gray-600 dark:text-purple-200/80 mb-2 transition-colors group-focus-within:text-purple-400 flex items-center gap-2">
               Bio <span className="text-purple-200/40 text-xs font-normal bg-white/5 py-1 px-2 rounded-md">Optional</span>
             </label>
             <textarea
@@ -323,7 +323,7 @@ export default function RegisterPage() {
               value={formData.bio}
               onChange={handleChange}
               placeholder="Tell us a bit about your journey..."
-              className="w-full bg-white/[0.04] border border-white/10 rounded-2xl px-5 py-4 text-white placeholder-white/30 focus:border-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-500/20 transition-all duration-300 hover:bg-white/[0.06] resize-none"
+              className="w-full bg-white dark:bg-white/[0.04] border border-gray-200 dark:border-white/10 rounded-2xl px-5 py-4 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-white/30 focus:border-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-500/20 transition-all duration-300 hover:bg-white/[0.06] resize-none"
             />
           </div>
 
@@ -353,7 +353,7 @@ export default function RegisterPage() {
           </div>
 
           <div className="text-center pt-2">
-            <p className="text-purple-200/60 font-medium">
+            <p className="text-gray-500 dark:text-purple-200/60 font-medium">
               Already have an account?{' '}
               <Link href="/auth/login" className="text-transparent bg-clip-text bg-gradient-to-r from-violet-400 to-purple-400 hover:from-violet-300 hover:to-purple-300 transition-all font-bold drop-shadow-[0_0_8px_rgba(168,85,247,0.5)] ml-1">
                 Log in here

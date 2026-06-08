@@ -217,7 +217,7 @@ function ExamContent() {
       <div className="space-y-12 animate-in py-4">
         <Link 
           href="/dashboard"
-          className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-500 hover:text-white transition-colors flex items-center gap-2"
+          className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-500 hover:text-gray-900 dark:hover:text-white transition-colors flex items-center gap-2"
         >
           <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
@@ -228,26 +228,26 @@ function ExamContent() {
         {/* Header with Stats */}
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8">
           <div className="max-w-2xl">
-            <h1 className="text-4xl sm:text-5xl font-black text-white tracking-tighter mb-4 italic uppercase">
+            <h1 className="text-4xl sm:text-5xl font-black text-gray-900 dark:text-white tracking-tighter mb-4 italic uppercase">
               Exit <span className="text-accent-purple">Exam</span>
             </h1>
-            <p className="text-gray-400 text-sm leading-relaxed font-medium mb-6">
+            <p className="text-gray-500 dark:text-gray-400 text-sm leading-relaxed font-medium mb-6">
               Simulate high-stakes exit exams with authentic past-year questions, precisely timed to build your competitive edge.
             </p>
           </div>
 
           <div className="flex flex-wrap gap-3">
-             <div className="flex items-center gap-2 bg-white/5 border border-white/10 rounded-full px-4 py-2 backdrop-blur-md">
+             <div className="flex items-center gap-2 bg-gray-100 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-full px-4 py-2 backdrop-blur-md">
               <span className="text-accent-purple-light text-xs">⚡</span>
-              <span className="text-white font-black text-xs italic">{progress.xp.toLocaleString()} XP</span>
+              <span className="text-gray-900 dark:text-white font-black text-xs italic">{progress.xp.toLocaleString()} XP</span>
             </div>
-            <div className="flex items-center gap-2 bg-white/5 border border-white/10 rounded-full px-4 py-2 backdrop-blur-md">
+            <div className="flex items-center gap-2 bg-gray-100 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-full px-4 py-2 backdrop-blur-md">
               <span className="text-neon-green text-xs">🔥</span>
-              <span className="text-white font-black text-xs italic">{progress.streak} Day Streak</span>
+              <span className="text-gray-900 dark:text-white font-black text-xs italic">{progress.streak} Day Streak</span>
             </div>
-            <div className="flex items-center gap-2 bg-white/5 border border-white/10 rounded-full px-4 py-2 backdrop-blur-md">
+            <div className="flex items-center gap-2 bg-gray-100 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-full px-4 py-2 backdrop-blur-md">
               <span className="text-accent-purple text-xs">📜</span>
-              <span className="text-white font-black text-xs italic">{questions.length} Exam Qs</span>
+              <span className="text-gray-900 dark:text-white font-black text-xs italic">{questions.length} Exam Qs</span>
             </div>
           </div>
         </div>
@@ -273,7 +273,7 @@ function ExamContent() {
                   setSelectedCategory(topic);
                   setIsDisclaimerAccepted(false);
                 }}
-                className="group relative flex flex-col items-start rounded-3xl bg-[#11152a]/50 border border-white/5 p-8 text-left transition-all duration-500 hover:bg-[#11152a] hover:border-accent-purple/30 hover:-translate-y-1 hover:shadow-2xl hover:shadow-accent-purple/10 overflow-hidden"
+                className="group relative flex flex-col items-start rounded-3xl bg-white dark:bg-[#11152a]/50 border border-gray-200 dark:border-white/5 p-8 text-left transition-all duration-500 hover:bg-gray-100 dark:hover:bg-[#11152a] hover:border-accent-purple/30 hover:-translate-y-1 hover:shadow-2xl hover:shadow-accent-purple/10 overflow-hidden"
               >
                 <div className="absolute top-6 right-6 z-10 flex gap-2">
                   {isAdmin && (
@@ -289,16 +289,16 @@ function ExamContent() {
                   )}
                 </div>
 
-                <div className="w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center text-2xl mb-6 group-hover:bg-accent-purple/10 group-hover:scale-110 transition-all duration-500">
+                <div className="w-12 h-12 rounded-2xl bg-gray-100 dark:bg-white/5 flex items-center justify-center text-2xl mb-6 group-hover:bg-accent-purple/10 group-hover:scale-110 transition-all duration-500">
                   {is2017 ? '🎓' : meta.icon}
                 </div>
-                <h3 className="text-xl sm:text-2xl font-black text-white italic uppercase tracking-tighter mb-4 group-hover:text-white/90 transition-colors">
+                <h3 className="text-xl sm:text-2xl font-black text-gray-900 dark:text-white italic uppercase tracking-tighter mb-4 group-hover:text-gray-900/90 dark:group-hover:text-white/90 transition-colors">
                   {displayTitle}
                 </h3>
-                <p className="text-xs sm:text-sm text-gray-400 leading-relaxed mb-8 max-h-24 overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-white/10 scrollbar-track-transparent">
+                <p className="text-xs sm:text-sm leading-relaxed mb-8 max-h-24 overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-gray-200 dark:scrollbar-thumb-white/10 scrollbar-track-transparent">
                    {displayDesc}
                 </p>
-                <div className="mt-auto px-4 py-2 bg-white/5 border border-white/10 rounded-xl text-[10px] font-black uppercase tracking-widest text-gray-400 group-hover:text-white transition-colors">
+                <div className="mt-auto px-4 py-2 bg-gray-100 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-xl text-[10px] font-black uppercase tracking-widest group-hover:text-gray-900 dark:group-hover:text-white transition-colors">
                   {count} Questions
                 </div>
               </button>
@@ -317,18 +317,18 @@ function ExamContent() {
       : 'Official certification and exit exam questions provided for academic preparation.';
 
     return (
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-6 bg-black/80 backdrop-blur-xl animate-in fade-in duration-500">
+      <div className="fixed inset-0 z-50 flex items-center justify-center p-6 bg-white/80 dark:bg-black/80 backdrop-blur-xl animate-in fade-in duration-500">
         <div className="glass-card max-w-xl w-full p-8 sm:p-12 border-accent-purple/30 shadow-2xl shadow-accent-purple/20 animate-in zoom-in-95 duration-500 flex flex-col items-center text-center">
           <div className="w-20 h-20 rounded-3xl bg-accent-purple/10 flex items-center justify-center text-4xl mb-8 animate-bounce transition-all duration-1000">
             {is2017 ? '🎓' : '📝'}
           </div>
           
-          <h2 className="text-3xl sm:text-4xl font-black text-white italic uppercase tracking-tighter mb-6">
+          <h2 className="text-3xl sm:text-4xl font-black text-gray-900 dark:text-white italic uppercase tracking-tighter mb-6">
             {displayTitle}
           </h2>
           
           <div className="space-y-4 mb-10 w-full text-left">
-            <div className="text-gray-400 leading-relaxed font-medium prose prose-invert prose-sm max-w-none">
+            <div className="text-gray-500 dark:text-gray-400 leading-relaxed font-medium prose prose-sm max-w-none">
               <ReactMarkdown remarkPlugins={[remarkGfm]}>{displayDesc}</ReactMarkdown>
             </div>
             {is2017 && (
@@ -341,7 +341,7 @@ function ExamContent() {
           <div className="flex flex-col sm:flex-row gap-4 w-full">
             <button 
               onClick={() => setSelectedCategory(null)}
-              className="flex-1 px-8 py-4 bg-white/5 border border-white/10 rounded-2xl text-gray-400 font-black uppercase tracking-widest hover:bg-white/10 hover:text-white transition-all"
+              className="flex-1 px-8 py-4 bg-gray-100 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-2xl font-black uppercase tracking-widest hover:bg-gray-200 dark:hover:bg-white/10 hover:text-gray-900 dark:hover:text-white transition-all"
             >
               Go Back
             </button>
@@ -369,7 +369,7 @@ function ExamContent() {
             ← Exit Exam
           </button>
           <div>
-            <h1 className="text-xl font-bold text-white uppercase italic">{selectedCategory === 'all' ? 'Full Mock' : selectedCategory}</h1>
+            <h1 className="text-xl font-bold text-gray-900 dark:text-white uppercase italic">{selectedCategory === 'all' ? 'Full Mock' : selectedCategory}</h1>
             <p className="text-gray-500 text-[10px] uppercase font-bold tracking-widest mt-0.5">Exit Exam</p>
           </div>
         </div>
@@ -410,7 +410,7 @@ function ExamContent() {
               {currentQuestion.source}
             </span>
 
-            <span className="badge bg-dark-500 text-gray-400 text-[10px] uppercase">
+            <span className="badge bg-gray-100 dark:bg-dark-500 text-[10px] uppercase">
               {currentQuestion.difficulty}
             </span>
             {isReviewMode && userAnswers[currentQuestion.id] === currentQuestion.answer && (
@@ -422,14 +422,14 @@ function ExamContent() {
           </div>
 
 
-          <div className="text-base sm:text-2xl font-bold text-white leading-snug sm:leading-snug mb-5 sm:mb-10 prose prose-sm sm:prose-lg prose-invert max-w-none prose-headings:text-white prose-p:text-white prose-strong:text-accent-purple-light prose-code:text-accent-cyan prose-pre:bg-dark-900/50 prose-pre:border prose-pre:border-white/10">
+          <div className="text-base sm:text-2xl font-bold text-gray-900 dark:text-white leading-snug sm:leading-snug mb-5 sm:mb-10 prose prose-sm sm:prose-lg max-w-none prose-headings:text-gray-900 dark:prose-headings:text-white prose-p:text-gray-900 dark:prose-p:text-white prose-strong:text-accent-purple-light prose-code:text-accent-cyan prose-pre:bg-gray-100 dark:prose-pre:bg-dark-900/50 prose-pre:border prose-pre:border-gray-200 dark:prose-pre:border-white/10">
             <ReactMarkdown 
               remarkPlugins={[remarkGfm]}
               components={{
                 img: ({node, ...props}) => (
                   <img 
                     {...props} 
-                    className="max-w-full sm:max-w-md h-auto rounded-xl mx-auto my-6 border border-white/10 shadow-2xl shadow-indigo-500/10" 
+                    className="max-w-full sm:max-w-md h-auto rounded-xl mx-auto my-6 border border-gray-200 dark:border-white/10 shadow-2xl shadow-indigo-500/10" 
                   />
                 ),
                 p: ({children}) => <p className="font-bold leading-relaxed">{children}</p>
@@ -453,20 +453,20 @@ function ExamContent() {
                 } else if (isSelected) {
                   style += "border-red-500/50 bg-red-500/10 text-red-400";
                 } else {
-                  style += "border-white/5 bg-white/5 opacity-50";
+                  style += "border-gray-200 dark:border-white/5 bg-gray-100 dark:bg-white/5 opacity-50";
                 }
               } else {
                 if (isSelected) {
                   style += "border-indigo-500 bg-indigo-500/20 text-white shadow-[0_0_15px_rgba(99,102,241,0.3)]";
                 } else {
-                  style += "border-white/5 bg-white/5 hover:bg-white/10 hover:border-white/20";
+                  style += "border-gray-200 dark:border-white/5 bg-gray-50 dark:bg-white/5 hover:bg-gray-100 dark:hover:bg-white/10 hover:border-gray-300 dark:hover:border-white/20";
                 }
               }
 
               return (
                 <button key={idx} onClick={() => handleSelectAnswer(option)} disabled={isReviewMode} className={style}>
                   <div className="flex items-center gap-2 sm:gap-4">
-                    <span className={`w-6 h-6 sm:w-8 sm:h-8 rounded-md sm:rounded-lg flex items-center justify-center text-[10px] sm:text-sm font-black flex-shrink-0 ${isSelected && !isReviewMode ? 'bg-indigo-500 text-white' : 'bg-white/10'}`}>
+                    <span className={`w-6 h-6 sm:w-8 sm:h-8 rounded-md sm:rounded-lg flex items-center justify-center text-[10px] sm:text-sm font-black flex-shrink-0 ${isSelected && !isReviewMode ? 'bg-indigo-500 text-white' : 'bg-gray-200 dark:bg-white/10'}`}>
                       {String.fromCharCode(65 + idx)}
                     </span>
                     <span className="font-medium text-xs sm:text-lg leading-snug">
@@ -491,7 +491,7 @@ function ExamContent() {
           {isReviewMode && (
             <div className="p-6 rounded-2xl bg-indigo-500/5 border border-indigo-500/20 mb-8 animate-in slide-in-from-bottom-2">
               <span className="text-xs font-bold text-indigo-400 uppercase tracking-widest block mb-2">Detailed Analysis</span>
-              <div className="prose prose-invert prose-sm max-w-none text-gray-300 leading-relaxed prose-pre:bg-dark-900/50 prose-pre:border prose-pre:border-white/10">
+              <div className="prose prose-sm max-w-none text-gray-700 dark:text-gray-300 leading-relaxed prose-pre:bg-gray-100 dark:prose-pre:bg-dark-900/50 prose-pre:border prose-pre:border-gray-200 dark:prose-pre:border-white/10">
                 <ReactMarkdown remarkPlugins={[remarkGfm]}>
                   {currentQuestion.explanation}
                 </ReactMarkdown>
@@ -499,8 +499,8 @@ function ExamContent() {
             </div>
           )}
 
-          <div className="flex items-center justify-between pt-4 sm:pt-6 border-t border-white/5">
-            <button onClick={handlePrevious} disabled={currentIndex === 0} className="text-gray-500 hover:text-white disabled:opacity-0 transition-all font-bold text-xs sm:text-sm uppercase">Previous</button>
+          <div className="flex items-center justify-between pt-4 sm:pt-6 border-t border-gray-200 dark:border-white/5">
+            <button onClick={handlePrevious} disabled={currentIndex === 0} className="text-gray-500 hover:text-gray-900 dark:hover:text-white disabled:opacity-0 transition-all font-bold text-xs sm:text-sm uppercase">Previous</button>
             <button onClick={handleNext} disabled={currentIndex >= filteredQuestions.length - 1} className="btn-primary px-6 sm:px-10 py-2.5 sm:py-3 bg-indigo-600 hover:bg-indigo-500 text-xs sm:text-sm italic font-black uppercase tracking-widest disabled:opacity-50">Next Question</button>
           </div>
         </div>
@@ -508,13 +508,13 @@ function ExamContent() {
         {/* Right Sidebar Navigation */}
         <div className="w-full lg:w-72 flex-shrink-0 glass-card p-4 sm:p-6 sticky top-6 border-indigo-500/20 max-h-[85vh] flex flex-col">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-sm font-black text-white italic uppercase tracking-widest">Questions</h3>
-            <span className="text-xs font-bold text-gray-500 bg-white/5 px-2 py-1 rounded-md">
+            <h3 className="text-sm font-black text-gray-900 dark:text-white italic uppercase tracking-widest">Questions</h3>
+            <span className="text-xs font-bold text-gray-500 bg-gray-100 dark:bg-white/5 px-2 py-1 rounded-md">
               {Object.keys(userAnswers).length} / {filteredQuestions.length}
             </span>
           </div>
           
-          <div className="grid grid-cols-5 gap-2 overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-white/10 scrollbar-track-transparent flex-1 pb-4">
+          <div className="grid grid-cols-5 gap-2 overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-gray-200 dark:scrollbar-thumb-white/10 scrollbar-track-transparent flex-1 pb-4">
             {filteredQuestions.map((q, idx) => {
               const isCurrent = currentIndex === idx;
               const isAnswered = !!userAnswers[q.id];
@@ -524,17 +524,17 @@ function ExamContent() {
               let btnClass = "aspect-square flex items-center justify-center rounded-lg text-xs font-black transition-all border ";
               
               if (isReviewMode) {
-                if (isCurrent) btnClass += "ring-2 ring-white scale-110 z-10 ";
+                if (isCurrent) btnClass += "ring-2 ring-gray-900 dark:ring-white scale-110 z-10 ";
                 if (isCorrect) btnClass += "bg-green-500/20 text-green-400 border-green-500/30";
                 else if (isWrong) btnClass += "bg-red-500/20 text-red-400 border-red-500/30";
-                else btnClass += "bg-white/5 text-gray-500 border-white/5";
+                else btnClass += "bg-gray-100 dark:bg-white/5 text-gray-500 border-gray-200 dark:border-white/5";
               } else {
                 if (isCurrent) {
                   btnClass += "bg-indigo-600 text-white border-indigo-500 shadow-md scale-110 z-10";
                 } else if (isAnswered) {
                   btnClass += "bg-indigo-500/20 text-indigo-300 border-indigo-500/30 hover:bg-indigo-500/30";
                 } else {
-                  btnClass += "bg-white/5 text-gray-400 border-white/5 hover:bg-white/10 hover:border-white/20";
+                  btnClass += "bg-gray-100 dark:bg-white/5 hover:bg-gray-200 dark:hover:bg-white/10 border-gray-200 dark:border-white/5 hover:border-gray-300 dark:hover:border-white/20";
                 }
               }
 
@@ -551,7 +551,7 @@ function ExamContent() {
           </div>
           
           {!isReviewMode && (
-             <div className="mt-4 pt-4 border-t border-white/10">
+             <div className="mt-4 pt-4 border-t border-gray-200 dark:border-white/10">
                <button 
                 onClick={handleFinish}
                 disabled={Object.keys(userAnswers).length === 0}
@@ -569,24 +569,24 @@ function ExamContent() {
             <div className="text-6xl mb-4">
               {Math.round((quizScore.correct / quizScore.total) * 100) >= 80 ? '🎖️' : Math.round((quizScore.correct / quizScore.total) * 100) >= 50 ? '📄' : '💀'}
             </div>
-            <h2 className="text-3xl font-black text-white italic tracking-tighter uppercase">
+            <h2 className="text-3xl font-black text-gray-900 dark:text-white italic tracking-tighter uppercase">
               Exam <span className="text-accent-purple">Results</span>
             </h2>
-            <p className="text-gray-400 font-medium">
+            <p className="text-gray-500 dark:text-gray-400 font-medium">
               You&apos;ve completed the {selectedCategory === 'all' ? 'Full Mock' : selectedCategory} simulation.
             </p>
           </div>
 
           <div className="grid grid-cols-3 gap-4 max-w-lg mx-auto">
-            <div className="p-6 rounded-2xl bg-white/5 border border-white/10">
-              <div className="text-3xl font-black text-white italic">{Math.round((quizScore.correct / quizScore.total) * 100)}%</div>
+            <div className="p-6 rounded-2xl bg-gray-100 dark:bg-white/5 border border-gray-200 dark:border-white/10">
+              <div className="text-3xl font-black text-gray-900 dark:text-white italic">{Math.round((quizScore.correct / quizScore.total) * 100)}%</div>
               <div className="text-[10px] text-gray-500 font-black uppercase tracking-widest mt-1">Score</div>
             </div>
-            <div className="p-6 rounded-2xl bg-white/5 border border-white/10">
+            <div className="p-6 rounded-2xl bg-gray-100 dark:bg-white/5 border border-gray-200 dark:border-white/10">
               <div className="text-3xl font-black text-accent-purple italic">{quizScore.correct}/{quizScore.total}</div>
               <div className="text-[10px] text-gray-500 font-black uppercase tracking-widest mt-1">Correct</div>
             </div>
-            <div className="p-6 rounded-2xl bg-white/5 border border-white/10">
+            <div className="p-6 rounded-2xl bg-gray-100 dark:bg-white/5 border border-gray-200 dark:border-white/10">
               <div className={`text-xl font-black italic ${timeLeft === 0 ? 'text-red-400' : 'text-emerald-400'}`}>
                 {timeLeft === 0 ? "Time's up!" : formatTime((filteredQuestions.length * 60) - (timeLeft || 0))}
               </div>
@@ -595,7 +595,7 @@ function ExamContent() {
           </div>
 
           <div className="p-6 rounded-3xl bg-indigo-500/10 border border-indigo-500/20 max-w-xl mx-auto">
-            <p className="text-xl font-bold text-white italic">
+            <p className="text-xl font-bold text-gray-900 dark:text-white italic">
               &quot;{getHumorMessage(Math.round((quizScore.correct / quizScore.total) * 100))}&quot;
             </p>
           </div>
@@ -611,20 +611,20 @@ function ExamContent() {
                 const percent = Math.round((correctCount / topicQs.length) * 100);
                 
                 return (
-                  <div key={topic} className="p-4 rounded-2xl bg-white/5 border border-white/10 group hover:border-indigo-500/30 transition-all">
+                  <div key={topic} className="p-4 rounded-2xl bg-gray-100 dark:bg-white/5 border border-gray-200 dark:border-white/10 group hover:border-indigo-500/30 transition-all">
                     <div className="flex items-center justify-between mb-3">
                       <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-lg bg-dark-500 flex items-center justify-center text-sm">
+                        <div className="w-8 h-8 rounded-lg bg-gray-100 dark:bg-dark-500 flex items-center justify-center text-sm">
                           {topicMeta[topic]?.icon || '📝'}
                         </div>
-                        <span className="text-sm font-bold text-white italic uppercase tracking-tighter">{topic}</span>
+                        <span className="text-sm font-bold text-gray-900 dark:text-white italic uppercase tracking-tighter">{topic}</span>
                       </div>
                       <span className={`text-xs font-black ${percent >= 70 ? 'text-green-400' : percent >= 50 ? 'text-yellow-400' : 'text-red-400'}`}>
                         {percent}%
                       </span>
                     </div>
                     <div className="flex items-center gap-2 mb-2">
-                      <div className="flex-1 h-1.5 bg-dark-600 rounded-full overflow-hidden">
+                      <div className="flex-1 h-1.5 bg-gray-100 dark:bg-dark-600 rounded-full overflow-hidden">
                         <div 
                           className={`h-full transition-all duration-1000 ${percent >= 70 ? 'bg-green-500' : percent >= 50 ? 'bg-yellow-500' : 'bg-red-500'}`}
                           style={{ width: `${percent}%` }}
@@ -647,13 +647,13 @@ function ExamContent() {
             </button>
             <button 
               onClick={resetExam}
-              className="px-10 py-3 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 text-white font-black uppercase italic tracking-widest text-sm transition-all"
+              className="px-10 py-3 rounded-xl border border-gray-200 dark:border-white/10 bg-gray-100 dark:bg-white/5 hover:bg-gray-200 dark:hover:bg-white/10 text-gray-900 dark:text-white font-black uppercase italic tracking-widest text-sm transition-all"
             >
               Restart Exam
             </button>
             <button 
               onClick={() => setSelectedCategory(null)}
-              className="px-10 py-3 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 text-gray-400 font-black uppercase italic tracking-widest text-sm transition-all"
+              className="px-10 py-3 rounded-xl border border-gray-200 dark:border-white/10 bg-gray-100 dark:bg-white/5 hover:bg-gray-200 dark:hover:bg-white/10 font-black uppercase italic tracking-widest text-sm transition-all"
             >
               Exit
             </button>
@@ -661,7 +661,7 @@ function ExamContent() {
         </div>
       ) : (
         <div className="glass-card p-20 text-center">
-          <p className="text-gray-400">No exam questions found for this topic.</p>
+          <p className="text-gray-500 dark:text-gray-400">No exam questions found for this topic.</p>
         </div>
       )}
     </div>

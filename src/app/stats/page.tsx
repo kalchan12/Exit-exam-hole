@@ -99,10 +99,10 @@ export default function StatsPage() {
   if (!mounted) {
     return (
       <div className="animate-pulse space-y-6">
-        <div className="h-12 bg-dark-700 rounded-xl w-48" />
+        <div className="h-12 bg-gray-200 dark:bg-dark-700 rounded-xl w-48" />
         <div className="grid grid-cols-4 gap-4">
           {[1, 2, 3, 4].map((i) => (
-            <div key={i} className="h-24 bg-dark-700 rounded-xl" />
+            <div key={i} className="h-24 bg-gray-200 dark:bg-dark-700 rounded-xl" />
           ))}
         </div>
       </div>
@@ -114,8 +114,8 @@ export default function StatsPage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-white">Progress & Stats</h1>
-          <p className="text-gray-400 text-sm mt-1">Track your learning journey</p>
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Progress & Stats</h1>
+          <p className="text-gray-500 dark:text-gray-400 text-sm mt-1">Track your learning journey</p>
         </div>
         <button
           onClick={() => setShowResetConfirm(true)}
@@ -131,13 +131,13 @@ export default function StatsPage() {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               <span className="text-xl">⚠️</span>
-              <p className="text-white font-medium">Are you sure? This will erase all progress data.</p>
+              <p className="text-gray-900 dark:text-white font-medium">Are you sure? This will erase all progress data.</p>
             </div>
             <div className="flex gap-2">
               <button onClick={() => setShowResetConfirm(false)} className="btn-secondary text-sm">
                 Cancel
               </button>
-              <button onClick={handleReset} className="bg-red-500 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-red-600 transition-colors">
+              <button onClick={handleReset} className="bg-red-500 text-gray-900 dark:text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-red-600 transition-colors">
                 Confirm Reset
               </button>
             </div>
@@ -154,9 +154,9 @@ export default function StatsPage() {
                 <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
               </svg>
             </div>
-            <span className="text-[10px] sm:text-xs text-gray-400 uppercase tracking-wider truncate">Total XP</span>
+            <span className="text-[10px] sm:text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wider truncate">Total XP</span>
           </div>
-          <p className="text-2xl sm:text-3xl font-bold text-white">{progress?.xp || 0}</p>
+          <p className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">{progress?.xp || 0}</p>
           <p className="text-xs text-accent-purple-light mt-1">Level {levelInfo.level} — {levelInfo.title}</p>
         </div>
 
@@ -165,9 +165,9 @@ export default function StatsPage() {
             <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-orange-500/20 flex items-center justify-center flex-shrink-0">
               <span className="text-base sm:text-lg">🔥</span>
             </div>
-            <span className="text-[10px] sm:text-xs text-gray-400 uppercase tracking-wider truncate">Streak</span>
+            <span className="text-[10px] sm:text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wider truncate">Streak</span>
           </div>
-          <p className="text-2xl sm:text-3xl font-bold text-white">{progress?.streak || 0}</p>
+          <p className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">{progress?.streak || 0}</p>
           <p className="text-xs text-orange-400 mt-1">Consecutive correct</p>
         </div>
 
@@ -178,9 +178,9 @@ export default function StatsPage() {
                 <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
             </div>
-            <span className="text-[10px] sm:text-xs text-gray-400 uppercase tracking-wider truncate">Accuracy</span>
+            <span className="text-[10px] sm:text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wider truncate">Accuracy</span>
           </div>
-          <p className="text-2xl sm:text-3xl font-bold text-white">{overallAccuracy}%</p>
+          <p className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">{overallAccuracy}%</p>
           <p className="text-xs text-green-400 mt-1">{totalCorrect}/{totalAnswered} correct</p>
         </div>
 
@@ -191,9 +191,9 @@ export default function StatsPage() {
                 <path strokeLinecap="round" strokeLinejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
               </svg>
             </div>
-            <span className="text-[10px] sm:text-xs text-gray-400 uppercase tracking-wider truncate">Answered</span>
+            <span className="text-[10px] sm:text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wider truncate">Answered</span>
           </div>
-          <p className="text-2xl sm:text-3xl font-bold text-white">{totalAnswered}</p>
+          <p className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">{totalAnswered}</p>
           <p className="text-xs text-blue-400 mt-1">of {questions.length} questions</p>
         </div>
       </div>
@@ -201,17 +201,17 @@ export default function StatsPage() {
       {/* Level Progress */}
       <div className="card p-6">
         <div className="flex items-center justify-between mb-4">
-          <h3 className="text-lg font-bold text-white">Level Progress</h3>
+          <h3 className="text-lg font-bold text-gray-900 dark:text-white">Level Progress</h3>
           <span className="badge bg-accent-purple/20 text-accent-purple-glow">
             {levelInfo.title}
           </span>
         </div>
         <div className="flex items-center gap-4 mb-2">
-          <span className="text-sm text-gray-400">Level {levelInfo.level}</span>
+          <span className="text-sm text-gray-500 dark:text-gray-400">Level {levelInfo.level}</span>
           <div className="flex-1 progress-bar h-3">
             <div className="progress-bar-fill h-3" style={{ width: `${levelInfo.progress}%` }} />
           </div>
-          <span className="text-sm text-gray-400">Level {levelInfo.level + 1}</span>
+          <span className="text-sm text-gray-500 dark:text-gray-400">Level {levelInfo.level + 1}</span>
         </div>
         <p className="text-center text-xs text-gray-500">
           {progress?.xp || 0} / {levelInfo.nextLevelXP} XP ({levelInfo.progress}%)
@@ -220,13 +220,13 @@ export default function StatsPage() {
 
       {/* Topic Breakdown */}
       <div className="card p-6">
-        <h3 className="text-lg font-bold text-white mb-4">Topic Mastery</h3>
+        <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4">Topic Mastery</h3>
         <div className="space-y-5">
           {topicStats.map(({ topic, mastery, total, answered }) => (
             <div key={topic}>
               <div className="flex items-center justify-between mb-2">
                 <div className="flex items-center gap-2">
-                  <span className="text-sm font-medium text-white">{topic}</span>
+                  <span className="text-sm font-medium text-gray-900 dark:text-white">{topic}</span>
                   <span className="text-xs text-gray-500">({answered}/{total} done)</span>
                 </div>
                 <span className={`text-sm font-bold ${
@@ -255,7 +255,7 @@ export default function StatsPage() {
       {/* Weak Topics */}
       {weakTopics.length > 0 && (
         <div className="card p-6 border-yellow-500/20">
-          <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
+          <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
             <span>⚠️</span> Areas for Improvement
           </h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -265,7 +265,7 @@ export default function StatsPage() {
                   <span className="text-sm">📌</span>
                 </div>
                 <div>
-                  <p className="text-sm font-medium text-white">{topic}</p>
+                  <p className="text-sm font-medium text-gray-900 dark:text-white">{topic}</p>
                   <p className="text-xs text-yellow-400">Needs more practice</p>
                 </div>
               </div>
@@ -276,25 +276,25 @@ export default function StatsPage() {
 
       {/* Recent Activity */}
       <div className="card p-6">
-        <h3 className="text-lg font-bold text-white mb-4">Quick Statistics</h3>
+        <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4">Quick Statistics</h3>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          <div className="p-4 rounded-xl bg-dark-600/40 text-center">
+          <div className="p-4 rounded-xl bg-gray-100 dark:bg-dark-600/40 text-center">
             <p className="text-lg sm:text-2xl font-bold text-accent-purple-light">
               {questions.length > 0 ? Math.round((totalAnswered / questions.length) * 100) : 0}%
             </p>
-            <p className="text-xs text-gray-400 mt-1">Questions Completed</p>
+            <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">Questions Completed</p>
           </div>
-          <div className="p-4 rounded-xl bg-dark-600/40 text-center">
+          <div className="p-4 rounded-xl bg-gray-100 dark:bg-dark-600/40 text-center">
             <p className="text-lg sm:text-2xl font-bold text-neon-green">
               {progress?.lastActiveDate || 'Never'}
             </p>
-            <p className="text-xs text-gray-400 mt-1">Last Active</p>
+            <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">Last Active</p>
           </div>
-          <div className="p-4 rounded-xl bg-dark-600/40 text-center">
+          <div className="p-4 rounded-xl bg-gray-100 dark:bg-dark-600/40 text-center">
             <p className="text-lg sm:text-2xl font-bold text-neon-blue">
               {topics.length}
             </p>
-            <p className="text-xs text-gray-400 mt-1">Topics Available</p>
+            <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">Topics Available</p>
           </div>
         </div>
       </div>

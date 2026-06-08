@@ -110,14 +110,14 @@ export default function ProfilePage() {
     <div className="min-h-[calc(100vh-6rem)] flex flex-col items-center justify-center px-4 py-8">
       {/* Navigation - pinned top-left */}
       <div className="w-full max-w-4xl mb-6">
-        <Link href="/dashboard" className="inline-flex items-center text-gray-500 hover:text-white transition-colors group">
+        <Link href="/dashboard" className="inline-flex items-center text-gray-500 hover:text-gray-900 dark:hover:text-white transition-colors group">
           <ArrowLeft size={16} className="mr-2 group-hover:-translate-x-1 transition-transform" />
           <span className="text-sm font-medium tracking-tight">Return to Dashboard</span>
         </Link>
       </div>
 
       {/* ─── Single Card Container ─── */}
-      <div className="w-full max-w-4xl relative bg-[#0d1025]/80 backdrop-blur-xl border border-purple-500/15 rounded-2xl overflow-hidden shadow-[0_8px_60px_rgba(124,58,237,0.1)] transition-all duration-500 ease-out">
+      <div className="w-full max-w-4xl relative bg-white dark:bg-[#0d1025]/80 backdrop-blur-xl border border-purple-500/15 rounded-2xl overflow-hidden shadow-[0_8px_60px_rgba(124,58,237,0.1)] transition-all duration-500 ease-out">
         {/* Top glow accent */}
         <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-purple-500/50 to-transparent"></div>
         {/* Corner glow accents */}
@@ -135,11 +135,11 @@ export default function ProfilePage() {
                   {/* Avatar with glow ring */}
                   <div className="relative group/avatar mb-5">
                     <div className="absolute -inset-1 bg-gradient-to-br from-purple-500/20 to-fuchsia-500/20 rounded-2xl blur-sm"></div>
-                    <div className="relative w-20 h-20 sm:w-28 sm:h-28 rounded-2xl overflow-hidden bg-white/5 ring-2 ring-purple-500/30 flex items-center justify-center shadow-2xl shadow-purple-500/10">
+                    <div className="relative w-20 h-20 sm:w-28 sm:h-28 rounded-2xl overflow-hidden bg-gray-100 dark:bg-white/5 ring-2 ring-purple-500/30 flex items-center justify-center shadow-2xl shadow-purple-500/10">
                       {avatarPreview ? (
                         <img src={avatarPreview} alt="Profile" className="w-full h-full object-cover" />
                       ) : (
-                        <UserIcon size={44} className="text-gray-600 opacity-40" />
+                        <UserIcon size={44} className="text-gray-500 dark:text-gray-600 opacity-40" />
                       )}
                     </div>
                     <input 
@@ -152,7 +152,7 @@ export default function ProfilePage() {
                   </div>
 
                   {/* Name & Username */}
-                  <h1 className="text-xl sm:text-2xl font-bold text-white tracking-tight text-center leading-tight">
+                  <h1 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white tracking-tight text-center leading-tight">
                     {profile?.full_name || "New Explorer"}
                   </h1>
                   <p className="text-gray-500 text-sm font-medium mt-1">@{profile?.username || "username"}</p>
@@ -165,7 +165,7 @@ export default function ProfilePage() {
                     >
                       Update
                     </button>
-                    <button className="w-11 h-11 rounded-full bg-white/5 border border-white/10 hover:bg-white/10 hover:border-purple-500/30 transition-all duration-300 flex items-center justify-center text-gray-400 hover:text-purple-400">
+                    <button className="w-11 h-11 rounded-full bg-gray-100 dark:bg-white/5 border border-gray-200 dark:border-white/10 hover:bg-gray-200 dark:hover:bg-white/10 hover:border-purple-500/30 transition-all duration-300 flex items-center justify-center text-gray-500 dark:text-gray-400 hover:text-purple-400">
                       <Share2 size={15} />
                     </button>
                   </div>
@@ -177,12 +177,12 @@ export default function ProfilePage() {
                   <div className="flex items-center gap-4 sm:gap-8">
                     <div className="flex flex-col items-center md:items-start">
                       <span className="text-[10px] uppercase font-bold tracking-[0.15em] text-gray-500/60 mb-1.5">Rank</span>
-                      <span className="text-xl sm:text-3xl font-extrabold text-white tracking-tighter">{rankDisplay}</span>
+                      <span className="text-xl sm:text-3xl font-extrabold text-gray-900 dark:text-white tracking-tighter">{rankDisplay}</span>
                     </div>
                     <div className="w-[1px] h-12 bg-gradient-to-b from-transparent via-purple-500/20 to-transparent"></div>
                     <div className="flex flex-col items-center md:items-start">
                       <span className="text-[10px] uppercase font-bold tracking-[0.15em] text-gray-500/60 mb-1.5">XP</span>
-                      <span className="text-xl sm:text-3xl font-extrabold text-white tracking-tighter">{xp}</span>
+                      <span className="text-xl sm:text-3xl font-extrabold text-gray-900 dark:text-white tracking-tighter">{xp}</span>
                     </div>
                     <div className="w-[1px] h-12 bg-gradient-to-b from-transparent via-purple-500/20 to-transparent"></div>
                     <div className="flex flex-col items-center md:items-start">
@@ -195,20 +195,20 @@ export default function ProfilePage() {
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                     <div>
                       <span className="text-[10px] uppercase font-bold tracking-[0.15em] text-gray-500/60 block mb-2">Study Track</span>
-                      <div className="flex items-center gap-3 bg-white/[0.03] border border-white/[0.06] rounded-xl px-4 py-3 hover:border-purple-500/20 transition-colors duration-300 group">
+                      <div className="flex items-center gap-3 bg-gray-50 dark:bg-white/[0.03] border border-gray-200 dark:border-white/[0.06] rounded-xl px-4 py-3 hover:border-purple-500/20 transition-colors duration-300 group">
                         <div className="w-8 h-8 rounded-lg bg-purple-500/10 flex items-center justify-center group-hover:bg-purple-500/15 transition-colors">
                           <BookOpen size={15} className="text-purple-400" />
                         </div>
-                        <span className="text-white text-sm font-semibold truncate">{profile?.major || "Computer Science"}</span>
+                        <span className="text-gray-900 dark:text-white text-sm font-semibold truncate">{profile?.major || "Computer Science"}</span>
                       </div>
                     </div>
                     <div>
                       <span className="text-[10px] uppercase font-bold tracking-[0.15em] text-gray-500/60 block mb-2">Connection</span>
-                      <div className="flex items-center gap-3 bg-white/[0.03] border border-white/[0.06] rounded-xl px-4 py-3 hover:border-purple-500/20 transition-colors duration-300 group">
+                      <div className="flex items-center gap-3 bg-gray-50 dark:bg-white/[0.03] border border-gray-200 dark:border-white/[0.06] rounded-xl px-4 py-3 hover:border-purple-500/20 transition-colors duration-300 group">
                         <div className="w-8 h-8 rounded-lg bg-purple-500/10 flex items-center justify-center group-hover:bg-purple-500/15 transition-colors">
                           <Mail size={15} className="text-purple-400" />
                         </div>
-                        <span className="text-white text-sm font-semibold truncate">{user?.email}</span>
+                        <span className="text-gray-900 dark:text-white text-sm font-semibold truncate">{user?.email}</span>
                       </div>
                     </div>
                   </div>
@@ -216,8 +216,8 @@ export default function ProfilePage() {
                   {/* About */}
                   <div>
                     <span className="text-[10px] uppercase font-bold tracking-[0.15em] text-gray-500/60 block mb-2">About You</span>
-                    <div className="bg-white/[0.03] border border-white/[0.06] rounded-xl px-4 py-3.5 hover:border-purple-500/20 transition-colors duration-300">
-                      <p className="text-gray-400 text-sm font-medium leading-relaxed">
+                    <div className="bg-gray-50 dark:bg-white/[0.03] border border-gray-200 dark:border-white/[0.06] rounded-xl px-4 py-3.5 hover:border-purple-500/20 transition-colors duration-300">
+                      <p className="text-gray-500 dark:text-gray-400 text-sm font-medium leading-relaxed">
                         &quot;{profile?.bio || "Every student has a story. Tell us more about yourself."}&quot;
                       </p>
                     </div>
@@ -233,11 +233,11 @@ export default function ProfilePage() {
                 <div className="flex flex-col md:flex-row items-center gap-6">
                   <div className="relative group/avatar">
                     <div className="absolute -inset-1 bg-gradient-to-br from-purple-500/20 to-fuchsia-500/20 rounded-2xl blur-sm"></div>
-                    <div className="relative w-20 h-20 sm:w-28 sm:h-28 rounded-2xl overflow-hidden bg-white/5 ring-2 ring-purple-500/30 flex items-center justify-center">
+                    <div className="relative w-20 h-20 sm:w-28 sm:h-28 rounded-2xl overflow-hidden bg-gray-100 dark:bg-white/5 ring-2 ring-purple-500/30 flex items-center justify-center">
                       {avatarPreview ? (
                         <img src={avatarPreview} alt="Profile" className="w-full h-full object-cover" />
                       ) : (
-                        <UserIcon size={44} className="text-gray-600 opacity-40" />
+                        <UserIcon size={44} className="text-gray-500 dark:text-gray-600 opacity-40" />
                       )}
                       <button 
                         onClick={() => fileInputRef.current?.click()}
@@ -263,7 +263,7 @@ export default function ProfilePage() {
                       value={formData.fullName}
                       onChange={(e) => setFormData({...formData, fullName: e.target.value})}
                       placeholder="Full Name"
-                      className="w-full bg-white/[0.04] border border-white/10 rounded-xl px-4 sm:px-5 py-3 sm:py-3.5 text-white text-base sm:text-lg font-bold focus:outline-none focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/20 transition-all"
+                      className="w-full bg-white dark:bg-white/[0.04] border border-gray-200 dark:border-white/10 rounded-xl px-4 sm:px-5 py-3 sm:py-3.5 text-gray-900 dark:text-white text-base sm:text-lg font-bold focus:outline-none focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/20 transition-all"
                     />
                   </div>
                 </div>
@@ -276,7 +276,7 @@ export default function ProfilePage() {
                       type="text"
                       value={formData.username}
                       onChange={(e) => setFormData({...formData, username: e.target.value})}
-                      className="w-full bg-white/[0.04] border border-white/10 rounded-xl px-5 py-3.5 text-white font-medium focus:outline-none focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/20 transition-all"
+                      className="w-full bg-white dark:bg-white/[0.04] border border-gray-200 dark:border-white/10 rounded-xl px-5 py-3.5 text-gray-900 dark:text-white font-medium focus:outline-none focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/20 transition-all"
                     />
                   </div>
                   <div>
@@ -285,7 +285,7 @@ export default function ProfilePage() {
                       type="text"
                       value={formData.major}
                       onChange={(e) => setFormData({...formData, major: e.target.value})}
-                      className="w-full bg-white/[0.04] border border-white/10 rounded-xl px-5 py-3.5 text-white font-medium focus:outline-none focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/20 transition-all"
+                      className="w-full bg-white dark:bg-white/[0.04] border border-gray-200 dark:border-white/10 rounded-xl px-5 py-3.5 text-gray-900 dark:text-white font-medium focus:outline-none focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/20 transition-all"
                     />
                   </div>
                 </div>
@@ -297,7 +297,7 @@ export default function ProfilePage() {
                     value={formData.bio}
                     onChange={(e) => setFormData({...formData, bio: e.target.value})}
                     rows={3}
-                    className="w-full bg-white/[0.04] border border-white/10 rounded-xl px-5 py-3.5 text-white font-medium focus:outline-none focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/20 transition-all resize-none"
+                    className="w-full bg-white dark:bg-white/[0.04] border border-gray-200 dark:border-white/10 rounded-xl px-5 py-3.5 text-gray-900 dark:text-white font-medium focus:outline-none focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/20 transition-all resize-none"
                     placeholder="Share your goals and background..."
                   />
                 </div>
@@ -325,7 +325,7 @@ export default function ProfilePage() {
                   </button>
                   <button 
                     onClick={cancelEdit}
-                    className="flex-1 py-3.5 text-sm font-bold uppercase tracking-widest text-gray-500 hover:text-white transition-all duration-300 bg-white/[0.03] rounded-full border border-white/10 hover:bg-white/[0.06] hover:border-purple-500/20"
+                    className="flex-1 py-3.5 text-sm font-bold uppercase tracking-widest text-gray-500 hover:text-gray-900 dark:hover:text-white transition-all duration-300 bg-gray-50 dark:bg-white/[0.03] rounded-full border border-gray-200 dark:border-white/10 hover:bg-gray-100 dark:hover:bg-white/[0.06] hover:border-purple-500/20"
                   >
                     Discard
                   </button>
@@ -347,7 +347,7 @@ export default function ProfilePage() {
       {/* Footer Link */}
       <div className="mt-6">
          <Link href="/progress" className="text-xs font-bold uppercase tracking-widest text-gray-500 hover:text-purple-400 transition-all duration-300 inline-flex items-center gap-2.5 group">
-            <div className="w-7 h-7 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-purple-500/10 transition-colors duration-300">
+            <div className="w-7 h-7 rounded-full bg-gray-100 dark:bg-white/5 flex items-center justify-center group-hover:bg-purple-500/10 transition-colors duration-300">
               <Zap size={13} className="text-gray-500 group-hover:text-purple-400 transition-colors" />
             </div>
             Progress & Analytics

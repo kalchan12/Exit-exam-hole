@@ -39,7 +39,7 @@ export default function ThemeProvider({ children }: { children: React.ReactNode 
   };
 
   if (!mounted) {
-    return <div className="dark">{children}</div>;
+    return <div>{children}</div>;
   }
 
   return (

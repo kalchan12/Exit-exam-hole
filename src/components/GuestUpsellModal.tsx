@@ -35,13 +35,13 @@ export default function GuestUpsellModal() {
 
   return (
     <div className="fixed bottom-24 lg:bottom-6 right-6 z-[100] animate-in slide-in-from-bottom-5">
-      <div className="bg-slate-900 border-2 border-blue-500/30 rounded-2xl shadow-[0_0_30px_rgba(37,99,235,0.2)] p-6 max-w-sm relative overflow-hidden">
+      <div className="bg-white border border-blue-200 dark:bg-slate-900 dark:border-blue-500/30 rounded-2xl shadow-[0_0_30px_rgba(37,99,235,0.2)] p-6 max-w-sm relative overflow-hidden">
         {/* Decorative background glow */}
         <div className="absolute top-0 right-0 w-32 h-32 bg-blue-600/10 rounded-full blur-2xl -translate-y-1/2 translate-x-1/2 pointer-events-none" />
         
         <button
           onClick={dismiss}
-          className="absolute top-4 right-4 text-slate-400 hover:text-white transition-colors"
+          className="absolute top-4 right-4 text-gray-500 dark:text-slate-400 hover:text-gray-900 dark:hover:text-white transition-colors"
         >
           <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -53,8 +53,8 @@ export default function GuestUpsellModal() {
             💾
           </div>
           <div>
-            <h4 className="text-white font-bold text-lg leading-tight">Save your progress?</h4>
-            <p className="text-slate-400 text-sm mt-1.5 leading-relaxed">
+            <h4 className="text-gray-900 dark:text-white font-bold text-lg leading-tight">Save your progress?</h4>
+            <p className="text-gray-500 dark:text-slate-400 text-sm mt-1.5 leading-relaxed">
               You're currently in <strong>Guest Mode</strong>. Create an account to track your level, XP, and streak across all devices.
             </p>
           </div>

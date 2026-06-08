@@ -102,8 +102,8 @@ export default function NotesPage() {
   if (!mounted) {
     return (
       <div className="animate-pulse space-y-6">
-        <div className="h-12 bg-dark-700 rounded-xl w-48" />
-        <div className="space-y-4">{[1, 2, 3].map((i) => <div key={i} className="h-24 bg-dark-700 rounded-xl" />)}</div>
+        <div className="h-12 bg-gray-200 dark:bg-dark-700 rounded-xl w-48" />
+        <div className="space-y-4">{[1, 2, 3].map((i) => <div key={i} className="h-24 bg-gray-200 dark:bg-dark-700 rounded-xl" />)}</div>
       </div>
     );
   }
@@ -113,8 +113,8 @@ export default function NotesPage() {
   return (
     <div className="space-y-6 animate-in">
       <div>
-        <h1 className="text-2xl font-bold text-white">Study Notes</h1>
-        <p className="text-gray-400 text-sm mt-1">{filteredNotes.length} notes available across {topics.length} topics</p>
+        <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Study Notes</h1>
+        <p className="text-gray-500 dark:text-gray-400 text-sm mt-1">{filteredNotes.length} notes available across {topics.length} topics</p>
       </div>
 
       {/* Search & Filter */}
@@ -132,7 +132,7 @@ export default function NotesPage() {
           {topics.map((t) => <option key={t} value={t}>{t}</option>)}
         </select>
         <select value={labelFilter} onChange={(e) => setLabelFilter(e.target.value)}
-          className="bg-dark-600 border border-dark-400/50 rounded-lg px-3 py-2 text-sm text-white focus:border-accent-purple focus:outline-none">
+          className="bg-gray-100 dark:bg-dark-600 border border-gray-200 dark:border-dark-400/50 rounded-lg px-3 py-2 text-sm text-gray-900 dark:text-white focus:border-accent-purple focus:outline-none">
           <option value="all">All Labels</option>
           <option value="Course Material">Course Material</option>
           <option value="Syllabus">Syllabus</option>
@@ -140,7 +140,7 @@ export default function NotesPage() {
           {allLabels.filter(l => !['Course Material', 'Syllabus', 'Short Note'].includes(l)).map(l => <option key={l} value={l}>{l}</option>)}
         </select>
         <select value={sortOrder} onChange={(e) => setSortOrder(e.target.value as 'newest' | 'oldest')}
-          className="bg-dark-600 border border-dark-400/50 rounded-lg px-3 py-2 text-sm text-white focus:border-accent-purple focus:outline-none">
+          className="bg-gray-100 dark:bg-dark-600 border border-gray-200 dark:border-dark-400/50 rounded-lg px-3 py-2 text-sm text-gray-900 dark:text-white focus:border-accent-purple focus:outline-none">
           <option value="newest">Newest First</option>
           <option value="oldest">Oldest First</option>
         </select>
@@ -159,7 +159,7 @@ export default function NotesPage() {
               <Link href={`/notes/view?id=${note.id}`} className="block">
                 <div className="p-4 sm:p-5 flex flex-col h-full">
                   <div className="flex items-start gap-4">
-                    <div className={`w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-[#11152a] bg-gradient-to-br ${colors} flex items-center justify-center text-lg sm:text-xl flex-shrink-0 group-hover:scale-105 transition-transform`}>
+                    <div className={`w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gray-100 dark:bg-[#11152a] bg-gradient-to-br ${colors} flex items-center justify-center text-lg sm:text-xl flex-shrink-0 group-hover:scale-105 transition-transform`}>
                       {icon}
                     </div>
                     <div className="flex-1 min-w-0">
@@ -169,25 +169,25 @@ export default function NotesPage() {
                         </span>
                         <span className="text-xs text-gray-500 whitespace-nowrap">• {formatDate(note.date)}</span>
                       </div>
-                      <h3 className="text-base sm:text-lg font-semibold text-white mt-1 pr-16 group-hover:text-accent-purple-light transition-colors line-clamp-2">
+                      <h3 className="text-base sm:text-lg font-semibold text-gray-900 dark:text-white mt-1 pr-16 group-hover:text-accent-purple-light transition-colors line-clamp-2">
                         {note.title}
                       </h3>
                     </div>
                   </div>
                   {note.summary && (
-                    <p className="text-gray-400 text-xs sm:text-sm mt-2 sm:mt-3 leading-relaxed line-clamp-2 pl-14 sm:pl-16">{note.summary}</p>
+                    <p className="text-gray-500 dark:text-gray-400 text-xs sm:text-sm mt-2 sm:mt-3 leading-relaxed line-clamp-2 pl-14 sm:pl-16">{note.summary}</p>
                   )}
-                  <div className="mt-4 pt-4 border-t border-dark-400/20 flex flex-wrap items-center gap-2">
+                  <div className="mt-4 pt-4 border-t border-gray-200 dark:border-dark-400/20 flex flex-wrap items-center gap-2">
                     {completedNotes[note.id] && (
                       <span className="badge bg-green-500/20 text-green-400 border border-green-500/30 text-xs">✅ Completed</span>
                     )}
                     {note.source === 'system' || !note.source
-                      ? <span className="badge bg-dark-500 text-gray-400 text-xs">Built-in</span>
+                      ? <span className="badge bg-gray-100 dark:bg-dark-500 text-gray-500 dark:text-gray-400 text-xs">Built-in</span>
                       : note.source === 'GitHub'
                       ? <span className="badge bg-blue-500/20 text-blue-400 border border-blue-500/30 text-xs">GitHub</span>
                       : <span className="badge bg-green-500/20 text-green-400 border border-green-500/30 text-xs">{note.source}</span>
                     }
-                    {note.label && <span className="badge bg-dark-500 text-gray-300 border border-dark-400 text-xs">{note.label}</span>}
+                    {note.label && <span className="badge bg-gray-100 dark:bg-dark-500 text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-dark-400 text-xs">{note.label}</span>}
                     {note.major && note.major !== 'Both' && (
                       <span className="badge bg-accent-purple/10 text-accent-purple-light border border-accent-purple/20 text-xs">{note.major}</span>
                     )}
@@ -209,7 +209,7 @@ export default function NotesPage() {
                       onClick={(e) => handleRefreshGithub(note, e)}
                       disabled={refreshingId === note.id}
                       title="Refresh from GitHub"
-                      className="w-8 h-8 rounded-lg bg-dark-700/90 border border-dark-400/30 hover:border-blue-500/50 flex items-center justify-center transition-all hover:bg-blue-500/10"
+                      className="w-8 h-8 rounded-lg bg-gray-100 dark:bg-dark-700/90 border border-gray-200 dark:border-dark-400/30 hover:border-blue-500/50 flex items-center justify-center transition-all hover:bg-blue-500/10"
                     >
                       {refreshingId === note.id ? (
                         <svg className="w-3.5 h-3.5 text-blue-400 animate-spin" fill="none" viewBox="0 0 24 24">
@@ -233,8 +233,8 @@ export default function NotesPage() {
       {filteredNotes.length === 0 && (
         <div className="card p-12 text-center">
           <div className="text-4xl mb-4">📝</div>
-          <h3 className="text-xl font-semibold text-white mb-2">No Notes Found</h3>
-          <p className="text-gray-400">Try adjusting your search or filter settings.</p>
+          <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">No Notes Found</h3>
+          <p className="text-gray-500 dark:text-gray-400">Try adjusting your search or filter settings.</p>
         </div>
       )}
     </div>

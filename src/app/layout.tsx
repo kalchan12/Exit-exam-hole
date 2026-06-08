@@ -17,8 +17,23 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="dark">
-      <body className="app-background text-white min-h-screen">
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{
+          __html: `
+            (function() {
+              try {
+                var theme = JSON.parse(localStorage.getItem('progress') || '{}').theme;
+                if (!theme) {
+                  theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+                }
+                document.documentElement.classList.add(theme);
+              } catch(e) {}
+            })();
+          `
+        }} />
+      </head>
+      <body className="app-background min-h-screen">
         <ThemeProvider>
           <AuthProvider>
             <ClientLayout>
