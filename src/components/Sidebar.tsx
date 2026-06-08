@@ -1,10 +1,13 @@
 'use client';
 
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, useCallback } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useTheme } from './ThemeProvider';
 import { useAuth } from './AuthProvider';
+import { getNotes, getBytes } from '@/lib/dataLoader';
+import { getUnreadCount } from '@/lib/notifications';
+import { getProgress } from '@/lib/progressManager';
 
 const navGroups = [
   {
@@ -174,6 +177,38 @@ export default function Sidebar({ isCollapsed, setIsCollapsed }: SidebarProps) {
   const userEmail = user?.email || '';
   const truncatedEmail = userEmail.length > 20 ? userEmail.slice(0, 17) + '...' : userEmail;
 
+  const [unreadNotes, setUnreadNotes] = useState(0);
+  const [unreadBytes, setUnreadBytes] = useState(0);
+  const [onlineCount, setOnlineCount] = useState(0);
+  const [xp, setXp] = useState(0);
+  const [streak, setStreak] = useState(0);
+
+  useEffect(() => {
+    getNotes().then(notes => setUnreadNotes(getUnreadCount('notes', notes)));
+    getBytes().then(bytes => setUnreadBytes(getUnreadCount('bytes', bytes)));
+    const p = getProgress();
+    setXp(p.xp);
+    setStreak(p.streak);
+  }, []);
+
+  // Online users — simple Supabase presence poll
+  useEffect(() => {
+    let cancelled = false;
+    const poll = async () => {
+      try {
+        const { supabase } = await import('@/lib/supabaseClient');
+        const { data } = await supabase
+          .from('user_progress')
+          .select('user_id', { count: 'exact', head: true })
+          .gte('updated_at', new Date(Date.now() - 300000).toISOString());
+        if (!cancelled && data) setOnlineCount(Math.min(data.length || 1, 42));
+      } catch { if (!cancelled) setOnlineCount(0); }
+    };
+    poll();
+    const interval = setInterval(poll, 60000);
+    return () => { cancelled = true; clearInterval(interval); };
+  }, []);
+
   const toggleGroup = (group: string) => {
     if (group === 'Main') return; // Always keep Main open
     const next = new Set(expandedGroups);
@@ -260,6 +295,7 @@ export default function Sidebar({ isCollapsed, setIsCollapsed }: SidebarProps) {
                 <div className={`space-y-1 overflow-hidden transition-all duration-500 ease-in-out ${isExpanded ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'}`}>
                   {visibleItems.map((item) => {
                     const isActive = pathname === item.href;
+                    const badge = item.label === 'Notes' ? unreadNotes : item.label === 'Bytes' ? unreadBytes : 0;
                     return (
                       <Link
                         key={item.href}
@@ -282,7 +318,12 @@ export default function Sidebar({ isCollapsed, setIsCollapsed }: SidebarProps) {
                             {item.label}
                           </span>
                         )}
-                        {isActive && !isCollapsed && (
+                        {badge > 0 && (
+                          <div className={`${isCollapsed ? 'absolute -top-0.5 -right-0.5' : 'ml-auto'} w-5 h-5 rounded-full bg-rose-500 flex items-center justify-center text-[9px] font-black text-white shadow-lg shadow-rose-500/30`}>
+                            {badge > 9 ? '9+' : badge}
+                          </div>
+                        )}
+                        {isActive && !isCollapsed && badge === 0 && (
                            <div className="absolute right-2 w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
                         )}
                       </Link>
@@ -294,6 +335,28 @@ export default function Sidebar({ isCollapsed, setIsCollapsed }: SidebarProps) {
           );
         })}
       </nav>
+
+      {/* XP & Streak Bar */}
+      {!isCollapsed && (
+        <div className="px-4 py-3 border-t border-gray-200 dark:border-white/5">
+          <div className="flex items-center justify-between bg-gray-100 dark:bg-white/[0.03] rounded-xl px-4 py-2.5 border border-gray-200 dark:border-white/5">
+            <div className="flex items-center gap-2.5">
+              <span className="text-yellow-500 text-xs">⚡</span>
+              <span className="text-xs font-black text-gray-900 dark:text-white tabular-nums">{xp.toLocaleString()}</span>
+            </div>
+            <div className="w-px h-5 bg-gray-200 dark:bg-white/10" />
+            <div className="flex items-center gap-2.5">
+              <span className="text-orange-400 text-xs">🔥</span>
+              <span className="text-xs font-black text-gray-900 dark:text-white tabular-nums">{streak}</span>
+            </div>
+            <div className="w-px h-5 bg-gray-200 dark:bg-white/10" />
+            <div className="flex items-center gap-1.5">
+              <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+              <span className="text-[10px] font-bold text-gray-500 tabular-nums">{onlineCount}</span>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* User Section */}
       <div className="px-4 py-6 border-t border-gray-200 dark:border-white/5 space-y-4">
