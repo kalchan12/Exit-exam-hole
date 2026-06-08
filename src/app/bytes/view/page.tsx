@@ -7,16 +7,20 @@ import remarkGfm from 'remark-gfm';
 import Link from 'next/link';
 import { getBytes, getQuestions, type Byte, type Question } from '@/lib/dataLoader';
 import { fetchGitHubNote } from '@/lib/githubFetcher';
+import { getProgress, recordByteCompleted, syncProgressToRemote } from '@/lib/progressManager';
+import { useAuth } from '@/components/AuthProvider';
 
 export default function ByteViewPage() {
   const searchParams = useSearchParams();
   const id = searchParams.get('id');
   const router = useRouter();
+  const { user } = useAuth();
 
   const [byte, setByte] = useState<Byte | null>(null);
   const [allBytes, setAllBytes] = useState<Byte[]>([]);
   const [relatedQuestions, setRelatedQuestions] = useState<Question[]>([]);
   const [loading, setLoading] = useState(true);
+  const [isCompleted, setIsCompleted] = useState(false);
 
   const [selectedAnswers, setSelectedAnswers] = useState<Record<string, string>>({});
   const [revealedHints, setRevealedHints] = useState<Record<string, boolean>>({});
@@ -43,6 +47,10 @@ export default function ByteViewPage() {
       }
 
       setByte(current || null);
+      if (id) {
+        const state = getProgress();
+        setIsCompleted(!!state.completedBytes?.[id]);
+      }
       if (current && current.relatedQuestionIds && current.relatedQuestionIds.length > 0) {
         const allQuestions = await getQuestions();
         setRelatedQuestions(allQuestions.filter(q => current.relatedQuestionIds!.includes(q.id)));
@@ -204,6 +212,41 @@ export default function ByteViewPage() {
             </div>
           )}
         </div>
+      </div>
+
+      {/* Byte Completion */}
+      <div className="mt-8 flex flex-col items-center justify-center p-8 rounded-2xl bg-gray-100 dark:bg-white/[0.03] border border-gray-200 dark:border-white/5 text-center relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-accent-purple/5 to-transparent pointer-events-none" />
+        {isCompleted ? (
+          <div className="flex flex-col items-center relative z-10 animate-in fade-in zoom-in duration-500">
+            <div className="w-16 h-16 rounded-2xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center mb-4 border border-emerald-500/20">
+              <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+              </svg>
+            </div>
+            <h3 className="text-xl font-black text-gray-900 dark:text-white mb-2">Byte Mastered!</h3>
+            <p className="text-gray-500 dark:text-gray-400 text-sm max-w-xs">Great work! +5 XP earned for completing this byte.</p>
+          </div>
+        ) : (
+          <div className="flex flex-col items-center relative z-10">
+            <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">Finished Reading?</h3>
+            <p className="text-gray-500 dark:text-gray-400 text-sm mb-6 max-w-sm">Mark this byte as completed to earn XP and grow your streak.</p>
+            <button
+              onClick={() => {
+                if (!id || isCompleted) return;
+                recordByteCompleted(id);
+                setIsCompleted(true);
+                if (user) syncProgressToRemote(user.id);
+              }}
+              className="px-8 py-3 rounded-xl font-bold bg-gradient-to-r from-emerald-600 to-green-500 text-white hover:shadow-lg hover:shadow-emerald-500/30 transition-all duration-300 active:scale-95 flex items-center gap-2"
+            >
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+              </svg>
+              Mark as Completed
+            </button>
+          </div>
+        )}
       </div>
 
       {/* Navigation Footer */}

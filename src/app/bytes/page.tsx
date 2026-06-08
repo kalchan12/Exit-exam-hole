@@ -4,6 +4,7 @@ import { useState, useEffect, useMemo } from 'react';
 import Link from 'next/link';
 import { getBytes, getCourses, deleteCustomByte, type Byte } from '@/lib/dataLoader';
 import { clearGitHubCache } from '@/lib/githubFetcher';
+import { markSectionChecked } from '@/lib/notifications';
 
 const FolderIcon = ({ className = "w-10 h-10 text-accent-purple" }: { className?: string }) => (
   <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
@@ -33,6 +34,7 @@ export default function BytesPage() {
     setMounted(true);
     loadBytes();
     getCourses().then(setCourses);
+    markSectionChecked('bytes');
   }, []);
 
   const handleDelete = (byteId: string, e: React.MouseEvent) => {
@@ -357,7 +359,7 @@ function ByteCard({
   getTopicColor: (topic: string) => string;
 }) {
   return (
-    <div className="relative group glass-card p-5 sm:p-6 overflow-hidden hover:border-accent-purple/40 hover:shadow-xl hover:shadow-purple-500/5 transition-all duration-300 flex flex-col h-full bg-white dark:bg-black/20 border-gray-200 dark:border-white/5">
+    <div className="relative group glass-card p-5 sm:p-6 overflow-hidden hover:border-accent-purple/40 hover:shadow-xl hover:shadow-purple-500/5 transition-all duration-300 flex flex-col h-full bg-white dark:bg-black/20 border-gray-200 dark:border-white/5 min-h-[220px]">
       <Link href={`/bytes/view?id=${byte.id}`} className="flex-1 flex flex-col">
         <div className="flex flex-wrap gap-2 mb-4">
           <span className={`badge ${getTopicColor(byte.topic)} text-[10px] font-black uppercase tracking-wider px-2 py-0.5`}>
