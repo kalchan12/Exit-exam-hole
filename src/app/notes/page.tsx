@@ -6,6 +6,11 @@ import { getNotes, getCourses, getTopics, type Note } from '@/lib/dataLoader';
 import { getProgress } from '@/lib/progressManager';
 import { markSectionChecked, getUnreadCount } from '@/lib/notifications';
 
+function extractChapterNum(title: string): number {
+  const match = title.match(/Chapter\s+(\d+)/i);
+  return match ? parseInt(match[1], 10) : 999;
+}
+
 export default function NotesPage() {
   const [notes, setNotes] = useState<Note[]>([]);
   const [courses, setCourses] = useState<string[]>([]);
@@ -13,7 +18,7 @@ export default function NotesPage() {
   const [topicFilter, setTopicFilter] = useState('all');
   const [labelFilter, setLabelFilter] = useState('all');
   const [majorFilter, setMajorFilter] = useState('all');
-  const [sortOrder, setSortOrder] = useState<'newest' | 'oldest'>('newest');
+  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
   const [searchQuery, setSearchQuery] = useState('');
   const [mounted, setMounted] = useState(false);
   const [loaded, setLoaded] = useState(false);
@@ -66,9 +71,9 @@ export default function NotesPage() {
     const result: Record<string, Note[]> = {};
     for (const [course, courseNotes] of Object.entries(courseNotesMap)) {
       result[course] = [...courseNotes].sort((a, b) => {
-        const dateA = a.date ? new Date(a.date).getTime() : 0;
-        const dateB = b.date ? new Date(b.date).getTime() : 0;
-        return sortOrder === 'newest' ? dateB - dateA : dateA - dateB;
+        const numA = extractChapterNum(a.title);
+        const numB = extractChapterNum(b.title);
+        return sortOrder === 'asc' ? numA - numB : numB - numA;
       });
     }
     return result;
@@ -259,10 +264,10 @@ export default function NotesPage() {
           <option value="Short Note">Short Note</option>
           {allLabels.filter(l => !['Course Material', 'Syllabus', 'Short Note'].includes(l)).map(l => <option key={l} value={l}>{l}</option>)}
         </select>
-        <select value={sortOrder} onChange={(e) => setSortOrder(e.target.value as 'newest' | 'oldest')}
+        <select value={sortOrder} onChange={(e) => setSortOrder(e.target.value as 'asc' | 'desc')}
           className="bg-gray-100 dark:bg-dark-600 border border-gray-200 dark:border-dark-400/50 rounded-lg px-3 py-2 text-sm text-gray-900 dark:text-white focus:border-accent-purple focus:outline-none">
-          <option value="newest">Newest First</option>
-          <option value="oldest">Oldest First</option>
+          <option value="asc">Chapter 1 → N</option>
+          <option value="desc">Chapter N → 1</option>
         </select>
       </div>
 

@@ -14,5 +14,67 @@
       "https://www.youtube.com/embed/pVzRTmdd9j0"
     ],
     "date": "2026-06-08T10:11:02.711Z"
+  },
+  {
+    "id": "note_1780928926440_9xvzu",
+    "topic": "Database Systems",
+    "title": "Chapter 1 Introduction to Database Management  System",
+    "source": "GitHub",
+    "label": "Course Material",
+    "major": "Both",
+    "githubUrl": "https://github.com/kalchan12/Cyber-Notes_and_Other_Stuffs/blob/main/Exit-Exam%20notes(CSE)/Notes/Database/Chapter%201%20Introduction%20to%20Database%20Management%20System.md",
+    "videoUrl": "https://www.youtube.com/embed/6Iu45VZGQDk",
+    "videoUrls": [
+      "https://www.youtube.com/embed/6Iu45VZGQDk",
+      "https://www.youtube.com/embed/X7v0O8yiUuY",
+      "https://www.youtube.com/embed/U5Gg9R-Dc0Q"
+    ],
+    "date": "2026-06-08T14:28:46.440Z"
+  },
+  {
+    "id": "note_1780929156659_117ba",
+    "topic": "Operating Systems",
+    "title": "Chapter 2 Process Management",
+    "source": "GitHub",
+    "label": "Course Material",
+    "major": "Both",
+    "githubUrl": "https://github.com/kalchan12/Cyber-Notes_and_Other_Stuffs/blob/main/Exit-Exam%20notes(CSE)/Notes/Operating%20System/Chapter%202%20Process%20Management.md",
+    "videoUrl": "https://www.youtube.com/embed/OrM7nZcxXZU",
+    "videoUrls": [
+      "https://www.youtube.com/embed/OrM7nZcxXZU"
+    ],
+    "date": "2026-06-08T14:32:36.659Z"
+  },
+  {
+    "id": "note_1780929334468_sqwys",
+    "topic": "Operating Systems",
+    "title": "Chapter 3 Memory Management & Virtual Memory",
+    "source": "GitHub",
+    "label": "Course Material",
+    "major": "Both",
+    "githubUrl": "https://github.com/kalchan12/Cyber-Notes_and_Other_Stuffs/blob/main/Exit-Exam%20notes(CSE)/Notes/Operating%20System/Chapter%203%20Memory%20Management%20%26%20Virtual%20Memory.md",
+    "videoUrl": "https://www.youtube.com/embed/fGP6VHxqkIM",
+    "videoUrls": [
+      "https://www.youtube.com/embed/fGP6VHxqkIM",
+      "https://www.youtube.com/embed/2quKyPnUShQ"
+    ],
+    "date": "2026-06-08T14:35:34.468Z"
+  },
+  {
+    "id": "note_1780929685940_5mezr",
+    "topic": "Operating Systems",
+    "title": "Chapter 4 Process Synchronization",
+    "source": "GitHub",
+    "label": "Course Material",
+    "major": "Both",
+    "githubUrl": "https://github.com/kalchan12/Cyber-Notes_and_Other_Stuffs/blob/main/Exit-Exam%20notes(CSE)/Notes/Operating%20System/Chapter%204%20Process%20Synchronization.md",
+    "videoUrl": "https://www.youtube.com/embed/ph2awKa8r5Y",
+    "videoUrls": [
+      "https://www.youtube.com/embed/ph2awKa8r5Y",
+      "https://www.youtube.com/embed/eKKc0d7kzww",
+      "https://www.youtube.com/embed/KF8dF1QS8Go",
+      "https://www.youtube.com/embed/y7DOHyBTWps"
+    ],
+    "date": "2026-06-08T14:41:25.940Z"
   }
 ]

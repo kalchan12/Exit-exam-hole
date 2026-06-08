@@ -10,6 +10,11 @@ import { recordNoteCompleted, getProgress, syncProgressToRemote } from '@/lib/pr
 import { useAuth } from '@/components/AuthProvider';
 import { fetchGitHubNote } from '@/lib/githubFetcher';
 
+function extractChapterNum(title: string): number {
+  const match = title.match(/Chapter\s+(\d+)/i);
+  return match ? parseInt(match[1], 10) : 999;
+}
+
 export default function NoteViewPage() {
   const searchParams = useSearchParams();
   const id = searchParams.get('id');
@@ -25,9 +30,9 @@ export default function NoteViewPage() {
     if (!id) { setLoading(false); return; }
     getNotes().then(async (notes) => {
       const sorted = [...notes].sort((a, b) => {
-        const dateA = a.date ? new Date(a.date).getTime() : 0;
-        const dateB = b.date ? new Date(b.date).getTime() : 0;
-        return dateB - dateA;
+        const numA = extractChapterNum(a.title);
+        const numB = extractChapterNum(b.title);
+        return numA - numB;
       });
       setAllNotes(sorted);
       let foundNote = sorted.find((n) => n.id === id) || null;
