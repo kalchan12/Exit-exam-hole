@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
@@ -16,6 +16,7 @@ export default function NoteViewPage() {
   const router = useRouter();
 
   const [note, setNote] = useState<Note | null>(null);
+  const [allNotes, setAllNotes] = useState<Note[]>([]);
   const [loading, setLoading] = useState(true);
   const { user } = useAuth();
   const [isCompleted, setIsCompleted] = useState(false);
@@ -23,7 +24,13 @@ export default function NoteViewPage() {
   useEffect(() => {
     if (!id) { setLoading(false); return; }
     getNotes().then(async (notes) => {
-      let foundNote = notes.find((n) => n.id === id) || null;
+      const sorted = [...notes].sort((a, b) => {
+        const dateA = a.date ? new Date(a.date).getTime() : 0;
+        const dateB = b.date ? new Date(b.date).getTime() : 0;
+        return dateB - dateA;
+      });
+      setAllNotes(sorted);
+      let foundNote = sorted.find((n) => n.id === id) || null;
       
       if (foundNote && !foundNote.body && foundNote.githubUrl) {
          try {
@@ -45,6 +52,29 @@ export default function NoteViewPage() {
       setIsCompleted(!!state.completedNotes?.[id]);
     }
   }, [id]);
+
+  const courseNotes = useMemo(() => {
+    if (!note) return [];
+    return allNotes.filter((n) => (n.course || n.topic) === (note.course || note.topic));
+  }, [allNotes, note]);
+
+  const currentIndex = courseNotes.findIndex((n) => n.id === id);
+  const prevNote = currentIndex > 0 ? courseNotes[currentIndex - 1] : null;
+  const nextNote = currentIndex >= 0 && currentIndex < courseNotes.length - 1 ? courseNotes[currentIndex + 1] : null;
+
+  const goNext = () => {
+    if (!id || !nextNote) return;
+    if (!isCompleted) {
+      recordNoteCompleted(id);
+      if (user) syncProgressToRemote(user.id);
+    }
+    router.push(`/notes/view?id=${nextNote.id}`);
+  };
+
+  const goPrev = () => {
+    if (!prevNote) return;
+    router.push(`/notes/view?id=${prevNote.id}`);
+  };
 
   const handleComplete = () => {
     if (!id || isCompleted) return;
@@ -214,6 +244,45 @@ export default function NoteViewPage() {
             )}
           </div>
         </div>
+      </div>
+
+      {/* Chapter Navigation */}
+      <div className="flex items-center gap-4">
+        {prevNote ? (
+          <button
+            onClick={goPrev}
+            className="flex-1 flex items-center justify-center gap-2 py-4 rounded-2xl text-sm font-bold bg-gray-100 dark:bg-white/5 border border-gray-200 dark:border-white/10 text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:border-gray-300 dark:hover:border-white/20 active:scale-95 transition-all duration-300"
+          >
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+            </svg>
+            Previous Chapter
+          </button>
+        ) : (
+          <div className="flex-1" />
+        )}
+
+        {nextNote ? (
+          <button
+            onClick={goNext}
+            className="flex-[1.5] flex items-center justify-center gap-2 py-4 rounded-2xl text-sm font-black bg-gradient-to-r from-accent-purple to-fuchsia-600 text-white hover:shadow-xl hover:shadow-purple-500/20 active:scale-95 transition-all duration-300"
+          >
+            Next Chapter
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+            </svg>
+          </button>
+        ) : (
+          <Link
+            href="/notes"
+            className="flex-[1.5] flex items-center justify-center gap-2 py-4 rounded-2xl text-sm font-black bg-gray-100 dark:bg-white/10 text-gray-900 dark:text-white border border-gray-200 dark:border-white/20 hover:bg-gray-200 dark:hover:bg-white/20 active:scale-95 transition-all duration-300"
+          >
+            Back to Library
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+            </svg>
+          </Link>
+        )}
       </div>
     </div>
   );
