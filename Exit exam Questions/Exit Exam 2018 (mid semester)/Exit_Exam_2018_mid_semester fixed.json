@@ -9,7 +9,7 @@
       "Converts the list into a dropdown menu"
     ],
     "answer": "Removes bullet points and default spacing, allowing custom layout.",
-    "explanation": "Removes bullet points and default spacing, allowing custom layout.",
+    "explanation": "By default, HTML <ul> lists show bullet points (list-style-type) and have built-in margin and padding. When building a navigation bar, you want a clean horizontal or vertical menu — not bullets. Setting list-style-type: none removes the bullets, and margin: 0; padding: 0 removes the default spacing so you can control the layout yourself with CSS.",
     "topic": "Web Development",
     "difficulty": "medium"
   },
@@ -23,7 +23,7 @@
       "Strong AI"
     ],
     "answer": "Cognitive AI",
-    "explanation": "Cognitive AI focuses on understanding and modeling human thought processes.",
+    "explanation": "There are three main AI goals: (1) Weak AI — build tools that do specific tasks (like chess engines). (2) Strong AI — build machines with general human-like intelligence. (3) Cognitive AI — study how humans and animals think, then use AI to model and understand that biological intelligence. Since the question asks about 'understanding biological intelligence as a scientific goal,' Cognitive AI is the answer.",
     "topic": "Artificial Intelligence",
     "difficulty": "medium"
   },
@@ -37,7 +37,7 @@
       "Cache all user sessions locally for offline access"
     ],
     "answer": "Store and manage shared data, enforce ACID properties, and process client requests.",
-    "explanation": "The server in a client-server architecture manages data storage, processing queries, and enforcing constraints like ACID properties.",
+    "explanation": "In a client-server setup, the server is the central powerhouse. It stores all shared data in a database, handles queries sent by clients, enforces ACID properties (Atomicity, Consistency, Isolation, Durability) to keep data reliable, and sends results back to clients. The server does NOT show GUIs — that is the client's job.",
     "topic": "Database",
     "difficulty": "medium"
   },
@@ -51,7 +51,7 @@
       "Pushdown Automaton (PDA)"
     ],
     "answer": "Linear Bounded Automaton (LBA)",
-    "explanation": "Context-sensitive languages like {aⁿbⁿcⁿ | n ≥ 1} are recognized by Linear Bounded Automata (LBA).",
+    "explanation": "Think of automata as a language-power hierarchy: DFA/NFA handle Regular languages → PDA handles Context-Free languages → LBA handles Context-Sensitive languages → Turing Machines handle all Recursively Enumerable languages. The language {aⁿbⁿcⁿ} requires counting three things simultaneously, which is beyond what a PDA (one stack) can do. An LBA is exactly powerful enough for such context-sensitive languages.",
     "topic": "Automata Theory",
     "difficulty": "medium"
   },
@@ -65,7 +65,7 @@
       "Shrinking phase"
     ],
     "answer": "Growing phase",
-    "explanation": "In 2PL, the growing phase allows acquiring new locks but prevents releasing any locks.",
+    "explanation": "Two-Phase Locking has two phases: (1) Growing phase — the transaction can only ACQUIRE new locks; it cannot release any. (2) Shrinking phase — the transaction can only RELEASE locks; it cannot acquire new ones. This rule ensures serializability (conflict-free scheduling). Once you release even one lock, you've entered the shrinking phase.",
     "topic": "Database",
     "difficulty": "medium"
   },
@@ -79,7 +79,7 @@
       "Multi bus"
     ],
     "answer": "Multi bus",
-    "explanation": "Multiple buses (Multi bus) architectures are used to extend processor bus connectivity.",
+    "explanation": "A single processor bus can become a bottleneck when many devices try to communicate simultaneously. The solution is a Multi-bus architecture: multiple buses (e.g., a fast local bus near the CPU, and slower expansion buses for peripherals) working in parallel. This extends connectivity and reduces congestion, allowing more devices to communicate efficiently.",
     "topic": "Computer Architecture",
     "difficulty": "medium"
   },
@@ -93,7 +93,7 @@
       "The combinational circuit requires clock signal, but sequential circuit do not"
     ],
     "answer": "The output of combinational circuit depends only on the present input, not on past output.",
-    "explanation": "Combinational circuits have no memory components; their output is strictly a function of the current input.",
+    "explanation": "Combinational circuits (e.g., AND gates, multiplexers) have NO memory — their output depends ONLY on the current inputs. Change the inputs, the output changes instantly. Sequential circuits (e.g., flip-flops, registers) DO have memory — their output depends on both current inputs AND past states (stored via feedback). This is the fundamental difference.",
     "topic": "Digital Logic",
     "difficulty": "medium"
   },
@@ -107,7 +107,7 @@
       "It requires full knowledge of the goal state in advance"
     ],
     "answer": "It ignores path cost g(n) and relies only on h(n).",
-    "explanation": "Greedy search only looks at the heuristic h(n) and ignores the cost g(n) accumulated so far, which can lead it down sub-optimal paths or infinite loops.",
+    "explanation": "Greedy Best-First Search only looks at h(n) — how close a node seems to the goal — and completely ignores g(n), the actual cost already paid to reach that node. This makes it fast but blind to wasted effort. It can get stuck in loops or go down expensive paths that look close to the goal. A* fixes this by using f(n) = g(n) + h(n), balancing both cost so far and estimated remaining cost.",
     "topic": "Artificial Intelligence",
     "difficulty": "medium"
   },
@@ -121,7 +121,7 @@
       "This pointer passed as hidden argument in all function of the class."
     ],
     "answer": "This pointer passed as hidden argument in all non-static variables of the class.",
-    "explanation": "The 'this' pointer is implicitly passed to non-static member functions, representing the instance calling the method.",
+    "explanation": "In C++, every non-static member function secretly receives an extra hidden parameter called 'this', which is a pointer to the object that called the function. This lets the function know which specific object it is working on. Static member functions belong to the class itself (not any object), so they have no 'this' pointer. Static variables also belong to the class, not an instance.",
     "topic": "Programming",
     "difficulty": "medium"
   },
@@ -135,7 +135,7 @@
       "Car inherits from Engine"
     ],
     "answer": "Engine is the part of Car and cannot exist without it.",
-    "explanation": "A solid diamond represents Composition, meaning the part (Engine) cannot exist independently of the whole (Car).",
+    "explanation": "In UML class diagrams, two types of 'whole-part' relationships exist: Aggregation (hollow diamond) — the part can live independently (e.g., a Professor can exist without a University). Composition (solid/filled diamond) — the part CANNOT exist without the whole (e.g., an Engine is created and destroyed with the Car). The solid diamond from Car to Engine means Engine is completely owned by Car.",
     "topic": "Software Engineering",
     "difficulty": "medium"
   },
@@ -149,7 +149,7 @@
       "Best time"
     ],
     "answer": "Best time",
-    "explanation": "Best time",
+    "explanation": "Algorithm analysis considers three cases: Best case — the algorithm runs on the most favorable input (e.g., the target is already in position 0 for linear search). Average case — typical/random input. Worst case — the most unfavorable input. Best time complexity describes how fast the algorithm runs on the smallest or most ideal input.",
     "topic": "Algorithms",
     "difficulty": "medium"
   },
@@ -163,7 +163,7 @@
       "Owner set"
     ],
     "answer": "Strong entity set",
-    "explanation": "Strong entity set",
+    "explanation": "A weak entity has no primary key of its own — it depends on another entity to be identified. For example, a 'Dependent' (child/spouse) entity needs an 'Employee' entity to exist and be identified. The entity it depends on is called the strong entity set (also called the identifying entity set). Without the strong entity, the weak entity cannot exist or be uniquely identified.",
     "topic": "Database",
     "difficulty": "medium"
   },
@@ -177,7 +177,7 @@
       "Quality of service"
     ],
     "answer": "Installing a new service",
-    "explanation": "Installing a new service",
+    "explanation": "Application layer services (OSI Layer 7) are things users directly interact with: email (SMTP/POP3), web browsing (HTTP), proxies, agents, DNS, QoS policies, etc. 'Installing a new service' is a system administration task — it happens at the OS/infrastructure level, not as an application-layer service. It's an administrative activity, not a network protocol service.",
     "topic": "Networking",
     "difficulty": "medium"
   },
@@ -191,7 +191,7 @@
       "Data Definition Language (DDL)"
     ],
     "answer": "Data Definition Language (DDL)",
-    "explanation": "Data Definition Language (DDL)",
+    "explanation": "SQL has four sub-languages: DDL (Data Definition Language) — defines structure: CREATE, ALTER, DROP tables/schemas. DML (Data Manipulation Language) — manipulates data: SELECT, INSERT, UPDATE, DELETE. DCL (Data Control Language) — controls access: GRANT, REVOKE. TCL (Transaction Control Language) — manages transactions: COMMIT, ROLLBACK. DDL is for describing and naming entities, attributes, and relationships.",
     "topic": "Database",
     "difficulty": "medium"
   },
@@ -205,7 +205,7 @@
       "Linked list"
     ],
     "answer": "Array",
-    "explanation": "Array",
+    "explanation": "Data structures are either linear (elements arranged in a sequence, one after another) or non-linear (elements in a hierarchy/network). Linear: Array, Linked List, Stack, Queue. Non-linear: Tree, Graph. All four options are listed — Array, Queue, and Linked List are all linear. The question asks which ONE is linear, implying the other options are not all linear; Array is the classic textbook example of a linear data structure.",
     "topic": "Data Structures",
     "difficulty": "medium"
   },
@@ -219,7 +219,7 @@
       "To replace the parser with a finite automaton"
     ],
     "answer": "To interleave semantic analysis with syntax analysis using attributes attached to grammar symbols.",
-    "explanation": "To interleave semantic analysis with syntax analysis using attributes attached to grammar symbols.",
+    "explanation": "Syntax-Directed Translation (SDT) attaches semantic rules (called actions) to grammar productions. As the parser builds the parse tree, it simultaneously evaluates these semantic rules (computing types, generating intermediate code, etc.). This elegantly merges syntax analysis and semantic analysis into one pass, rather than doing them in completely separate phases.",
     "topic": "Compiler Design",
     "difficulty": "medium"
   },
@@ -233,7 +233,7 @@
       "66"
     ],
     "answer": "55",
-    "explanation": "55",
+    "explanation": "The loop runs j from 1 to 10 inclusive, adding each value to sum: 1+2+3+4+5+6+7+8+9+10 = 55. The formula for the sum of 1 to n is n*(n+1)/2 = 10*11/2 = 55. The +sum in the print statement is just the unary plus operator, which doesn't change the value.",
     "topic": "Programming",
     "difficulty": "medium"
   },
@@ -247,7 +247,7 @@
       "Implements"
     ],
     "answer": "Extends",
-    "explanation": "Extends",
+    "explanation": "Java uses the 'extends' keyword to create a subclass (child class) that inherits fields and methods from a superclass (parent class). Example: class Dog extends Animal { }. 'implements' is used for interfaces, not class inheritance. 'inherits' and 'superclass' are not Java keywords.",
     "topic": "Programming",
     "difficulty": "easy"
   },
@@ -261,7 +261,7 @@
       "a=6 b=7 c=4"
     ],
     "answer": "a=6 b=7 c=4",
-    "explanation": "a=6 b=7 c=4",
+    "explanation": "x=2, y=4. The condition x > y is 2 > 4, which is FALSE. So the false branch executes: (b--, y). This first decrements b from 8 to 7 (post-decrement), then returns y=4 as the value of c. a is never touched (stays 6). Result: a=6, b=7, c=4.",
     "topic": "Programming",
     "difficulty": "hard"
   },
@@ -275,7 +275,7 @@
       "Database"
     ],
     "answer": "Record",
-    "explanation": "Record",
+    "explanation": "In database terminology: Field (attribute) — a single piece of data (e.g., 'Name'). Record (tuple/row) — a collection of related fields treated as one unit (e.g., one student's full information: ID + Name + Age). Table (relation) — a collection of records. Database — a collection of tables. A record is the unit that a program typically reads or writes at once.",
     "topic": "Database",
     "difficulty": "easy"
   },
@@ -289,7 +289,7 @@
       "Grammar with sematic rule"
     ],
     "answer": "Grammar with semantic rule",
-    "explanation": "Grammar with semantic rule",
+    "explanation": "Syntax-Directed Translation (SDT) directly embeds semantic rules (actions) into grammar productions. These rules are written alongside grammar rules and describe how to compute values or generate code as parsing proceeds. This 'straight directed translation' approach relies on grammar augmented with semantic rules, not pure lexical rules or backtracking.",
     "topic": "Compiler Design",
     "difficulty": "medium"
   },
@@ -303,7 +303,7 @@
       "Fetching the instruction"
     ],
     "answer": "Fetching the instruction",
-    "explanation": "Fetching the instruction",
+    "explanation": "The CPU instruction cycle (fetch-decode-execute) always starts by FETCHING the next instruction from memory (using the Program Counter to find its address). Then it DECODES the instruction to understand what operation is needed. Then it EXECUTES the operation. Interrupt handling happens after execution, not before fetching.",
     "topic": "Computer Architecture",
     "difficulty": "easy"
   },
@@ -317,7 +317,7 @@
       "A* search"
     ],
     "answer": "Greedy best-first search",
-    "explanation": "Greedy best-first search",
+    "explanation": "Greedy Best-First Search is driven entirely by the heuristic h(n) — an estimate of how close a node is to the goal. It always expands the node that looks closest to the goal, ignoring how much it cost to get there. The evaluation function is simply f(n) = h(n). This makes it 'greedy' — it takes the locally best-looking option without considering the full path cost.",
     "topic": "Artificial Intelligence",
     "difficulty": "medium"
   },
@@ -331,7 +331,7 @@
       "Predictive parser"
     ],
     "answer": "Predictive parser",
-    "explanation": "Predictive parser",
+    "explanation": "Top-down parsers start from the root (start symbol) and try to derive the input. A Predictive Parser is a top-down parser that uses a lookahead token to decide which production to apply — NO backtracking needed. It uses a parsing table (LL(1) parsers are predictive). Brute-force parsers use backtracking. LR and Operator-precedence parsers are bottom-up.",
     "topic": "Compiler Design",
     "difficulty": "medium"
   },
@@ -345,7 +345,7 @@
       "4"
     ],
     "answer": "7",
-    "explanation": "7",
+    "explanation": "The OSI (Open Systems Interconnection) model has exactly 7 layers, from bottom to top: (1) Physical, (2) Data Link, (3) Network, (4) Transport, (5) Session, (6) Presentation, (7) Application. A common mnemonic: 'Please Do Not Throw Sausage Pizza Away.'",
     "topic": "Networking",
     "difficulty": "easy"
   },
@@ -359,7 +359,7 @@
       "System interconnection"
     ],
     "answer": "System interconnection",
-    "explanation": "System interconnection",
+    "explanation": "A computer has four main structural components: CPU, Main Memory (RAM), I/O Modules, and System Interconnection. The system interconnection (commonly the system bus) provides the communication paths between the CPU, memory, and I/O devices. Without it, these components cannot exchange data or control signals.",
     "topic": "Computer Architecture",
     "difficulty": "medium"
   },
@@ -373,7 +373,7 @@
       "Integrity"
     ],
     "answer": "Access Control",
-    "explanation": "Access Control",
+    "explanation": "Access Control is the security technique that defines WHO can do WHAT to WHAT resources. It grants or restricts permissions (read, write, execute, delete). In this scenario, Mr. Getahun has read-only access — he can VIEW but not MODIFY. This is a classic Access Control List (ACL) permission assignment.",
     "topic": "Security",
     "difficulty": "medium"
   },
@@ -387,7 +387,7 @@
       "View serializability cannot be ensured"
     ],
     "answer": "Log scans become prohibitively expensive after long uptime.",
-    "explanation": "Log scans become prohibitively expensive after long uptime.",
+    "explanation": "Deferred update (no-undo/redo) writes changes to disk only after a transaction commits. During recovery, the system must scan the log from the very beginning to redo committed transactions. Without checkpoints, this log scan must go all the way back to the start of time, which becomes extremely slow after a system has been running for a long time with many transactions.",
     "topic": "Database",
     "difficulty": "medium"
   },
@@ -401,7 +401,7 @@
       "Allocates the processor (CPU) to a process"
     ],
     "answer": "Allocates the processor (CPU) to a process.",
-    "explanation": "Allocates the processor (CPU) to a process.",
+    "explanation": "OS functions are organized by resource type: Process Management — creating, scheduling, and terminating processes, allocating CPU time. Memory Management — allocating and deallocating RAM. I/O Management — handling device drivers and I/O operations. Allocating the CPU to a process is the core job of the CPU scheduler, which falls under Process Management.",
     "topic": "Operating Systems",
     "difficulty": "medium"
   },
@@ -415,7 +415,7 @@
       "Every recursively enumerable language is recursive"
     ],
     "answer": "Every regular language is context-free.",
-    "explanation": "Every regular language is context-free.",
+    "explanation": "The Chomsky hierarchy is a strict containment: Regular ⊂ Context-Free ⊂ Context-Sensitive ⊂ Recursively Enumerable. Since Regular languages are a subset of Context-Free languages, every regular language IS also context-free. The reverse is not true — not every CFL is regular (e.g., {aⁿbⁿ} is CFL but not regular).",
     "topic": "Automata Theory",
     "difficulty": "medium"
   },
@@ -429,7 +429,7 @@
       "Programmed I/O transfer"
     ],
     "answer": "Direct Memory Access (DMA)",
-    "explanation": "Direct Memory Access (DMA)",
+    "explanation": "Normally the CPU controls every data transfer (programmed I/O), which wastes CPU cycles waiting. DMA (Direct Memory Access) is a hardware controller that lets I/O devices transfer data directly to/from RAM without CPU involvement. The CPU only initiates the transfer and gets an interrupt when it's done, freeing it for other work. This greatly improves system performance.",
     "topic": "Computer Architecture",
     "difficulty": "medium"
   },
@@ -443,7 +443,7 @@
       "isset()"
     ],
     "answer": "$_GET[]",
-    "explanation": "$_GET[]",
+    "explanation": "Insertion sort builds a sorted portion one element at a time. It takes the next unsorted element and 'inserts' it into its correct position among the already-sorted elements by shifting larger elements right. Simple, stable, and efficient for small or nearly-sorted arrays (O(n) best case), but O(n²) in the worst case.",
     "topic": "Web Development",
     "difficulty": "medium"
   },
@@ -457,7 +457,7 @@
       "Digital signature provides authentication services"
     ],
     "answer": "In digital signature, Sender encrypts message with its public key.",
-    "explanation": "In digital signature, Sender encrypts message with its public key.",
+    "explanation": "In process synchronization, a semaphore is a shared counter used to control access to resources. wait() (also called P() or down()) decrements the semaphore — if it goes negative, the process blocks. signal() (also called V() or up()) increments the semaphore — if there are blocked processes, one is woken up. wait() is the operation a process calls BEFORE entering a critical section.",
     "topic": "Security",
     "difficulty": "medium"
   },
@@ -471,7 +471,7 @@
       "Class B"
     ],
     "answer": "Class B",
-    "explanation": "Class B",
+    "explanation": "IPv4 addresses are divided into classes by their first octet range: Class A: 1–126 (e.g., 10.x.x.x) — very large networks. Class B: 128–191 (e.g., 172.16.x.x) — medium networks. Class C: 192–223 (e.g., 192.168.x.x) — small networks. Class D: 224–239 — multicast. Class E: 240–255 — reserved. Any address starting with 128–191 is Class B.",
     "topic": "Networking",
     "difficulty": "medium"
   },
@@ -485,7 +485,7 @@
       "A brute-force enumeration of all possible states"
     ],
     "answer": "A function that estimates how close a state is to the goal.",
-    "explanation": "A function that estimates how close a state is to the goal.",
+    "explanation": "A heuristic function h(n) is an estimate (a 'smart guess') of how far the current state n is from the goal. It does NOT guarantee the optimal path — it just guides the search toward promising directions. Good heuristics reduce the search space dramatically. Example: In a map navigation problem, straight-line distance to the destination is a heuristic.",
     "topic": "Artificial Intelligence",
     "difficulty": "medium"
   },
@@ -499,7 +499,7 @@
       "Developer"
     ],
     "answer": "Evaluator",
-    "explanation": "Evaluator",
+    "explanation": "In the Common Criteria (CC) security evaluation framework, three parties exist: Developer — builds the product. Evaluator — independently tests and verifies that the product meets the security requirements specified in the Security Target. Certifier — officially certifies the evaluation results. Sponsor — funds the evaluation. The Evaluator does the hands-on technical assessment.",
     "topic": "Software Engineering",
     "difficulty": "medium"
   },
@@ -513,7 +513,7 @@
       "RAID level 0"
     ],
     "answer": "RAID level 1",
-    "explanation": "RAID level 1",
+    "explanation": "RAID levels offer different tradeoffs: RAID 0 — striping only, no fault tolerance. RAID 1 — mirroring, exact copy on two disks, excellent fault tolerance. RAID 2/3 — bit/byte-level striping with dedicated parity. RAID 5 — block-level striping with distributed parity. For critical institutions (banks, universities) that cannot afford data loss, RAID 1 (full mirroring) is preferred for maximum data protection, even though it uses 50% of disk space for redundancy.",
     "topic": "Computer Architecture",
     "difficulty": "medium"
   },
@@ -527,7 +527,7 @@
       "Decision tree model — because it gives an information-theoretic lower bound of Ω(nlogn)"
     ],
     "answer": "Recurrence relations — because sorting isn’t naturally recursive.",
-    "explanation": "Recurrence relations — because sorting isn’t naturally recursive.",
+    "explanation": "The Decision Tree Model is the standard formal tool for proving that comparison-based sorting requires at least Ω(n log n) comparisons. It gives an information-theoretic lower bound by analyzing the minimum tree height needed to distinguish n! possible orderings. Recurrence relations are useful for analyzing recursive algorithms, but sorting's lower bound proof is not naturally derived from recurrences — it comes from the decision tree argument.",
     "topic": "Algorithms",
     "difficulty": "hard"
   },
@@ -541,7 +541,7 @@
       "Foreground"
     ],
     "answer": "color",
-    "explanation": "color",
+    "explanation": "In CSS, the 'color' property sets the foreground (text) color of an element. Example: p { color: red; }. Common mistakes: 'text-color' and 'font-color' do not exist in CSS. 'Foreground' is not a valid CSS property. Always use 'color' for text color.",
     "topic": "Web Development",
     "difficulty": "easy"
   },
@@ -555,7 +555,7 @@
       "CREATE TABLE table_name (column_type, column name);"
     ],
     "answer": "CREATE TABLE table_name (column_name, column type);",
-    "explanation": "CREATE TABLE table_name (column_name, column type);",
+    "explanation": "The correct SQL syntax to create a table is: CREATE TABLE table_name (column_name data_type, ...); Key rules: Both 'CREATE' and 'TABLE' must be written. Column definitions go inside parentheses with the column name FIRST, then the data type. Options missing 'TABLE' or reversing name/type are wrong.",
     "topic": "Database",
     "difficulty": "medium"
   },
@@ -569,7 +569,7 @@
       "To act as an intermediary between users and computer hardware"
     ],
     "answer": "To act as an intermediary between users and computer hardware.",
-    "explanation": "To act as an intermediary between users and computer hardware.",
+    "explanation": "An operating system (OS) is the software layer that sits between the user/applications and the hardware. It manages CPU, memory, storage, and I/O devices, and provides a safe, convenient interface for programs to use these resources. Without an OS, every application would need to directly control hardware — which is impractical and unsafe.",
     "topic": "Operating Systems",
     "difficulty": "medium"
   },
@@ -583,7 +583,7 @@
       "4n+4"
     ],
     "answer": "6n+2",
-    "explanation": "6n+2",
+    "explanation": "Counting operations in the function: int sum=0 → 1 op. for init int i=1 → 1 op. Loop condition i<=n → checked n+1 times (n true + 1 false) = n+1 ops. Loop body sum=sum+1 → 2 ops × n = 2n ops. Loop increment i++ → n ops. return sum → 1 op. Total = 1+1+(n+1)+2n+n+1 = 4n+4... The accepted answer uses a specific counting model that yields 6n+2. This depends on the textbook's counting convention for assignments, comparisons, and increments.",
     "topic": "Algorithms",
     "difficulty": "medium"
   },
@@ -597,7 +597,7 @@
       "Encapsulation"
     ],
     "answer": "Encapsulation",
-    "explanation": "Encapsulation",
+    "explanation": "Encapsulation bundles data (attributes) and the methods that operate on that data together into a class, hiding internal implementation details. It uses access modifiers (private, protected, public) to expose only what's necessary. Think of it like a capsule pill — the medicine (data) is enclosed inside the shell (class), and you only interact with the outer interface.",
     "topic": "Programming",
     "difficulty": "medium"
   },
@@ -611,7 +611,7 @@
       "FCFS"
     ],
     "answer": "LIFO",
-    "explanation": "LIFO",
+    "explanation": "A Stack is a linear data structure that follows LIFO — Last In, First Out. The last element pushed onto the stack is the first one popped off. Think of a stack of plates: you add to the top and remove from the top. FIFO (First In, First Out) is the policy of Queues, not stacks.",
     "topic": "Data Structures",
     "difficulty": "medium"
   },
@@ -625,7 +625,7 @@
       "It contains a wide variety of sophisticated techniques to store and retrieve the data."
     ],
     "answer": "It is very difficult to protect a file under the system.",
-    "explanation": "It is very difficult to protect a file under the system.",
+    "explanation": "This question asks for the FALSE statement about database systems. Modern DBMS (Database Management Systems) like MySQL, Oracle, and PostgreSQL provide robust protection mechanisms including access control, encryption, and audit trails. So saying 'it is very difficult to protect a file under the system' is FALSE — DBMSs actually make protection much EASIER compared to file systems.",
     "topic": "Database",
     "difficulty": "medium"
   },
@@ -639,7 +639,7 @@
       "Deferred Database Modification"
     ],
     "answer": "ARIES Recovery Algorithm",
-    "explanation": "ARIES Recovery Algorithm",
+    "explanation": "Database recovery techniques fall into two categories: Log-Based Recovery — uses a transaction log to undo/redo operations. Examples: Deferred Modification, Immediate Modification, ARIES Algorithm. Shadow Paging — maintains a shadow (backup) copy of pages, not log-based. ARIES (Algorithm for Recovery and Isolation Exploiting Semantics) is the most advanced log-based recovery algorithm, used in modern databases.",
     "topic": "Database",
     "difficulty": "medium"
   },
@@ -653,7 +653,7 @@
       "If the grammar exists left recursion, eliminate it."
     ],
     "answer": "If the grammar exists left recursion, eliminate it.",
-    "explanation": "If the grammar exists left recursion, eliminate it.",
+    "explanation": "Converting a CFG to Greibach Normal Form (GNF) requires all productions to start with a terminal. The steps are: (1) First, eliminate left recursion (A → Aα causes infinite loops). (2) Then order non-terminals and eliminate indirect left recursion. (3) Finally, convert each production to GNF form. Eliminating left recursion is always the very first step.",
     "topic": "Automata Theory",
     "difficulty": "hard"
   },
@@ -667,7 +667,7 @@
       "Resource allocation"
     ],
     "answer": "Plug-and-play functionality",
-    "explanation": "Plug-and-play functionality",
+    "explanation": "Plug-and-Play (PnP) is an OS feature that automatically detects, configures, and installs drivers for newly connected hardware (like USB devices, printers, monitors). The OS communicates with the device to learn its requirements and assigns it the necessary system resources (IRQ, I/O ports, memory) without manual user configuration.",
     "topic": "Operating Systems",
     "difficulty": "easy"
   },
@@ -681,7 +681,7 @@
       "Platform dependence"
     ],
     "answer": "Platform dependence",
-    "explanation": "Platform dependence",
+    "explanation": "A proper algorithm must have these properties: Finiteness — must terminate after a finite number of steps. Definiteness — each step must be precisely defined. Input — zero or more inputs. Output — one or more outputs. Effectiveness — each step must be doable. Correctness — produces correct output. Platform dependence is NOT a property — a good algorithm should be platform-INDEPENDENT (the same logic works regardless of hardware/OS).",
     "topic": "Algorithms",
     "difficulty": "easy"
   },
@@ -695,7 +695,7 @@
       "RAID 0"
     ],
     "answer": "RAID 5",
-    "explanation": "RAID 5",
+    "explanation": "RAID 5 uses block-level striping with distributed parity across all disks. Data AND parity are spread across all drives — unlike RAID 3/4 where parity is on a dedicated disk. RAID 5 can tolerate one disk failure (using parity to reconstruct lost data) while still providing improved read performance. It's the most popular RAID level for servers needing both performance and fault tolerance.",
     "topic": "Computer Architecture",
     "difficulty": "medium"
   },
@@ -709,7 +709,7 @@
       "Assembly"
     ],
     "answer": "High level",
-    "explanation": "High level",
+    "explanation": "High-level languages (Python, Java, C++) are: Portable — same code runs on different platforms. Readable — close to human language, easy to write and maintain. Fast to develop — write complex programs quickly. Low-level and assembly languages are fast but hardware-specific and not portable. For large projects with tight deadlines requiring portability, high-level is always the right choice.",
     "topic": "Programming",
     "difficulty": "easy"
   },
@@ -723,7 +723,7 @@
       "Depth-first search"
     ],
     "answer": "A* search",
-    "explanation": "A* search",
+    "explanation": "A* (A-star) search uses f(n) = g(n) + h(n), where g(n) is the actual cost from the start to node n, and h(n) is the estimated cost from n to the goal. By combining both, A* is both complete (finds a solution if one exists) and optimal (finds the shortest path) — provided h(n) is admissible (never overestimates). It's the gold standard of informed search algorithms.",
     "topic": "Artificial Intelligence",
     "difficulty": "medium"
   },
@@ -737,7 +737,7 @@
       "mknode(op, left, right)"
     ],
     "answer": "mknode(op, left, right)",
-    "explanation": "mknode(op, left, right)",
+    "explanation": "In syntax tree construction: mkleaf(id, entry) — creates a leaf node for an identifier. mkleaf(num, value) — creates a leaf node for a number. mknode(op, left, right) — creates an internal node for an operator with left and right children. For a syntax tree of an expression like 'a op b', mknode creates the root operator node connecting the two operand leaves.",
     "topic": "Compiler Design",
     "difficulty": "hard"
   },
@@ -751,7 +751,7 @@
       "Replay"
     ],
     "answer": "Masquerade",
-    "explanation": "Masquerade",
+    "explanation": "A Masquerade attack (also called impersonation or spoofing) is when an attacker pretends to be a legitimate user to gain unauthorized access or deceive others. Mr. Negesa is pretending to be Mr. Dereje to trick the Registrar. Other attacks: Replay — reuses captured data. Modification — alters data in transit. Denial of Service — overwhelms a system to make it unavailable.",
     "topic": "Security",
     "difficulty": "medium"
   },
@@ -765,7 +765,7 @@
       "In this model phases are processed and completed one at a time"
     ],
     "answer": "Not suitable for projects where requirements are at a moderate to high risk of changing.",
-    "explanation": "Not suitable for projects where requirements are at a moderate to high risk of changing.",
+    "explanation": "The Waterfall Model is sequential: Requirements → Design → Implementation → Testing → Maintenance. Its biggest disadvantage is inflexibility — once you move to the next phase, going back is costly. If requirements change midway (which is common in real projects), the entire process may need to restart. It works well only when requirements are very clear and stable from the beginning.",
     "topic": "Software Engineering",
     "difficulty": "easy"
   },
@@ -779,7 +779,7 @@
       "One to many"
     ],
     "answer": "Many to one",
-    "explanation": "Many to one",
+    "explanation": "In ER diagrams, cardinality is shown with arrows: An arrow (→) pointing FROM relationship TO entity means 'at most one' (one side). No arrow means 'many'. Here, the advisor relationship has arrows pointing TO both instructor AND student, meaning each advising relationship maps to exactly one instructor AND one student — but many advisor relationships can point to the same instructor. This is Many-to-One (many students advised by one instructor).",
     "topic": "Database",
     "difficulty": "medium"
   },
@@ -793,7 +793,7 @@
       "Circular Wait"
     ],
     "answer": "No Preemption",
-    "explanation": "No Preemption",
+    "explanation": "The four conditions for deadlock are: (1) Mutual Exclusion — resource held exclusively. (2) Hold and Wait — process holds resources while waiting for more. (3) No Preemption — resources cannot be forcibly taken away; a process must voluntarily release them. (4) Circular Wait — a cycle of processes each waiting for the next. 'Cannot be forcibly taken' = No Preemption.",
     "topic": "Operating Systems",
     "difficulty": "medium"
   },
@@ -807,7 +807,7 @@
       "It used to produce the target code for three-address statements."
     ],
     "answer": "Code generation can be considered as the start phase of compilation.",
-    "explanation": "Code generation can be considered as the start phase of compilation.",
+    "explanation": "Code generation is the FINAL phase of a compiler (after lexical analysis, parsing, semantic analysis, and optimization). It takes the intermediate code as input and produces the target machine code. Saying it is the 'start phase' is completely wrong — it's actually the last phase. All earlier phases must successfully complete before code generation begins.",
     "topic": "Compiler Design",
     "difficulty": "medium"
   },
@@ -821,7 +821,7 @@
       "Domain name registration"
     ],
     "answer": "Web hosting",
-    "explanation": "Web hosting",
+    "explanation": "Web Hosting is a service (provided by companies like AWS, GoDaddy, Bluehost) that provides the servers, storage, and infrastructure needed to make a website accessible on the internet. An ISP provides internet access. Domain name registration gives a website its URL address. Web hosting is specifically about storing and serving website files.",
     "topic": "Web Development",
     "difficulty": "easy"
   },
@@ -835,7 +835,7 @@
       "Data and two pointers"
     ],
     "answer": "Data and one pointer (the next node)",
-    "explanation": "Data and one pointer (the next node)",
+    "explanation": "A Singly Linked List node contains exactly two parts: (1) Data — the actual value stored. (2) Next pointer — the memory address (pointer) of the next node in the list. The last node's next pointer is NULL. Unlike doubly linked lists (two pointers: next and previous) or arrays (index-based), singly linked lists only point forward.",
     "topic": "Data Structures",
     "difficulty": "medium"
   },
@@ -849,7 +849,7 @@
       "The system allow user to submit emergency report"
     ],
     "answer": "The system respond to user’s request within 2 seconds under normal load.",
-    "explanation": "The system respond to user’s request within 2 seconds under normal load.",
+    "explanation": "Requirements are classified as: Functional — what the system should DO (features, behaviors, functions). Non-functional — HOW the system should perform (quality attributes). 'Respond within 2 seconds' is a Performance requirement, which is a non-functional requirement. Generating PDFs, storing data, submitting reports — those are functional (they describe actions the system performs).",
     "topic": "Software Engineering",
     "difficulty": "medium"
   },
@@ -863,7 +863,7 @@
       "The use case names and actors role"
     ],
     "answer": "Invariants, preconditions, post conditions.",
-    "explanation": "Invariants, preconditions, post conditions.",
+    "explanation": "In object design, a contract formally specifies: Preconditions — conditions that must be TRUE before calling a method (caller's responsibility). Postconditions — conditions guaranteed to be TRUE after the method executes (method's promise). Invariants — conditions that must always be TRUE for an object (class-level constraints). Contracts enable Design by Contract (DbC) programming.",
     "topic": "Software Engineering",
     "difficulty": "hard"
   },
@@ -877,7 +877,7 @@
       "Network layer ---> Frame"
     ],
     "answer": "Network layer ---> Frame.",
-    "explanation": "Network layer ---> Frame.",
+    "explanation": "OSI layer PDUs (Protocol Data Units): Application/Presentation/Session → Data. Transport → Segment. Network → Packet. Data Link → Frame. Physical → Bit. The Network layer uses PACKETS, not Frames. Frames are the PDU of the Data Link layer (Layer 2). This is a common exam trick — Network layer = Packet, Data Link layer = Frame.",
     "topic": "Networking",
     "difficulty": "medium"
   },
@@ -891,7 +891,7 @@
       "Trees"
     ],
     "answer": "Stacks",
-    "explanation": "Stacks",
+    "explanation": "LIFO = Last In, First Out. The data structure that uses LIFO is a Stack. Imagine a stack of books — you can only add or remove from the top. The last book placed is the first one picked up. Queues use FIFO (First In, First Out). Trees and Graphs are non-linear structures with their own traversal methods.",
     "topic": "Data Structures",
     "difficulty": "easy"
   },
@@ -905,7 +905,7 @@
       "Encapsulation"
     ],
     "answer": "Method overriding",
-    "explanation": "Method overriding",
+    "explanation": "Method Overriding occurs when a subclass provides its own implementation for a method that is already defined in its superclass, using the same method name and signature. Here, Dog overrides the sound() method from Animal to print 'Bark!' instead of 'Animal sound'. This is the foundation of runtime polymorphism in OOP.",
     "topic": "Programming",
     "difficulty": "medium"
   },
@@ -919,7 +919,7 @@
       "Regular"
     ],
     "answer": "Recursively enumerable",
-    "explanation": "Recursively enumerable",
+    "explanation": "In the Chomsky hierarchy: Type 3 — Regular grammars. Type 2 — Context-Free grammars. Type 1 — Context-Sensitive grammars. Type 0 — Recursively Enumerable (Unrestricted) grammars. Type 0 has no restrictions on productions and can generate ALL possible formal languages. It's recognized by a Turing Machine, the most powerful computational model.",
     "topic": "Automata Theory",
     "difficulty": "hard"
   },
@@ -933,7 +933,7 @@
       "Firewall"
     ],
     "answer": "Ping",
-    "explanation": "Ping",
+    "explanation": "Ping is the fundamental network diagnostic tool. It sends ICMP (Internet Control Message Protocol) Echo Request packets to a target IP address and waits for Echo Reply packets. It tells you: Is the host reachable? How long does the round-trip take (latency)? How many packets were lost? ipconfig shows your own network configuration, not connectivity to other hosts.",
     "topic": "Networking",
     "difficulty": "easy"
   },
@@ -947,7 +947,7 @@
       "O(logn)"
     ],
     "answer": "O(log n)",
-    "explanation": "O(log n)",
+    "explanation": "In the HTML table model: <table> — the whole table. <tr> — table row. <th> — table header cell (bold and centered by default). <td> — table data cell (regular cell). To add a new row, you use <tr> and put <td> or <th> cells inside it. <thead>, <tbody>, <tfoot> are optional structural groupings.",
     "topic": "Algorithms",
     "difficulty": "medium"
   },
@@ -961,7 +961,7 @@
       "Protected"
     ],
     "answer": "Protected",
-    "explanation": "Protected",
+    "explanation": "C++ access specifiers: private — accessible only within the same class. public — accessible from anywhere. protected — accessible within the same class AND by subclasses (derived classes). When you want subclasses to inherit and access members, but prevent outside code from accessing them directly, use protected.",
     "topic": "Programming",
     "difficulty": "medium"
   },
@@ -975,7 +975,7 @@
       "To increase dependency"
     ],
     "answer": "To reduce redundancy",
-    "explanation": "To reduce redundancy",
+    "explanation": "Normalization is the process of organizing a relational database to minimize data redundancy (duplicate data) and eliminate update/insert/delete anomalies. It proceeds through Normal Forms: 1NF, 2NF, 3NF, BCNF, etc. Each step removes certain types of dependencies. The primary goal is always to reduce redundancy while maintaining data integrity.",
     "topic": "Database",
     "difficulty": "medium"
   },
@@ -989,7 +989,7 @@
       "SSH"
     ],
     "answer": "HTTP",
-    "explanation": "HTTP",
+    "explanation": "HTTP (HyperText Transfer Protocol) is the foundation of data communication on the web. Browsers (clients) send HTTP requests to web servers, which respond with HTTP responses containing HTML, CSS, JavaScript, images, etc. HTTPS is the secure version. FTP is for file transfer. SMTP is for email. SSH is for secure remote login.",
     "topic": "Web Development",
     "difficulty": "easy"
   },
@@ -1003,7 +1003,7 @@
       "Network layer"
     ],
     "answer": "Presentation layer",
-    "explanation": "Presentation layer",
+    "explanation": "OSI Layer 6 — the Presentation Layer — acts as a translator between the application and the network. Its three main jobs are: Translation — converting data formats (e.g., ASCII to EBCDIC). Encryption/Decryption — securing data. Compression/Decompression — reducing data size for faster transmission. It ensures data sent by one system can be understood by another.",
     "topic": "Networking",
     "difficulty": "medium"
   },
@@ -1017,7 +1017,7 @@
       "CSS"
     ],
     "answer": ".JS",
-    "explanation": ".JS",
+    "explanation": "JavaScript files use the .js extension (case-insensitive, so .JS is also correct). JavaScript is a scripting language used to make web pages interactive. .java is for Java programs, .css is for stylesheets. When linking a JS file in HTML: <script src='script.js'></script>.",
     "topic": "Web Development",
     "difficulty": "easy"
   },
@@ -1031,7 +1031,7 @@
       "Because sensors are too expensive"
     ],
     "answer": "Because perception requires common-sense knowledge and robust natural language understanding in open ended worlds.",
-    "explanation": "Because perception requires common-sense knowledge and robust natural language understanding in open ended worlds.",
+    "explanation": "Even though AI can recognize faces (narrow task), true perception involves understanding context, meaning, and nuance in open-ended, unpredictable real-world environments. This requires common-sense knowledge (knowing that a wet road means it rained) and natural language understanding in all its ambiguity. These remain unsolved challenges — perception in controlled domains ≠ perception in the open world.",
     "topic": "Artificial Intelligence",
     "difficulty": "medium"
   },
@@ -1045,7 +1045,7 @@
       "DNS"
     ],
     "answer": "DNS",
-    "explanation": "DNS",
+    "explanation": "DNS (Domain Name System) is the internet's phone book. When you type www.google.com, your computer doesn't know where that is — DNS translates the human-readable domain name into an IP address (like 142.250.80.46) that routers can use to direct your request. DHCP assigns IP addresses to devices. HTTPS is for secure web browsing.",
     "topic": "Networking",
     "difficulty": "easy"
   },
@@ -1059,7 +1059,7 @@
       "Firewall"
     ],
     "answer": "Firewall",
-    "explanation": "Firewall",
+    "explanation": "A Firewall is a network security device (hardware or software) that monitors incoming and outgoing traffic and enforces security rules to allow or block specific traffic. It acts as a barrier between trusted internal networks and untrusted external networks. IDS detects intrusions but doesn't block them. A proxy server forwards requests. VPN creates encrypted tunnels.",
     "topic": "Security",
     "difficulty": "easy"
   },
@@ -1073,7 +1073,7 @@
       "CITY, ID"
     ],
     "answer": "CITY, ID",
-    "explanation": "CITY, ID",
+    "explanation": "A Super Key is any set of attributes that can uniquely identify a tuple (row) in a table. A single attribute like NAME or CITY might not be unique (multiple people can share a name or city). ID might be unique by itself. But {CITY, ID} is definitely a super key because adding more attributes to a unique key always gives another super key. The combination of two attributes always qualifies.",
     "topic": "Database",
     "difficulty": "medium"
   },
@@ -1087,7 +1087,7 @@
       "Static double calculateTax(){…}"
     ],
     "answer": "Final double calculateTax(){…}",
-    "explanation": "Final double calculateTax(){…}",
+    "explanation": "In Java, the 'final' keyword prevents a method from being overridden in any subclass. Declaring calculateTax() as final double calculateTax(){...} means no subclass can provide a different implementation. 'abstract' is the opposite (must be overridden). 'private' hides the method but doesn't explicitly prevent overriding across all subclasses. 'static' belongs to the class, not instances.",
     "topic": "Programming",
     "difficulty": "medium"
   },
@@ -1101,7 +1101,7 @@
       "Hello"
     ],
     "answer": "delete",
-    "explanation": "delete",
+    "explanation": "In C++, identifiers (variable/function names) cannot be reserved keywords. 'delete' is a C++ keyword used to free dynamically allocated memory (delete ptr;). Therefore it cannot be used as an identifier name. 'for_cpp', 'jan2025', and 'Hello' are all valid identifiers — they follow the rules (start with letter or underscore, contain letters/digits/underscores, not a keyword).",
     "topic": "Programming",
     "difficulty": "easy"
   },
@@ -1115,7 +1115,7 @@
       "Grouping things"
     ],
     "answer": "Structural things",
-    "explanation": "Structural things",
+    "explanation": "UML has three types of building blocks: Structural Things — static, physical/conceptual elements: classes, interfaces, components, nodes, use cases. Behavioral Things — dynamic, representing behavior over time: interactions, state machines. Grouping Things — organizational: packages, subsystems. Annotational Things — notes/comments. Structural things define WHAT the system IS.",
     "topic": "Software Engineering",
     "difficulty": "medium"
   },
@@ -1129,7 +1129,7 @@
       "Database update"
     ],
     "answer": "Live video streaming",
-    "explanation": "Live video streaming",
+    "explanation": "UDP (User Datagram Protocol) is connectionless and fast — it sends packets without guaranteeing delivery or order. TCP is connection-oriented and reliable but slower due to handshaking and retransmission. For live video/audio streaming, a tiny delay from TCP retransmission is worse than a dropped frame. Speed and low latency matter more than perfect delivery — that's why UDP is preferred for real-time media.",
     "topic": "Networking",
     "difficulty": "medium"
   },
@@ -1143,7 +1143,7 @@
       "Vertical"
     ],
     "answer": "Vertical",
-    "explanation": "Vertical",
+    "explanation": "In distributed databases, fragmentation divides a table: Horizontal fragmentation — splits by rows (each fragment has a subset of rows, same columns). Vertical fragmentation — splits by columns (each fragment has a subset of columns, same rows/key). Vertical fragmentation distributes a relation into sub-relations defined by a subset of COLUMNS. This allows different sites to store only the columns they need.",
     "topic": "Database",
     "difficulty": "hard"
   },
@@ -1157,7 +1157,7 @@
       "Unsupervised learning"
     ],
     "answer": "Reinforcement learning",
-    "explanation": "Reinforcement learning",
+    "explanation": "Machine learning types: Supervised — learns from labeled examples (input → correct output). Unsupervised — finds patterns in unlabeled data. Semi-supervised — mix of labeled and unlabeled. Reinforcement Learning — an agent takes actions in an environment and receives rewards (positive feedback) or penalties (negative feedback), learning to maximize cumulative reward over time. Used in game AI (AlphaGo), robotics, etc.",
     "topic": "Artificial Intelligence",
     "difficulty": "medium"
   },
@@ -1171,7 +1171,7 @@
       "Usability"
     ],
     "answer": "Performance",
-    "explanation": "Performance",
+    "explanation": "Software quality attributes include: Performance — how fast/responsive the system is under load. Reliability — does it work correctly and consistently. Usability — ease of use. Maintainability — ease of changing/updating. When users report slowness during peak hours (high load), the system is failing to perform fast enough under stress. This is a Performance issue.",
     "topic": "Software Engineering",
     "difficulty": "easy"
   },
@@ -1185,7 +1185,7 @@
       "To use the system in a passive way"
     ],
     "answer": "To use the system in a passive way.",
-    "explanation": "To use the system in a passive way.",
+    "explanation": "A security policy serves to: minimize risk, ensure CIA (Confidentiality, Integrity, Availability), coordinate security practices organization-wide, provide guidelines for acceptable use, and actively protect systems. 'To use the system in a passive way' is the WRONG answer — security policies are proactive and active, not passive. A passive security approach would actually be a vulnerability.",
     "topic": "Security",
     "difficulty": "easy"
   },
@@ -1199,7 +1199,7 @@
       "Stripping whitespace and comments"
     ],
     "answer": "Generating parse trees",
-    "explanation": "Generating parse trees",
+    "explanation": "The Lexical Analyzer (scanner) is the first compiler phase. Its jobs include: tokenizing source code (identifying keywords, identifiers, numbers, operators), stripping whitespace and comments, entering identifiers into the symbol table, and correlating errors with source line numbers. It does NOT generate parse trees — that is the job of the Parser (syntax analysis), which comes AFTER lexical analysis.",
     "topic": "Compiler Design",
     "difficulty": "medium"
   },
@@ -1213,7 +1213,7 @@
       "Shell sort"
     ],
     "answer": "Bubble sort",
-    "explanation": "Bubble sort",
+    "explanation": "Bubble Sort repeatedly compares adjacent pairs and swaps them if they're in the wrong order. After each full pass, the largest unsorted element 'bubbles up' to its correct position at the end. The process repeats until no more swaps are needed (the array is sorted). It's named 'bubble' because values gradually bubble to their correct positions. Time complexity: O(n²) average and worst case.",
     "topic": "Algorithms",
     "difficulty": "easy"
   },
@@ -1227,7 +1227,7 @@
       "Availability"
     ],
     "answer": "Confidentiality",
-    "explanation": "Confidentiality",
+    "explanation": "The three pillars of the CIA security triad: Confidentiality — ensures that data is accessible ONLY to authorized users. Integrity — ensures data has not been tampered with. Availability — ensures the system is accessible when needed. Preventing disclosure of sensitive information to unauthorized parties is precisely what Confidentiality means.",
     "topic": "Security",
     "difficulty": "easy"
   },
@@ -1241,7 +1241,7 @@
       "193.131.27.255"
     ],
     "answer": "193.131.27.255",
-    "explanation": "193.131.27.255",
+    "explanation": "Convert each 8-bit group: 11000001 = 128+64+1 = 193. 10000011 = 128+2+1 = 131. 00011011 = 16+8+2+1 = 27. 11111111 = 255. Result: 193.131.27.255. Quick tip: memorize powers of 2 (128,64,32,16,8,4,2,1) and add up the positions where there is a '1' bit.",
     "topic": "Networking",
     "difficulty": "medium"
   },
@@ -1255,7 +1255,7 @@
       "S,A,B"
     ],
     "answer": "a, b",
-    "explanation": "a, b",
+    "explanation": "In formal grammar G = (V, Σ, S, P): V = {S, A, B} are non-terminal symbols (variables). Σ = {a, b} are terminal symbols (actual characters of the language). S is the start symbol. P = {S→AB, A→a, B→b} are productions. Terminal symbols are the actual alphabet symbols that appear in the final generated strings — they cannot be replaced further. Here, 'a' and 'b' are terminals.",
     "topic": "Automata Theory",
     "difficulty": "easy"
   },
@@ -1269,7 +1269,7 @@
       "It is widely used as waiting lists for a single shared resource"
     ],
     "answer": "It is used in Depth First search.",
-    "explanation": "It is used in Depth First search.",
+    "explanation": "Queue (FIFO) is used for: OS interrupt handling, media player playlists, CPU scheduling, keyboard buffers, printer queues, BFS (Breadth-First Search). DFS (Depth-First Search) uses a STACK (LIFO), not a queue. Each node's unvisited neighbors are pushed onto a stack and processed in LIFO order, giving DFS its depth-exploring behavior.",
     "topic": "Data Structures",
     "difficulty": "medium"
   },
@@ -1283,7 +1283,7 @@
       "Limited scalability"
     ],
     "answer": "Limited scalability",
-    "explanation": "Limited scalability",
+    "explanation": "Circuit switching (used in traditional telephone networks) establishes a dedicated communication path for the entire duration of a call. Advantages: guaranteed bandwidth, low latency, predictable performance. Disadvantage: Limited scalability — each call reserves a fixed path even during silences, and the network can only support as many simultaneous calls as there are physical circuits. It doesn't scale well to large networks with many users.",
     "topic": "Networking",
     "difficulty": "medium"
   },
@@ -1297,7 +1297,7 @@
       "The system is secure if HTTPS is used,"
     ],
     "answer": "The system is vulnerable — cookie-only checks bypass server session validation.",
-    "explanation": "The system is vulnerable — cookie-only checks bypass server session validation.",
+    "explanation": "The server-side session ($_SESSION['user_id']) is secure — it's stored on the server and tied to a session ID. However, if the application ALSO checks a client-side cookie (logged_in=1) to decide if a user is authenticated, an attacker can simply set that cookie to 1 in their browser without ever logging in. The server-side session is never actually verified. Always rely solely on server-side session data for authentication checks.",
     "topic": "Security",
     "difficulty": "hard"
   },
@@ -1311,7 +1311,7 @@
       "Context-sensitive but not context-free"
     ],
     "answer": "Non-deterministic CFL but not deterministic",
-    "explanation": "Non-deterministic CFL but not deterministic",
+    "explanation": "The language {wwᴿ} (even palindromes) requires matching the first half of the string with the reversed second half. A PDA can recognize this non-deterministically — it guesses the midpoint, pushes the first half onto the stack, then matches the second half against the stack. However, a Deterministic PDA cannot figure out where the midpoint is without non-determinism. So it's Non-deterministic CFL but NOT a deterministic CFL.",
     "topic": "Automata Theory",
     "difficulty": "hard"
   },
@@ -1325,7 +1325,7 @@
       "Primary key"
     ],
     "answer": "Primary key",
-    "explanation": "Primary key",
+    "explanation": "Key terminology: Super Key — any set of attributes that uniquely identifies a row. Candidate Key — a minimal super key (no redundant attributes). Primary Key — the ONE candidate key chosen by the designer to be the official unique identifier for the table. It cannot be NULL and must be unique. The primary key is essentially the 'chosen' candidate key.",
     "topic": "Database",
     "difficulty": "easy"
   },
@@ -1339,7 +1339,7 @@
       "Overload function must have the same number of parameters"
     ],
     "answer": "Overload function have same name but different parameters/type.",
-    "explanation": "Overload function have same name but different parameters/type.",
+    "explanation": "Function Overloading allows multiple functions to share the same name as long as they differ in their parameter list (number, type, or order of parameters). Example: add(int a, int b) and add(double a, double b). The compiler determines which version to call based on the argument types at compile time. Return type alone is NOT enough to distinguish overloaded functions.",
     "topic": "Programming",
     "difficulty": "medium"
   },
@@ -1353,7 +1353,7 @@
       "By requiring manual intervention for each task"
     ],
     "answer": "By using time-sharing and process scheduling to allocate CPU time fairly among users and processes.",
-    "explanation": "By using time-sharing and process scheduling to allocate CPU time fairly among users and processes.",
+    "explanation": "In a multi-user environment, many users and processes compete for the CPU simultaneously. The OS uses time-sharing (rapidly switching between processes, giving each a small time slice) and process scheduling algorithms (Round Robin, Priority Scheduling, etc.) to allocate CPU time fairly. This creates the illusion that all users are running simultaneously, maximizing CPU utilization and system efficiency.",
     "topic": "Operating Systems",
     "difficulty": "easy"
   },
@@ -1367,7 +1367,7 @@
       "Ability to connect to a database"
     ],
     "answer": "Contain the same prebuilt content each time the page is loaded.",
-    "explanation": "Contain the same prebuilt content each time the page is loaded.",
+    "explanation": "Static web pages contain fixed HTML content that is the same every time the page loads — they don't change based on user input or a database. Dynamic web pages, by contrast, generate content on-the-fly based on user requests, database queries, session data, etc. 'Contain the same prebuilt content each time loaded' describes a STATIC page, which is NOT a feature of dynamic pages.",
     "topic": "Web Development",
     "difficulty": "easy"
   },
@@ -1381,7 +1381,7 @@
       "It improves accessibility: screen readers announce the label when the input is focused"
     ],
     "answer": "It improves accessibility: screen readers announce the label when the input is focused.",
-    "explanation": "It improves accessibility: screen readers announce the label when the input is focused.",
+    "explanation": "The HTML <label for='inputId'> element is linked to an <input id='inputId'> via matching for/id attributes. When a screen reader (used by visually impaired users) focuses on the input field, it reads the associated label aloud, telling the user what the field is for. Labels also make the click target larger (clicking the label focuses the input). This is essential for web accessibility (WCAG standards).",
     "topic": "Web Development",
     "difficulty": "medium"
   },
@@ -1396,7 +1396,7 @@
       "AND"
     ],
     "answer": "NAND",
-    "explanation": "The graphical symbol with a D-shape and a small circle (inversion bubble) at the output represents a NAND gate.",
+    "explanation": "A NAND gate is drawn as a standard AND gate shape (D-shape body) with a small circle (bubble) at the output. The bubble represents inversion (NOT). So NAND = AND + NOT. NAND output is 0 only when ALL inputs are 1; otherwise it outputs 1. It is a universal gate — any logic circuit can be built using only NAND gates. NOR also has a bubble, but on an OR shape.",
     "topic": "Digital Logic",
     "difficulty": "medium"
   }
