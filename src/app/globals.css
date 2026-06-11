@@ -399,6 +399,26 @@
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
+/* Colorful prose headings for notes */
+.dark .prose h1 { color: #a78bfa; }
+.dark .prose h2 { color: #67e8f9; }
+.dark .prose h3 { color: #fbbf24; }
+.dark .prose h4 { color: #f472b6; }
+.dark .prose h5 { color: #34d399; }
+.dark .prose h6 { color: #fb923c; }
+
+.prose h1 { color: #7c3aed; }
+.prose h2 { color: #0891b2; }
+.prose h3 { color: #d97706; }
+.prose h4 { color: #db2777; }
+.prose h5 { color: #059669; }
+.prose h6 { color: #ea580c; }
+
+.prose h1, .prose h2, .prose h3, .prose h4, .prose h5, .prose h6 {
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
 /* Sticky note viewer header */
 .note-viewer-header {
   background-color: rgba(255, 255, 255, 0.9);
