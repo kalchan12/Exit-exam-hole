@@ -5,7 +5,7 @@ import { useSearchParams, useRouter } from 'next/navigation';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import Link from 'next/link';
-import { getNotes, type Note } from '@/lib/dataLoader';
+import { getNotes, saveCustomNote, type Note } from '@/lib/dataLoader';
 import { recordNoteCompleted, getProgress, syncProgressToRemote } from '@/lib/progressManager';
 import { useAuth } from '@/components/AuthProvider';
 import { fetchGitHubNote } from '@/lib/githubFetcher';
@@ -25,6 +25,10 @@ export default function NoteViewPage() {
   const [loading, setLoading] = useState(true);
   const { user } = useAuth();
   const [isCompleted, setIsCompleted] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+  const [editVideoUrl, setEditVideoUrl] = useState('');
+  const [isRefreshing, setIsRefreshing] = useState(false);
+  const [refreshMsg, setRefreshMsg] = useState('');
 
   useEffect(() => {
     if (!id) { setLoading(false); return; }
@@ -88,6 +92,51 @@ export default function NoteViewPage() {
     if (user) syncProgressToRemote(user.id);
   };
 
+  const handleRefresh = async () => {
+    if (!note?.githubUrl || isRefreshing) return;
+    setIsRefreshing(true);
+    setRefreshMsg('');
+    try {
+      const fresh = await fetchGitHubNote(note.githubUrl, note.topic, true);
+      const updated = { ...note, body: fresh.body || '', images: fresh.images, date: new Date().toISOString() };
+      setNote(updated);
+      saveCustomNote(updated);
+      setRefreshMsg('Synced from GitHub!');
+      setTimeout(() => setRefreshMsg(''), 3000);
+    } catch (e) {
+      setRefreshMsg('Refresh failed');
+      setTimeout(() => setRefreshMsg(''), 3000);
+    } finally {
+      setIsRefreshing(false);
+    }
+  };
+
+  const handleEditSave = () => {
+    if (!note || !editVideoUrl.trim()) return;
+    const url = editVideoUrl.trim();
+    const currentUrls = note.videoUrls || (note.videoUrl ? [note.videoUrl] : []);
+    if (currentUrls.includes(url)) return;
+    const newUrls = [...currentUrls, url];
+    const updated = { ...note, videoUrls: newUrls, videoUrl: newUrls[0] };
+    setNote(updated);
+    saveCustomNote(updated);
+    setEditVideoUrl('');
+  };
+
+  const normalizeVideoUrl = (url: string): string => {
+    let normalized = url.trim();
+    if (!normalized) return '';
+    if (normalized.includes('youtube.com/watch?v=')) {
+      const videoId = new URL(normalized).searchParams.get('v');
+      if (videoId) normalized = `https://www.youtube.com/embed/${videoId}`;
+    } else if (normalized.includes('youtu.be/')) {
+      const parts = normalized.split('/');
+      const videoId = parts[parts.length - 1].split('?')[0];
+      if (videoId) normalized = `https://www.youtube.com/embed/${videoId}`;
+    }
+    return normalized;
+  };
+
   if (loading) {
     return (
       <div className="animate-pulse space-y-6 max-w-4xl mx-auto">
@@ -122,17 +171,67 @@ export default function NoteViewPage() {
         {/* Sticky header */}
         <div className="sticky top-0 z-50 bg-gray-100/80 dark:bg-[#080d21]/80 backdrop-blur-xl border-b border-gray-200 dark:border-white/[0.05] p-4 sm:px-12 rounded-t-3xl shadow-lg">
           <div className="flex items-center justify-between">
-            <Link href="/notes" className="inline-flex items-center gap-2 text-xs font-bold text-gray-600 dark:text-gray-500 hover:text-accent-purple-light transition-all group/back">
-              <div className="w-7 h-7 rounded-lg bg-gray-100 dark:bg-dark-800/50 border border-gray-200 dark:border-dark-400/20 flex items-center justify-center group-hover/back:border-accent-purple/40">
-                <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+            <div className="flex items-center gap-2">
+              <Link href="/notes" className="inline-flex items-center gap-2 text-xs font-bold text-gray-600 dark:text-gray-500 hover:text-accent-purple-light transition-all group/back">
+                <div className="w-7 h-7 rounded-lg bg-gray-100 dark:bg-dark-800/50 border border-gray-200 dark:border-dark-400/20 flex items-center justify-center group-hover/back:border-accent-purple/40">
+                  <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                  </svg>
+                </div>
+                <span className="hidden sm:inline">Library</span>
+              </Link>
+              {note?.githubUrl && (
+                <button onClick={handleRefresh} disabled={isRefreshing}
+                  className="ml-2 inline-flex items-center gap-1.5 text-xs font-bold text-gray-500 hover:text-accent-purple-light bg-gray-100 dark:bg-dark-800/50 border border-gray-200 dark:border-dark-400/20 rounded-lg px-2.5 py-1.5 transition-all hover:border-accent-purple/40">
+                  <svg className={`w-3.5 h-3.5 ${isRefreshing ? 'animate-spin' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                  </svg>
+                  {isRefreshing ? 'Syncing...' : 'Sync'}
+                </button>
+              )}
+            </div>
+            <div className="flex items-center gap-2">
+              {refreshMsg && (
+                <span className="text-[10px] font-bold text-emerald-400 animate-in fade-in">{refreshMsg}</span>
+              )}
+              <button onClick={() => setIsEditing(!isEditing)}
+                className="inline-flex items-center gap-1.5 text-xs font-bold text-gray-500 hover:text-accent-purple-light bg-gray-100 dark:bg-dark-800/50 border border-gray-200 dark:border-dark-400/20 rounded-lg px-2.5 py-1.5 transition-all hover:border-accent-purple/40">
+                <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                 </svg>
-              </div>
-              <span className="hidden sm:inline">Library</span>
-            </Link>
-            <span className="text-xs font-bold text-gray-500 dark:text-gray-400 truncate ml-4">{note.course || note.topic}</span>
+                Edit
+              </button>
+              <span className="text-xs font-bold text-gray-500 dark:text-gray-400 truncate">{note.course || note.topic}</span>
+            </div>
           </div>
         </div>
+
+        {/* Edit Panel */}
+        {isEditing && (
+          <div className="p-6 sm:px-12 border-b border-gray-200 dark:border-white/[0.05] bg-gray-50/50 dark:bg-[#0a0f1e]/50 animate-in fade-in slide-in-from-top-2">
+            <h4 className="text-xs font-black uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-3">Add Video URL</h4>
+            <div className="flex gap-2">
+              <input type="text" value={editVideoUrl} onChange={(e) => setEditVideoUrl(e.target.value)}
+                onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); handleEditSave(); } }}
+                placeholder="https://www.youtube.com/watch?v=..."
+                className="flex-1 bg-white dark:bg-white/[0.04] border border-gray-200 dark:border-white/10 rounded-xl px-4 py-2.5 text-sm text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-white/30 focus:border-purple-500 focus:outline-none"
+              />
+              <button onClick={handleEditSave}
+                className="px-4 py-2.5 bg-gradient-to-r from-violet-600 to-purple-500 text-white text-xs font-black uppercase tracking-wider rounded-xl shadow-lg hover:shadow-purple-500/30 transition-all">
+                Add Video
+              </button>
+            </div>
+            {(note?.videoUrls?.length || (note?.videoUrl ? 1 : 0) || 0) > 0 && (
+              <div className="mt-3 flex flex-wrap gap-2">
+                {(note?.videoUrls && note.videoUrls.length > 0 ? note.videoUrls : note?.videoUrl ? [note.videoUrl] : []).map((v, i) => (
+                  <span key={i} className="text-[10px] px-2 py-1 rounded-md bg-gray-100 dark:bg-white/[0.04] border border-gray-200 dark:border-white/10 text-gray-600 dark:text-gray-400 truncate max-w-[200px]">
+                    Video {i + 1}
+                  </span>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
 
         {/* Hero Header */}
         <div className="p-8 sm:p-12 pb-0">
