@@ -319,8 +319,15 @@ export default function Sidebar({ isCollapsed, setIsCollapsed }: SidebarProps) {
                           </span>
                         )}
                         {badge > 0 && (
-                          <div className={`${isCollapsed ? 'absolute -top-0.5 -right-0.5' : 'ml-auto'} w-5 h-5 rounded-full bg-rose-500 flex items-center justify-center text-[9px] font-black text-white shadow-lg shadow-rose-500/30`}>
-                            {badge > 9 ? '9+' : badge}
+                          <div className={`${isCollapsed ? 'absolute -top-0.5 -right-0.5 w-5 h-5 rounded-full bg-rose-500 flex items-center justify-center text-[9px] font-black text-white shadow-lg shadow-rose-500/30' : 'ml-auto flex items-center gap-1.5 bg-rose-500/15 border border-rose-500/30 rounded-lg px-2.5 py-1 shadow-lg shadow-rose-500/10'}`}>
+                            {isCollapsed ? (badge > 9 ? '9+' : badge) : (
+                              <>
+                                <span className="w-2 h-2 rounded-full bg-rose-500 animate-pulse" />
+                                <span className="text-[9px] font-black text-rose-400 uppercase tracking-wider">
+                                  {item.label === 'Notes' ? 'Chapters added' : 'New bytes'}
+                                </span>
+                              </>
+                            )}
                           </div>
                         )}
                         {isActive && !isCollapsed && badge === 0 && (
