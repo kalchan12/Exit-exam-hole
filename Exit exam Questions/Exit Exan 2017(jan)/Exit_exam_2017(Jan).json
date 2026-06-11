@@ -1,0 +1,1204 @@
+[
+  {
+    "id": "exit-2017-q1",
+    "question": "You are the administrator of an active directory domain. A user complains that he is unable to change his password. No other users have this issue. What is the most likely cause of the problem?",
+    "options": [
+      "Insufficient login credentials",
+      "The property 'User cannot change password' has been enabled when it was created",
+      "He is a member of the Administrators group",
+      "He is not a member of the domain"
+    ],
+    "answer": "The property 'User cannot change password' has been enabled when it was created",
+    "explanation": "In Active Directory, the 'User cannot change password' account option, when enabled on a specific user account, prevents that user alone from changing their password. Since no other users are affected, this per-account setting is the most likely cause. Being in the Administrators group or having valid credentials would not cause this restriction."
+  },
+  {
+    "id": "exit-2017-q2",
+    "question": "How does AI contribute to gaining insight into human intelligence?",
+    "options": [
+      "By replicating human cognitive processes exactly",
+      "By relying solely on predetermined rules and algorithms",
+      "By analyzing large datasets to uncover patterns and correlations",
+      "By disregarding the complexities of human cognition"
+    ],
+    "answer": "By analyzing large datasets to uncover patterns and correlations",
+    "explanation": "AI contributes to understanding human intelligence by processing vast amounts of behavioral and cognitive data, identifying trends and patterns that reveal how humans think and make decisions. AI does not replicate cognition exactly — instead it models and uncovers relationships within data that can inform cognitive science."
+  },
+  {
+    "id": "exit-2017-q3",
+    "question": "If a problem can be broken into sub-problems that are reused several times, the problem possesses which property?",
+    "options": [
+      "Memoization",
+      "Optimal substructure",
+      "Greedy",
+      "Overlapping sub-problems"
+    ],
+    "answer": "Overlapping sub-problems",
+    "explanation": "Overlapping sub-problems means the same sub-problems are solved multiple times during the computation. This property, along with optimal substructure, makes a problem suitable for dynamic programming. Memoization is a technique used to solve such problems (caching results), not a property of the problem itself."
+  },
+  {
+    "id": "exit-2017-q4",
+    "question": "In Knowledge Representation (KR), how do we represent 'how to drive a car'?",
+    "options": [
+      "Declarative knowledge",
+      "Transition knowledge",
+      "Procedural knowledge",
+      "Information Knowledge"
+    ],
+    "answer": "Procedural knowledge",
+    "explanation": "Procedural knowledge represents 'know-how' — the knowledge of how to perform a task step by step, such as driving a car. Declarative knowledge represents facts ('knowing that'), like 'a car has four wheels.' Driving involves a sequence of actions and skills, making it procedural."
+  },
+  {
+    "id": "exit-2017-q5",
+    "question": "What is the difference between OLTP and OLAP databases?",
+    "options": [
+      "OLTP databases store historical data, while OLAP databases store real-time data",
+      "OLTP databases are optimized for read-heavy workloads, while OLAP databases are optimized for write-heavy workloads",
+      "OLTP databases are used for online transaction processing, while OLAP databases are used for online analytical processing",
+      "OLTP databases are used for online analytical processing, while OLAP databases are used for online transaction processing"
+    ],
+    "answer": "OLTP databases are used for online transaction processing, while OLAP databases are used for online analytical processing",
+    "explanation": "OLTP (Online Transaction Processing) systems handle day-to-day transactional operations like bank deposits or order entries — they prioritize fast writes and data integrity. OLAP (Online Analytical Processing) systems are optimized for complex queries over large historical datasets used in business intelligence and reporting."
+  },
+  {
+    "id": "exit-2017-q6",
+    "question": "Which ACID property ensures that a transaction either completes in its entirety or has no effect at all?",
+    "options": [
+      "Atomicity",
+      "Durability",
+      "Consistency",
+      "Isolation"
+    ],
+    "answer": "Atomicity",
+    "explanation": "Atomicity is the ACID property that treats a transaction as an indivisible unit — it either fully commits (all operations succeed) or fully rolls back (none take effect). This prevents partial updates that could leave the database in an inconsistent state, such as debiting one account without crediting another."
+  },
+  {
+    "id": "exit-2017-q7",
+    "question": "What is the postfix expression for the infix expression (2 + 3) * (4 + 5)?",
+    "options": [
+      "2 + 3 4 ^ * +",
+      "2 3 + 4 5 + *",
+      "2 3 4 ^ * + 5 +",
+      "2 + 3 ^ * 4 + 5"
+    ],
+    "answer": "2 3 + 4 5 + *",
+    "explanation": "To convert (2 + 3) * (4 + 5) to postfix (Reverse Polish Notation): first resolve (2 + 3) → '2 3 +', then (4 + 5) → '4 5 +', then multiply the two results → '2 3 + 4 5 + *'. In postfix notation, operators follow their operands, so no parentheses are needed."
+  },
+  {
+    "id": "exit-2017-q8",
+    "question": "What is the primary objective of reinforcement learning in artificial intelligence?",
+    "options": [
+      "To mimic human decision-making processes",
+      "To categorize data into predefined classes or clusters",
+      "To identify patterns and correlations in data",
+      "To maximize cumulative reward through sequential decision-making"
+    ],
+    "answer": "To maximize cumulative reward through sequential decision-making",
+    "explanation": "Reinforcement learning trains an agent to interact with an environment by taking actions and receiving rewards or penalties. The agent learns a policy that maximizes total cumulative reward over time. Unlike supervised learning (which categorizes data), RL learns through trial-and-error interaction with the environment."
+  },
+  {
+    "id": "exit-2017-q9",
+    "question": "If an optimal solution can be created for a problem by constructing optimal solutions for its sub-problems, the problem possesses which property?",
+    "options": [
+      "Greedy",
+      "Optimal substructure",
+      "Memoization",
+      "Overlapping sub-problems"
+    ],
+    "answer": "Optimal substructure",
+    "explanation": "Optimal substructure means that an optimal solution to the whole problem can be built from optimal solutions to its sub-problems. This is a key property for both dynamic programming and greedy algorithms. For example, the shortest path between two nodes contains optimal shortest paths between intermediate nodes."
+  },
+  {
+    "id": "exit-2017-q10",
+    "question": "One of the following is NOT a main advantage of multiprogramming?",
+    "options": [
+      "Copying one's programs or data; using system resources (CPU, memory, disk space, peripherals) without proper accounting",
+      "The CPU switches from program to program, running each for tens or hundreds of milliseconds, providing economical interactive use",
+      "Attempts to increase CPU utilization by always having something for the CPU to execute",
+      "Makes efficient use of the CPU by overlapping the demands for the CPU and its I/O devices from various users"
+    ],
+    "answer": "Copying one's programs or data; using system resources (CPU, memory, disk space, peripherals) without proper accounting",
+    "explanation": "Multiprogramming keeps multiple programs in memory and switches the CPU between them to maximize utilization. Its advantages include increased CPU utilization, efficient overlap of CPU and I/O operations, and economical interactive use. Option A describes unauthorized resource misuse — a security concern, not an advantage of multiprogramming."
+  },
+  {
+    "id": "exit-2017-q11",
+    "question": "Which one of the following is NOT a method of expressing algorithms?",
+    "options": [
+      "Natural language",
+      "Programming language",
+      "Pseudo-code",
+      "Flowchart"
+    ],
+    "answer": "Programming language",
+    "explanation": "Algorithms are expressed in high-level, abstract ways: natural language (plain text description), pseudo-code (structured informal notation), and flowcharts (graphical diagrams). Programming languages are used to implement algorithms as executable code, but they are not considered an algorithm expression method because they require syntax compliance and are implementation-specific."
+  },
+  {
+    "id": "exit-2017-q12",
+    "question": "In a healthcare database system, which concept is crucial for ensuring patient data privacy and security?",
+    "options": [
+      "Data Warehousing",
+      "Data Mining",
+      "Data Encryption",
+      "Data Replication"
+    ],
+    "answer": "Data Encryption",
+    "explanation": "Data encryption transforms sensitive patient data into an unreadable format that can only be decoded with the correct key, protecting it from unauthorized access even if a breach occurs. Data warehousing stores historical data for analysis, data mining discovers patterns, and data replication copies data across systems — none specifically address privacy and security like encryption does."
+  },
+  {
+    "id": "exit-2017-q13",
+    "question": "What is a foreign key in a relational database?",
+    "options": [
+      "A field in one table that refers to the primary key in another table",
+      "A key used for accessing external data sources",
+      "A key used for indexing primary keys",
+      "A key used for encryption purposes"
+    ],
+    "answer": "A field in one table that refers to the primary key in another table",
+    "explanation": "A foreign key is a column (or set of columns) in one table that references the primary key of another table, establishing a referential integrity constraint between the two tables. This enforces relational links, preventing orphaned records — for example, an order record cannot reference a non-existent customer."
+  },
+  {
+    "id": "exit-2017-q14",
+    "question": "Which programming paradigm emphasizes breaking down problems into smaller, reusable components known as functions or procedures?",
+    "options": [
+      "Procedural programming",
+      "Imperative programming",
+      "Object-oriented programming",
+      "Functional programming"
+    ],
+    "answer": "Procedural programming",
+    "explanation": "Procedural programming decomposes a program into procedures (functions/subroutines) that each perform a specific task. This promotes reuse and modularity. Imperative programming focuses on how to do things step by step, OOP organizes code around objects, and functional programming treats computation as evaluation of mathematical functions."
+  },
+  {
+    "id": "exit-2017-q15",
+    "question": "Which one of the following is a passive attack?",
+    "options": [
+      "Masquerade",
+      "DoS (Denial of Service)",
+      "Traffic analysis",
+      "Replay"
+    ],
+    "answer": "Traffic analysis",
+    "explanation": "A passive attack involves observing or eavesdropping on communications without altering them. Traffic analysis monitors communication patterns (frequency, timing, size) to infer information without reading content. Active attacks like masquerade (impersonation), DoS (disruption), and replay (retransmitting captured data) all modify or interfere with the communication."
+  },
+  {
+    "id": "exit-2017-q16",
+    "question": "Which one of the following is NOT a step in the merge sort algorithm?",
+    "options": [
+      "Combine",
+      "Conquer",
+      "Divide",
+      "Analyze"
+    ],
+    "answer": "Analyze",
+    "explanation": "Merge sort follows the divide-and-conquer paradigm with three steps: Divide (split the array into halves), Conquer (recursively sort each half), and Combine/Merge (merge the sorted halves). 'Analyze' is not a step in merge sort — it is a term used when studying algorithm complexity, not when executing the sort."
+  },
+  {
+    "id": "exit-2017-q17",
+    "question": "What does the term 'algorithm' refer to in the context of computer programming?",
+    "options": [
+      "A set of rules or instructions for solving a problem",
+      "A variable that holds a single piece of data",
+      "A function that performs a specific task",
+      "A programming language syntax"
+    ],
+    "answer": "A set of rules or instructions for solving a problem",
+    "explanation": "An algorithm is a finite, unambiguous, step-by-step procedure for solving a problem or accomplishing a task. It takes input, processes it through well-defined steps, and produces output. Algorithms are independent of any programming language — they describe the logic, not the implementation."
+  },
+  {
+    "id": "exit-2017-q18",
+    "question": "Which objective of modern operating systems involves protecting the system and its resources from unauthorized access and malicious attacks?",
+    "options": [
+      "Enhancing system performance",
+      "Ensuring security and protection",
+      "Maximizing hardware utilization",
+      "Providing a user-friendly interface"
+    ],
+    "answer": "Ensuring security and protection",
+    "explanation": "Security and protection is a core OS objective that prevents unauthorized users from accessing system resources, protects processes from interfering with each other, and defends against malicious software. This includes authentication, authorization, access control lists, and encryption mechanisms built into the OS."
+  },
+  {
+    "id": "exit-2017-q19",
+    "question": "Which one is correct about RISC computers?",
+    "options": [
+      "RISC has fewer registers compared to CISC",
+      "RISC uses extensive addressing capabilities for memory operations",
+      "RISC uses complex and efficient machine instructions compared to CISC",
+      "RISC has a hardwired control unit with pipelining processing"
+    ],
+    "answer": "RISC has a hardwired control unit with pipelining processing",
+    "explanation": "RISC (Reduced Instruction Set Computer) uses a hardwired (not microprogrammed) control unit for faster decoding, and is designed for pipelining — executing multiple instructions simultaneously at different stages. RISC actually has MORE registers than CISC, uses simple addressing modes, and has simple fixed-length instructions (not complex ones)."
+  },
+  {
+    "id": "exit-2017-q20",
+    "question": "Which of the following is NOT a characteristic of NoSQL databases?",
+    "options": [
+      "Flexibility in data models",
+      "High availability",
+      "Scalability",
+      "Strict schema enforcement"
+    ],
+    "answer": "Strict schema enforcement",
+    "explanation": "NoSQL databases (like MongoDB, Cassandra, Redis) are specifically designed to avoid strict schemas, allowing documents or records to have varying structures. They are characterized by horizontal scalability, high availability, and flexible data models. Strict schema enforcement is a feature of relational (SQL) databases, not NoSQL."
+  },
+  {
+    "id": "exit-2017-q21",
+    "question": "What is the name of a grammar in which all attributes of the grammar symbols are synthesized attributes with no inherited attributes?",
+    "options": [
+      "M-attributed grammar",
+      "L-attributed grammar",
+      "S-attributed grammar",
+      "I-attributed grammar"
+    ],
+    "answer": "S-attributed grammar",
+    "explanation": "An S-attributed grammar (Synthesized-attributed grammar) uses only synthesized attributes — values computed bottom-up from child nodes in the parse tree. L-attributed grammars allow both synthesized attributes and inherited attributes that flow left-to-right. S-attributed grammars are simpler and used in bottom-up parsing."
+  },
+  {
+    "id": "exit-2017-q22",
+    "question": "What is the minimum number of stacks required by a Finite State Automaton (FSA)?",
+    "options": [
+      "1",
+      "2",
+      "3",
+      "0"
+    ],
+    "answer": "0",
+    "explanation": "A Finite State Automaton (FSA/DFA/NFA) operates using only a finite set of states and transitions — it requires no stack or additional memory. It reads input symbols and transitions between states. A Pushdown Automaton (PDA) needs 1 stack to recognize context-free languages, and a Turing Machine uses an unbounded tape."
+  },
+  {
+    "id": "exit-2017-q23",
+    "question": "What is the purpose of the switch statement in C++?",
+    "options": [
+      "To declare and define functions",
+      "To select one of many code blocks to be executed",
+      "To execute a block of code repeatedly",
+      "To define a loop that repeats until a condition is false"
+    ],
+    "answer": "To select one of many code blocks to be executed",
+    "explanation": "The switch statement in C++ evaluates an expression and executes the matching case block. It is a cleaner alternative to multiple if-else-if chains when selecting from several discrete values. It does not loop (that's for/while/do-while) and does not declare functions."
+  },
+  {
+    "id": "exit-2017-q24",
+    "question": "Which of the following is an Uninformed (Blind) Search algorithm?",
+    "options": [
+      "Breadth-first search (BFS)",
+      "Hill climbing",
+      "Heuristic Functions",
+      "Greedy search"
+    ],
+    "answer": "Breadth-first search (BFS)",
+    "explanation": "Uninformed (blind) search algorithms explore the search space without any domain-specific knowledge or heuristics — they have no idea how close they are to the goal. BFS and DFS are classic uninformed searches. Hill climbing, greedy search, and A* are informed (heuristic) searches that use problem-specific knowledge to guide exploration."
+  },
+  {
+    "id": "exit-2017-q25",
+    "question": "Which among the following measures how strongly the elements within a module are related?",
+    "options": [
+      "Cohesion",
+      "Aggregation",
+      "Inheritance",
+      "Coupling"
+    ],
+    "answer": "Cohesion",
+    "explanation": "Cohesion measures how closely related and focused the responsibilities of a single module are. High cohesion means a module does one thing well. Coupling measures how much one module depends on another. Good software design aims for high cohesion and low coupling to improve maintainability and reusability."
+  },
+  {
+    "id": "exit-2017-q26",
+    "question": "What is the term used to describe the collection of information stored in the database at a particular moment?",
+    "options": [
+      "Foreign key",
+      "An instance",
+      "Primary key",
+      "Schema"
+    ],
+    "answer": "An instance",
+    "explanation": "A database instance (also called the database state or snapshot) is the actual data stored in the database at a specific point in time. The schema, by contrast, is the structural description (tables, columns, constraints) that does not change with data updates. An instance is to schema what a variable's value is to its type declaration."
+  },
+  {
+    "id": "exit-2017-q27",
+    "question": "Which data structure allows deleting data elements from the front and inserting at the rear?",
+    "options": [
+      "Binary search tree",
+      "Deques",
+      "Stacks",
+      "Queues"
+    ],
+    "answer": "Queues",
+    "explanation": "A queue follows FIFO (First-In, First-Out): elements are enqueued (inserted) at the rear and dequeued (deleted) from the front. This models real-world queues like print spoolers and process schedulers. Stacks use LIFO (Last-In, First-Out). Deques (double-ended queues) allow insertion and deletion at both ends."
+  },
+  {
+    "id": "exit-2017-q28",
+    "question": "Which one of the following commands is used to test reachability of hosts on a network?",
+    "options": [
+      "Netstat",
+      "Ping",
+      "Traceroute",
+      "Tcpdump"
+    ],
+    "answer": "Ping",
+    "explanation": "The ping command sends ICMP Echo Request packets to a target host and measures if it responds, testing network reachability and round-trip time. Traceroute shows the path packets take to a destination. Netstat displays network connections and statistics. Tcpdump captures and analyzes network traffic."
+  },
+  {
+    "id": "exit-2017-q29",
+    "question": "Which of the following is a true statement about cohesion and coupling?",
+    "options": [
+      "A module having low cohesion and high coupling is said to be functionally independent of other modules",
+      "A functionally dependent module has minimal interaction with other modules",
+      "A module having high cohesion and low coupling is said to be functionally dependent of other modules",
+      "Cohesion is a measure of functional strength of a module"
+    ],
+    "answer": "Cohesion is a measure of functional strength of a module",
+    "explanation": "Cohesion measures how well the elements of a module belong together — it represents the module's functional strength. A module with high cohesion has a single, well-defined purpose. High cohesion with low coupling indicates functional independence, not dependence. Low cohesion with high coupling creates maintenance nightmares."
+  },
+  {
+    "id": "exit-2017-q30",
+    "question": "Which class of grammar is used for syntax analysis in programming languages?",
+    "options": [
+      "Context-free grammars",
+      "Regular grammars",
+      "Non-recursive grammars",
+      "Recursive grammars"
+    ],
+    "answer": "Context-free grammars",
+    "explanation": "Context-free grammars (CFGs) are used for syntax analysis (parsing) because they can describe nested structures like balanced parentheses and recursive constructs (if-else, function calls) that regular grammars cannot. Parsers like LL(1) and LR(1) are based on CFGs. Regular grammars are used only for lexical analysis (tokenizing)."
+  },
+  {
+    "id": "exit-2017-q31",
+    "question": "Brute-force attacks are used most often against which types of access control?",
+    "options": [
+      "Biometrics and smart cards",
+      "Passwords and smart cards",
+      "Passwords and Personal Identification Numbers (PINs)",
+      "Biometrics and passwords"
+    ],
+    "answer": "Passwords and Personal Identification Numbers (PINs)",
+    "explanation": "Brute-force attacks systematically try all possible combinations of characters or digits to guess credentials. Passwords and PINs are character/digit sequences that can be exhaustively tried, especially if short. Biometrics (fingerprint, face) and smart cards are hardware-based controls that cannot be guessed by trying character combinations."
+  },
+  {
+    "id": "exit-2017-q32",
+    "question": "Which UML diagram describes the static structure of a system?",
+    "options": [
+      "Sequence diagram",
+      "Use case diagram",
+      "Activity diagram",
+      "Class diagram"
+    ],
+    "answer": "Class diagram",
+    "explanation": "A class diagram shows the static structure of a system: classes, their attributes and methods, and the relationships between them (inheritance, association, aggregation, composition). Sequence diagrams show dynamic interactions over time, activity diagrams model workflows, and use case diagrams show system functionality from a user perspective."
+  },
+  {
+    "id": "exit-2017-q33",
+    "question": "Which scheduling algorithm ensures that each process gets an equal share of CPU time?",
+    "options": [
+      "Round Robin (RR)",
+      "First-Come, First-Served (FCFS)",
+      "Shortest Job Next (SJN)",
+      "Priority Scheduling"
+    ],
+    "answer": "Round Robin (RR)",
+    "explanation": "Round Robin scheduling assigns a fixed time quantum to each process in a cyclic order. Every process gets equal CPU time in turns, preventing starvation. FCFS executes processes in arrival order (long jobs can block short ones), SJN picks the shortest job first, and Priority Scheduling favors higher-priority processes."
+  },
+  {
+    "id": "exit-2017-q34",
+    "question": "The data structure required for Breadth-First Traversal on a graph is:",
+    "options": [
+      "Stack",
+      "Tree",
+      "Queue",
+      "Array"
+    ],
+    "answer": "Queue",
+    "explanation": "BFS explores a graph level by level from the source node. A queue (FIFO) is used to track which nodes to visit next — neighbors of the current node are added to the back of the queue and processed in order. DFS uses a stack (or recursion). Using a queue ensures all nodes at distance k are visited before nodes at distance k+1."
+  },
+  {
+    "id": "exit-2017-q35",
+    "question": "In PHP, which function initiates a session?",
+    "options": [
+      "s_start()",
+      "session_start()",
+      "start()",
+      "session_str()"
+    ],
+    "answer": "session_start()",
+    "explanation": "In PHP, session_start() must be called before any output is sent to the browser. It initializes or resumes a session, enabling the $_SESSION superglobal array to store and retrieve user-specific data across multiple page requests. The other options (s_start, start, session_str) are not valid PHP functions."
+  },
+  {
+    "id": "exit-2017-q36",
+    "question": "A grammar has the following productions: A → aA | b | ba. Which one of the following strings is in the language generated by this grammar?",
+    "options": [
+      "bcbbbcabbchaa",
+      "aab",
+      "cacbcbbbbcabe",
+      "abbocabbcbbbcbbaca"
+    ],
+    "answer": "aab",
+    "explanation": "Using the productions A → aA | b | ba: starting with A, apply A → aA → a(aA) → aa(b) = 'aab'. The string 'aab' is valid: two 'a' prefixes followed by 'b' as a terminal. The other options in the original document contained characters like 'c' and 'o' not in the alphabet {a, b}, making them invalid. 'aab' is a correctly derivable string."
+  },
+  {
+    "id": "exit-2017-q37",
+    "question": "Which one of the following places CANNOT be used to place JavaScript code?",
+    "options": [
+      "In any tag as an attribute value for event handlers (e.g., onclick)",
+      "In the <body> tag",
+      "In external .js files",
+      "In the <head> tag"
+    ],
+    "answer": "In any tag as an attribute value for event handlers (e.g., onclick)",
+    "explanation": "JavaScript is typically placed inside <script> tags in the <head> or <body>, or in external .js files linked via <script src='...'/>. While JavaScript can appear in event handler attributes like onclick='...', you cannot place arbitrary multi-line script blocks as general tag attributes. The exam intends that JavaScript cannot be placed arbitrarily in any tag attribute outside of designated event handlers.",
+    "note": "The original answer in the exam is 'In any tag as an attribute,' which broadly means you cannot embed full script blocks as tag attributes — only specific event attributes support inline JS snippets."
+  },
+  {
+    "id": "exit-2017-q38",
+    "question": "Which one of the following is NOT a component of the computer system?",
+    "options": [
+      "The data unit",
+      "The input unit",
+      "The control unit",
+      "The storage unit"
+    ],
+    "answer": "The data unit",
+    "explanation": "The standard components of a computer system are the input unit, output unit, storage unit (memory), control unit (part of the CPU), and arithmetic logic unit (ALU). 'The data unit' is not a recognized standard component — data is processed by the CPU and stored in memory, but there is no separate 'data unit' component in classical computer architecture."
+  },
+  {
+    "id": "exit-2017-q39",
+    "question": "In signal communication, the absolute value of the highest intensity of a signal proportional to the energy it carries is referred to as:",
+    "options": [
+      "Period",
+      "Frequency",
+      "Attenuation",
+      "Peak amplitude"
+    ],
+    "answer": "Peak amplitude",
+    "explanation": "Peak amplitude is the maximum displacement or intensity of a signal from its rest position — it is directly related to the energy the signal carries. Frequency is the number of cycles per second (Hz). Period is the time for one complete cycle. Attenuation is the reduction in signal strength over distance."
+  },
+  {
+    "id": "exit-2017-q40",
+    "question": "What is encapsulation in Object-Oriented Programming (OOP)?",
+    "options": [
+      "Inheritance",
+      "Composition",
+      "Data hiding and abstraction",
+      "Polymorphism"
+    ],
+    "answer": "Data hiding and abstraction",
+    "explanation": "Encapsulation bundles data (attributes) and the methods that operate on that data into a single unit (class), while restricting direct access to internal state. This is achieved through access modifiers (private, protected, public). It hides implementation details (abstraction) and prevents unintended interference with object internals."
+  },
+  {
+    "id": "exit-2017-q41",
+    "question": "Which one of the following is a correct statement about automata?",
+    "options": [
+      "Turing machine is the least powerful automata",
+      "Pushdown automata and FSA have the same power",
+      "Regular expression is more powerful than FSA",
+      "Deterministic FSA and Nondeterministic FSA are equivalent"
+    ],
+    "answer": "Deterministic FSA and Nondeterministic FSA are equivalent",
+    "explanation": "By the subset construction theorem, every NFA can be converted to an equivalent DFA — both recognize exactly the class of regular languages. Turing machines are the MOST powerful (not least). Pushdown automata are more powerful than FSA (they recognize context-free languages). Regular expressions and FSA have equal expressive power."
+  },
+  {
+    "id": "exit-2017-q42",
+    "question": "Which one of the following statements about OSI and TCP/IP networking models is TRUE?",
+    "options": [
+      "The transport layer in the OSI model is both connection-oriented and connectionless",
+      "The transport layer in the TCP/IP model is connection-oriented only",
+      "TCP/IP model has seven layers while OSI model has four",
+      "OSI model provides clear distinction between services, interfaces, and protocols while TCP/IP model does not"
+    ],
+    "answer": "The transport layer in the OSI model is both connection-oriented and connectionless",
+    "explanation": "The OSI transport layer supports both connection-oriented services (like TCP, which provides reliable ordered delivery) and connectionless services (like UDP, which provides fast unreliable delivery). The TCP/IP model also supports both. OSI has 7 layers; TCP/IP has 4 layers — not the other way around. OSI does provide clearer service/interface/protocol distinctions."
+  },
+  {
+    "id": "exit-2017-q43",
+    "question": "How does AI contribute to the study of human behavior and cognition?",
+    "options": [
+      "By disregarding human behavior as irrelevant to AI research",
+      "By relying solely on philosophical theories of consciousness",
+      "By providing insights through analyzing vast amounts of behavioral data",
+      "By limiting its scope to deterministic algorithms"
+    ],
+    "answer": "By providing insights through analyzing vast amounts of behavioral data",
+    "explanation": "AI systems — especially machine learning models — process large behavioral datasets to identify patterns, correlations, and anomalies in human cognition and decision-making. This data-driven approach enables cognitive scientists to test hypotheses at scale and discover insights that traditional small-sample experiments could not reveal."
+  },
+  {
+    "id": "exit-2017-q44",
+    "question": "Which backup strategy backs up only the modified files since the last backup?",
+    "options": [
+      "Full backup",
+      "Partial backup",
+      "Full dump",
+      "Incremental backup"
+    ],
+    "answer": "Incremental backup",
+    "explanation": "An incremental backup only copies files that have changed since the last backup (whether full or incremental), making it faster and less storage-intensive than full backups. Restoration requires the last full backup plus all subsequent incremental backups. A full backup copies everything every time."
+  },
+  {
+    "id": "exit-2017-q45",
+    "question": "Which of the following is NOT a Software Characteristic?",
+    "options": [
+      "Maintenance is without spare parts",
+      "Software is complex",
+      "Software is manufactured",
+      "Software is intangible"
+    ],
+    "answer": "Software is manufactured",
+    "explanation": "Software is developed/engineered, NOT manufactured in the traditional industrial sense. Unlike hardware, software is not fabricated from physical materials on a production line. Software characteristics include: it is intangible (not physical), it does not wear out (but degrades due to changing environments), maintenance requires no spare parts, and it can be highly complex."
+  },
+  {
+    "id": "exit-2017-q46",
+    "question": "Which action in bottom-up parsing moves terminals from the input buffer onto the stack?",
+    "options": [
+      "Accept",
+      "Shift",
+      "Augment",
+      "Reduce"
+    ],
+    "answer": "Shift",
+    "explanation": "In shift-reduce (bottom-up) parsing, two key actions are used: Shift — moves the next input terminal onto the parsing stack; Reduce — replaces a sequence of symbols on the stack (a handle) with the non-terminal on the left side of a grammar production. Accept means parsing is complete; Augment is not a standard parsing action."
+  },
+  {
+    "id": "exit-2017-q47",
+    "question": "_______ is the process of arranging the elements of a particular data structure in some logical order.",
+    "options": [
+      "Insertion",
+      "Traversing",
+      "Merging",
+      "Sorting"
+    ],
+    "answer": "Sorting",
+    "explanation": "Sorting arranges elements in a defined order (ascending, descending, lexicographic, etc.). Common sorting algorithms include bubble sort, merge sort, quick sort, and heap sort. Traversing visits all elements. Insertion adds elements. Merging combines two sorted structures into one."
+  },
+  {
+    "id": "exit-2017-q48",
+    "question": "What would be the output of the following JavaScript code?\n\n```javascript\nx = 4 + \"4\";\ndocument.write(x);\n```",
+    "options": [
+      "4",
+      "8",
+      "44",
+      "The code contains an error"
+    ],
+    "answer": "44",
+    "explanation": "JavaScript uses dynamic typing and type coercion. When the + operator is used with a number and a string, JavaScript converts the number to a string and performs string concatenation. So 4 + '4' becomes '4' + '4' = '44'. If both operands were numbers (4 + 4), the result would be 8."
+  },
+  {
+    "id": "exit-2017-q49",
+    "question": "When is an input accepted by a Turing Machine?",
+    "options": [
+      "If the machine halts in a final state",
+      "If the machine enters into an infinite loop",
+      "If it reaches any state and has no possible move for an input symbol",
+      "If the machine consumes all the input symbols in one of the states"
+    ],
+    "answer": "If the machine halts in a final state",
+    "explanation": "A Turing Machine accepts an input string if, after processing it, the machine halts in one of its designated accepting (final) states. If it halts in a non-accepting state, the input is rejected. If it never halts (infinite loop), the behavior is undefined (the halting problem). Simply consuming all input without reaching an accept state is not sufficient."
+  },
+  {
+    "id": "exit-2017-q50",
+    "question": "What is the regular expression for the set of strings that start with 'ab' and end with 'bba' over the alphabet {a, b}?",
+    "options": [
+      "ab(ab)*bba",
+      "aba*b*bba",
+      "ab(a+b)*bba",
+      "ab(a+b*)bba"
+    ],
+    "answer": "ab(a+b)*bba",
+    "explanation": "The regex must: start with 'ab' (fixed prefix), end with 'bba' (fixed suffix), and allow any combination of 'a' and 'b' in between. (a+b)* means zero or more occurrences of any character from {a, b}, which correctly allows any middle content. ab(ab)*bba would only allow 'ab' repetitions in the middle, which is too restrictive."
+  },
+  {
+    "id": "exit-2017-q51",
+    "question": "Which one of the following is FALSE about the HTTP protocol?",
+    "options": [
+      "An HTTP message body can be empty",
+      "It is a protocol used for communication between a web browser and a web server",
+      "It is a stateless protocol",
+      "An HTTP message has a specified minimum size"
+    ],
+    "answer": "An HTTP message has a specified minimum size",
+    "explanation": "HTTP messages do NOT have a specified minimum size — a response can consist of just a status line with no body (e.g., 204 No Content). HTTP is indeed stateless (each request is independent), used for browser-server communication, and message bodies can be empty. The false statement is that there is a minimum size requirement."
+  },
+  {
+    "id": "exit-2017-q52",
+    "question": "Which condition in a resource allocation system refers to a situation where a set of processes are waiting for resources held by each other, forming a circular chain?",
+    "options": [
+      "Hold and wait",
+      "No preemption",
+      "Mutual exclusion",
+      "Circular wait"
+    ],
+    "answer": "Circular wait",
+    "explanation": "Circular wait is one of the four necessary conditions for deadlock (Coffman conditions): process A waits for a resource held by B, B waits for one held by C, and C waits for one held by A — forming a cycle. Hold and wait means a process holds resources while waiting for more. Mutual exclusion means resources cannot be shared. No preemption means resources cannot be forcibly taken."
+  },
+  {
+    "id": "exit-2017-q53",
+    "question": "What does DOM stand for in HTML?",
+    "options": [
+      "Document Oriented Management",
+      "Document OnLoad Model",
+      "Document Object Model",
+      "Document Oriented Model"
+    ],
+    "answer": "Document Object Model",
+    "explanation": "The Document Object Model (DOM) is a programming interface for HTML and XML documents. It represents the page as a tree of nodes (elements, attributes, text), allowing JavaScript to dynamically access and modify the content, structure, and styling of web pages. Every element in an HTML page is a node in the DOM tree."
+  },
+  {
+    "id": "exit-2017-q54",
+    "question": "Select the INCORRECT statement about database languages.",
+    "options": [
+      "Data Manipulation Language (DML) is used for retrieval of information stored in the database",
+      "Data Definition Language (DDL) is used to specify the database schema",
+      "Data Definition Language (DDL) specifies modification of information stored in the database",
+      "Data Manipulation Language (DML) enables users to access or manipulate data as organized by the data model"
+    ],
+    "answer": "Data Definition Language (DDL) specifies modification of information stored in the database",
+    "explanation": "DDL (Data Definition Language) defines the database schema — CREATE, ALTER, DROP statements that define structure. It does NOT modify data content. DML (Data Manipulation Language) handles data manipulation — INSERT, UPDATE, DELETE, SELECT. Saying DDL modifies stored data is incorrect; that is DML's role."
+  },
+  {
+    "id": "exit-2017-q55",
+    "question": "In the HTML DOM, everything is a/an ______.",
+    "options": [
+      "Element",
+      "Array",
+      "Node",
+      "Attribute"
+    ],
+    "answer": "Node",
+    "explanation": "In the HTML DOM tree, every component — including HTML elements, their attributes, and text content — is represented as a Node. Different node types exist: element nodes (e.g., <p>), attribute nodes (e.g., class='...'​), and text nodes (the content inside elements). The Node interface is the base type from which all DOM objects inherit."
+  },
+  {
+    "id": "exit-2017-q56",
+    "question": "An operation performed on the contents of a register is known as:",
+    "options": [
+      "Instruction code",
+      "Micro-operation",
+      "Registration",
+      "Accumulation"
+    ],
+    "answer": "Micro-operation",
+    "explanation": "A micro-operation is the elementary, low-level operation performed on data stored in registers during a single clock cycle — for example, shifting, incrementing, loading, or adding register contents. A sequence of micro-operations implements a machine instruction. The control unit generates micro-operation signals to execute each instruction."
+  },
+  {
+    "id": "exit-2017-q57",
+    "question": "Which one of the following is NOT unique for every computer in a network?",
+    "options": [
+      "MAC address",
+      "IPv4 address",
+      "IPv6 address",
+      "Subnet mask"
+    ],
+    "answer": "Subnet mask",
+    "explanation": "A subnet mask defines the network portion of an IP address and is shared by all devices on the same subnet — it is NOT unique per device. MAC addresses are globally unique hardware identifiers. IPv4 and IPv6 addresses must be unique within their respective network scope to enable routing. Multiple devices on the same subnet will have the same subnet mask."
+  },
+  {
+    "id": "exit-2017-q58",
+    "question": "In PHP, _______ are predefined variables that are accessible throughout your script.",
+    "options": [
+      "Predefined variables",
+      "Reserved variables",
+      "Superglobals",
+      "Global variables"
+    ],
+    "answer": "Superglobals",
+    "explanation": "PHP superglobals (like $_GET, $_POST, $_SESSION, $_COOKIE, $_SERVER, $_FILES) are built-in variables automatically available in all scopes throughout a script — inside functions, classes, or files — without needing the 'global' keyword. Regular global variables require the 'global' keyword to access them inside functions."
+  },
+  {
+    "id": "exit-2017-q59",
+    "question": "Polynomial addition is implemented using which data structure?",
+    "options": [
+      "Stack",
+      "Linked List",
+      "Queue",
+      "Trees"
+    ],
+    "answer": "Linked List",
+    "explanation": "A polynomial like 5x³ + 3x² + 2x + 1 is naturally represented as a linked list where each node stores a coefficient and an exponent. This allows efficient addition of two polynomials by traversing both lists and adding terms with matching exponents. Arrays could also be used but linked lists handle sparse polynomials (high degree, few terms) more efficiently."
+  },
+  {
+    "id": "exit-2017-q60",
+    "question": "Which of the following access control services determines what a subject can do?",
+    "options": [
+      "Accountability",
+      "Audit",
+      "Authorization",
+      "Authentication"
+    ],
+    "answer": "Authorization",
+    "explanation": "Authorization determines what an authenticated user is permitted to do — which resources they can access and what operations they can perform (read, write, execute). Authentication verifies identity ('who are you?'). Audit records what actions were taken. Accountability ensures actions can be traced to a specific user."
+  },
+  {
+    "id": "exit-2017-q61",
+    "question": "Which one of the following is NOT used to determine the CPU state at the end of the execute cycle?",
+    "options": [
+      "The content of certain status conditions",
+      "The content of all processor registers",
+      "The content of the data bus",
+      "The content of the program counter"
+    ],
+    "answer": "The content of the data bus",
+    "explanation": "The CPU state after executing an instruction is determined by the contents of processor registers (general-purpose, index, stack pointer), the program counter (next instruction address), and status/flag registers (carry, zero, overflow flags). The data bus is a transient pathway used during instruction execution — its content at cycle end is not part of the persistent CPU state."
+  },
+  {
+    "id": "exit-2017-q62",
+    "question": "Which of the following best describes a database?",
+    "options": [
+      "A collection of data organized in a specific structure",
+      "A collection of random data",
+      "A collection of related files",
+      "A collection of unrelated files"
+    ],
+    "answer": "A collection of data organized in a specific structure",
+    "explanation": "A database is an organized, structured collection of related data managed by a DBMS (Database Management System). The data is stored in tables (relational) or other structures and can be efficiently queried, updated, and managed. 'Related files' is closer to the traditional file system approach, not a proper database definition."
+  },
+  {
+    "id": "exit-2017-q63",
+    "question": "Which one of the following property of a parse tree represents the number of derivation steps needed to generate a valid string?",
+    "options": [
+      "Degree of the vertex",
+      "Parent vertex",
+      "Root of the graph",
+      "Path of a vertex from the root"
+    ],
+    "answer": "Path of a vertex from the root",
+    "explanation": "In a parse tree, the path from the root to a leaf node represents the sequence of derivation steps (grammar rule applications) needed to derive that symbol. The length of the path equals the number of derivation steps. The degree of a vertex is the number of its children; the root is the start symbol of the grammar."
+  },
+  {
+    "id": "exit-2017-q64",
+    "question": "Which function of a contemporary operating system focuses on providing users with easy access to applications and resources?",
+    "options": [
+      "Device management",
+      "File management",
+      "Process management",
+      "User interface management"
+    ],
+    "answer": "User interface management",
+    "explanation": "User interface management provides the bridge between users and OS services — through CLI (command-line), GUI (graphical), or touch interfaces. It allows users to launch applications, access files, and configure settings. Device management handles hardware, file management organizes data storage, and process management handles running programs."
+  },
+  {
+    "id": "exit-2017-q65",
+    "question": "Which SQL command is used to retrieve data from a database?",
+    "options": [
+      "UPDATE",
+      "INSERT",
+      "SELECT",
+      "DELETE"
+    ],
+    "answer": "SELECT",
+    "explanation": "SELECT is the SQL DML command used to query and retrieve data from one or more tables. It supports filtering (WHERE), grouping (GROUP BY), sorting (ORDER BY), and joining multiple tables (JOIN). UPDATE modifies existing data, INSERT adds new rows, and DELETE removes rows."
+  },
+  {
+    "id": "exit-2017-q66",
+    "question": "Which one of the following is NOT an attack on passwords?",
+    "options": [
+      "Brute-force Attack",
+      "Trojan Login",
+      "Logic Bomb",
+      "Eavesdropping"
+    ],
+    "answer": "Logic Bomb",
+    "explanation": "A logic bomb is malicious code that executes when specific conditions are met (e.g., a certain date or a user being deleted). It is NOT a password attack. Password attacks include: brute-force (trying all combinations), Trojan login (fake login screens that capture credentials), and eavesdropping (intercepting credentials in transit)."
+  },
+  {
+    "id": "exit-2017-q67",
+    "question": "Which one of the following is an example of Deductive Reasoning?",
+    "options": [
+      "The grass has been wet every time it has rained. Thus, when it rains, the grass gets wet.",
+      "When it rains, the grass gets wet. It rains. Thus the grass is wet.",
+      "When it rains, the grass gets wet. The grass is wet. It rains.",
+      "When it rains, the grass gets wet. The grass is wet, it must have rained."
+    ],
+    "answer": "When it rains, the grass gets wet. It rains. Thus the grass is wet.",
+    "explanation": "Deductive reasoning applies a general rule to a specific case to reach a certain conclusion (modus ponens). Option B is: General rule (rain → wet grass) + Specific fact (it rains) → Certain conclusion (grass is wet). Option A is inductive (observing patterns to form a rule). Options C and D are abductive reasoning (inferring the most likely cause)."
+  },
+  {
+    "id": "exit-2017-q68",
+    "question": "What is the command used to change permissions of a file for different users in Linux/Unix?",
+    "options": [
+      "Permission",
+      "Perm",
+      "Modify",
+      "Chmod"
+    ],
+    "answer": "Chmod",
+    "explanation": "chmod (change mode) is the Unix/Linux command that modifies file permission bits for the owner, group, and others. Permissions include read (r), write (w), and execute (x). Usage: chmod 755 file.sh sets rwxr-xr-x permissions. The other options (permission, perm, modify) are not valid Unix commands."
+  },
+  {
+    "id": "exit-2017-q69",
+    "question": "One of the following is NOT a property of an algorithm:",
+    "options": [
+      "Finite",
+      "Input and Output",
+      "Correct",
+      "Ambiguity"
+    ],
+    "answer": "Ambiguity",
+    "explanation": "A valid algorithm must be: Finite (terminates after a finite number of steps), Definite/Unambiguous (each step is clearly defined), Input (takes zero or more inputs), Output (produces at least one output), and Effective (each step is feasible). Ambiguity is the opposite of a required property — algorithms must be unambiguous to be correctly executed."
+  },
+  {
+    "id": "exit-2017-q70",
+    "question": "What are the factors to be considered when planning a software development effort?",
+    "options": [
+      "People, problem, productivity, performance",
+      "People, problem, product, portability",
+      "People, problem, product, process",
+      "Performance, problem, product, planning"
+    ],
+    "answer": "People, problem, product, process",
+    "explanation": "The four P's of software project planning are: People (the team), Problem (understanding what needs to be built), Product (the software deliverable and its scope), and Process (the development methodology and practices). This framework, from Pressman's Software Engineering, guides effective project planning."
+  },
+  {
+    "id": "exit-2017-q71",
+    "question": "What is the term used to describe a blueprint for creating objects in OOP?",
+    "options": [
+      "Method",
+      "Class",
+      "Instance",
+      "Object"
+    ],
+    "answer": "Class",
+    "explanation": "A class is a blueprint or template that defines the structure (attributes/fields) and behavior (methods) of objects. Objects are instances of a class — when you instantiate a class, you create an object in memory that has the class's defined properties and methods. A method is a function defined within a class."
+  },
+  {
+    "id": "exit-2017-q72",
+    "question": "Which OOP principle emphasizes the separation of concerns by dividing a program into smaller, manageable parts?",
+    "options": [
+      "Inheritance",
+      "Modularity",
+      "Abstraction",
+      "Encapsulation"
+    ],
+    "answer": "Modularity",
+    "explanation": "Modularity is the design principle of dividing a system into distinct, independent modules that can be developed, tested, and maintained separately. Each module encapsulates a specific concern. This separation reduces complexity, improves reusability, and makes large systems manageable. Encapsulation hides internal details; abstraction simplifies interfaces; inheritance shares behavior."
+  },
+  {
+    "id": "exit-2017-q73",
+    "question": "Which data structure is used to represent the grammatical structure of source program constructs in a compiler?",
+    "options": [
+      "Stack",
+      "Queue",
+      "Tree",
+      "2D-array"
+    ],
+    "answer": "Tree",
+    "explanation": "A parse tree (syntax tree) is a tree data structure that represents the grammatical derivation of a source program according to a context-free grammar. Each internal node is a non-terminal, and each leaf is a terminal (token). Abstract Syntax Trees (ASTs) are a condensed form used in later compilation stages. Trees naturally model the recursive, hierarchical structure of programming languages."
+  },
+  {
+    "id": "exit-2017-q74",
+    "question": "What is the main advantage of using references (&) in C++ compared to pointers?",
+    "options": [
+      "References can be dynamically allocated",
+      "References are more memory-efficient",
+      "References cannot be null",
+      "References can access arbitrary memory locations"
+    ],
+    "answer": "References cannot be null",
+    "explanation": "A key safety advantage of C++ references over pointers is that references must be initialized to a valid object when declared and cannot be made null or reassigned to point elsewhere. Pointers can be null, uninitialized, or dangling — all sources of bugs. References provide pointer-like efficiency while enforcing validity guarantees."
+  },
+  {
+    "id": "exit-2017-q75",
+    "question": "Which one of the following classes of running time functions is the best (most efficient)?",
+    "options": [
+      "Exponential",
+      "Logarithmic",
+      "Linear",
+      "Polynomial"
+    ],
+    "answer": "Logarithmic",
+    "explanation": "Time complexity from best to worst: O(1) < O(log n) < O(n) < O(n log n) < O(n²) < O(2ⁿ). Logarithmic time O(log n) grows very slowly — doubling the input only adds one extra step. Binary search is a classic O(log n) algorithm. Exponential O(2ⁿ) is the worst and becomes impractical very quickly."
+  },
+  {
+    "id": "exit-2017-q76",
+    "question": "Which HTML tag is used to represent paragraphs?",
+    "options": [
+      "<p>",
+      "<ph>",
+      "<par>",
+      "<pg>"
+    ],
+    "answer": "<p>",
+    "explanation": "The <p> tag defines a paragraph in HTML. Browsers automatically add space (margin) before and after each <p> element. The other options (<ph>, <par>, <pg>) are not valid HTML tags. <p> is one of the most fundamental HTML elements for structuring text content."
+  },
+  {
+    "id": "exit-2017-q77",
+    "question": "Which one of the following is the lowest level in computer architecture?",
+    "options": [
+      "Hardware",
+      "Machine language",
+      "High-level language",
+      "Assembly language"
+    ],
+    "answer": "Hardware",
+    "explanation": "Computer architecture levels from lowest to highest: Hardware (physical circuits, gates) → Machine language (binary instructions the CPU executes) → Assembly language (symbolic mnemonics for machine instructions) → High-level languages (C, Java, Python). Hardware is the foundational physical layer; everything else is an abstraction built on top of it."
+  },
+  {
+    "id": "exit-2017-q78",
+    "question": "Which of the following is a correct statement about system security?",
+    "options": [
+      "System threat is a state which exposes the system for possible attacks",
+      "System attack is a set of activities that may expose the system for possible dangers",
+      "Vulnerability is a flaw in the system's design that may be exploited by attackers",
+      "System protection is a process of disconnecting the system from any communication"
+    ],
+    "answer": "Vulnerability is a flaw in the system's design that may be exploited by attackers",
+    "explanation": "A vulnerability is a weakness or flaw in software, hardware, or system design that could be exploited by attackers to gain unauthorized access or cause harm. A threat is a potential danger that could exploit a vulnerability. An attack is the actual exploit attempt. System protection involves access controls, encryption, and monitoring — not disconnection."
+  },
+  {
+    "id": "exit-2017-q79",
+    "question": "Which one of the following is NOT a principle of system administration?",
+    "options": [
+      "Request-based",
+      "Communication",
+      "Automation",
+      "Simplicity"
+    ],
+    "answer": "Request-based",
+    "explanation": "Core principles of effective system administration include: Communication (clear documentation and team communication), Automation (scripting repetitive tasks to reduce errors), and Simplicity (keeping configurations and systems as simple as possible). 'Request-based' is not a recognized system administration principle — it describes a service model, not an administrative philosophy."
+  },
+  {
+    "id": "exit-2017-q80",
+    "question": "What is the name given to the symbolic instruction names (built-in mnemonics) used in assembly language?",
+    "options": [
+      "Cache",
+      "Func",
+      "Mnemonics",
+      "Register"
+    ],
+    "answer": "Mnemonics",
+    "explanation": "Mnemonics are the human-readable symbolic names for machine-level instructions in assembly language — for example, MOV (move data), ADD (addition), JMP (jump), CMP (compare). They replace binary opcodes like 10110000 with readable abbreviations, making assembly programming feasible for humans. An assembler converts mnemonics into binary machine code."
+  },
+  {
+    "id": "exit-2017-q81",
+    "question": "Which one of the following is a correct statement about code optimization?",
+    "options": [
+      "Code optimization can only be done before the actual code is generated",
+      "Code optimization can only be done after the actual code is generated",
+      "Code optimization can be done on the intermediate code",
+      "Code optimization cannot be done before the actual code is generated"
+    ],
+    "answer": "Code optimization can be done on the intermediate code",
+    "explanation": "Code optimization can occur at multiple stages of compilation: on the source code (front-end), on intermediate representations like three-address code or SSA form (middle-end), or on the final machine code (back-end). Intermediate code optimization (e.g., dead code elimination, constant folding, loop optimization) is particularly common and effective, as it is machine-independent."
+  },
+  {
+    "id": "exit-2017-q82",
+    "question": "What is the purpose of a loop in computer programming?",
+    "options": [
+      "To declare variables",
+      "To create user interfaces",
+      "To define conditional statements",
+      "To execute a block of code repeatedly"
+    ],
+    "answer": "To execute a block of code repeatedly",
+    "explanation": "A loop (for, while, do-while) repeats a block of code as long as a condition is true or for a specified number of iterations. Loops are fundamental for tasks like iterating over arrays, processing input streams, and implementing algorithms. Variable declaration, UI creation, and conditionals are separate programming constructs."
+  },
+  {
+    "id": "exit-2017-q83",
+    "question": "What is the primary purpose of a variable in computer programming?",
+    "options": [
+      "To define functions",
+      "To store and manipulate data",
+      "To create graphical user interfaces (GUIs)",
+      "To execute conditional statements"
+    ],
+    "answer": "To store and manipulate data",
+    "explanation": "A variable is a named storage location in memory that holds a value which can be read, modified, and used throughout a program. Variables have a name, a data type, and a value. They are the fundamental building blocks of all programs — without variables, programs could not store intermediate results or respond to changing inputs."
+  },
+  {
+    "id": "exit-2017-q84",
+    "question": "The data structure used in the standard implementation of Depth-First Search (DFS) is:",
+    "options": [
+      "Stack",
+      "Linked List",
+      "Queue",
+      "Array"
+    ],
+    "answer": "Stack",
+    "explanation": "DFS explores as deep as possible before backtracking, which naturally maps to a stack's LIFO behavior. In recursive DFS, the call stack serves this purpose implicitly. In iterative DFS, an explicit stack is used. BFS uses a queue to explore breadth-first (level by level). The choice of stack vs. queue determines whether traversal is depth-first or breadth-first."
+  },
+  {
+    "id": "exit-2017-q85",
+    "question": "Which cable type is the best for data transmission?",
+    "options": [
+      "Coaxial",
+      "Fiber Optic",
+      "RJ-45",
+      "Twisted pair"
+    ],
+    "answer": "Fiber Optic",
+    "explanation": "Fiber optic cables transmit data as light pulses through glass or plastic fibers, offering: the highest bandwidth (terabits/second), lowest signal attenuation over long distances, immunity to electromagnetic interference, and the highest data transmission speeds. Twisted pair (used in Ethernet) and coaxial cables are copper-based with lower bandwidth and distance limitations. RJ-45 is a connector type, not a cable."
+  },
+  {
+    "id": "exit-2017-q86",
+    "question": "The set of rules that govern all aspects of data communication between computers on a network are referred to as:",
+    "options": [
+      "Language",
+      "Syntax",
+      "Access methods",
+      "Protocol"
+    ],
+    "answer": "Protocol",
+    "explanation": "A network protocol is a set of rules and conventions that govern how data is formatted, transmitted, received, and acknowledged between devices on a network. Examples include TCP/IP, HTTP, FTP, SMTP, and DNS. Syntax refers to grammar rules of languages; access methods refer to how devices share a medium (CSMA/CD); neither covers all communication aspects."
+  },
+  {
+    "id": "exit-2017-q87",
+    "question": "Which type of database replication offers the highest level of data consistency but may introduce higher latency in distributed systems?",
+    "options": [
+      "Multi-master replication",
+      "Asynchronous replication",
+      "Synchronous replication",
+      "Semi-synchronous replication"
+    ],
+    "answer": "Synchronous replication",
+    "explanation": "Synchronous replication writes data to all replicas simultaneously and waits for confirmation from all before acknowledging success. This guarantees strong consistency (all replicas always have the same data) but introduces latency because the write operation must wait for the slowest replica. Asynchronous replication writes to the primary immediately and syncs replicas later — faster but risks data loss."
+  },
+  {
+    "id": "exit-2017-q88",
+    "question": "_______ is a special-purpose program or command-line interpreter that reads commands typed by a user and executes programs in response.",
+    "options": [
+      "Kernel",
+      "Terminal",
+      "Process",
+      "Shell"
+    ],
+    "answer": "Shell",
+    "explanation": "A shell (e.g., bash, zsh, sh) is the command interpreter that reads user commands, interprets them, and executes the appropriate programs. It acts as an interface between the user and the OS kernel. A terminal is the window/interface where the shell runs. The kernel is the core OS component managing hardware resources. A process is a running program instance."
+  },
+  {
+    "id": "exit-2017-q89",
+    "question": "Which SQL command is used to delete a table from a database?",
+    "options": [
+      "REMOVE TABLE",
+      "DROP TABLE",
+      "ERASE TABLE",
+      "DELETE TABLE"
+    ],
+    "answer": "DROP TABLE",
+    "explanation": "DROP TABLE permanently removes a table and all its data from the database schema. DELETE removes rows from a table but keeps the table structure. TRUNCATE removes all rows but preserves the table. REMOVE TABLE and ERASE TABLE are not valid SQL commands. DROP TABLE is a DDL (Data Definition Language) statement."
+  },
+  {
+    "id": "exit-2017-q90",
+    "question": "Which way correctly defines the scope of a software project?",
+    "options": [
+      "Define Error and Functional dependence of the project",
+      "Define non-Deliverables and Non-Functionality",
+      "Define Deliverables, Functionality, Data, and Technical Structure",
+      "Complexity and risk of the project"
+    ],
+    "answer": "Define Deliverables, Functionality, Data, and Technical Structure",
+    "explanation": "Project scope definition establishes boundaries by specifying: Deliverables (what will be produced), Functionality (what the software will do), Data (what data it processes and stores), and Technical Structure (system architecture and constraints). This provides all stakeholders with a clear, shared understanding of what is included (and excluded) from the project."
+  },
+  {
+    "id": "exit-2017-q91",
+    "question": "Which would be more suitable to store shopping cart items to be available when the user revisits the site in a couple of days?",
+    "options": [
+      "Cache",
+      "Cookies",
+      "Basket",
+      "Session"
+    ],
+    "answer": "Cookies",
+    "explanation": "Cookies are small files stored on the client's browser that persist across sessions for a configurable duration (days, weeks, or longer). They are ideal for storing shopping cart data between visits. Sessions exist only while the browser is open (or for a short server-side timeout). Cache stores resources for performance, not user-specific data. 'Basket' is not a web technology."
+  },
+  {
+    "id": "exit-2017-q92",
+    "question": "In cryptography, which operation involves each letter of the plaintext changing its position while retaining its identity?",
+    "options": [
+      "Transposition",
+      "Substitution",
+      "Block cipher",
+      "Mono-alphabetic"
+    ],
+    "answer": "Transposition",
+    "explanation": "Transposition ciphers rearrange (permute) the characters of plaintext without changing them — each letter keeps its identity but moves to a different position. For example, 'HELLO' might become 'LLHOE'. Substitution ciphers replace each character with a different one (identity changes, position may stay). The Caesar cipher is a classic substitution cipher."
+  },
+  {
+    "id": "exit-2017-q93",
+    "question": "In asymmetric cryptography, the message is encrypted using:",
+    "options": [
+      "Sender's public key",
+      "Receiver's public key",
+      "Receiver's private key",
+      "Sender's private key"
+    ],
+    "answer": "Receiver's public key",
+    "explanation": "In asymmetric (public-key) cryptography for confidentiality: the sender encrypts the message using the receiver's PUBLIC key. Only the receiver can decrypt it using their corresponding PRIVATE key. The public key is freely shared; the private key is kept secret. This ensures only the intended recipient can read the message, even if intercepted."
+  },
+  {
+    "id": "exit-2017-q94",
+    "question": "What does ACID stand for in database transactions?",
+    "options": [
+      "Atomicity, Consistency, Integrity, Durability",
+      "All Columns Indexed and Defined",
+      "Automated Control of Inconsistent Data",
+      "Advanced Constraints for Improved Data"
+    ],
+    "answer": "Atomicity, Consistency, Integrity, Durability",
+    "explanation": "ACID stands for Atomicity (all-or-nothing transactions), Consistency (transactions bring DB from one valid state to another), Isolation (concurrent transactions don't interfere), and Durability (committed transactions survive crashes). Note: the exam answer lists 'Integrity' but the correct full form is 'Isolation' — always use Atomicity, Consistency, Isolation, Durability in your studies.",
+    "note": "The correct acronym expansion is Atomicity, Consistency, ISOLATION, Durability — not Integrity. The exam answer has an error here."
+  },
+  {
+    "id": "exit-2017-q95",
+    "question": "Which one of the following is a wrongly matched key idea in Object-Oriented Programming?",
+    "options": [
+      "Method — an action performed by an object",
+      "Class — does hold any values of the object's attributes",
+      "Object — usually a person, place or thing",
+      "Attribute — description of objects in a class"
+    ],
+    "answer": "Class — does hold any values of the object's attributes",
+    "explanation": "A class does NOT hold values — it defines the structure (which attributes exist and their types). Values are stored in objects (instances of the class). For example, a 'Person' class defines that persons have a 'name' attribute, but it's the object 'person1' that holds the value 'Alice'. This is a fundamental OOP distinction between class definition and object instantiation."
+  },
+  {
+    "id": "exit-2017-q96",
+    "question": "Which one of the following is NOT used to determine the CPU state at the end of the execute cycle?",
+    "options": [
+      "The content of certain status conditions (flags)",
+      "The content of all processor registers",
+      "The content of the data bus",
+      "The content of the program counter"
+    ],
+    "answer": "The content of the data bus",
+    "explanation": "After an instruction executes, the CPU state is captured by: processor registers (holding computed values and addresses), the program counter (pointing to the next instruction), and status/flag registers (recording conditions like zero, carry, overflow). The data bus is a shared communication channel — its transient content during the cycle is not part of the saved CPU state."
+  },
+  {
+    "id": "exit-2017-q97",
+    "question": "Which one of the following is NOT a correct statement about automata theory?",
+    "options": [
+      "Pushdown automata and FSA have the same power",
+      "Turing machine is the least powerful automata",
+      "Deterministic FSA and Nondeterministic FSA are equivalent",
+      "Regular expression is more powerful than FSA"
+    ],
+    "answer": "Pushdown automata and FSA have the same power",
+    "explanation": "Pushdown Automata (PDA) are strictly more powerful than Finite State Automata (FSA) — PDAs recognize context-free languages (like balanced parentheses), which FSAs cannot. FSAs only recognize regular languages. So 'PDA and FSA have the same power' is FALSE. Turing machines are the MOST powerful, and DFA/NFA are equivalent in power."
+  },
+  {
+    "id": "exit-2017-q98",
+    "question": "Which one of the following is a correct statement about Turing Machines and automata?",
+    "options": [
+      "Turing machine is the least powerful automata",
+      "Pushdown automata and FSA have the same power",
+      "Deterministic FSA and Nondeterministic FSA are equivalent",
+      "Regular expression is more powerful than FSA"
+    ],
+    "answer": "Deterministic FSA and Nondeterministic FSA are equivalent",
+    "explanation": "By the Rabin-Scott theorem, every NFA can be converted to an equivalent DFA through the subset/powerset construction. Both recognize exactly the regular languages. Turing machines are the most powerful model. PDAs are more powerful than FSAs. Regular expressions and FSAs describe the same class of languages (regular languages) — they are equivalent in power, not with RE being more powerful."
+  },
+  {
+    "id": "exit-2017-q99",
+    "question": "Which one of the following is FALSE about the HTTP protocol?",
+    "options": [
+      "An HTTP message body can be empty",
+      "It is a stateless protocol",
+      "An HTTP message has a specified minimum size",
+      "It is a protocol used for communication between a web browser and a web server"
+    ],
+    "answer": "An HTTP message has a specified minimum size",
+    "explanation": "HTTP does not define a minimum message size. Responses can be as minimal as a three-digit status code with headers and no body (e.g., '304 Not Modified'). HTTP is indeed stateless (each request-response is independent), used for web browser-server communication, and message bodies can be empty. Only the minimum-size claim is false."
+  },
+  {
+    "id": "exit-2017-q100",
+    "question": "Which one of the following is NOT a principle of system administration?",
+    "options": [
+      "Request-based",
+      "Automation",
+      "Communication",
+      "Simplicity"
+    ],
+    "answer": "Request-based",
+    "explanation": "System administration principles guide how administrators manage IT systems effectively. Key principles include: Automation (automate repetitive tasks), Communication (document and communicate clearly), and Simplicity (keep systems and configurations simple to reduce errors). 'Request-based' describes a ticket/service-request workflow model, not a fundamental administration principle."
+  }
+]
