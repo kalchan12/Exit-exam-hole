@@ -1,0 +1,1402 @@
+[
+  {
+    "id": "cs-2015-regular-q1",
+    "question": "A process is terminated by the operating system due to a reference to non-existing memory. Which one of the following best explains the process termination?",
+    "options": [
+      "Error exit",
+      "Fatal exit",
+      "Normal exit",
+      "Terminated by another process"
+    ],
+    "answer": "Fatal exit",
+    "explanation": "When a process tries to access a memory address that doesn't exist or that it has no permission to access, the OS receives a segmentation fault signal. Because this is a severe, unrecoverable error (not the program's deliberate choice), the OS performs a Fatal exit — forcibly killing the process. This is different from a Normal exit (clean termination), Error exit (program-detected error), or being killed by another process.",
+    "topic": "Operating Systems",
+    "difficulty": "medium"
+  },
+  {
+    "id": "cs-2015-regular-q2",
+    "question": "Size of large data files can be reduced to save storage disk space. Which algorithm is appropriate to reduce size of large files?",
+    "options": [
+      "Merge sort algorithm",
+      "Huffman encoding algorithm",
+      "Heap sort algorithm",
+      "Prim's algorithm"
+    ],
+    "answer": "Huffman encoding algorithm",
+    "explanation": "Huffman Encoding is a lossless data compression algorithm that assigns shorter binary codes to more frequent characters and longer codes to rare ones. For example, 'e' (very common) might get code '10', while 'z' (rare) gets '10110100'. This reduces the total bits needed to represent a file. Merge sort and Heap sort are sorting algorithms; Prim's finds minimum spanning trees — none of these compress data.",
+    "topic": "Algorithms",
+    "difficulty": "medium"
+  },
+  {
+    "id": "cs-2015-regular-q3",
+    "question": "Which one of the following is asynchronous in message communication?",
+    "options": [
+      "Blocking send",
+      "Blocking receive",
+      "Direct message",
+      "Non-block receive"
+    ],
+    "answer": "Non-block receive",
+    "explanation": "In message-passing, synchronous (blocking) communication makes the sender or receiver WAIT until the operation completes. Asynchronous (non-blocking) communication lets the process CONTINUE immediately without waiting. Non-blocking receive is asynchronous — the receiver checks if a message has arrived and moves on regardless, without getting stuck waiting. Blocking send and blocking receive both halt the process until the operation finishes.",
+    "topic": "Operating Systems",
+    "difficulty": "easy"
+  },
+  {
+    "id": "cs-2015-regular-q4",
+    "question": "Which one of the following is true about functions in JavaScript?",
+    "options": [
+      "Function names can begin with digits",
+      "There is no limit to the number of function parameters that a function may contain",
+      "Function names can contain spaces",
+      "Function names are not case-sensitive"
+    ],
+    "answer": "There is no limit to the number of function parameters that a function may contain",
+    "explanation": "JavaScript identifier (variable/function name) rules: must start with a letter, underscore _, or dollar sign $ (NOT a digit). May NOT contain spaces. ARE case-sensitive (myFunc ≠ myfunc). As for parameter count, JavaScript has no enforced hard limit on function parameters — you can define as many as you like (though practically, too many is bad style). Options A, C, and D are all false about JavaScript.",
+    "topic": "Web Development",
+    "difficulty": "easy"
+  },
+  {
+    "id": "cs-2015-regular-q5",
+    "question": "Consider the following fragment of C++ code:\n\nconst int x = 8;\nconst int y = 16;\nif(x > y)\n{\n    int z = x + y;\n}\n\nFor codes like the above one, which technique of code optimization is appropriate?",
+    "options": [
+      "Arithmetic simplification",
+      "Compile time evaluation",
+      "Code motion",
+      "Dead code elimination"
+    ],
+    "answer": "Dead code elimination",
+    "explanation": "Since x=8 and y=16 are constants known at compile time, the condition (8 > 16) is always false — the block inside the if-statement can NEVER execute. The compiler's Dead Code Elimination optimization detects this and removes the entire if-block from the compiled output, saving space and time. This is different from Constant Folding (evaluating expressions) or Code Motion (moving code outside loops).",
+    "topic": "Compiler Design",
+    "difficulty": "medium"
+  },
+  {
+    "id": "cs-2015-regular-q6",
+    "question": "Suppose you have received a message from your friend but the message is scrambled for the sake of security. Your friend has used a program to encode messages into scrambled text. In order to read the message which program would you use?",
+    "options": [
+      "Secret key",
+      "Decryption program",
+      "Encryption program",
+      "Ciphertext"
+    ],
+    "answer": "Decryption program",
+    "explanation": "Encryption scrambles a message into unreadable ciphertext using an algorithm and a key. To read it back, you need a Decryption program — the reverse process that uses the key to convert ciphertext back to the original plaintext. The 'secret key' is not a program; 'ciphertext' is the scrambled result, not a tool; 'encryption program' would scramble it again (making it worse).",
+    "topic": "Security",
+    "difficulty": "medium"
+  },
+  {
+    "id": "cs-2015-regular-q7",
+    "question": "In a tree data structure, if a node has no parent node, then the node is ______.",
+    "options": [
+      "External node",
+      "Root node",
+      "Internal node",
+      "Parent node"
+    ],
+    "answer": "Root node",
+    "explanation": "In a tree data structure: Root node — the single node at the top with NO parent. Internal node — has both a parent AND at least one child. Leaf (external) node — has a parent but NO children. The root is the unique starting point of the tree; every other node can trace a path of parent links back up to the root.",
+    "topic": "Data Structures",
+    "difficulty": "medium"
+  },
+  {
+    "id": "cs-2015-regular-q8",
+    "question": "Which statement is true about pop() operation of Stack data structures?",
+    "options": [
+      "pop() inserts new element at the middle of stack",
+      "pop() returns the end/top element but it doesn't delete that element",
+      "pop() removes the end/top element from stack",
+      "pop() inserts new element at the beginning/bottom of stack"
+    ],
+    "answer": "pop() removes the end/top element from stack",
+    "explanation": "Stack operations: push(x) — adds element x to the TOP of the stack. pop() — REMOVES AND RETURNS the top element (LIFO order). peek()/top() — returns the top element WITHOUT removing it. So pop() does delete the element (option B is wrong about that), and it only works on the top (not middle or bottom). If the stack is empty, pop() throws an underflow error.",
+    "topic": "Data Structures",
+    "difficulty": "easy"
+  },
+  {
+    "id": "cs-2015-regular-q9",
+    "question": "Given the schemas:\nBOOK (Book_id, Title, Publisher_name)\nBOOK_AUTHOR (Book_id, Author_name)\nPUBLISHER (Name, Address, Phone)\n\nWhich one of the following SQL is correct to delete the publisher named as 'XWZ' from the PUBLISHER table",
+    "options": [
+      "DELETE FROM PUBLISHER WHERE Address = 'XWZ'",
+      "DELETE FROM PUBLISHER WHERE Name = 'XWZ'",
+      "DELETE FROM BOOK_AUTHOR WHERE Address = 'XWZ'",
+      "DELETE FROM BOOK WHERE Name = 'XWZ'"
+    ],
+    "answer": "DELETE FROM PUBLISHER WHERE Name = 'XWZ'",
+    "explanation": "The question asks to DELETE a PUBLISHER named 'XWZ'. The correct SQL targets the right table (PUBLISHER) and the right column (Name). DELETE FROM PUBLISHER WHERE Name = 'XWZ'. Option A targets Address column (wrong), options C and D target wrong tables (BOOK_AUTHOR and BOOK). SQL DELETE syntax: DELETE FROM table WHERE condition.",
+    "topic": "Database",
+    "difficulty": "medium"
+  },
+  {
+    "id": "cs-2015-regular-q10",
+    "question": "Which one of the following is not correct about transaction failure?",
+    "options": [
+      "Concurrency control enforcement avoids transaction failure",
+      "Transactions fail if logical errors are detected",
+      "Transactions fail if disk blocks lose their data",
+      "Catastrophes can be cause of transaction failure"
+    ],
+    "answer": "Concurrency control enforcement avoids transaction failure",
+    "explanation": "Concurrency control (e.g., locking, timestamps) manages concurrent access to prevent conflicts like dirty reads and lost updates — but it does NOT prevent ALL transaction failures. Transactions still fail due to: logical errors in the program (option B), disk failures losing data (option C), and catastrophes like power outages (option D). Concurrency control is about coordination, not fault prevention.",
+    "topic": "Database",
+    "difficulty": "easy"
+  },
+  {
+    "id": "cs-2015-regular-q11",
+    "question": "Which asymptotic notation describes average case analysis?",
+    "options": [
+      "f(n) = Big-Oh",
+      "f(n) = Ω (Big omega)",
+      "f(n) = little-ω(little omega)",
+      "f(n) = θ (thetha)"
+    ],
+    "answer": "f(n) = θ (thetha)",
+    "explanation": "The asymptotic notations: O (Big-O) — upper bound (worst case). Ω (Big-Omega) — lower bound (best case). θ (Theta) — tight bound (both upper and lower simultaneously). For average-case analysis, θ notation is used when the average-case complexity is tightly bounded from both above and below, giving a precise characterization of expected behavior.",
+    "topic": "Algorithms",
+    "difficulty": "easy"
+  },
+  {
+    "id": "cs-2015-regular-q12",
+    "question": "Which one of the following is not an example of scripting languages?",
+    "options": [
+      "Python",
+      "Perl",
+      "C++",
+      "PHP"
+    ],
+    "answer": "C++",
+    "explanation": "Scripting languages are interpreted (run directly from source), good for automation and quick tasks: Python, Perl, PHP, JavaScript, Ruby, Bash. Compiled languages like C++ are translated into machine code before running, giving better performance but requiring a compilation step. C++ is definitely a compiled language — it produces executables via a compiler like g++.",
+    "topic": "Programming",
+    "difficulty": "easy"
+  },
+  {
+    "id": "cs-2015-regular-q13",
+    "question": "What will be the output of the following JavaScript statement? Math.sqrt(36)",
+    "options": [
+      "1",
+      "6",
+      "36",
+      "30"
+    ],
+    "answer": "6",
+    "explanation": "Math.sqrt(n) returns the square root of n. √36 = 6 because 6 × 6 = 36. The JavaScript Math object provides many mathematical functions: Math.sqrt() for square root, Math.pow() for exponentiation, Math.abs() for absolute value, Math.round() for rounding, etc. This is a built-in function — no import needed.",
+    "topic": "Web Development",
+    "difficulty": "easy"
+  },
+  {
+    "id": "cs-2015-regular-q14",
+    "question": "Which one of the following is false about project planning stage?",
+    "options": [
+      "Project planning is a one-time task in software development life cycle",
+      "Risk analysis is done during project planning",
+      "Cost estimation is done during project planning",
+      "Preparing time schedule is done during project planning"
+    ],
+    "answer": "Project planning is a one-time task in software development life cycle",
+    "explanation": "Project planning is NOT a one-time activity done only at the start. It is an ongoing, iterative process throughout the entire SDLC. As the project progresses, new risks emerge, estimates are revised, schedules are updated, and resources are reallocated. The other options (risk analysis, cost estimation, scheduling) are all genuine activities that DO happen during project planning.",
+    "topic": "Software Engineering",
+    "difficulty": "easy"
+  },
+  {
+    "id": "cs-2015-regular-q15",
+    "question": "Which one of the following is different from the other based on its role in computer network?",
+    "options": [
+      "Routers",
+      "Network printer",
+      "Hubs",
+      "Wireless access point"
+    ],
+    "answer": "Network printer",
+    "explanation": "Network infrastructure devices (routers, hubs, switches, WAPs) exist to connect, direct, and relay data between devices on a network. A network printer is an END DEVICE — it uses the network to receive print jobs, but it doesn't forward traffic or connect other devices. This is the fundamental distinction: infrastructure vs. end device.",
+    "topic": "Networking",
+    "difficulty": "medium"
+  },
+  {
+    "id": "cs-2015-regular-q16",
+    "question": "Advancement of operating system is closely tied to computer architectures, therefore, has passed through different generations. Which one of the following generation and advancement is wrongly coupled?",
+    "options": [
+      "Fourth generation -> real time systems",
+      "Third generation -> batch system",
+      "First generation -> single user",
+      "Second generation -> multiprogramming"
+    ],
+    "answer": "Third generation -> batch system",
+    "explanation": "OS generation timeline: 1st generation (1940s-50s) — single user, batch processing with punch cards. 2nd generation (1950s-60s) — batch systems with job queues, multiprogramming. 3rd generation (1960s-70s) — time-sharing, multiprogramming, multi-user. 4th generation (1980s+) — personal computers, real-time systems, distributed OS. 'Third generation → batch system' is WRONG; batch systems belong to the 2nd generation. Third generation brought time-sharing.",
+    "topic": "Operating Systems",
+    "difficulty": "medium"
+  },
+  {
+    "id": "cs-2015-regular-q17",
+    "question": "______ is a network architecture characteristic that states a network can expand quickly to address needs of new users and application without having impact on the services delivered to existing users.",
+    "options": [
+      "Scalability",
+      "Fault tolerance",
+      "Security",
+      "Quality of service"
+    ],
+    "answer": "Scalability",
+    "explanation": "Scalability is the ability of a network (or system) to GROW to handle more users, devices, or traffic WITHOUT degrading the service experienced by existing users. Fault tolerance is about surviving failures. Security protects from threats. Quality of Service (QoS) manages performance levels. Only scalability matches 'expand quickly to address needs of new users without impact on existing users.'",
+    "topic": "Networking",
+    "difficulty": "medium"
+  },
+  {
+    "id": "cs-2015-regular-q18",
+    "question": "Look at the following PHP line: $list = array(20, 12, 23, 19, 18); What is the index of data value 19?",
+    "options": [
+      "3",
+      "2",
+      "0",
+      "1"
+    ],
+    "answer": "3",
+    "explanation": "PHP arrays (and most programming languages) use zero-based indexing: index 0 → 20, index 1 → 12, index 2 → 23, index 3 → 19, index 4 → 18. Count from 0: position 0 is the first element (20), position 3 is the fourth element (19). Always start counting from 0 in PHP, Java, C++, JavaScript, Python, etc.",
+    "topic": "Web Development",
+    "difficulty": "medium"
+  },
+  {
+    "id": "cs-2015-regular-q19",
+    "question": "Which one of the following algorithms can be used to extract Minimum Spanning Tree from an input graph?",
+    "options": [
+      "Dijkstra's algorithm",
+      "Merge sort algorithm",
+      "Huffman encoding algorithm",
+      "Prim's algorithm"
+    ],
+    "answer": "Prim's algorithm",
+    "explanation": "A Minimum Spanning Tree (MST) is a subset of graph edges that connects all vertices with the minimum possible total edge weight and no cycles. Prim's algorithm (and also Kruskal's) are specifically designed to find MSTs. Dijkstra's algorithm finds shortest paths from a source. Merge sort and Huffman encoding are completely unrelated to spanning trees.",
+    "topic": "Algorithms",
+    "difficulty": "medium"
+  },
+  {
+    "id": "cs-2015-regular-q20",
+    "question": "______ is set of attributes that can be seen by a program and can have direct impact on the logical execution of a program.",
+    "options": [
+      "Arrangement",
+      "Architecture",
+      "Organization",
+      "Flow control"
+    ],
+    "answer": "Architecture",
+    "explanation": "Computer Architecture = the set of attributes VISIBLE to the programmer: instruction set (ISA), register types, addressing modes, data types, I/O mechanisms. These directly affect how a program is written and executes. Computer Organization = how the architecture is physically implemented (clock speed, bus width, circuit design) — invisible to the programmer. Same architecture can have different organizations.",
+    "topic": "Computer Architecture",
+    "difficulty": "medium"
+  },
+  {
+    "id": "cs-2015-regular-q21",
+    "question": "Which quantifier can be used for some portion of the universe?",
+    "options": [
+      "→",
+      "↓",
+      "∃",
+      "^"
+    ],
+    "answer": "∃",
+    "explanation": "In logic and mathematics, quantifiers specify the scope of a statement: ∀ (Universal quantifier, 'for all') — applies to EVERY element in the domain. ∃ (Existential quantifier, 'there exists' / 'for some') — applies to AT LEAST ONE element. The question asks about 'some portion of the universe' — that's the existential quantifier ∃. The other symbols (→ implication, ↓ down arrow, ^ AND) are not quantifiers.",
+    "topic": "Artificial Intelligence",
+    "difficulty": "easy"
+  },
+  {
+    "id": "cs-2015-regular-q22",
+    "question": "What is the output of the following C++ fragment code?\n\nint a = 6, b = 8;\nint x = 2, y = 4;\nint c = (x > y ? (a--, x) : (b--, y));\ncout << \"a=\" << a;\ncout << \"    b=\" << b;\ncout << \"    c=\" << c;",
+    "options": [
+      "a = 6    b = 7    c = 4",
+      "a = 5    b = 7    c = 2",
+      "a = 5    b = 8    c = 4",
+      "a = 6    b = 8    c = 4"
+    ],
+    "answer": "a = 6    b = 7    c = 4",
+    "explanation": "Evaluate the ternary operator: condition is x > y → 2 > 4 → FALSE. So the ELSE branch (b--, y) executes: b is decremented AFTER the expression evaluates, so b changes from 8 to 7, and y=4 is assigned to c. The a-- in the true branch never executes, so a stays 6. Final values: a=6, b=7, c=4.",
+    "topic": "Programming",
+    "difficulty": "medium"
+  },
+  {
+    "id": "cs-2015-regular-q23",
+    "question": "Which one of the following is not true about fan trap in Entity Relationship Diagram?",
+    "options": [
+      "It can be resolved by readjusting the model so that no one-to-many relationships fan out from an entity",
+      "It occurs when there is no pathway between related entities",
+      "When there is ambiguous pathway between some entity occurrences in related entity types",
+      "Highly likely exit when more than two one-to-many relationships fan out from an entity"
+    ],
+    "answer": "It occurs when there is no pathway between related entities",
+    "explanation": "A fan trap in ER diagrams occurs when MULTIPLE one-to-many relationships fan out from a SINGLE entity, creating AMBIGUITY in navigation paths between related entities. It is NOT about missing pathways — it's about TOO MANY ambiguous pathways. Example: if Department has 1:M to both Division and Employee, it's ambiguous which employees belong to which division.",
+    "topic": "Database",
+    "difficulty": "medium"
+  },
+  {
+    "id": "cs-2015-regular-q24",
+    "question": "Assume you have a universe of Key U. Which one is false statement regarding Direct Address table and Hash Table data structures?",
+    "options": [
+      "If universe U is very large, Hash table is better than Direct Address table",
+      "Hash table allocates one separate memory slot for each key in the universe U",
+      "There is one to one correspondence between keys in the universe U and memory slots in the Direct Address table",
+      "Direct Address table doesn't use hash function to map keys"
+    ],
+    "answer": "Hash table allocates one separate memory slot for each key in the universe U",
+    "explanation": "Direct Address Table: allocates one slot per key in the universe U — simple 1:1 mapping, no hashing. Works great when U is small. Hash Table: maps keys from a LARGE universe to a smaller table using a hash function — does NOT allocate a slot for every possible key. Option B says hash tables allocate one slot per key — this is FALSE. Hash tables use hashing precisely to avoid that.",
+    "topic": "Data Structures",
+    "difficulty": "medium"
+  },
+  {
+    "id": "cs-2015-regular-q25",
+    "question": "Which one of the following is a two-level cache having an internal and external caches?",
+    "options": [
+      "Multilevel cache",
+      "Single level cache",
+      "Split cache",
+      "Unified cache"
+    ],
+    "answer": "Multilevel cache",
+    "explanation": "Cache hierarchy: L1 cache — smallest, fastest, directly inside the CPU chip (internal). L2 cache — larger, slightly slower, can be on-chip or on a separate chip (external). L3 cache — even larger. A 'multilevel cache' is this two-level (or more) structure combining internal L1 and external L2. Split cache divides L1 into instruction-cache and data-cache. Unified cache stores both instructions and data together.",
+    "topic": "Computer Architecture",
+    "difficulty": "medium"
+  },
+  {
+    "id": "cs-2015-regular-q26",
+    "question": "For an input graph, Depth First Traversal algorithm uses ______ data structure to traverse.",
+    "options": [
+      "Tree",
+      "Stack",
+      "Priority queue",
+      "Queue"
+    ],
+    "answer": "Stack",
+    "explanation": "DFS (Depth-First Search) explores as far as possible along each branch before backtracking. It uses a STACK (LIFO) — either explicitly pushing/popping nodes, or implicitly through recursion (the call stack). BFS (Breadth-First Search) uses a QUEUE (FIFO) to visit nodes level by level. Priority queue is used in Dijkstra's and A* for weighted graph traversal.",
+    "topic": "Data Structures",
+    "difficulty": "medium"
+  },
+  {
+    "id": "cs-2015-regular-q27",
+    "question": "Suppose you are administering a network and would like to know whether a computer in the upstairs is connected to the network or not. Therefore, which command would you use?",
+    "options": [
+      "nslookup",
+      "traceroute",
+      "ping",
+      "DHCP discover"
+    ],
+    "answer": "ping",
+    "explanation": "ping sends ICMP Echo Request packets to an IP address and waits for Echo Reply packets. If the host replies, it's connected and reachable. It also tells you round-trip time (latency). nslookup queries DNS to resolve hostnames. traceroute/tracert shows the hop-by-hop path. DHCP discover is for obtaining an IP address. To check if a computer is 'connected and responding,' ping is the go-to command.",
+    "topic": "Networking",
+    "difficulty": "medium"
+  },
+  {
+    "id": "cs-2015-regular-q28",
+    "question": "Which one of the following is true about java and javascript?",
+    "options": [
+      "Both are object oriented languages",
+      "There are more features in javascript than java",
+      "Javascript can be used in extremely sophisticated applications",
+      "Javascript is compiled and interpreted in source code form"
+    ],
+    "answer": "Javascript can be used in extremely sophisticated applications",
+    "explanation": "Java is a fully object-oriented, compiled-then-interpreted (bytecode/JVM) language used for large applications. JavaScript is prototype-based, interpreted, and runs in browsers or Node.js. Despite the name, they are very different. Modern JavaScript (ES6+, Node.js, React, Angular) CAN power sophisticated enterprise-level applications. Options A (not both OOP), B (Java has more features), and D (JS is interpreted, not compiled) are false.",
+    "topic": "Web Development",
+    "difficulty": "easy"
+  },
+  {
+    "id": "cs-2015-regular-q29",
+    "question": "Given input Alphabet Σ = {a, b, c, d} and empty string λ. Then, which one of the following is equivalent to Σ^0?",
+    "options": [
+      "Σ^+",
+      "Σ^*",
+      "Σ",
+      "{λ}"
+    ],
+    "answer": "{λ}",
+    "explanation": "The Kleene star Σ* represents ALL possible strings over alphabet Σ including the empty string λ: Σ* = Σ⁰ ∪ Σ¹ ∪ Σ² ∪ ... = {λ} ∪ Σ ∪ Σ² ∪ ... Σ⁺ excludes the empty string: Σ⁺ = Σ¹ ∪ Σ² ∪ ... = Σ* \\ {λ}. Therefore Σ* = Σ⁺ ∪ {λ} is true. The other options are incomplete or incorrect definitions.",
+    "topic": "Automata Theory",
+    "difficulty": "medium"
+  },
+  {
+    "id": "cs-2015-regular-q30",
+    "question": "Which one of the following is not a single level ordered index?",
+    "options": [
+      "Secondary index",
+      "Multilevel index",
+      "Clustering index",
+      "Primary index"
+    ],
+    "answer": "Multilevel index",
+    "explanation": "Single-level ordered indexes include: Primary index — built on ordered data file using the primary key. Clustering (Dense) index — one entry per distinct key value in an ordered file. Secondary index — built on non-ordering fields. Multilevel index is hierarchical — it builds an index on top of the index, creating multiple levels (like a B-tree). It is NOT a single-level structure.",
+    "topic": "Database",
+    "difficulty": "easy"
+  },
+  {
+    "id": "cs-2015-regular-q31",
+    "question": "Suppose you have developed a self-driving car equipped with relevant sensors and camera that helps it to see the road and drive sensing traffic lights, pedestrians and signs. Its sensors are able to detect the environment but not all the aspects. Hence, in which environment is your car acting?",
+    "options": [
+      "Discrete",
+      "Fully observable",
+      "Partially observable",
+      "Stochastic"
+    ],
+    "answer": "Partially observable",
+    "explanation": "Environment observability: Fully observable — the agent's sensors give it complete, accurate information about the entire environment state at all times. Partially observable — sensors only capture PART of the environment (e.g., occluded areas, limited range). The self-driving car can see some things (traffic lights, nearby pedestrians) but 'not all aspects' — blind spots, distant objects, hidden hazards. That's a partially observable environment.",
+    "topic": "Artificial Intelligence",
+    "difficulty": "medium"
+  },
+  {
+    "id": "cs-2015-regular-q32",
+    "question": "Which network security issue shows the level of weakness in networks and devices?",
+    "options": [
+      "Vulnerability",
+      "Threat",
+      "Attack",
+      "Availability"
+    ],
+    "answer": "Vulnerability",
+    "explanation": "Security terminology: Vulnerability — a WEAKNESS or flaw in a system that could be exploited (e.g., unpatched software, weak password policy). Threat — a potential danger that could exploit a vulnerability. Attack — the actual exploitation of a vulnerability. Availability — a CIA security goal (system being accessible). 'Level of weakness' directly maps to vulnerability.",
+    "topic": "Security",
+    "difficulty": "medium"
+  },
+  {
+    "id": "cs-2015-regular-q33",
+    "question": "Assume there is a line of patients waiting for a service from a clinic. Seriously sick patients should get service first. Which data structure is the most appropriate for the given type of real world problem?",
+    "options": [
+      "Priority Queue",
+      "Stack",
+      "Tree",
+      "Queue"
+    ],
+    "answer": "Priority Queue",
+    "explanation": "A regular Queue processes patients in arrival order (FIFO) — unfair for emergencies. A Stack (LIFO) would serve the last person first — terrible for a clinic. A Priority Queue dequeues the item with the HIGHEST priority first, regardless of arrival order. Seriously sick patients get the highest priority and are served first. This is exactly how hospital triage works in real life.",
+    "topic": "Data Structures",
+    "difficulty": "medium"
+  },
+  {
+    "id": "cs-2015-regular-q34",
+    "question": "Which one of the following is a measure taken, to ensure information and information systems' availability, integrity, authentication and confidentiality?",
+    "options": [
+      "Wiretapping",
+      "Interception",
+      "Information security",
+      "Information assurance"
+    ],
+    "answer": "Information assurance",
+    "explanation": "Information Assurance (IA) is a broader, more comprehensive concept than 'information security.' IA covers the full suite of protective measures: Confidentiality, Integrity, Availability (CIA), plus Authentication, Non-repudiation, and system reliability and resilience. Wiretapping and Interception are ATTACKS on information, not protective measures. Information Security is a subset of IA.",
+    "topic": "Security",
+    "difficulty": "medium"
+  },
+  {
+    "id": "cs-2015-regular-q35",
+    "question": "Which type of Turing machine has two tapes, one tape read-only and the other read-write tape?",
+    "options": [
+      "Multi-head Turing machine",
+      "Multi-dimensional Turing machine",
+      "Off-line Turing machine",
+      "Non-deterministic Turing machine"
+    ],
+    "answer": "Off-line Turing machine",
+    "explanation": "Off-line Turing Machine specifically has a TWO-TAPE design: (1) Read-only input tape — for reading the input string; (2) Read-write work tape — for computation scratch space. This separation distinguishes it from standard single-tape TMs (which have one read-write tape). Multi-head TMs have multiple read heads; multi-dimensional TMs have a 2D tape; non-deterministic TMs can branch into multiple paths.",
+    "topic": "Automata Theory",
+    "difficulty": "medium"
+  },
+  {
+    "id": "cs-2015-regular-q36",
+    "question": "Which one of the following is false about arrays in C++?",
+    "options": [
+      "Size of an array should be constant at the time of array declaration",
+      "We use [ ] square bracket at the time of array declaration",
+      "We can access elements of arrays without using index number",
+      "An array is a collection of similar data objects"
+    ],
+    "answer": "We can access elements of arrays without using index number",
+    "explanation": "In C++, standard arrays (int arr[5]) require a compile-time CONSTANT size — you cannot use a variable as the array size (unless using a compiler extension or VLAs in C99). Elements are accessed ONLY via index numbers: arr[0], arr[1], etc. You cannot randomly access elements without an index. Arrays store elements of the SAME data type. Using [ ] in declaration is correct syntax.",
+    "topic": "Programming",
+    "difficulty": "easy"
+  },
+  {
+    "id": "cs-2015-regular-q37",
+    "question": "Which branch of study deals with whether a problem can be solved at all or not, regardless of the resources required?",
+    "options": [
+      "Automata theory",
+      "Set theory",
+      "Computability theory",
+      "Complexity theory"
+    ],
+    "answer": "Computability theory",
+    "explanation": "Computability Theory (also called Recursion Theory) answers the fundamental question: 'Can this problem be solved by ANY algorithm at all, regardless of time or memory?' It identifies decidable problems (solvable) vs. undecidable ones (like the Halting Problem). Complexity Theory asks 'how efficiently can solvable problems be solved?' Automata Theory models computation with abstract machines. Set Theory is pure math.",
+    "topic": "Automata Theory",
+    "difficulty": "medium"
+  },
+  {
+    "id": "cs-2015-regular-q38",
+    "question": "At which layer of the OSI model devices such as bridges, switches and Network interface cards are used?",
+    "options": [
+      "Physical layer",
+      "Network layer",
+      "Application layer",
+      "Data link layer"
+    ],
+    "answer": "Data link layer",
+    "explanation": "OSI Layer 2 (Data Link Layer) deals with MAC addresses and local network frames. Bridges — connect two LAN segments at Layer 2, filtering traffic by MAC address. Switches — multi-port bridges that learn and forward frames by MAC address. NICs (Network Interface Cards) — the physical-logical interface at Layer 2 that gives each device a MAC address. Routers operate at Layer 3; hubs are Layer 1.",
+    "topic": "Networking",
+    "difficulty": "medium"
+  },
+  {
+    "id": "cs-2015-regular-q39",
+    "question": "When two transactions that access the same database items have their operations interleaved in a way that makes the value of some database item incorrect",
+    "options": [
+      "It is an incorrect summary problem",
+      "It is a dirty read problem",
+      "It is a lost update problem",
+      "It is a temporary read problem"
+    ],
+    "answer": "It is a lost update problem",
+    "explanation": "The Lost Update Problem: Transaction T1 reads value X=100. Transaction T2 reads the same X=100. T1 writes X=150 (adds 50). T2 writes X=80 (sets it based on its stale read of 100). T1's update is LOST — overwritten by T2. This happens because two transactions interleave their reads and writes on the same data item, corrupting the final value. Dirty read is about reading uncommitted data.",
+    "topic": "Database",
+    "difficulty": "medium"
+  },
+  {
+    "id": "cs-2015-regular-q40",
+    "question": "Which one of data updates best describes the following statement? \"All modified data items in the cache is written either after transaction ends its execution or after a pre-determined number of transactions have concluded their execution\"",
+    "options": [
+      "In-place update",
+      "Immediate update",
+      "Deferred update",
+      "Shadow update"
+    ],
+    "answer": "Deferred update",
+    "explanation": "Deferred Update (also called No-Undo/Redo): All changes are held in cache/buffer and written to the actual database only AFTER the transaction commits (or after a batch of transactions complete). If the transaction aborts before commit, no undo is needed since nothing was actually written yet. Immediate Update writes changes as they happen. Shadow Update maintains a full copy.",
+    "topic": "Database",
+    "difficulty": "medium"
+  },
+  {
+    "id": "cs-2015-regular-q41",
+    "question": "What is the output of the following Java fragment code?\n\nint[] list = new int[4];\nint sum = 0;\nfor(int i = 0; i < list.length; i++)\n{\n    list[i] = i^3;\n    sum += list[i];\n}\nSystem.out.print(sum);",
+    "options": [
+      "3",
+      "36",
+      "18",
+      "6"
+    ],
+    "answer": "6",
+    "explanation": "In Java, the ^ operator is BITWISE XOR, NOT exponentiation (use Math.pow() for that). XOR (^) compares bits: same bits → 0, different bits → 1. Calculations: 0^3 → 0b000 XOR 0b011 = 0b011 = 3. 1^3 → 0b001 XOR 0b011 = 0b010 = 2. 2^3 → 0b010 XOR 0b011 = 0b001 = 1. 3^3 → 0b011 XOR 0b011 = 0b000 = 0. Sum = 3+2+1+0 = 6.",
+    "topic": "Programming",
+    "difficulty": "medium"
+  },
+  {
+    "id": "cs-2015-regular-q42",
+    "question": "Which statement is false about programming language generations?",
+    "options": [
+      "Assembly language should be translated to machine language before execution",
+      "Assembly language is machine independent",
+      "Fifth generation programming languages need very powerful hardware and software",
+      "Machine language can be executed without translation"
+    ],
+    "answer": "Assembly language is machine independent",
+    "explanation": "Assembly language is MACHINE-DEPENDENT — each processor family (x86, ARM, MIPS) has its own assembly language with different instructions, registers, and syntax. Code written for one processor cannot run on another without rewriting. High-level languages are machine-independent. Other statements are TRUE: assembly does need an assembler to translate to machine code, 5GL needs powerful hardware, and machine code runs directly.",
+    "topic": "Programming",
+    "difficulty": "easy"
+  },
+  {
+    "id": "cs-2015-regular-q43",
+    "question": "Which one of the following is the smallest heading tag?",
+    "options": [
+      "<H4>",
+      "<H6>",
+      "<H1>",
+      "<H3>"
+    ],
+    "answer": "<H6>",
+    "explanation": "HTML heading tags range from <h1> (LARGEST, most important — like a book title) to <h6> (SMALLEST, least prominent — like a minor sub-section heading). The number represents the level in the document hierarchy. <h1> is usually the page title; <h2> are major sections; and <h6> is the smallest and least visually prominent heading.",
+    "topic": "Web Development",
+    "difficulty": "easy"
+  },
+  {
+    "id": "cs-2015-regular-q44",
+    "question": "Which one of the following does not show non-functional requirement of software systems?",
+    "options": [
+      "Response time",
+      "Displaying information",
+      "Reliability",
+      "Memory requirement"
+    ],
+    "answer": "Displaying information",
+    "explanation": "Functional requirements describe WHAT the system DOES — specific behaviors and features (e.g., 'the system shall display user profile', 'the system shall process payments'). Non-functional requirements describe HOW WELL the system performs: Performance (response time), Reliability (uptime), Security, Scalability, Memory usage. 'Displaying information' is a function — something the system does. The other three are quality attributes.",
+    "topic": "Software Engineering",
+    "difficulty": "medium"
+  },
+  {
+    "id": "cs-2015-regular-q45",
+    "question": "If you plan a software test to be done by clients to demonstrate that the system satisfies their requirements, which phase of software testing is appropriate?",
+    "options": [
+      "Unit testing",
+      "System testing",
+      "Acceptance testing",
+      "Integration testing"
+    ],
+    "answer": "Acceptance testing",
+    "explanation": "Testing phases: Unit Testing — tests individual functions/methods. Integration Testing — tests interactions between modules. System Testing — tests the whole system against specifications. Acceptance Testing — done by the CLIENT/USER to verify the system meets their requirements before sign-off. The key phrase is 'by clients to demonstrate that the system satisfies their requirements' — that's acceptance testing.",
+    "topic": "Software Engineering",
+    "difficulty": "medium"
+  },
+  {
+    "id": "cs-2015-regular-q46",
+    "question": "Which concept refers to extending specialized classes from generalized classes in object-oriented programming?",
+    "options": [
+      "Overloading",
+      "Data field Encapsulation",
+      "Overridding",
+      "Inheritance"
+    ],
+    "answer": "Inheritance",
+    "explanation": "Inheritance is the OOP mechanism where a subclass (child class) 'extends' a superclass (parent class), automatically receiving (inheriting) all its attributes and methods, and then adding or overriding functionality. Example: class Dog extends Animal. Overloading = same method name, different parameters. Overriding = redefining a parent method in a child class. Encapsulation = bundling data with methods.",
+    "topic": "Programming",
+    "difficulty": "medium"
+  },
+  {
+    "id": "cs-2015-regular-q47",
+    "question": "What does the program data independence in the database approach entails for?",
+    "options": [
+      "Both program and data are defined together",
+      "The application may be affected when data changes",
+      "Programs can create redundant data independently",
+      "Data and applications are defined separately"
+    ],
+    "answer": "Data and applications are defined separately",
+    "explanation": "Program-Data Independence means the structure/description of data (schema) is stored separately from the application programs that use it. If the data structure changes (e.g., adding a new column to a table), the application programs do NOT need to be rewritten — only the schema changes. In traditional file systems, data description is embedded in the program code, causing tight coupling.",
+    "topic": "Database",
+    "difficulty": "easy"
+  },
+  {
+    "id": "cs-2015-regular-q48",
+    "question": "Let a Grammar G = ({S}, {a, b}, S, P), where {S} is set of variables, {a, b} is set of terminal symbols, S is start variable and P is set of productions. Then which one of the following is not an element of the language: (L) which is generated from G. Given:\nP : S → aSD, S → λ",
+    "options": [
+      "λ",
+      "a",
+      "aabb",
+      "ab"
+    ],
+    "answer": "a",
+    "explanation": "Grammar G with P: S → aSb | λ. Starting from S: S → λ (empty string). S → aSb → ab. S → aSb → aaSbb → aabb. The pattern is {aⁿbⁿ | n ≥ 0} — equal numbers of a's and b's. The string 'a' alone (one 'a', zero 'b's) CANNOT be generated by this grammar because every 'a' must be paired with a 'b' from the production S → aSb.",
+    "topic": "Automata Theory",
+    "difficulty": "medium"
+  },
+  {
+    "id": "cs-2015-regular-q49",
+    "question": "What is the output of the following fragment C++ code?\nfor(int n = 1; n <= 18; n = n + 2)\n{\n    if(n % 7 != 0)\n    cout << n << \" \";\n    else\n    break;\n}",
+    "options": [
+      "1 2 3 4 5 6",
+      "3 5 7",
+      "1 3 5 7 9 11 13 15 17",
+      "1 3 5"
+    ],
+    "answer": "1 3 5",
+    "explanation": "Trace the loop: n starts at 1, increments by 2. n=1: 1%7=1 ≠ 0 → print '1'. n=3: 3%7=3 ≠ 0 → print '3'. n=5: 5%7=5 ≠ 0 → print '5'. n=7: 7%7=0 → condition n%7 != 0 is FALSE → execute break → loop exits. Output: 1 3 5 (stops before printing 7).",
+    "topic": "Programming",
+    "difficulty": "medium"
+  },
+  {
+    "id": "cs-2015-regular-q50",
+    "question": "______ is the whole thing that an agent has observed so far concerning the existing scenario in the environment.",
+    "options": [
+      "Knowledge",
+      "Performance measure",
+      "Action",
+      "Perception"
+    ],
+    "answer": "Perception",
+    "explanation": "In AI agent terminology: Percept — a single observation/reading from sensors at one moment. Percept sequence (Perception) — the COMPLETE HISTORY of all observations an agent has made from the beginning up to now. This accumulated history is what the agent uses to decide its next action. Action — what the agent does. Performance measure — how success is evaluated. Knowledge — what the agent knows.",
+    "topic": "Artificial Intelligence",
+    "difficulty": "medium"
+  },
+  {
+    "id": "cs-2015-regular-q51",
+    "question": "Which one of the following is valid statement regarding PHP variables?",
+    "options": [
+      "$$test = \"Computer;",
+      "test = 5;",
+      "$$test = \"This is 'Computer science'\";",
+      "$$test = 9.5"
+    ],
+    "answer": "$$test = \"This is 'Computer science'\";",
+    "explanation": "PHP variable rules: must start with $ sign. Cannot have unmatched quotes. '$$test = \"This is \\'Computer science\\'\";' uses $$ (variable variables), properly uses double quotes as outer delimiter and single quotes inside — valid PHP. Option A has unmatched quote. Option B is missing the $ prefix. Option D is missing the semicolon terminator.",
+    "topic": "Web Development",
+    "difficulty": "easy"
+  },
+  {
+    "id": "cs-2015-regular-q52",
+    "question": "Which one of the following is a security service enforced to protect discloser of information, which can be stored in file or being on transmission, from unauthorized entities?",
+    "options": [
+      "Authentication",
+      "Integrity",
+      "Availability",
+      "Confidentiality"
+    ],
+    "answer": "Confidentiality",
+    "explanation": "CIA Security Triad: Confidentiality — prevents UNAUTHORIZED DISCLOSURE of information (stored or in transit). Integrity — ensures data has not been tampered with. Availability — ensures systems are accessible when needed. Authentication — verifies identity. The question asks specifically about 'protecting from disclosure to unauthorized entities' — that is the definition of Confidentiality.",
+    "topic": "Security",
+    "difficulty": "medium"
+  },
+  {
+    "id": "cs-2015-regular-q53",
+    "question": "Which one of the following computers can be most secured compared to the rest?",
+    "options": [
+      "A computer connected to the Internet and the latest anti-virus installed on it",
+      "A computer connected to the Internet with the latest firewall system",
+      "A computer connected to the Internet having strong intrusion detection",
+      "A computer that is not connected to the Internet"
+    ],
+    "answer": "A computer that is not connected to the Internet",
+    "explanation": "The most secure system is the one with the SMALLEST attack surface. A computer disconnected from the Internet cannot be remotely attacked, cannot receive malware via network, and is immune to most cyber threats. Anti-virus, firewalls, and IDS all reduce risk for internet-connected computers, but they cannot provide 100% protection. Air-gapping (disconnecting from networks) is the gold standard of security for critical systems.",
+    "topic": "Security",
+    "difficulty": "easy"
+  },
+  {
+    "id": "cs-2015-regular-q54",
+    "question": "Given input Alphabet Σ = {a, b, c, d} and empty string λ. Then, which one of the following is true about Σ*?",
+    "options": [
+      "Σ* = Σ+U{λ}",
+      "Σ* = Σ+UΣ2UΣ3UΣ4",
+      "Σ* = {λ}",
+      "Σ* = Σ+"
+    ],
+    "answer": "Σ* = Σ+U{λ}",
+    "explanation": "Kleene star Σ* = the set of ALL strings of ANY length (including length 0) over Σ: Σ* = Σ⁰ ∪ Σ¹ ∪ Σ² ∪ ... = {λ} ∪ Σ ∪ Σ² ∪ ... Σ⁺ excludes the empty string (length 0): Σ⁺ = Σ¹ ∪ Σ² ∪ ... = Σ* \\ {λ}. Therefore Σ* = Σ⁺ ∪ {λ} is correct. Σ* ≠ Σ⁺ (they differ by the empty string).",
+    "topic": "Automata Theory",
+    "difficulty": "medium"
+  },
+  {
+    "id": "cs-2015-regular-q55",
+    "question": "Assume you make modification to your software. Then you want to make sure that the modification has not had introduced new errors. Which software testing level is required?",
+    "options": [
+      "Static testing",
+      "Beta testing",
+      "Regression testing",
+      "Dynamic testing"
+    ],
+    "answer": "Regression testing",
+    "explanation": "Regression Testing is specifically performed AFTER making changes (modifications, bug fixes, new features) to ensure that: (1) The change works correctly, and (2) It hasn't broken any previously working functionality. Other tests: Static — analyzes code without running it. Beta — end users test pre-release software. Dynamic — tests running code. Only regression testing is specifically about verifying changes didn't introduce new bugs.",
+    "topic": "Software Engineering",
+    "difficulty": "medium"
+  },
+  {
+    "id": "cs-2015-regular-q56",
+    "question": "Which type of variable can be accessed through out our C++ program scope?",
+    "options": [
+      "Global",
+      "Static",
+      "Automatic",
+      "Local"
+    ],
+    "answer": "Global",
+    "explanation": "Variable scope in C++: Local variables — declared inside a function/block; only accessible within that scope. Global variables — declared OUTSIDE all functions; accessible from ANY function or block in the program, throughout its entire lifetime. Static variables — retain their value between function calls but are still scoped to their declaration. Automatic = same as local. Only Global has program-wide scope.",
+    "topic": "Programming",
+    "difficulty": "easy"
+  },
+  {
+    "id": "cs-2015-regular-q57",
+    "question": "Which one of the following is not correct about computer architecture and organization?",
+    "options": [
+      "An architecture can be used for long time encompassing different computer models",
+      "Manufacturers offer computer with same architecture but different organization",
+      "An organization can last for long time as an architecture does",
+      "An architecture can remain for long time but its organization can change"
+    ],
+    "answer": "An organization can last for long time as an architecture does",
+    "explanation": "Architecture vs Organization: Architecture = programmer-visible attributes (ISA, registers, addressing modes) that affect how programs are written. Organization = physical implementation details (clock speed, bus width, cache size, interconnects). Since architecture defines the interface, it's designed for long-term stability (e.g., x86 architecture has lasted decades). Organization changes frequently with new hardware generations. An organization does NOT last as long as architecture.",
+    "topic": "Computer Architecture",
+    "difficulty": "medium"
+  },
+  {
+    "id": "cs-2015-regular-q58",
+    "question": "Which one of the following is correct for the statement below? A problem that occurs when one transaction updates a database item and then the transaction fails for some reason and the updated item is accessed by another transaction before it is changed back to its original value?",
+    "options": [
+      "It is a lost update problem",
+      "It is an incorrect summary problem",
+      "It is a temporary read problem",
+      "It is dirty read"
+    ],
+    "answer": "It is dirty read",
+    "explanation": "Dirty Read Problem: Transaction T1 writes a new value to item X. Before T1 commits, Transaction T2 reads that modified (dirty/uncommitted) value of X. Then T1 FAILS and rolls back, reverting X to its original value. But T2 already acted on the wrong value! T2 read 'dirty' (uncommitted) data that was subsequently undone. This is exactly what the question describes.",
+    "topic": "Database",
+    "difficulty": "medium"
+  },
+  {
+    "id": "cs-2015-regular-q59",
+    "question": "Among phases of compiling process, in which phase a sequence of characters are converted into a sequence or tokens?",
+    "options": [
+      "Code optimization",
+      "Syntax analysis",
+      "Semantic analysis",
+      "Lexical analysis"
+    ],
+    "answer": "Lexical analysis",
+    "explanation": "Compilation phases in order: (1) Lexical Analysis — scans source characters and groups them into meaningful tokens (keywords, identifiers, numbers, operators). (2) Syntax Analysis — builds parse tree from tokens. (3) Semantic Analysis — checks meaning/types. (4) Intermediate Code Gen → (5) Code Optimization → (6) Code Generation. The tokenization of characters is done by the Lexical Analyzer (also called the scanner or lexer).",
+    "topic": "Compiler Design",
+    "difficulty": "medium"
+  },
+  {
+    "id": "cs-2015-regular-q60",
+    "question": "If you want to allow subclasses to access data fields or methods defined in the super-class, but not to allow non-subclasses to access these data fields and methods, which access modifier is appropriate?",
+    "options": [
+      "protected",
+      "default",
+      "public",
+      "private"
+    ],
+    "answer": "protected",
+    "explanation": "Java (and C++) access modifiers: private — class only. default (package-private) — class + same package. protected — class + same package + SUBCLASSES (even in different packages). public — everywhere. 'protected' is the exact modifier that allows subclass access while blocking access from unrelated classes in other packages. It's designed precisely for inheritance hierarchies.",
+    "topic": "Programming",
+    "difficulty": "medium"
+  },
+  {
+    "id": "cs-2015-regular-q61",
+    "question": "What is the time complexity order of binary searching algorithm?",
+    "options": [
+      "O(log₂n)",
+      "O(n)",
+      "O(1)",
+      "O(n³)"
+    ],
+    "answer": "O(log₂n)",
+    "explanation": "Binary Search works on a SORTED array by repeatedly halving the search space: compare middle element with target; if equal, found; if target is smaller, search left half; if larger, search right half. Each step eliminates half the remaining elements. Starting with n elements: after 1 step → n/2, after 2 steps → n/4 ... after k steps → 1. So k = log₂n. Time complexity: O(log₂n). Compare to linear search: O(n).",
+    "topic": "Algorithms",
+    "difficulty": "easy"
+  },
+  {
+    "id": "cs-2015-regular-q62",
+    "question": "Which one is a method used to obtain the meaning of encrypted information without access to secret key?",
+    "options": [
+      "Encryption",
+      "Decryption",
+      "Crypto-analysis",
+      "Cryptography"
+    ],
+    "answer": "Crypto-analysis",
+    "explanation": "Cryptanalysis is the science of 'breaking' or analyzing cryptographic systems to recover plaintext from ciphertext WITHOUT knowing the secret key. A cryptanalyst uses mathematical analysis, pattern recognition, brute force, and known-plaintext attacks. Encryption = converting plaintext → ciphertext. Decryption = converting back WITH the key. Cryptography is the broader study of secure communication. Cryptanalysis is specifically about breaking it.",
+    "topic": "Security",
+    "difficulty": "medium"
+  },
+  {
+    "id": "cs-2015-regular-q63",
+    "question": "Which one of the following is evaluating the degrees of success of an agent?",
+    "options": [
+      "Performance measure",
+      "Action",
+      "Perception",
+      "Knowledge"
+    ],
+    "answer": "Performance measure",
+    "explanation": "In AI agent design, a Performance Measure is a criterion that defines what success means for the agent — it evaluates how well the agent is doing its job. Example: for a cleaning robot, performance measure might be 'amount of dirt cleaned.' Perception = what the agent observes. Action = what it does. Knowledge = what it knows. Performance measure = how we judge if it succeeded.",
+    "topic": "Artificial Intelligence",
+    "difficulty": "easy"
+  },
+  {
+    "id": "cs-2015-regular-q64",
+    "question": "Which one of the following lists of environments is the hardest for an agent?",
+    "options": [
+      "Deterministic, fully observable, static",
+      "Partially observable, static, continuous",
+      "Sequential, non-deterministic, dynamic",
+      "Fully observable, sequential, deterministic"
+    ],
+    "answer": "Sequential, non-deterministic, dynamic",
+    "explanation": "Hardest environments for AI agents combine: Partial observability (agent can't see everything → uncertainty), Non-determinism (same action may have different results → unpredictability), Dynamic (environment changes while agent is thinking → time pressure), Sequential (decisions affect future choices → long-term planning needed). A deterministic, fully observable, static environment is easiest — like a simple chess problem.",
+    "topic": "Artificial Intelligence",
+    "difficulty": "easy"
+  },
+  {
+    "id": "cs-2015-regular-q65",
+    "question": "Which one of the following registers hold the address of the next pair of instructions to be fetched from memory?",
+    "options": [
+      "Program counter",
+      "Memory address register",
+      "Memory buffer register",
+      "Instruction buffer register"
+    ],
+    "answer": "Program counter",
+    "explanation": "CPU registers: Program Counter (PC) / Instruction Pointer — holds the MEMORY ADDRESS of the NEXT instruction to be fetched. Memory Address Register (MAR) — holds the address for the current memory access. Memory Buffer Register (MBR) — holds data just read from or about to be written to memory. Instruction Register (IR) — holds the CURRENT instruction being decoded/executed. PC is the 'pointer' that advances the program.",
+    "topic": "Computer Architecture",
+    "difficulty": "medium"
+  },
+  {
+    "id": "cs-2015-regular-q66",
+    "question": "Which one of the following is correct way creating String object?",
+    "options": [
+      "String m = new String(\"Exit Exam\");",
+      "String m = \"Computer Science\";",
+      "String m = new String(\"Technology\");",
+      "String m = 'H', 'e', 'I', 'I', 'o';"
+    ],
+    "answer": "String m = \"Computer Science\";",
+    "explanation": "Java String creation: Using a literal (String s = \"hello\") — efficient; Java checks the String Pool first and reuses existing objects. Using new String(\"hello\") — always creates a NEW object in heap memory, even if an identical string exists in the pool. While both are syntactically valid, option B (literal) is preferred because it's more memory-efficient. Option D (char array notation) is not valid Java.",
+    "topic": "Programming",
+    "difficulty": "easy"
+  },
+  {
+    "id": "cs-2015-regular-q67",
+    "question": "Which one of the following is false about String in Java?",
+    "options": [
+      "We can create a String object using array of characters",
+      "In Java a string is treated as object",
+      "Content of a string can be changed once the string is created",
+      "We can create a String object using String literal"
+    ],
+    "answer": "Content of a string can be changed once the string is created",
+    "explanation": "Java Strings are IMMUTABLE — once created, the character sequence CANNOT be changed. Operations like s.replace() or s + \"x\" don't modify the original string; they create and return NEW String objects. This design choice makes Strings thread-safe and allows the String Pool optimization. Options A (can use char array), B (is an object), and D (can use literals) are all TRUE about Java Strings.",
+    "topic": "Programming",
+    "difficulty": "easy"
+  },
+  {
+    "id": "cs-2015-regular-q68",
+    "question": "Which asymptotic notation describes worst case analysis?",
+    "options": [
+      "f(n) = θ (theta)",
+      "f(n) = little-ω (little omega)",
+      "f(n) = Ω (Big omega)",
+      "f(n) = little-oh"
+    ],
+    "answer": "f(n) = θ (theta)",
+    "explanation": "Asymptotic notations: O (Big-O) — upper bound on running time (worst case ceiling). Ω (Big-Omega) — lower bound (best case floor). θ (Theta) — tight bound (both upper AND lower simultaneously). When a question asks for worst-case analysis, Big-O (O) is the standard answer in most textbooks since it bounds the worst-case running time from above. θ is used when the exact growth rate is known precisely.",
+    "topic": "Algorithms",
+    "difficulty": "easy"
+  },
+  {
+    "id": "cs-2015-regular-q69",
+    "question": "In which situation that using database management system (DBMS) becomes costly and not recommended to use it?",
+    "options": [
+      "In embedded systems having too small storage space",
+      "In situation where more than one users should access the database",
+      "To control redundancy",
+      "To deny access to unauthorized users"
+    ],
+    "answer": "In embedded systems having too small storage space",
+    "explanation": "A DBMS is sophisticated, heavyweight software requiring significant storage, memory, and processing overhead. For simple embedded systems (sensors, IoT devices, calculators) with tiny storage (kilobytes), the DBMS overhead itself would exceed available resources. Simpler flat-file or in-memory storage solutions are more appropriate. The other options (multi-user access, redundancy control, security) are scenarios where DBMS is RECOMMENDED.",
+    "topic": "Database",
+    "difficulty": "medium"
+  },
+  {
+    "id": "cs-2015-regular-q70",
+    "question": "What is the time complexity order of Quick sort algorithm?",
+    "options": [
+      "O(n log₂n)",
+      "O(2ⁿ)",
+      "O(n²)",
+      "O(n)"
+    ],
+    "answer": "O(n log₂n)",
+    "explanation": "Quicksort average-case time complexity: O(n log n). It works by picking a pivot, partitioning the array into elements less than and greater than the pivot, then recursively sorting both halves. On average (with random data and good pivot choice), each partition is roughly balanced → O(log n) recursive levels × O(n) work per level = O(n log n). Worst case (already sorted array, bad pivot) = O(n²).",
+    "topic": "Algorithms",
+    "difficulty": "easy"
+  },
+  {
+    "id": "cs-2015-regular-q71",
+    "question": "Which one of the following is not delimiter of PHP code?",
+    "options": [
+      "<? ...... ?>",
+      "<?php ...... ?>",
+      "<script language=\"PHP\"> ...... </script>",
+      "<caption> ...... </caption>"
+    ],
+    "answer": "<caption> ...... </caption>",
+    "explanation": "PHP code blocks (delimiters): <?php ... ?> — standard, always works. <? ... ?> — short tag (works if enabled in php.ini). <script language='PHP'> ... </script> — legacy, rarely used. <?= ... ?> — short echo tag. <caption> ... </caption> is an HTML tag for table captions, NOT a PHP delimiter. Knowing valid PHP delimiters is important for embedding PHP in HTML pages.",
+    "topic": "Web Development",
+    "difficulty": "easy"
+  },
+  {
+    "id": "cs-2015-regular-q72",
+    "question": "What is the output of the following Java fragment code?\nint n = 6, m = 15, p = 3;\nn -= m;\nn *= p;\nSystem.out.print(n);",
+    "options": [
+      "3",
+      "-27",
+      "24",
+      "27"
+    ],
+    "answer": "-27",
+    "explanation": "Step-by-step: Start: n=6, m=15, p=3. n -= m → n = n - m = 6 - 15 = -9. n *= p → n = n * p = -9 * 3 = -27. Output: -27. Compound assignment operators: -= subtracts the right side from the variable; *= multiplies the variable by the right side. Note that m and p are unchanged; only n is modified.",
+    "topic": "Programming",
+    "difficulty": "medium"
+  },
+  {
+    "id": "cs-2015-regular-q73",
+    "question": "Which one of the following is true about frames in HTML?",
+    "options": [
+      "Frames are not difficult to handle for search engines",
+      "Load on the server is not affected, if there are a large number of frames in a page",
+      "Frames allow parts of the page to remain stationary while other parts scroll",
+      "All browsers support frames"
+    ],
+    "answer": "Frames allow parts of the page to remain stationary while other parts scroll",
+    "explanation": "HTML Frames (using <frameset>) divide the browser window into multiple regions, each displaying a different HTML document. One key capability: you can set one frame to be static (non-scrolling) while other frames scroll independently. This was used for persistent navigation bars. However, frames are deprecated in HTML5 due to SEO problems (search engines struggle to index them), accessibility issues, and broken browser history.",
+    "topic": "Web Development",
+    "difficulty": "easy"
+  },
+  {
+    "id": "cs-2015-regular-q74",
+    "question": "A database management system (DBMS) has ______ to control locks.",
+    "options": [
+      "Query optimizer",
+      "Lock manager",
+      "Lock table",
+      "Query processor"
+    ],
+    "answer": "Lock manager",
+    "explanation": "A DBMS component called the Lock Manager is responsible for: granting lock requests (shared read locks, exclusive write locks), maintaining a lock table (which tracks which transaction holds which lock on which data item), detecting lock conflicts, and managing lock queues. The Lock Table is the DATA STRUCTURE it maintains, but the Lock Manager is the COMPONENT that controls locks. Query optimizer optimizes queries; query processor executes them.",
+    "topic": "Database",
+    "difficulty": "easy"
+  },
+  {
+    "id": "cs-2015-regular-q75",
+    "question": "Which one of the following is not correct for the figure shown in Question 27?",
+    "options": [
+      "P2 cannot be executed until P1 finishes",
+      "P1 is waiting for a resource held by P2",
+      "P0 is waiting for a resource held by P1",
+      "P3 cannot be executed until P4 finishes"
+    ],
+    "answer": "P3 cannot be executed until P4 finishes",
+    "explanation": "This question references a process dependency graph from Question 27. In a typical resource allocation graph showing circular wait (deadlock), processes wait for resources held by other processes. Without the actual figure, the correct answer (P3 cannot execute until P4 finishes) likely reverses the dependency direction shown in the graph — P4 typically waits for P3, not vice versa. Always check the arrow directions in the graph carefully.",
+    "topic": "Operating Systems",
+    "difficulty": "easy"
+  },
+  {
+    "id": "cs-2015-regular-q76",
+    "question": "A university owns a number of private local area and wide area networks, which are designed for an access by its academic staff, students and administrative workers. Which term best describes the University's network?",
+    "options": [
+      "Local Area Network",
+      "Metropolitan Area Network",
+      "The Internet",
+      "Wide Area Network"
+    ],
+    "answer": "Wide Area Network",
+    "explanation": "A university network that spans multiple buildings and campuses while remaining PRIVATE (only for staff, students, and admin) is best described as a WAN (Wide Area Network). Note: some might argue Intranet, but among the options, WAN is correct since it covers a large geographic area. LAN covers a single building/floor. MAN covers a city-sized area (public). The Internet is globally public.",
+    "topic": "Networking",
+    "difficulty": "medium"
+  },
+  {
+    "id": "cs-2015-regular-q77",
+    "question": "",
+    "options": [
+      "It determines the operation to be done",
+      "It holds the destination address of an operand",
+      "It holds the next instruction reference",
+      "It holds the source address of an operand"
+    ],
+    "answer": "It determines the operation to be done",
+    "explanation": "In a CPU instruction format, the instruction is divided into fields: Opcode — specifies the OPERATION to perform (ADD, LOAD, JUMP, etc.). Operand address fields — specify where the source/destination data is. The opcode is essentially the 'verb' of the instruction — it tells the Control Unit what to do. Without the opcode, the CPU doesn't know what operation to execute.",
+    "topic": "Computer Architecture",
+    "difficulty": "easy"
+  },
+  {
+    "id": "cs-2015-regular-q78",
+    "question": "Which one of the following is correct about human role in system administration?",
+    "options": [
+      "System administrator is not expected to have skills and confidence",
+      "It doesn't need organizational skills",
+      "It requires patience, understanding and knowledge",
+      "Ethics is not a requirement to manage computers"
+    ],
+    "answer": "It requires patience, understanding and knowledge",
+    "explanation": "A skilled system administrator needs: Technical knowledge (hardware, networking, OS, security). Patience — users ask the same questions repeatedly; systems break at the worst times. Understanding of user needs and organizational goals. Organizational skills to manage tasks, priorities, and documentation. Ethics — to handle sensitive data responsibly. All other options (no skills needed, no organizational skills, no ethics) are clearly false.",
+    "topic": "Operating Systems",
+    "difficulty": "medium"
+  },
+  {
+    "id": "cs-2015-regular-q79",
+    "question": "Among the following, which one best describes a database management system (DBMS)?",
+    "options": [
+      "It can help users to manage computer's activity",
+      "It is responsible for creating and maintaining a database",
+      "It can assist process images",
+      "It can assist you to process document"
+    ],
+    "answer": "It is responsible for creating and maintaining a database",
+    "explanation": "A DBMS (Database Management System) like MySQL, PostgreSQL, Oracle, or MongoDB is specifically designed to create database schemas, store and retrieve data, manage concurrent access, enforce constraints, handle backup/recovery, and control user access. It does NOT manage overall computer activity (that's the OS), process images, or create documents. Its core purpose is database creation and maintenance.",
+    "topic": "Database",
+    "difficulty": "medium"
+  },
+  {
+    "id": "cs-2015-regular-q80",
+    "question": "What will be the output of the following JavaScript statement? Math.floor(5.9)",
+    "options": [
+      "11.8",
+      "5",
+      "9",
+      "6"
+    ],
+    "answer": "5",
+    "explanation": "Math.floor(x) returns the largest INTEGER less than or equal to x. It 'rounds down' toward negative infinity. Math.floor(5.9) = 5 (the largest integer ≤ 5.9). Compare: Math.ceil(5.9) = 6 (round up). Math.round(5.9) = 6 (round to nearest). Math.floor(5.1) = 5. Math.floor(-5.1) = -6 (important: floor rounds toward -∞, not toward zero).",
+    "topic": "Web Development",
+    "difficulty": "easy"
+  },
+  {
+    "id": "cs-2015-regular-q81",
+    "question": "Which one of the following is responsible for separating some machines from the rest to shield them from possible attacks?",
+    "options": [
+      "Firewall",
+      "Router",
+      "Network operating system",
+      "Switch"
+    ],
+    "answer": "Firewall",
+    "explanation": "A Firewall creates a security BOUNDARY between network zones (e.g., trusted internal network vs. untrusted Internet). It ISOLATES groups of machines from each other, using rules to control what traffic can pass. This 'separating machines from the rest' to shield them is exactly what firewalls do. Routers direct traffic but don't provide security isolation. Switches connect devices within a LAN. NOS manages network resources.",
+    "topic": "Security",
+    "difficulty": "medium"
+  },
+  {
+    "id": "cs-2015-regular-q82",
+    "question": "What is the output of the following C++ fragment code?\nint a, b;\na = 13;\nb = 9;\nwhile ((20 && 0) && (a > b))\n{\n    cout<<\"Plants are our life\";\n}",
+    "options": [
+      "It displays message \"Plants are our life\" 20 times",
+      "It displays message \"Plants are Our Life\" 4 times",
+      "It displays message \"Plants are our life\" infinitely",
+      "No message will be displayed"
+    ],
+    "answer": "No message will be displayed",
+    "explanation": "The while condition is: (20 && 0) && (a > b). In C++, 0 is false. 20 && 0 = true && false = false (0). false && anything = false. So the entire while condition is FALSE before even checking (a > b). Short-circuit evaluation stops at (20 && 0) = 0. The loop body NEVER executes. No message is displayed at all.",
+    "topic": "Programming",
+    "difficulty": "medium"
+  },
+  {
+    "id": "cs-2015-regular-q83",
+    "question": "Which one of the following is not correct about threads?",
+    "options": [
+      "It is a group of processes",
+      "Threads are the entities schedule for execution on the CPU",
+      "Threads have program counters",
+      "Threads have registers to hold its working memory"
+    ],
+    "answer": "It is a group of processes",
+    "explanation": "A Thread is NOT a group of processes — it's a lightweight unit of execution WITHIN a single process. Threads share the same process memory space (code, data, heap) but each has its own: Program Counter (to track where it is in the code), Stack (local variables, function calls), Register set (working variables). Multiple threads in one process allow parallelism without the overhead of multiple full processes.",
+    "topic": "Operating Systems",
+    "difficulty": "easy"
+  },
+  {
+    "id": "cs-2015-regular-q84",
+    "question": "A computer expert would like to know the number of processes that are completed per hour to assess the performance of a machine. Therefore, which one of the following best describes the expert's assessment?",
+    "options": [
+      "Turnaround time",
+      "System throughput",
+      "Response time",
+      "Waiting time"
+    ],
+    "answer": "System throughput",
+    "explanation": "CPU performance metrics: Throughput — number of processes/jobs COMPLETED per unit time (e.g., 50 processes/hour). Turnaround time — total time from job submission to completion. Response time — time from request to first response. Waiting time — time spent in the ready queue. The expert wants to know how many processes finish per hour — that is directly the definition of System Throughput.",
+    "topic": "Operating Systems",
+    "difficulty": "medium"
+  },
+  {
+    "id": "cs-2015-regular-q85",
+    "question": "Which network type is the largest as compared to the rest?",
+    "options": [
+      "Local Area Network",
+      "Wide Area Network",
+      "Metropolitan Area Network",
+      "The Internet"
+    ],
+    "answer": "The Internet",
+    "explanation": "Network size hierarchy (smallest to largest): PAN (Personal Area Network) — a few meters (Bluetooth). LAN (Local Area Network) — single building/floor. MAN (Metropolitan Area Network) — city-wide. WAN (Wide Area Network) — countries/continents. The Internet — the global network of all networks, largest of all. Among the options, The Internet is the largest, being a worldwide interconnection of millions of networks.",
+    "topic": "Networking",
+    "difficulty": "easy"
+  },
+  {
+    "id": "cs-2015-regular-q86",
+    "question": "Which one of the following phases is done before semantic analysis phase of compiling process?",
+    "options": [
+      "Code generation",
+      "Syntax analysis",
+      "Code optimization",
+      "Intermediate code generation"
+    ],
+    "answer": "Syntax analysis",
+    "explanation": "Compiler phases in ORDER: (1) Lexical Analysis → (2) Syntax Analysis → (3) Semantic Analysis → (4) Intermediate Code Generation → (5) Code Optimization → (6) Code Generation. The question asks what comes BEFORE semantic analysis. Looking at the order, Syntax Analysis (phase 2) comes immediately before Semantic Analysis (phase 3). Code generation and code optimization come AFTER semantic analysis.",
+    "topic": "Compiler Design",
+    "difficulty": "medium"
+  },
+  {
+    "id": "cs-2015-regular-q87",
+    "question": "Assume you have a weighted graph G with a set of vertices V and set of edges E. Which one of the following problem is an optimization problem on the graph?",
+    "options": [
+      "Traverse all vertices in graph G",
+      "Is vertex p∈V reachable from vertex q∈V in graph G",
+      "Find minimum spanning tree from graph G",
+      "How many cycles are there in graph G"
+    ],
+    "answer": "Find minimum spanning tree from graph G",
+    "explanation": "An optimization problem seeks to find the BEST solution (minimum or maximum) among all feasible solutions. Finding the Minimum Spanning Tree is an optimization problem — minimize total edge weight while connecting all vertices. 'Traverse all vertices' is a traversal problem. 'Is vertex p reachable from q' is a decision problem (yes/no). 'How many cycles exist' is a counting problem. Only MST is an optimization.",
+    "topic": "Algorithms",
+    "difficulty": "medium"
+  },
+  {
+    "id": "cs-2015-regular-q88",
+    "question": "An interface that has multiple lines connecting input/output module and peripheral device and assures multiple bits to be transferred at the same time is:",
+    "options": [
+      "Serial interface",
+      "One line interface",
+      "Bus interface",
+      "Parallel interface"
+    ],
+    "answer": "Parallel interface",
+    "explanation": "A Parallel Interface transfers MULTIPLE BITS simultaneously over multiple parallel wires (e.g., 8 wires send 8 bits at once). This contrasts with a Serial Interface (one wire, one bit at a time). Examples of parallel interfaces: old printer ports (LPT), IDE/ATA disk interfaces. Examples of serial interfaces: USB, SATA, RS-232. More wires = faster data transfer per cycle, but parallel interfaces are costlier for long distances.",
+    "topic": "Computer Architecture",
+    "difficulty": "medium"
+  },
+  {
+    "id": "cs-2015-regular-q89",
+    "question": "Which statement is false about universal hashing technique?",
+    "options": [
+      "Single fixed hash function technique is better than universal hashing technique in terms of collision reduction",
+      "In universal hashing a hash function is selected randomly from set of hash functions for each key",
+      "In universal hashing a hash function is selected from set of hash functions independent of keys.",
+      "Universal hashing reduces the chance of data collision"
+    ],
+    "answer": "Single fixed hash function technique is better than universal hashing technique in terms of collision reduction",
+    "explanation": "Universal Hashing selects a hash function RANDOMLY from a large family of hash functions at runtime (independent of the input keys). This randomization makes it impossible for an adversary to craft inputs that always cause collisions. A single fixed hash function has a predictable collision pattern — someone who knows the function can craft a worst-case input. Universal hashing is SUPERIOR to a fixed hash function for collision reduction — so option A is FALSE.",
+    "topic": "Algorithms",
+    "difficulty": "easy"
+  },
+  {
+    "id": "cs-2015-regular-q90",
+    "question": "Which one of the following is a step in problem solving that lists the actions and states that the agent has to consider provided a goal?",
+    "options": [
+      "Problem formulation",
+      "Execute",
+      "Goal formulation",
+      "Search"
+    ],
+    "answer": "Problem formulation",
+    "explanation": "AI problem-solving steps: (1) Goal formulation — identify what you want to achieve. (2) Problem formulation — define STATES (all possible situations), ACTIONS (what the agent can do), TRANSITION MODEL (how actions change state), initial state, and goal state. (3) Search — find the sequence of actions to reach the goal. (4) Execute — carry out the solution. Problem formulation is the step that explicitly lists all states and actions the agent must consider.",
+    "topic": "Artificial Intelligence",
+    "difficulty": "medium"
+  },
+  {
+    "id": "cs-2015-regular-q91",
+    "question": "Which one of the following is not correct about packet and circuit switching?",
+    "options": [
+      "In packets switching messages are sent in small blocks",
+      "Packet switching is more efficient than circuit switching",
+      "In Packet switching and end-to-end connection has to be established",
+      "In circuit switching a channel is dedicatedly used"
+    ],
+    "answer": "In Packet switching and end-to-end connection has to be established",
+    "explanation": "Packet Switching vs Circuit Switching: Circuit switching (telephone networks) establishes a DEDICATED end-to-end path for the entire duration — connection must be set up first. Packet switching (Internet) breaks data into packets, each routed INDEPENDENTLY — NO pre-established end-to-end connection is needed. Option C says 'packet switching requires an end-to-end connection' — this is FALSE; that describes circuit switching.",
+    "topic": "Networking",
+    "difficulty": "easy"
+  },
+  {
+    "id": "cs-2015-regular-q92",
+    "question": "Linked list data structure is ______ type of data structure.",
+    "options": [
+      "Non-linear data structure",
+      "Dynamic data structure",
+      "Fixed size data structure",
+      "Static data structure"
+    ],
+    "answer": "Dynamic data structure",
+    "explanation": "Data structure types: Static (fixed size) — arrays; size is determined at compile time and cannot change at runtime. Dynamic — size can GROW or SHRINK at runtime by allocating/deallocating memory as needed. Linked Lists are DYNAMIC — you can add nodes (allocate memory) or remove nodes (free memory) at any time during execution, without predetermining the maximum size. This makes them ideal when data size is unpredictable.",
+    "topic": "Data Structures",
+    "difficulty": "easy"
+  },
+  {
+    "id": "cs-2015-regular-q93",
+    "question": "Which deadlock prevention mechanisms don't require timestamp?",
+    "options": [
+      "No-wait",
+      "Wound-wait",
+      "Wait-wait",
+      "Wait-die"
+    ],
+    "answer": "No-wait",
+    "explanation": "Database deadlock prevention schemes: Wait-Die — older transactions wait, younger ones die (abort). Wound-Wait — older wounds (aborts) younger, younger waits. Both Wait-Die and Wound-Wait use TIMESTAMPS to determine which transaction is 'older' or 'younger.' No-Wait — if a resource isn't available IMMEDIATELY, the requesting transaction is aborted right away. No waiting, no timestamp comparison needed. No-Wait is the only timestamp-free option listed.",
+    "topic": "Database",
+    "difficulty": "easy"
+  },
+  {
+    "id": "cs-2015-regular-q94",
+    "question": "What is the output of the following Java code?\n\n```java\nint x = 5;\nSystem.out.println(x++);\nSystem.out.println(++x);\n```",
+    "options": [
+      "5\n7",
+      "6\n7",
+      "5\n6",
+      "6\n6"
+    ],
+    "answer": "5\n7",
+    "explanation": "This tests the difference between post-increment (x++) and pre-increment (++x). Post-increment x++ USES the current value FIRST (prints 5), THEN increments x to 6. Pre-increment ++x increments FIRST (x becomes 7), THEN uses the new value (prints 7). So output is 5, then 7. Key rule: post-increment returns the OLD value; pre-increment returns the NEW value.",
+    "topic": "Programming",
+    "difficulty": "medium"
+  },
+  {
+    "id": "cs-2015-regular-q95",
+    "question": "Which of the following is true about abstract classes in Java?",
+    "options": [
+      "An abstract class can be instantiated directly",
+      "An abstract class must have at least one abstract method",
+      "A class that extends an abstract class must implement all its abstract methods",
+      "Abstract classes cannot have constructors"
+    ],
+    "answer": "A class that extends an abstract class must implement all its abstract methods",
+    "explanation": "When a concrete (non-abstract) class extends an abstract class, it MUST provide implementations for ALL abstract methods, otherwise the subclass itself must also be declared abstract. Regarding the wrong options: abstract classes CANNOT be instantiated directly (you can't do new AbstractClass()). An abstract class does NOT need to have any abstract methods — it can have zero. Abstract classes CAN have constructors (called via super() from subclasses).",
+    "topic": "Programming",
+    "difficulty": "medium"
+  },
+  {
+    "id": "cs-2015-regular-q96",
+    "question": "Which SQL clause is used to filter groups after a GROUP BY operation, as opposed to filtering individual rows?",
+    "options": [
+      "WHERE",
+      "ORDER BY",
+      "HAVING",
+      "FILTER"
+    ],
+    "answer": "HAVING",
+    "explanation": "WHERE filters individual ROWS before grouping occurs. HAVING filters GROUPS after the GROUP BY has been applied. Example: SELECT department, COUNT(*) FROM employees GROUP BY department HAVING COUNT(*) > 5 — this returns only departments that have more than 5 employees. You cannot use aggregate functions (COUNT, SUM, AVG) in a WHERE clause, but you can in HAVING. ORDER BY sorts the result; FILTER is not standard SQL.",
+    "topic": "Database",
+    "difficulty": "medium"
+  },
+  {
+    "id": "cs-2015-regular-q97",
+    "question": "Which normal form eliminates partial dependencies, where a non-key attribute depends on only part of a composite primary key?",
+    "options": [
+      "First Normal Form (1NF)",
+      "Second Normal Form (2NF)",
+      "Third Normal Form (3NF)",
+      "Boyce-Codd Normal Form (BCNF)"
+    ],
+    "answer": "Second Normal Form (2NF)",
+    "explanation": "A relation is in 2NF if it is in 1NF AND every non-key attribute is FULLY functionally dependent on the ENTIRE primary key (no partial dependencies). A partial dependency exists when a non-key attribute depends on only PART of a composite primary key. Example: if primary key is (StudentID, CourseID) but 'StudentName' depends only on StudentID — that's a partial dependency, violating 2NF. 1NF only requires atomic values. 3NF removes transitive dependencies. BCNF is a stricter version of 3NF.",
+    "topic": "Database",
+    "difficulty": "medium"
+  },
+  {
+    "id": "cs-2015-regular-q98",
+    "question": "What is the purpose of the CSS box model?",
+    "options": [
+      "To define the color and font of HTML elements",
+      "To describe how every HTML element is represented as a rectangular box with content, padding, border, and margin",
+      "To create animations using CSS transitions",
+      "To control the z-index stacking order of overlapping elements"
+    ],
+    "answer": "To describe how every HTML element is represented as a rectangular box with content, padding, border, and margin",
+    "explanation": "The CSS Box Model describes the rectangular space every HTML element occupies, consisting of four layers from inside out: (1) Content — the actual text or image area. (2) Padding — transparent space between content and the border. (3) Border — the visible line around the padding. (4) Margin — transparent space outside the border that separates the element from neighbors. Understanding the box model is essential for controlling layout and spacing. The total element width = content + left/right padding + left/right border + left/right margin.",
+    "topic": "Web Development",
+    "difficulty": "medium"
+  },
+  {
+    "id": "cs-2015-regular-q99",
+    "question": "Which sorting algorithm has the best worst-case time complexity?",
+    "options": [
+      "Quick Sort",
+      "Bubble Sort",
+      "Merge Sort",
+      "Selection Sort"
+    ],
+    "answer": "Merge Sort",
+    "explanation": "Worst-case time complexities: Bubble Sort = O(n²). Selection Sort = O(n²). Quick Sort = O(n²) — when the pivot is always the smallest or largest element (e.g., already sorted array with naive pivot). Merge Sort = O(n log n) — ALWAYS, regardless of input order. Merge Sort guarantees O(n log n) in all cases (best, average, worst) because it always divides the array in half and merges. This makes it the most reliable choice when worst-case performance matters.",
+    "topic": "Algorithms",
+    "difficulty": "medium"
+  },
+  {
+    "id": "cs-2015-regular-q100",
+    "question": "In operating systems, what is the difference between a process and a thread?",
+    "options": [
+      "A process is lighter weight than a thread",
+      "Threads within the same process share memory space, while each process has its own separate memory space",
+      "A process can only contain one thread",
+      "Threads cannot run concurrently on multi-core processors"
+    ],
+    "answer": "Threads within the same process share memory space, while each process has its own separate memory space",
+    "explanation": "A Process is an independent program in execution with its OWN memory space (code, data, heap, stack). Creating a new process (forking) is expensive — it requires duplicating the entire memory space. A Thread is a lightweight unit of execution WITHIN a process. All threads in the same process SHARE the same memory (code, data, heap) but each has its own stack and registers. This shared memory makes communication between threads fast but requires synchronization (mutexes, semaphores) to prevent race conditions. Threads are cheaper to create and context-switch than processes.",
+    "topic": "Operating Systems",
+    "difficulty": "medium"
+  }
+]
