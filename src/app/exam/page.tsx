@@ -216,7 +216,24 @@ function ExamContent() {
 
   // ─── DEPARTMENT LISTING ───
   if (!department && !selectedCategory) {
-    const deptEntries = Object.entries(DEPARTMENT_SOURCES);
+    const [searchQuery, setSearchQuery] = useState('');
+
+    const PINNED_DEPTS = ['Computer Science', 'Software Engineering'];
+
+    const sortedDeptEntries = Object.entries(DEPARTMENT_SOURCES).sort(([a], [b]) => {
+      const aPinned = PINNED_DEPTS.includes(a);
+      const bPinned = PINNED_DEPTS.includes(b);
+      if (aPinned && !bPinned) return -1;
+      if (!aPinned && bPinned) return 1;
+      return a.localeCompare(b);
+    });
+
+    const filtered = searchQuery
+      ? sortedDeptEntries.filter(([dept]) =>
+          dept.toLowerCase().includes(searchQuery.toLowerCase()),
+        )
+      : sortedDeptEntries;
+
     return (
       <div className="space-y-12 animate-in py-4">
         <Link 
@@ -255,18 +272,44 @@ function ExamContent() {
           </div>
         </div>
 
+        {/* Search */}
+        <div className="relative max-w-md">
+          <svg className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={e => setSearchQuery(e.target.value)}
+            placeholder="Search departments..."
+            className="w-full pl-11 pr-4 py-3 rounded-2xl bg-white dark:bg-white/5 border border-gray-200 dark:border-white/10 text-gray-900 dark:text-white text-sm placeholder-gray-400 focus:outline-none focus:border-accent-purple/50 focus:ring-1 focus:ring-accent-purple/20 transition-all"
+          />
+        </div>
+
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {deptEntries.map(([dept, sources]) => {
+          {filtered.map(([dept, sources]) => {
+            const isPinned = PINNED_DEPTS.includes(dept);
             const count = questions.filter(q => sources.includes(q.source)).length;
             const meta = dept === 'Computer Science'
               ? { icon: '💻', gradient: 'from-emerald-500/20 to-teal-500/20', border: 'border-emerald-500/30' }
-              : defaultMeta;
+              : dept === 'Software Engineering'
+                ? { icon: '🛠️', gradient: 'from-rose-500/20 to-pink-500/20', border: 'border-rose-500/30' }
+                : defaultMeta;
             return (
               <button
                 key={dept}
                 onClick={() => router.push(`/exam?department=${encodeURIComponent(dept)}`)}
-                className="group relative flex flex-col items-start rounded-3xl bg-white dark:bg-[#11152a]/50 border border-gray-200 dark:border-white/5 p-8 text-left transition-all duration-500 hover:bg-gray-100 dark:hover:bg-[#11152a] hover:border-accent-purple/30 hover:-translate-y-1 hover:shadow-2xl hover:shadow-accent-purple/10 overflow-hidden"
+                className={`group relative flex flex-col items-start rounded-3xl bg-white dark:bg-[#11152a]/50 border p-8 text-left transition-all duration-500 hover:bg-gray-100 dark:hover:bg-[#11152a] hover:border-accent-purple/30 hover:-translate-y-1 hover:shadow-2xl hover:shadow-accent-purple/10 overflow-hidden ${
+                  isPinned
+                    ? 'border-accent-purple/30 dark:border-accent-purple/30 shadow-[0_0_20px_rgba(124,58,237,0.1)]'
+                    : 'border-gray-200 dark:border-white/5'
+                }`}
               >
+                {isPinned && (
+                  <div className="absolute top-4 right-4 px-2 py-0.5 rounded-full bg-accent-purple/20 border border-accent-purple/30 text-[8px] font-black uppercase tracking-widest text-accent-purple">
+                    Pinned
+                  </div>
+                )}
                 <div className="w-12 h-12 rounded-2xl bg-gray-100 dark:bg-white/5 flex items-center justify-center text-2xl mb-6 group-hover:bg-accent-purple/10 group-hover:scale-110 transition-all duration-500">
                   {meta.icon}
                 </div>
@@ -283,6 +326,12 @@ function ExamContent() {
             );
           })}
         </div>
+
+        {searchQuery && filtered.length === 0 && (
+          <div className="glass-card p-12 text-center border-white/5">
+            <p className="text-gray-500">No departments matching &quot;{searchQuery}&quot;</p>
+          </div>
+        )}
       </div>
     );
   }
