@@ -76,5 +76,216 @@
       "https://www.youtube.com/embed/y7DOHyBTWps"
     ],
     "date": "2026-06-08T14:41:25.940Z"
+  },
+  {
+    "id": "note_1781080980926_lrozu",
+    "topic": "Database Systems",
+    "title": "Chapter 2 Data Modeling  Using the ER Model.",
+    "source": "GitHub",
+    "label": "Course Material",
+    "major": "Both",
+    "githubUrl": "https://github.com/kalchan12/Cyber-Notes_and_Other_Stuffs/blob/main/Exit-Exam%20notes(CSE)/Notes/Database/Chapter%202%20Data%20Modeling%20%E2%80%94%20Using%20the%20ER%20Model.md",
+    "videoUrl": "https://www.youtube.com/embed/CUR6rKrIEGc",
+    "videoUrls": [
+      "https://www.youtube.com/embed/CUR6rKrIEGc",
+      "https://www.youtube.com/embed/wOD02sezmX8"
+    ],
+    "date": "2026-06-10T08:43:00.926Z"
+  },
+  {
+    "id": "note_1781081163990_vusp3",
+    "topic": "Database Systems",
+    "title": "Chapter 3 Relational Database Design",
+    "source": "GitHub",
+    "label": "Course Material",
+    "major": "Both",
+    "githubUrl": "https://github.com/kalchan12/Cyber-Notes_and_Other_Stuffs/blob/main/Exit-Exam%20notes(CSE)/Notes/Database/Chapter%203%20Relational%20Database%20Design.md",
+    "videoUrl": "https://www.youtube.com/embed/OqjJjpjDRLc",
+    "videoUrls": [
+      "https://www.youtube.com/embed/OqjJjpjDRLc",
+      "https://www.youtube.com/embed/132vpJ2QZP8"
+    ],
+    "date": "2026-06-10T08:46:03.990Z"
+  },
+  {
+    "id": "note_1781081309911_hhe7j",
+    "topic": "Database Systems",
+    "title": "Chapter 4 Transaction Management",
+    "source": "GitHub",
+    "label": "Course Material",
+    "major": "Both",
+    "githubUrl": "https://github.com/kalchan12/Cyber-Notes_and_Other_Stuffs/blob/main/Exit-Exam%20notes(CSE)/Notes/Database/Chapter%204%20Transaction%20Management.md",
+    "videoUrl": "https://www.youtube.com/embed/wHUOeXbZCYA",
+    "videoUrls": [
+      "https://www.youtube.com/embed/wHUOeXbZCYA",
+      "https://www.youtube.com/embed/ELj_4ZGSfIQ"
+    ],
+    "date": "2026-06-10T08:48:29.911Z"
+  },
+  {
+    "id": "note_1781081476079_crq1i",
+    "topic": "Database Systems",
+    "title": "Chapter 5 Concurrency Control",
+    "source": "GitHub",
+    "label": "Course Material",
+    "major": "Both",
+    "githubUrl": "https://github.com/kalchan12/Cyber-Notes_and_Other_Stuffs/blob/main/Exit-Exam%20notes(CSE)/Notes/Database/Chapter%205%20Concurrency%20Control.md",
+    "videoUrl": "https://www.youtube.com/embed/Thm0xW9oTow",
+    "videoUrls": [
+      "https://www.youtube.com/embed/Thm0xW9oTow",
+      "https://www.youtube.com/embed/wEsPL50Uiyo"
+    ],
+    "date": "2026-06-10T08:51:16.079Z"
+  },
+  {
+    "id": "note_1781082193684_jn9vu",
+    "topic": "Database Systems",
+    "title": "Chapter 6 Query Processing and Optimization",
+    "source": "GitHub",
+    "label": "Course Material",
+    "major": "Both",
+    "githubUrl": "https://github.com/kalchan12/Cyber-Notes_and_Other_Stuffs/blob/main/Exit-Exam%20notes(CSE)/Notes/Database/Chapter%206%20Query%20Processing%20and%20Optimization.md",
+    "videoUrl": "https://www.youtube.com/embed/PgXo4unl3FQ",
+    "videoUrls": [
+      "https://www.youtube.com/embed/PgXo4unl3FQ",
+      "https://www.youtube.com/embed/3E7V1rswVEY"
+    ],
+    "date": "2026-06-10T09:03:13.684Z"
+  },
+  {
+    "id": "note_1781082390243_9ia1m",
+    "topic": "Database Systems",
+    "title": "Chapter 7 Database Recovery Techniques",
+    "source": "GitHub",
+    "label": "Course Material",
+    "major": "Both",
+    "githubUrl": "https://github.com/kalchan12/Cyber-Notes_and_Other_Stuffs/blob/main/Exit-Exam%20notes(CSE)/Notes/Database/Chapter%207%20Database%20Recovery%20Techniques.md",
+    "videoUrl": "https://www.youtube.com/embed/1lQy-bkXn9E",
+    "videoUrls": [
+      "https://www.youtube.com/embed/1lQy-bkXn9E"
+    ],
+    "date": "2026-06-10T09:06:30.243Z"
+  },
+  {
+    "id": "note_1781161726767_izg1f",
+    "topic": "Database Systems",
+    "title": "Chapter 8 Database Security",
+    "source": "GitHub",
+    "label": "Course Material",
+    "major": "Both",
+    "githubUrl": "https://github.com/kalchan12/Cyber-Notes_and_Other_Stuffs/blob/main/Exit-Exam%20notes(CSE)/Notes/Database/Chapter%208%20Database%20Security.md",
+    "videoUrl": "https://www.youtube.com/embed/c3YaDqvSDrQ",
+    "videoUrls": [
+      "https://www.youtube.com/embed/c3YaDqvSDrQ",
+      "https://www.youtube.com/embed/NWissPtTIWY",
+      "https://www.youtube.com/embed/e0NKk-SSO2o"
+    ],
+    "date": "2026-06-11T07:08:46.767Z"
+  },
+  {
+    "id": "note_1781161943757_7bcmh",
+    "topic": "Object Oriented Programming",
+    "title": "Chapter 1 Introduction to Object-Oriented Programming",
+    "source": "GitHub",
+    "label": "Course Material",
+    "major": "Both",
+    "githubUrl": "https://github.com/kalchan12/Cyber-Notes_and_Other_Stuffs/blob/main/Exit-Exam%20notes(CSE)/Notes/OOP/Chapter%201%20Introduction%20to%20Object-Oriented%20Programming.md",
+    "videoUrl": "https://www.youtube.com/embed/pTB0EiLXUC8",
+    "videoUrls": [
+      "https://www.youtube.com/embed/pTB0EiLXUC8",
+      "https://www.youtube.com/embed/fZ8SAf99JbQ",
+      "https://www.youtube.com/embed/m_MQYyJpIjg",
+      "https://www.youtube.com/embed/SiBw7os-_zI"
+    ],
+    "date": "2026-06-11T07:12:23.757Z"
+  },
+  {
+    "id": "note_1781162095800_3lsh4",
+    "topic": "Object Oriented Programming",
+    "title": "Chapter 2 Java Language Fundamentals",
+    "source": "GitHub",
+    "label": "Course Material",
+    "major": "Both",
+    "githubUrl": "https://github.com/kalchan12/Cyber-Notes_and_Other_Stuffs/blob/main/Exit-Exam%20notes(CSE)/Notes/OOP/Chapter%202%20Java%20Language%20Fundamentals.md",
+    "videoUrl": "https://www.youtube.com/embed/RRubcjpTkks",
+    "videoUrls": [
+      "https://www.youtube.com/embed/RRubcjpTkks",
+      "https://www.youtube.com/embed/l9AzO1FMgM8"
+    ],
+    "date": "2026-06-11T07:14:55.800Z"
+  },
+  {
+    "id": "note_1781162249703_472mr",
+    "topic": "Object Oriented Programming",
+    "title": "Chapter 3 Inheritance",
+    "source": "GitHub",
+    "label": "Course Material",
+    "major": "Both",
+    "githubUrl": "https://github.com/kalchan12/Cyber-Notes_and_Other_Stuffs/blob/main/Exit-Exam%20notes(CSE)/Notes/OOP/Chapter%203%20Inheritance.md",
+    "videoUrl": "https://www.youtube.com/embed/GTP5lVEKXaU",
+    "videoUrls": [
+      "https://www.youtube.com/embed/GTP5lVEKXaU",
+      "https://www.youtube.com/embed/RkZybSip07o"
+    ],
+    "date": "2026-06-11T07:17:29.703Z"
+  },
+  {
+    "id": "note_1781162382839_i0lk1",
+    "topic": "Object Oriented Programming",
+    "title": "Chapter 4 Packages and Interfaces",
+    "source": "GitHub",
+    "label": "Course Material",
+    "major": "Both",
+    "githubUrl": "https://github.com/kalchan12/Cyber-Notes_and_Other_Stuffs/blob/main/Exit-Exam%20notes(CSE)/Notes/OOP/Chapter%204%20Packages%20and%20Interfaces.md",
+    "videoUrl": "https://www.youtube.com/embed/c2sTQk9opO8",
+    "videoUrls": [
+      "https://www.youtube.com/embed/c2sTQk9opO8",
+      "https://www.youtube.com/embed/NZ7NfZD8T2Y"
+    ],
+    "date": "2026-06-11T07:19:42.839Z"
+  },
+  {
+    "id": "note_1781162496434_runrg",
+    "topic": "Object Oriented Programming",
+    "title": "Chapter 5 Exception Handling",
+    "source": "GitHub",
+    "label": "Course Material",
+    "major": "Both",
+    "githubUrl": "https://github.com/kalchan12/Cyber-Notes_and_Other_Stuffs/blob/main/Exit-Exam%20notes(CSE)/Notes/OOP/Chapter%205%20Exception%20Handling.md",
+    "videoUrl": "https://www.youtube.com/embed/1XAfapkBQjk",
+    "videoUrls": [
+      "https://www.youtube.com/embed/1XAfapkBQjk",
+      "https://www.youtube.com/embed/u1PROb-aRUI"
+    ],
+    "date": "2026-06-11T07:21:36.434Z"
+  },
+  {
+    "id": "note_1781162674325_nkifj",
+    "topic": "Object Oriented Programming",
+    "title": "Chapter 6 File and IO",
+    "source": "GitHub",
+    "label": "Course Material",
+    "major": "Both",
+    "githubUrl": "https://github.com/kalchan12/Cyber-Notes_and_Other_Stuffs/blob/main/Exit-Exam%20notes(CSE)/Notes/OOP/Chapter%206%20File%20and%20IO.md",
+    "videoUrl": "https://www.youtube.com/embed/ScUJx4aWRi0",
+    "videoUrls": [
+      "https://www.youtube.com/embed/ScUJx4aWRi0",
+      "https://www.youtube.com/embed/hgF21imQ_Is"
+    ],
+    "date": "2026-06-11T07:24:34.325Z"
+  },
+  {
+    "id": "note_1781162797061_ssyeg",
+    "topic": "Object Oriented Programming",
+    "title": "Chapter 7 Java GUIs Using Swing",
+    "source": "GitHub",
+    "label": "Course Material",
+    "major": "Both",
+    "githubUrl": "https://github.com/kalchan12/Cyber-Notes_and_Other_Stuffs/blob/main/Exit-Exam%20notes(CSE)/Notes/OOP/Chapter%207%20Java%20GUIs%20Using%20Swing.md",
+    "videoUrl": "https://www.youtube.com/embed/rWCnZKF-U3Q",
+    "videoUrls": [
+      "https://www.youtube.com/embed/rWCnZKF-U3Q"
+    ],
+    "date": "2026-06-11T07:26:37.061Z"
   }
 ]
