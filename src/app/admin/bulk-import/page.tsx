@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/components/AuthProvider';
+import { saveQuestionToSupabase } from '@/lib/supabaseLoader';
 import { invalidateQuestionsCache } from '@/lib/dataLoader';
 
 interface FileInfo {
@@ -20,12 +21,24 @@ interface ScanData {
   files: FileInfo[];
 }
 
-interface ImportResult {
+interface LoadedQuestion {
+  id: string;
+  question: string;
+  options: string[];
+  answer: string;
+  explanation: string;
+  topic: string;
+  difficulty: string;
+  source: string;
+}
+
+interface LoadedFile {
   file: string;
   department: string;
   imported: number;
   skipped: number;
   total: number;
+  questions: LoadedQuestion[];
   error?: string;
 }
 
@@ -122,26 +135,63 @@ export default function BulkImportPage() {
       });
       if (!res.ok) {
         const err = await res.json();
-        throw new Error(err.error || 'Import failed');
+        throw new Error(err.error || 'Failed to load questions');
       }
-      const data: { files: ImportResult[] } = await res.json();
+      const data: { files: LoadedFile[] } = await res.json();
 
-      setProgress(prev =>
-        prev.map(p => {
-          const match = data.files.find(f => f.file === p.file);
-          if (!match) return { ...p, status: 'error' as const, error: 'No result returned' };
-          return {
-            ...p,
-            imported: match.imported,
-            skipped: match.skipped,
-            total: match.total,
-            status: match.error ? 'error' as const : 'done' as const,
-            error: match.error,
-          };
-        }),
-      );
+      let totalErrors = 0;
+
+      for (const fileData of data.files) {
+        setProgress(prev =>
+          prev.map(p =>
+            p.file === fileData.file ? { ...p, status: 'importing' as const } : p,
+          ),
+        );
+
+        if (fileData.error) {
+          setProgress(prev =>
+            prev.map(p =>
+              p.file === fileData.file
+                ? { ...p, status: 'error' as const, error: fileData.error }
+                : p,
+            ),
+          );
+          totalErrors++;
+          continue;
+        }
+
+        let fileOk = 0;
+        for (const q of fileData.questions) {
+          const ok = await saveQuestionToSupabase({
+            id: q.id,
+            question: q.question,
+            options: q.options,
+            answer: q.answer,
+            explanation: q.explanation,
+            topic: q.topic,
+            difficulty: q.difficulty as 'easy' | 'medium' | 'hard',
+            source: q.source,
+          });
+          if (ok) fileOk++;
+          else totalErrors++;
+        }
+
+        setProgress(prev =>
+          prev.map(p =>
+            p.file === fileData.file
+              ? {
+                  ...p,
+                  status: 'done' as const,
+                  imported: fileOk,
+                  skipped: fileData.skipped,
+                }
+              : p,
+          ),
+        );
+      }
 
       invalidateQuestionsCache();
+      setProgress(prev => [...prev]);
     } catch (e: any) {
       setError(e.message);
     } finally {
@@ -345,7 +395,6 @@ export default function BulkImportPage() {
         </>
       )}
 
-      {/* Progress during import */}
       {progress.length > 0 && (
         <div className="glass-card border-white/5 overflow-hidden">
           <div className="p-5 border-b border-white/5">
