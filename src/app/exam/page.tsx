@@ -2,10 +2,10 @@
 
 import { useState, useEffect, useMemo, useCallback, useRef, Suspense } from 'react';
 import Link from 'next/link';
-import { useSearchParams } from 'next/navigation';
+import { useSearchParams, useRouter } from 'next/navigation';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
-import { getQuestions, getTopics, type Question, invalidateQuestionsCache } from '@/lib/dataLoader';
+import { getQuestions, getTopics, type Question, invalidateQuestionsCache, DEPARTMENT_SOURCES } from '@/lib/dataLoader';
 import { getProgress, recordAnswer, syncProgressToRemote } from '@/lib/progressManager';
 import { updateTopicAccuracy } from '@/lib/gamification';
 import { useAuth } from '@/components/AuthProvider';
@@ -23,13 +23,15 @@ const topicMeta: Record<string, { icon: string; gradient: string; border: string
 const defaultMeta = { icon: '📝', gradient: 'from-indigo-500/20 to-slate-500/20', border: 'border-indigo-500/30' };
 
 function ExamContent() {
+  const router = useRouter();
   const searchParams = useSearchParams();
-  const initialTopic = searchParams.get('topic') || null;
+  const department = searchParams.get('department') || null;
+  const examFromUrl = searchParams.get('exam') || searchParams.get('topic') || null;
   const { user, profile, loading: authLoading } = useAuth();
 
   const [questions, setQuestions] = useState<Question[]>([]);
   const [topics, setTopics] = useState<string[]>([]);
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(initialTopic);
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(examFromUrl);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [mounted, setMounted] = useState(false);
   const [progressState, setProgressState] = useState(() => getProgress());
@@ -212,7 +214,9 @@ function ExamContent() {
 
   if (!mounted) return null;
 
-  if (!selectedCategory) {
+  // ─── DEPARTMENT LISTING ───
+  if (!department && !selectedCategory) {
+    const deptEntries = Object.entries(DEPARTMENT_SOURCES);
     return (
       <div className="space-y-12 animate-in py-4">
         <Link 
@@ -225,14 +229,13 @@ function ExamContent() {
           Return to Dashboard
         </Link>
 
-        {/* Header with Stats */}
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8">
           <div className="max-w-2xl">
             <h1 className="text-4xl sm:text-5xl font-black text-gray-900 dark:text-white tracking-tighter mb-4 italic uppercase">
               Exit <span className="text-accent-purple">Exam</span>
             </h1>
             <p className="text-gray-500 dark:text-gray-400 text-sm leading-relaxed font-medium mb-6">
-              Simulate high-stakes exit exams with authentic past-year questions, precisely timed to build your competitive edge.
+              Select your department to access authentic past-year exit exam questions, precisely timed to build your competitive edge.
             </p>
           </div>
 
@@ -253,14 +256,91 @@ function ExamContent() {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {deptEntries.map(([dept, sources]) => {
+            const count = questions.filter(q => sources.includes(q.source)).length;
+            const meta = dept === 'Computer Science'
+              ? { icon: '💻', gradient: 'from-emerald-500/20 to-teal-500/20', border: 'border-emerald-500/30' }
+              : defaultMeta;
+            return (
+              <button
+                key={dept}
+                onClick={() => router.push(`/exam?department=${encodeURIComponent(dept)}`)}
+                className="group relative flex flex-col items-start rounded-3xl bg-white dark:bg-[#11152a]/50 border border-gray-200 dark:border-white/5 p-8 text-left transition-all duration-500 hover:bg-gray-100 dark:hover:bg-[#11152a] hover:border-accent-purple/30 hover:-translate-y-1 hover:shadow-2xl hover:shadow-accent-purple/10 overflow-hidden"
+              >
+                <div className="w-12 h-12 rounded-2xl bg-gray-100 dark:bg-white/5 flex items-center justify-center text-2xl mb-6 group-hover:bg-accent-purple/10 group-hover:scale-110 transition-all duration-500">
+                  {meta.icon}
+                </div>
+                <h3 className="text-xl sm:text-2xl font-black text-gray-900 dark:text-white italic uppercase tracking-tighter mb-4 group-hover:text-gray-900/90 dark:group-hover:text-white/90 transition-colors">
+                  {dept}
+                </h3>
+                <p className="text-xs sm:text-sm leading-relaxed mb-8 max-h-24 overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-gray-200 dark:scrollbar-thumb-white/10 scrollbar-track-transparent text-gray-500 dark:text-gray-400">
+                  {sources.length} exam sets available for {dept} department.
+                </p>
+                <div className="mt-auto px-4 py-2 bg-gray-100 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-xl text-[10px] font-black uppercase tracking-widest group-hover:text-gray-900 dark:group-hover:text-white transition-colors">
+                  {count} Questions
+                </div>
+              </button>
+            );
+          })}
+        </div>
+      </div>
+    );
+  }
 
-          {topics
-            .filter(topic => topic !== 'past_exam') // Explicitly exclude past_exam placeholder
+  // ─── EXAM SOURCES WITHIN A DEPARTMENT ───
+  if (department && !selectedCategory) {
+    const sourcesInDept = DEPARTMENT_SOURCES[department] || [];
+    const examTopics = topics.filter(t => sourcesInDept.includes(t));
+    if (examTopics.length === 0) {
+      return (
+        <div className="space-y-12 animate-in py-4">
+          <button onClick={() => router.push('/exam')} className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-500 hover:text-gray-900 dark:hover:text-white transition-colors flex items-center gap-2">
+            <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+            </svg>
+            All Departments
+          </button>
+          <div className="glass-card p-20 text-center">
+            <p className="text-gray-500 dark:text-gray-400">No exam sets found for this department.</p>
+          </div>
+        </div>
+      );
+    }
+
+    return (
+      <div className="space-y-12 animate-in py-4">
+        <button onClick={() => router.push('/exam')} className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-500 hover:text-gray-900 dark:hover:text-white transition-colors flex items-center gap-2">
+          <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+          </svg>
+          All Departments
+        </button>
+
+        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8">
+          <div className="max-w-2xl">
+            <h1 className="text-4xl sm:text-5xl font-black text-gray-900 dark:text-white tracking-tighter mb-4 italic uppercase">
+              <span className="text-accent-purple">{department}</span>
+            </h1>
+            <p className="text-gray-500 dark:text-gray-400 text-sm leading-relaxed font-medium mb-6">
+              Select an exam set below to begin practicing.
+            </p>
+          </div>
+          <div className="flex flex-wrap gap-3">
+            <div className="flex items-center gap-2 bg-gray-100 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-full px-4 py-2 backdrop-blur-md">
+              <span className="text-accent-purple text-xs">📜</span>
+              <span className="text-gray-900 dark:text-white font-black text-xs italic">{questions.filter(q => sourcesInDept.includes(q.source)).length} Exam Qs</span>
+            </div>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {examTopics
+            .filter(topic => topic !== 'past_exam')
             .map((topic) => {
             const is2017 = topic === 'Exit Exam 2017' || topic === 'Archived Exams';
             const displayTitle = topic;
             const displayDesc = is2017 
-              ? "Enter the 2017 Vault! This is based on actual materials, but we're still in active review mode. If you see a typo that looks like ancient Elvish, don't worry—it’s either a deployment error or you're just not smart enough to understand it yet. 😊"
+              ? "Enter the 2017 Vault! This is based on actual materials, but we're still in active review mode. If you see a typo that looks like ancient Elvish, don't worry—it's either a deployment error or you're just not smart enough to understand it yet. 😊"
               : `Official ${topic} certification and exit exam questions provided for academic preparation.`;
             
             const meta = topicMeta[topic] || defaultMeta;
@@ -272,6 +352,7 @@ function ExamContent() {
                 onClick={() => {
                   setSelectedCategory(topic);
                   setIsDisclaimerAccepted(false);
+                  router.push(`/exam?department=${encodeURIComponent(department)}&exam=${encodeURIComponent(topic)}`);
                 }}
                 className="group relative flex flex-col items-start rounded-3xl bg-white dark:bg-[#11152a]/50 border border-gray-200 dark:border-white/5 p-8 text-left transition-all duration-500 hover:bg-gray-100 dark:hover:bg-[#11152a] hover:border-accent-purple/30 hover:-translate-y-1 hover:shadow-2xl hover:shadow-accent-purple/10 overflow-hidden"
               >
@@ -340,7 +421,14 @@ function ExamContent() {
 
           <div className="flex flex-col sm:flex-row gap-4 w-full">
             <button 
-              onClick={() => setSelectedCategory(null)}
+              onClick={() => {
+                setSelectedCategory(null);
+                if (department) {
+                  router.push(`/exam?department=${encodeURIComponent(department)}`);
+                } else {
+                  router.push('/exam');
+                }
+              }}
               className="flex-1 px-8 py-4 bg-gray-100 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-2xl font-black uppercase tracking-widest hover:bg-gray-200 dark:hover:bg-white/10 hover:text-gray-900 dark:hover:text-white transition-all"
             >
               Go Back
@@ -365,6 +453,11 @@ function ExamContent() {
             if (timerRef.current) { clearInterval(timerRef.current); timerRef.current = null; }
             setTimeLeft(null);
             setSelectedCategory(null);
+            if (department) {
+              router.push(`/exam?department=${encodeURIComponent(department)}`);
+            } else {
+              router.push('/exam');
+            }
           }} className="btn-secondary py-2 text-xs">
             ← Exit Exam
           </button>
@@ -652,7 +745,14 @@ function ExamContent() {
               Restart Exam
             </button>
             <button 
-              onClick={() => setSelectedCategory(null)}
+              onClick={() => {
+                setSelectedCategory(null);
+                if (department) {
+                  router.push(`/exam?department=${encodeURIComponent(department)}`);
+                } else {
+                  router.push('/exam');
+                }
+              }}
               className="px-10 py-3 rounded-xl border border-gray-200 dark:border-white/10 bg-gray-100 dark:bg-white/5 hover:bg-gray-200 dark:hover:bg-white/10 font-black uppercase italic tracking-widest text-sm transition-all"
             >
               Exit

@@ -80,6 +80,25 @@ export const DEFAULT_COURSES = [
 
 // ─── Questions (Supabase ONLY) ───
 
+// Department groupings for exam organization
+export const DEPARTMENT_SOURCES: Record<string, string[]> = {
+  'Computer Science': [
+    'Exit Exam 2015',
+    'Exit Exam 2016 (Jan)',
+    'Exit Exam 2017',
+    'Exit Exam 2017 (Jan)',
+    'Exit Exam 2018 (mid semester)',
+    'Archived Exams',
+  ]
+};
+
+export function getDepartmentFromSource(source: string): string {
+  for (const [dept, sources] of Object.entries(DEPARTMENT_SOURCES)) {
+    if (sources.includes(source)) return dept;
+  }
+  return 'Other';
+}
+
 export function invalidateQuestionsCache() {
   questionsCache = null;
 }
