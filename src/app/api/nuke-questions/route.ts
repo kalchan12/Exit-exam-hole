@@ -1,8 +1,7 @@
 import { NextResponse } from 'next/server';
 import { supabaseAdmin } from '@/lib/supabaseServer';
-import { DEPARTMENT_SOURCES } from '@/lib/dataLoader';
 
-const KEEP_DEPARTMENTS = ['Accounting And Finance', 'Computer Science'];
+const KEEP_DEPTS = ['accounting and finance', 'computer science'];
 
 export async function POST() {
   try {
@@ -16,19 +15,17 @@ export async function POST() {
 
     const uniqueSources = [...new Set(allSources.map((r: any) => r.source))];
 
-    const keepSources = new Set<string>();
-    for (const dept of KEEP_DEPARTMENTS) {
-      const sources = DEPARTMENT_SOURCES[dept];
-      if (sources) {
-        for (const s of sources) {
-          keepSources.add(s);
-        }
-      }
-    }
-
     let totalDeleted = 0;
+    const kept: string[] = [];
+
     for (const source of uniqueSources) {
-      if (keepSources.has(source)) continue;
+      const sourceLower = source.toLowerCase();
+      const shouldKeep = KEEP_DEPTS.some(d => sourceLower.startsWith(d));
+
+      if (shouldKeep) {
+        kept.push(source);
+        continue;
+      }
 
       const { error } = await supabaseAdmin
         .from('questions')
@@ -45,8 +42,8 @@ export async function POST() {
 
     return NextResponse.json({
       deleted: totalDeleted,
-      keptSources: [...keepSources],
-      message: `Deleted ${totalDeleted} source sets. Only ${KEEP_DEPARTMENTS.join(' & ')} questions remain.`,
+      kept,
+      message: `Deleted ${totalDeleted} source sets. Kept all sources under Accounting & Finance and Computer Science.`,
     });
   } catch (error) {
     return NextResponse.json({ error: String(error) }, { status: 500 });
