@@ -388,8 +388,8 @@ export default function BulkImportPage() {
               className="flex-1 py-4 rounded-2xl bg-emerald-600 hover:bg-emerald-500 disabled:bg-gray-700 disabled:text-gray-500 text-white font-black uppercase tracking-widest text-sm transition-all shadow-[0_0_30px_rgba(16,185,129,0.2)] hover:shadow-[0_0_40px_rgba(16,185,129,0.4)] disabled:shadow-none"
             >
               {isImporting
-                ? 'Importing...'
-                : `Import ${selectedDepts.size} Department${selectedDepts.size !== 1 ? 's' : ''}`}
+                ? 'Saving to Database...'
+                : `Save ${selectedDepts.size} Department${selectedDepts.size !== 1 ? 's' : ''} to Database`}
             </button>
           </div>
         </>
@@ -402,9 +402,24 @@ export default function BulkImportPage() {
               Import Progress
             </h3>
             <p className="text-gray-400 text-xs mt-1">
-              {totalImported} imported, {totalSkipped} skipped, {totalErrors} errors across {progress.length} files
+              {totalImported} saved, {totalSkipped} skipped (duplicates), {totalErrors} errors across {progress.length} files
             </p>
           </div>
+
+          {!isImporting && progress.every(p => p.status === 'done') && (
+            <div className="mx-5 mt-5 p-4 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 text-center">
+              <div className="text-3xl mb-2">✅</div>
+              <h4 className="text-emerald-400 font-black uppercase tracking-widest text-sm">
+                Import Complete!
+              </h4>
+              <p className="text-emerald-400/70 text-xs mt-1">
+                {totalImported} new questions saved to database.
+                {totalSkipped > 0 && ` ${totalSkipped} duplicates skipped.`}
+                {totalErrors > 0 && ` ${totalErrors} errors.`}
+              </p>
+            </div>
+          )}
+
           <div className="max-h-96 overflow-y-auto">
             {progress.map(entry => (
               <div
@@ -423,7 +438,7 @@ export default function BulkImportPage() {
                   <div className="text-white font-medium truncate">{entry.file}</div>
                   <div className="text-gray-500 text-xs">
                     {entry.status === 'done'
-                      ? `${entry.imported} imported, ${entry.skipped} skipped`
+                      ? `${entry.imported} saved, ${entry.skipped} skipped`
                       : entry.status === 'importing'
                         ? 'Saving...'
                         : entry.status === 'error'
