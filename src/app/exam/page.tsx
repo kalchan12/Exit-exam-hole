@@ -41,7 +41,27 @@ function ExamContent() {
   const [quizScore, setQuizScore] = useState({ correct: 0, total: 0 });
   const [isDisclaimerAccepted, setIsDisclaimerAccepted] = useState(false);
   const [timeLeft, setTimeLeft] = useState<number | null>(null);
+  const [searchQuery, setSearchQuery] = useState('');
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  const PINNED_DEPTS = useMemo(() => ['Computer Science', 'Software Engineering'], []);
+
+  const sortedDeptEntries = useMemo(() => {
+    return Object.entries(DEPARTMENT_SOURCES).sort(([a], [b]) => {
+      const aPinned = PINNED_DEPTS.includes(a);
+      const bPinned = PINNED_DEPTS.includes(b);
+      if (aPinned && !bPinned) return -1;
+      if (!aPinned && bPinned) return 1;
+      return a.localeCompare(b);
+    });
+  }, [PINNED_DEPTS]);
+
+  const filteredDeptEntries = useMemo(() => {
+    if (!searchQuery) return sortedDeptEntries;
+    return sortedDeptEntries.filter(([dept]) =>
+      dept.toLowerCase().includes(searchQuery.toLowerCase()),
+    );
+  }, [sortedDeptEntries, searchQuery]);
 
   const loadData = useCallback(async () => {
     const allQs = await getQuestions();
@@ -216,24 +236,6 @@ function ExamContent() {
 
   // ─── DEPARTMENT LISTING ───
   if (!department && !selectedCategory) {
-    const [searchQuery, setSearchQuery] = useState('');
-
-    const PINNED_DEPTS = ['Computer Science', 'Software Engineering'];
-
-    const sortedDeptEntries = Object.entries(DEPARTMENT_SOURCES).sort(([a], [b]) => {
-      const aPinned = PINNED_DEPTS.includes(a);
-      const bPinned = PINNED_DEPTS.includes(b);
-      if (aPinned && !bPinned) return -1;
-      if (!aPinned && bPinned) return 1;
-      return a.localeCompare(b);
-    });
-
-    const filtered = searchQuery
-      ? sortedDeptEntries.filter(([dept]) =>
-          dept.toLowerCase().includes(searchQuery.toLowerCase()),
-        )
-      : sortedDeptEntries;
-
     return (
       <div className="space-y-12 animate-in py-4">
         <Link 
@@ -287,7 +289,7 @@ function ExamContent() {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {filtered.map(([dept, sources]) => {
+          {filteredDeptEntries.map(([dept, sources]) => {
             const isPinned = PINNED_DEPTS.includes(dept);
             const count = questions.filter(q => sources.includes(q.source)).length;
             const meta = dept === 'Computer Science'
@@ -327,7 +329,7 @@ function ExamContent() {
           })}
         </div>
 
-        {searchQuery && filtered.length === 0 && (
+        {searchQuery && filteredDeptEntries.length === 0 && (
           <div className="glass-card p-12 text-center border-white/5">
             <p className="text-gray-500">No departments matching &quot;{searchQuery}&quot;</p>
           </div>
