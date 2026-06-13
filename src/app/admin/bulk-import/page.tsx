@@ -3,7 +3,6 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/components/AuthProvider';
-import { saveQuestionToSupabase } from '@/lib/supabaseLoader';
 import { invalidateQuestionsCache } from '@/lib/dataLoader';
 
 interface FileInfo {
@@ -21,24 +20,20 @@ interface ScanData {
   files: FileInfo[];
 }
 
-interface LoadedFile {
+interface ImportResult {
   file: string;
-  questions: Array<{
-    id: string;
-    question: string;
-    options: string[];
-    answer: string;
-    explanation: string;
-    topic: string;
-    difficulty: string;
-    source: string;
-  }>;
+  department: string;
+  imported: number;
+  skipped: number;
+  total: number;
   error?: string;
 }
 
 interface ProgressEntry {
   file: string;
+  department: string;
   imported: number;
+  skipped: number;
   total: number;
   status: 'pending' | 'importing' | 'done' | 'error';
   error?: string;
@@ -111,7 +106,9 @@ export default function BulkImportPage() {
     setProgress(
       filesToImport.map(f => ({
         file: `${f.department}/${f.year}/${f.fileName}`,
+        department: f.department,
         imported: 0,
+        skipped: 0,
         total: f.questionCount,
         status: 'pending' as const,
       })),
@@ -125,64 +122,26 @@ export default function BulkImportPage() {
       });
       if (!res.ok) {
         const err = await res.json();
-        throw new Error(err.error || 'Failed to load questions');
+        throw new Error(err.error || 'Import failed');
       }
-      const data: { files: LoadedFile[] } = await res.json();
+      const data: { files: ImportResult[] } = await res.json();
 
-      let totalImported = 0;
-      let totalErrors = 0;
-
-      for (const fileData of data.files) {
-        setProgress(prev =>
-          prev.map(p =>
-            p.file === fileData.file ? { ...p, status: 'importing' as const } : p,
-          ),
-        );
-
-        if (fileData.error) {
-          setProgress(prev =>
-            prev.map(p =>
-              p.file === fileData.file
-                ? { ...p, status: 'error' as const, error: fileData.error }
-                : p,
-            ),
-          );
-          totalErrors++;
-          continue;
-        }
-
-        let fileOk = 0;
-        for (const q of fileData.questions) {
-          const ok = await saveQuestionToSupabase({
-            id: q.id,
-            question: q.question,
-            options: q.options,
-            answer: q.answer,
-            explanation: q.explanation,
-            topic: q.topic,
-            difficulty: q.difficulty as 'easy' | 'medium' | 'hard',
-            source: q.source,
-          });
-          if (ok) fileOk++;
-          else totalErrors++;
-        }
-
-        totalImported += fileOk;
-        setProgress(prev =>
-          prev.map(p =>
-            p.file === fileData.file
-              ? { ...p, status: 'done' as const, imported: fileOk }
-              : p,
-          ),
-        );
-      }
+      setProgress(prev =>
+        prev.map(p => {
+          const match = data.files.find(f => f.file === p.file);
+          if (!match) return { ...p, status: 'error' as const, error: 'No result returned' };
+          return {
+            ...p,
+            imported: match.imported,
+            skipped: match.skipped,
+            total: match.total,
+            status: match.error ? 'error' as const : 'done' as const,
+            error: match.error,
+          };
+        }),
+      );
 
       invalidateQuestionsCache();
-      setProgress(prev => [...prev]);
-
-      if (totalErrors === 0) {
-        setError('');
-      }
     } catch (e: any) {
       setError(e.message);
     } finally {
@@ -195,8 +154,9 @@ export default function BulkImportPage() {
   }
 
   const totalImported = progress.filter(p => p.status === 'done').reduce((s, p) => s + p.imported, 0);
+  const totalSkipped = progress.filter(p => p.status === 'done').reduce((s, p) => s + p.skipped, 0);
   const totalErrors = progress.filter(p => p.status === 'error').length +
-    progress.filter(p => p.status === 'done').reduce((s, p) => s + (p.total - p.imported), 0);
+    progress.filter(p => p.status === 'done').reduce((s, p) => s + (p.total - p.imported - p.skipped), 0);
 
   return (
     <div className="max-w-6xl mx-auto space-y-8 animate-in pb-20">
@@ -393,7 +353,7 @@ export default function BulkImportPage() {
               Import Progress
             </h3>
             <p className="text-gray-400 text-xs mt-1">
-              {totalImported} imported, {totalErrors} errors across {progress.length} files
+              {totalImported} imported, {totalSkipped} skipped, {totalErrors} errors across {progress.length} files
             </p>
           </div>
           <div className="max-h-96 overflow-y-auto">
@@ -404,7 +364,8 @@ export default function BulkImportPage() {
               >
                 <div className="text-lg">
                   {entry.status === 'done' && entry.imported === entry.total && '✅'}
-                  {entry.status === 'done' && entry.imported < entry.total && '⚠️'}
+                  {entry.status === 'done' && entry.imported < entry.total && entry.skipped > 0 && '♻️'}
+                  {entry.status === 'done' && entry.imported < entry.total && entry.skipped === 0 && '⚠️'}
                   {entry.status === 'importing' && '⏳'}
                   {entry.status === 'error' && '❌'}
                   {entry.status === 'pending' && '⏸️'}
@@ -413,7 +374,7 @@ export default function BulkImportPage() {
                   <div className="text-white font-medium truncate">{entry.file}</div>
                   <div className="text-gray-500 text-xs">
                     {entry.status === 'done'
-                      ? `${entry.imported}/${entry.total} questions`
+                      ? `${entry.imported} imported, ${entry.skipped} skipped`
                       : entry.status === 'importing'
                         ? 'Saving...'
                         : entry.status === 'error'
@@ -422,8 +383,9 @@ export default function BulkImportPage() {
                   </div>
                 </div>
                 {entry.status === 'done' && (
-                  <div className="text-emerald-400 font-bold text-xs">
+                  <div className="text-emerald-400 font-bold text-xs whitespace-nowrap">
                     {entry.imported}/{entry.total}
+                    {entry.skipped > 0 && ` (${entry.skipped} exist)`}
                   </div>
                 )}
               </div>
