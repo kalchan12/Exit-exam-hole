@@ -7,6 +7,27 @@ import { supabaseAdmin } from '@/lib/supabaseServer';
 const EXAMS_ROOT =
   process.env.EXAMS_PATH || path.join(process.env.HOME || '/home/kal', 'exams');
 
+async function upsertBatchWithRetry(
+  records: Record<string, unknown>[],
+  retries = 3,
+): Promise<boolean> {
+  for (let attempt = 1; attempt <= retries; attempt++) {
+    try {
+      const { error } = await supabaseAdmin
+        .from('questions')
+        .upsert(records, { onConflict: 'id' });
+      if (!error) return true;
+      console.error(`Batch upsert attempt ${attempt}/${retries} failed:`, error.message);
+    } catch (err) {
+      console.error(`Batch upsert attempt ${attempt}/${retries} threw:`, err);
+    }
+    if (attempt < retries) {
+      await new Promise(r => setTimeout(r, attempt * 2000));
+    }
+  }
+  return false;
+}
+
 function scanDirectory(): ExamFileInfo[] {
   const results: ExamFileInfo[] = [];
 
@@ -138,7 +159,7 @@ export async function POST(request: NextRequest) {
           continue;
         }
 
-        const batchSize = 100;
+        const batchSize = 50;
         let imported = 0;
         for (let i = 0; i < newQuestions.length; i += batchSize) {
           const batch = newQuestions.slice(i, i + batchSize).map(q => ({
@@ -152,15 +173,10 @@ export async function POST(request: NextRequest) {
             source: q.source,
           }));
 
-          const { error } = await supabaseAdmin
-            .from('questions')
-            .upsert(batch, { onConflict: 'id' });
-
-          if (error) {
-            console.error(`Batch insert error for ${fileInfo.filePath}:`, error);
-          } else {
-            imported += batch.length;
-          }
+          const ok = await upsertBatchWithRetry(
+            batch as Record<string, unknown>[],
+          );
+          if (ok) imported += batch.length;
         }
 
         result.push({

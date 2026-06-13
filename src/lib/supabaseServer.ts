@@ -8,8 +8,4 @@ const supabaseKey =
 
 export const supabaseAdmin = createClient(supabaseUrl, supabaseKey, {
   auth: { persistSession: false },
-  global: {
-    fetch: (url: RequestInfo | URL, init?: RequestInit) =>
-      fetch(url, { ...init, signal: AbortSignal.timeout(30000) }),
-  },
 });
