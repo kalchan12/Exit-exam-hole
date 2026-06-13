@@ -95,43 +95,36 @@ export default function LandingPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#0a0b1e] text-white overflow-hidden">
-      {/* Background Grid */}
+    <div className="min-h-screen bg-[#07080f] text-white overflow-hidden">
+      {/* Background */}
       <div className="fixed inset-0 pointer-events-none z-0">
-        <div
-          className="absolute inset-0"
-          style={{
-            backgroundImage:
-              'linear-gradient(rgba(124, 58, 237, 0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(124, 58, 237, 0.04) 1px, transparent 1px)',
-            backgroundSize: '60px 60px',
-            maskImage: 'radial-gradient(ellipse at 50% 0%, black 0%, transparent 75%)',
-            WebkitMaskImage: 'radial-gradient(ellipse at 50% 0%, black 0%, transparent 75%)',
-          }}
-        />
-        <div className="absolute top-[-20%] left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-accent-purple/10 rounded-full blur-[150px]" />
-        <div className="absolute bottom-[-10%] right-[-10%] w-[600px] h-[600px] bg-indigo-500/10 rounded-full blur-[120px]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(124,58,237,0.08)_0%,_transparent_60%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,_rgba(99,102,241,0.05)_0%,_transparent_50%)]" />
+        <div className="absolute top-1/4 left-1/3 w-96 h-96 bg-accent-purple/10 rounded-full blur-[150px]" />
+        <div className="absolute bottom-1/3 right-1/4 w-80 h-80 bg-indigo-500/10 rounded-full blur-[120px]" />
+        <div className="absolute inset-0" style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, rgba(124,58,237,0.04) 1px, transparent 0)', backgroundSize: '32px 32px' }} />
       </div>
 
       {/* Nav */}
       <nav className="relative z-10 flex items-center justify-between px-6 py-5 max-w-7xl mx-auto">
-        <Link href="/" className="flex items-center gap-2.5">
-          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-accent-purple to-indigo-500 flex items-center justify-center text-white font-black text-xs">
+        <Link href="/" className="flex items-center gap-2.5 group">
+          <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-accent-purple to-indigo-500 flex items-center justify-center text-white font-black text-sm shadow-[0_0_15px_rgba(124,58,237,0.3)] group-hover:shadow-[0_0_25px_rgba(124,58,237,0.5)] transition-all duration-300">
             EE
           </div>
-          <span className="font-black text-lg italic tracking-tight text-white">
+          <span className="font-black text-xl tracking-tight text-white">
             Exit<span className="text-accent-purple">Exam</span>
           </span>
         </Link>
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2">
           <Link
             href="/auth/login"
-            className="px-5 py-2.5 rounded-xl text-sm font-bold text-gray-300 hover:text-white transition-colors"
+            className="px-5 py-2.5 rounded-xl text-sm font-semibold text-gray-300 hover:text-white hover:bg-white/5 transition-all"
           >
             Sign In
           </Link>
           <Link
             href="/auth/register"
-            className="px-5 py-2.5 rounded-xl text-sm font-black bg-gradient-to-r from-accent-purple to-indigo-500 text-white hover:shadow-[0_0_30px_rgba(124,58,237,0.4)] transition-all uppercase tracking-wider"
+            className="px-5 py-2.5 rounded-xl text-sm font-bold bg-gradient-to-r from-accent-purple to-indigo-500 text-white hover:shadow-[0_0_30px_rgba(124,58,237,0.4)] transition-all hover:-translate-y-0.5"
           >
             Get Started
           </Link>
@@ -139,44 +132,46 @@ export default function LandingPage() {
       </nav>
 
       {/* Hero */}
-      <section className="relative z-10 max-w-7xl mx-auto px-6 pt-24 pb-20 text-center">
+      <section className="relative z-10 max-w-6xl mx-auto px-6 pt-20 pb-16 text-center">
         <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-accent-purple/10 border border-accent-purple/20 text-accent-purple text-xs font-bold uppercase tracking-widest mb-8">
-          Ethiopian Exit Exam Preparation Platform
+          <span className="w-1.5 h-1.5 rounded-full bg-accent-purple animate-pulse" />
+          Ethiopian Exit Exam Preparation
         </div>
-        <h1 className="text-5xl sm:text-7xl lg:text-8xl font-black italic tracking-tighter leading-[0.9] mb-6">
+        <h1 className="text-5xl sm:text-7xl lg:text-8xl font-black tracking-tighter leading-[0.9] mb-6">
           Ace Your
           <br />
-          <span className="bg-clip-text text-transparent bg-gradient-to-r from-accent-purple via-purple-400 to-indigo-400">
+          <span className="bg-gradient-to-r from-accent-purple via-purple-400 to-indigo-400 bg-clip-text text-transparent">
             Exit Exam
           </span>
         </h1>
         <p className="text-gray-400 text-lg max-w-2xl mx-auto leading-relaxed mb-10">
           Practice with authentic past exit exam questions from 40+ Ethiopian departments.
-          Timed simulations, detailed explanations, and progress tracking — all free.
+          Timed simulations, detailed explanations, and progress tracking &mdash; all free.
         </p>
         <div className="flex flex-wrap justify-center gap-4">
           <Link
             href="/auth/register"
-            className="px-8 py-4 rounded-2xl bg-gradient-to-r from-accent-purple to-indigo-500 text-white font-black text-sm uppercase tracking-widest transition-all hover:shadow-[0_0_40px_rgba(124,58,237,0.5)] hover:-translate-y-0.5"
+            className="group relative px-8 py-4 rounded-2xl bg-gradient-to-r from-accent-purple to-indigo-500 text-white font-bold text-sm uppercase tracking-widest transition-all hover:shadow-[0_0_40px_rgba(124,58,237,0.5)] hover:-translate-y-0.5 overflow-hidden"
           >
-            Start Practicing Free
+            <span className="relative z-10">Start Practicing Free</span>
+            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700" />
           </Link>
           <Link
             href="/auth/login"
-            className="px-8 py-4 rounded-2xl border border-white/10 bg-white/5 text-white font-black text-sm uppercase tracking-widest transition-all hover:bg-white/10 hover:border-white/20"
+            className="px-8 py-4 rounded-2xl border border-white/10 bg-white/[0.03] text-white font-bold text-sm uppercase tracking-widest transition-all hover:bg-white/10 hover:border-white/20 hover:-translate-y-0.5"
           >
             Sign In
           </Link>
         </div>
       </section>
 
-      {/* Stats Bar */}
-      <section className="relative z-10 max-w-5xl mx-auto px-6 pb-20">
-        <div className="glass-card border-white/5 p-8 grid grid-cols-2 sm:grid-cols-4 gap-8">
+      {/* Stats */}
+      <section className="relative z-10 max-w-4xl mx-auto px-6 pb-20">
+        <div className="rounded-2xl bg-white/[0.02] border border-white/[0.05] p-8 grid grid-cols-2 sm:grid-cols-4 gap-8">
           {stats.map(stat => (
             <div key={stat.label} className="text-center">
-              <div className="text-3xl sm:text-4xl font-black text-white italic">{stat.value}</div>
-              <div className="text-[10px] text-gray-500 uppercase font-black tracking-widest mt-1">
+              <div className="text-3xl sm:text-4xl font-black text-white tracking-tight">{stat.value}</div>
+              <div className="text-[10px] text-gray-500 uppercase font-bold tracking-widest mt-1">
                 {stat.label}
               </div>
             </div>
@@ -185,25 +180,25 @@ export default function LandingPage() {
       </section>
 
       {/* Features */}
-      <section className="relative z-10 max-w-7xl mx-auto px-6 pb-24">
+      <section className="relative z-10 max-w-6xl mx-auto px-6 pb-24">
         <div className="text-center mb-16">
-          <h2 className="text-3xl sm:text-5xl font-black italic tracking-tighter mb-4">
+          <h2 className="text-3xl sm:text-5xl font-black tracking-tight mb-4">
             Everything You Need
           </h2>
-          <p className="text-gray-400 max-w-xl mx-auto">
+          <p className="text-gray-400 max-w-xl mx-auto text-sm">
             Built to help Ethiopian university students prepare with real past exam data.
           </p>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {features.map(f => (
             <div
               key={f.title}
-              className="group p-6 rounded-2xl bg-white/[0.03] border border-white/5 hover:bg-white/[0.06] hover:border-accent-purple/20 transition-all duration-300"
+              className="group relative p-6 rounded-2xl bg-white/[0.02] border border-white/[0.06] hover:bg-white/[0.04] hover:border-accent-purple/20 transition-all duration-300"
             >
-              <div className="w-10 h-10 rounded-xl bg-accent-purple/10 flex items-center justify-center text-accent-purple mb-4 group-hover:scale-110 transition-transform">
+              <div className="w-10 h-10 rounded-xl bg-accent-purple/10 flex items-center justify-center text-accent-purple mb-4 group-hover:scale-110 group-hover:bg-accent-purple/20 transition-all duration-300">
                 {f.icon}
               </div>
-              <h3 className="text-lg font-bold text-white mb-2">{f.title}</h3>
+              <h3 className="text-base font-bold text-white mb-2">{f.title}</h3>
               <p className="text-sm text-gray-400 leading-relaxed">{f.description}</p>
             </div>
           ))}
@@ -212,18 +207,19 @@ export default function LandingPage() {
 
       {/* CTA */}
       <section className="relative z-10 max-w-4xl mx-auto px-6 pb-24">
-        <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-accent-purple/20 via-accent-purple/5 to-transparent border border-accent-purple/20 p-12 sm:p-16 text-center">
-          <div className="absolute top-0 right-0 w-64 h-64 bg-accent-purple/20 rounded-full blur-[100px]" />
+        <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-accent-purple/[0.12] via-accent-purple/[0.04] to-transparent border border-accent-purple/20 p-12 sm:p-16 text-center">
+          <div className="absolute -top-20 -right-20 w-72 h-72 bg-accent-purple/20 rounded-full blur-[120px]" />
+          <div className="absolute -bottom-20 -left-20 w-72 h-72 bg-indigo-500/20 rounded-full blur-[120px]" />
           <div className="relative z-10">
-            <h2 className="text-3xl sm:text-5xl font-black italic tracking-tighter mb-4">
+            <h2 className="text-3xl sm:text-5xl font-black tracking-tight mb-4">
               Ready to Pass?
             </h2>
-            <p className="text-gray-400 max-w-lg mx-auto mb-8">
+            <p className="text-gray-400 max-w-lg mx-auto mb-8 text-sm">
               Join thousands of Ethiopian students preparing for their exit exams. No credit card required.
             </p>
             <Link
               href="/auth/register"
-              className="inline-flex px-8 py-4 rounded-2xl bg-gradient-to-r from-accent-purple to-indigo-500 text-white font-black text-sm uppercase tracking-widest transition-all hover:shadow-[0_0_40px_rgba(124,58,237,0.5)] hover:-translate-y-0.5"
+              className="inline-flex px-8 py-4 rounded-2xl bg-gradient-to-r from-accent-purple to-indigo-500 text-white font-bold text-sm uppercase tracking-widest transition-all hover:shadow-[0_0_40px_rgba(124,58,237,0.5)] hover:-translate-y-0.5"
             >
               Create Free Account
             </Link>
@@ -233,7 +229,7 @@ export default function LandingPage() {
 
       {/* Footer */}
       <footer className="relative z-10 max-w-7xl mx-auto px-6 pb-8">
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-8 border-t border-white/5">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-8 border-t border-white/[0.05]">
           <div className="flex items-center gap-2.5">
             <div className="w-6 h-6 rounded-md bg-gradient-to-br from-accent-purple to-indigo-500 flex items-center justify-center text-white font-black text-[8px]">
               EE

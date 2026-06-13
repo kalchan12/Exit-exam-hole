@@ -237,10 +237,10 @@ function ExamContent() {
   // ─── DEPARTMENT LISTING ───
   if (!department && !selectedCategory) {
     return (
-      <div className="space-y-12 animate-in py-4">
+      <div className="space-y-10 animate-in py-4 relative">
         <Link 
           href="/dashboard"
-          className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-500 hover:text-gray-900 dark:hover:text-white transition-colors flex items-center gap-2"
+          className="relative inline-flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2em] text-gray-400 hover:text-accent-purple transition-all duration-300 group"
         >
           <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
@@ -248,34 +248,43 @@ function ExamContent() {
           Return to Dashboard
         </Link>
 
-        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8">
-          <div className="max-w-2xl">
-            <h1 className="text-4xl sm:text-5xl font-black text-gray-900 dark:text-white tracking-tighter mb-4 italic uppercase">
-              Exit <span className="text-accent-purple">Exam</span>
-            </h1>
-            <p className="text-gray-500 dark:text-gray-400 text-sm leading-relaxed font-medium mb-6">
-              Select your department to access authentic past-year exit exam questions, precisely timed to build your competitive edge.
-            </p>
-          </div>
-
-          <div className="flex flex-wrap gap-3">
-             <div className="flex items-center gap-2 bg-gray-100 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-full px-4 py-2 backdrop-blur-md">
-              <span className="text-accent-purple-light text-xs">⚡</span>
-              <span className="text-gray-900 dark:text-white font-black text-xs italic">{progress.xp.toLocaleString()} XP</span>
+        <div className="flex flex-col items-center text-center gap-5">
+          <h1 className="text-5xl sm:text-6xl lg:text-7xl font-black text-gray-900 dark:text-white tracking-tighter leading-none">
+            Exit{' '}
+            <span className="bg-gradient-to-r from-accent-purple via-purple-400 to-indigo-400 bg-clip-text text-transparent">
+              Exam
+            </span>
+          </h1>
+          <p className="text-gray-500 dark:text-gray-400 text-sm leading-relaxed font-medium max-w-lg">
+            Select your department to access authentic past-year exit exam questions, precisely timed to build your competitive edge.
+          </p>
+          <div className="flex flex-wrap justify-center gap-3">
+            <div className="flex items-center gap-2 bg-white/5 backdrop-blur-md rounded-2xl px-5 py-3">
+              <span className="text-lg">⚡</span>
+              <div>
+                <span className="text-gray-900 dark:text-white font-black text-sm tabular-nums">{progress.xp.toLocaleString()}</span>
+                <span className="text-[8px] text-gray-500 font-black uppercase tracking-widest block leading-tight">XP</span>
+              </div>
             </div>
-            <div className="flex items-center gap-2 bg-gray-100 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-full px-4 py-2 backdrop-blur-md">
-              <span className="text-neon-green text-xs">🔥</span>
-              <span className="text-gray-900 dark:text-white font-black text-xs italic">{progress.streak} Day Streak</span>
+            <div className="flex items-center gap-2 bg-white/5 backdrop-blur-md rounded-2xl px-5 py-3">
+              <span className="text-lg">🔥</span>
+              <div>
+                <span className="text-gray-900 dark:text-white font-black text-sm tabular-nums">{progress.streak}</span>
+                <span className="text-[8px] text-gray-500 font-black uppercase tracking-widest block leading-tight">Day Streak</span>
+              </div>
             </div>
-            <div className="flex items-center gap-2 bg-gray-100 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-full px-4 py-2 backdrop-blur-md">
-              <span className="text-accent-purple text-xs">📜</span>
-              <span className="text-gray-900 dark:text-white font-black text-xs italic">{questions.length} Exam Qs</span>
+            <div className="flex items-center gap-2 bg-white/5 backdrop-blur-md rounded-2xl px-5 py-3">
+              <span className="text-lg">📜</span>
+              <div>
+                <span className="text-gray-900 dark:text-white font-black text-sm tabular-nums">{questions.length.toLocaleString()}</span>
+                <span className="text-[8px] text-gray-500 font-black uppercase tracking-widest block leading-tight">Exam Qs</span>
+              </div>
             </div>
           </div>
         </div>
 
         {/* Search */}
-        <div className="relative max-w-md">
+        <div className="relative max-w-md mx-auto">
           <svg className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
           </svg>
@@ -284,45 +293,47 @@ function ExamContent() {
             value={searchQuery}
             onChange={e => setSearchQuery(e.target.value)}
             placeholder="Search departments..."
-            className="w-full pl-11 pr-4 py-3 rounded-2xl bg-white dark:bg-white/5 border border-gray-200 dark:border-white/10 text-gray-900 dark:text-white text-sm placeholder-gray-400 focus:outline-none focus:border-accent-purple/50 focus:ring-1 focus:ring-accent-purple/20 transition-all"
+            className="w-full pl-11 pr-4 py-3.5 rounded-2xl bg-white/5 text-gray-900 dark:text-white text-sm placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-accent-purple/30 transition-all"
           />
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {filteredDeptEntries.map(([dept, sources]) => {
+        <div className="relative grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          {filteredDeptEntries.map(([dept, sources], index) => {
             const isPinned = PINNED_DEPTS.includes(dept);
             const count = questions.filter(q => sources.includes(q.source)).length;
             const meta = dept === 'Computer Science'
-              ? { icon: '💻', gradient: 'from-emerald-500/20 to-teal-500/20', border: 'border-emerald-500/30' }
+              ? { icon: '💻', gradient: 'from-emerald-500/20 to-teal-500/20' }
               : dept === 'Software Engineering'
-                ? { icon: '🛠️', gradient: 'from-rose-500/20 to-pink-500/20', border: 'border-rose-500/30' }
+                ? { icon: '🛠️', gradient: 'from-rose-500/20 to-pink-500/20' }
                 : defaultMeta;
             return (
               <button
                 key={dept}
                 onClick={() => router.push(`/exam?department=${encodeURIComponent(dept)}`)}
-                className={`group relative flex flex-col items-start rounded-3xl bg-white dark:bg-[#11152a]/50 border p-8 text-left transition-all duration-500 hover:bg-gray-100 dark:hover:bg-[#11152a] hover:border-accent-purple/30 hover:-translate-y-1 hover:shadow-2xl hover:shadow-accent-purple/10 overflow-hidden ${
-                  isPinned
-                    ? 'border-accent-purple/30 dark:border-accent-purple/30 shadow-[0_0_20px_rgba(124,58,237,0.1)]'
-                    : 'border-gray-200 dark:border-white/5'
-                }`}
+                style={{ animationDelay: `${index * 40}ms` }}
+                className="group relative flex flex-col items-start rounded-3xl bg-gradient-to-br from-accent-purple/[0.07] to-accent-purple/[0.02] p-7 text-left transition-all duration-500 hover:from-accent-purple/[0.12] hover:to-accent-purple/[0.05] hover:-translate-y-1 hover:shadow-[0_0_30px_rgba(124,58,237,0.15)] overflow-hidden animate-in fade-in slide-in-from-bottom-4"
               >
                 {isPinned && (
-                  <div className="absolute top-4 right-4 px-2 py-0.5 rounded-full bg-accent-purple/20 border border-accent-purple/30 text-[8px] font-black uppercase tracking-widest text-accent-purple">
+                  <div className="absolute top-3.5 right-3.5 px-2.5 py-1 rounded-full bg-amber-500/20 border border-amber-400/30 text-[8px] font-black uppercase tracking-[0.15em] text-amber-400 shadow-[0_0_12px_rgba(251,191,36,0.15)] z-10">
                     Pinned
                   </div>
                 )}
-                <div className="w-12 h-12 rounded-2xl bg-gray-100 dark:bg-white/5 flex items-center justify-center text-2xl mb-6 group-hover:bg-accent-purple/10 group-hover:scale-110 transition-all duration-500">
+
+                <div className="relative w-12 h-12 rounded-2xl bg-accent-purple/[0.1] flex items-center justify-center text-2xl mb-5 group-hover:scale-110 group-hover:bg-accent-purple/[0.15] transition-all duration-500">
                   {meta.icon}
                 </div>
-                <h3 className="text-xl sm:text-2xl font-black text-gray-900 dark:text-white italic uppercase tracking-tighter mb-4 group-hover:text-gray-900/90 dark:group-hover:text-white/90 transition-colors">
+
+                <h3 className="relative text-xl sm:text-2xl font-extrabold text-gray-900 dark:text-white tracking-tight mb-3 group-hover:text-accent-purple transition-colors duration-300">
                   {dept}
                 </h3>
-                <p className="text-xs sm:text-sm leading-relaxed mb-8 max-h-24 overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-gray-200 dark:scrollbar-thumb-white/10 scrollbar-track-transparent text-gray-500 dark:text-gray-400">
-                  {sources.length} exam sets available for {dept} department.
+
+                <p className="relative text-xs leading-relaxed mb-6 text-gray-500 dark:text-gray-400 font-medium flex-1">
+                  {sources.length} exam set{sources.length !== 1 ? 's' : ''} available
                 </p>
-                <div className="mt-auto px-4 py-2 bg-gray-100 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-xl text-[10px] font-black uppercase tracking-widest group-hover:text-gray-900 dark:group-hover:text-white transition-colors">
-                  {count} Questions
+
+                <div className="relative flex items-center gap-2 mt-auto">
+                  <span className="text-sm font-bold text-accent-purple tabular-nums">{count}</span>
+                  <span className="text-[10px] font-bold text-gray-500 uppercase tracking-wider">Questions</span>
                 </div>
               </button>
             );
@@ -330,8 +341,9 @@ function ExamContent() {
         </div>
 
         {searchQuery && filteredDeptEntries.length === 0 && (
-          <div className="glass-card p-12 text-center border-white/5">
-            <p className="text-gray-500">No departments matching &quot;{searchQuery}&quot;</p>
+          <div className="text-center py-12">
+            <div className="text-4xl mb-4 opacity-40">🔍</div>
+            <p className="text-gray-500 text-sm">No departments matching &quot;{searchQuery}&quot;</p>
           </div>
         )}
       </div>
@@ -344,54 +356,55 @@ function ExamContent() {
     const examTopics = topics.filter(t => sourcesInDept.includes(t));
     if (examTopics.length === 0) {
       return (
-        <div className="space-y-12 animate-in py-4">
-          <button onClick={() => router.push('/exam')} className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-500 hover:text-gray-900 dark:hover:text-white transition-colors flex items-center gap-2">
+        <div className="space-y-10 animate-in py-4">
+          <button onClick={() => router.push('/exam')} className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-400 hover:text-accent-purple transition-colors flex items-center gap-2">
             <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
             </svg>
             All Departments
           </button>
-          <div className="glass-card p-20 text-center">
-            <p className="text-gray-500 dark:text-gray-400">No exam sets found for this department.</p>
+          <div className="text-center py-20">
+            <p className="text-gray-500">No exam sets found for this department.</p>
           </div>
         </div>
       );
     }
 
     return (
-      <div className="space-y-12 animate-in py-4">
-        <button onClick={() => router.push('/exam')} className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-500 hover:text-gray-900 dark:hover:text-white transition-colors flex items-center gap-2">
+      <div className="space-y-10 animate-in py-4">
+        <button onClick={() => router.push('/exam')} className="inline-flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2em] text-gray-400 hover:text-accent-purple transition-all duration-300 group">
           <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
           </svg>
           All Departments
         </button>
 
-        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8">
-          <div className="max-w-2xl">
-            <h1 className="text-4xl sm:text-5xl font-black text-gray-900 dark:text-white tracking-tighter mb-4 italic uppercase">
-              <span className="text-accent-purple">{department}</span>
-            </h1>
-            <p className="text-gray-500 dark:text-gray-400 text-sm leading-relaxed font-medium mb-6">
-              Select an exam set below to begin practicing.
-            </p>
-          </div>
-          <div className="flex flex-wrap gap-3">
-            <div className="flex items-center gap-2 bg-gray-100 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-full px-4 py-2 backdrop-blur-md">
-              <span className="text-accent-purple text-xs">📜</span>
-              <span className="text-gray-900 dark:text-white font-black text-xs italic">{questions.filter(q => sourcesInDept.includes(q.source)).length} Exam Qs</span>
+        <div className="flex flex-col items-center text-center gap-5">
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-gray-900 dark:text-white tracking-tighter leading-none">
+            <span className="bg-gradient-to-r from-accent-purple via-purple-400 to-indigo-400 bg-clip-text text-transparent">
+              {department}
+            </span>
+          </h1>
+          <p className="text-gray-500 dark:text-gray-400 text-sm leading-relaxed font-medium">
+            Select an exam set below to begin practicing.
+          </p>
+          <div className="flex items-center gap-2 bg-white/5 backdrop-blur-md rounded-2xl px-5 py-3">
+            <span className="text-lg">📜</span>
+            <div>
+              <span className="text-gray-900 dark:text-white font-black text-sm tabular-nums">{questions.filter(q => sourcesInDept.includes(q.source)).length.toLocaleString()}</span>
+              <span className="text-[8px] text-gray-500 font-black uppercase tracking-widest block leading-tight">Exam Qs</span>
             </div>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="relative grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
           {examTopics
             .filter(topic => topic !== 'past_exam')
-            .map((topic) => {
+            .map((topic, index) => {
             const is2017 = topic === 'Exit Exam 2017' || topic === 'Archived Exams';
             const displayTitle = topic;
             const displayDesc = is2017 
-              ? "Enter the 2017 Vault! This is based on actual materials, but we're still in active review mode. If you see a typo that looks like ancient Elvish, don't worry—it's either a deployment error or you're just not smart enough to understand it yet. 😊"
+              ? "Enter the 2017 Vault! This is based on actual materials, but we're still in active review mode."
               : `Official ${topic} certification and exit exam questions provided for academic preparation.`;
             
             const meta = topicMeta[topic] || defaultMeta;
@@ -405,33 +418,35 @@ function ExamContent() {
                   setIsDisclaimerAccepted(false);
                   router.push(`/exam?department=${encodeURIComponent(department)}&exam=${encodeURIComponent(topic)}`);
                 }}
-                className="group relative flex flex-col items-start rounded-3xl bg-white dark:bg-[#11152a]/50 border border-gray-200 dark:border-white/5 p-8 text-left transition-all duration-500 hover:bg-gray-100 dark:hover:bg-[#11152a] hover:border-accent-purple/30 hover:-translate-y-1 hover:shadow-2xl hover:shadow-accent-purple/10 overflow-hidden"
+                style={{ animationDelay: `${index * 40}ms` }}
+                className="group relative flex flex-col items-start rounded-3xl bg-gradient-to-br from-accent-purple/[0.07] to-accent-purple/[0.02] p-7 text-left transition-all duration-500 hover:from-accent-purple/[0.12] hover:to-accent-purple/[0.05] hover:-translate-y-1 hover:shadow-[0_0_30px_rgba(124,58,237,0.15)] overflow-hidden animate-in fade-in slide-in-from-bottom-4"
               >
-                <div className="absolute top-6 right-6 z-10 flex gap-2">
+                <div className="absolute top-3.5 right-3.5 z-10 flex gap-2">
                   {isAdmin && (
                     <div 
                       onClick={(e) => handleDeleteTopic(e, topic)}
-                      className="p-2 rounded-xl bg-red-500/10 border border-red-500/20 hover:bg-red-500 hover:border-red-500 group/del transition-all cursor-pointer"
+                      className="p-1.5 rounded-lg bg-red-500/10 hover:bg-red-500 group/del transition-all cursor-pointer"
                       title="Delete this topic from Supabase"
                     >
-                      <svg className="w-4 h-4 text-red-400 group-hover/del:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                      <svg className="w-3.5 h-3.5 text-red-400 group-hover/del:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
                         <path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                       </svg>
                     </div>
                   )}
                 </div>
 
-                <div className="w-12 h-12 rounded-2xl bg-gray-100 dark:bg-white/5 flex items-center justify-center text-2xl mb-6 group-hover:bg-accent-purple/10 group-hover:scale-110 transition-all duration-500">
+                <div className="relative w-12 h-12 rounded-2xl bg-accent-purple/[0.1] flex items-center justify-center text-2xl mb-5 group-hover:scale-110 group-hover:bg-accent-purple/[0.15] transition-all duration-500">
                   {is2017 ? '🎓' : meta.icon}
                 </div>
-                <h3 className="text-xl sm:text-2xl font-black text-gray-900 dark:text-white italic uppercase tracking-tighter mb-4 group-hover:text-gray-900/90 dark:group-hover:text-white/90 transition-colors">
+                <h3 className="relative text-xl sm:text-2xl font-extrabold text-gray-900 dark:text-white tracking-tight mb-3 group-hover:text-accent-purple transition-colors duration-300 text-left">
                   {displayTitle}
                 </h3>
-                <p className="text-xs sm:text-sm leading-relaxed mb-8 max-h-24 overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-gray-200 dark:scrollbar-thumb-white/10 scrollbar-track-transparent">
+                <p className="relative text-xs leading-relaxed mb-6 text-gray-500 dark:text-gray-400 font-medium flex-1 text-left">
                    {displayDesc}
                 </p>
-                <div className="mt-auto px-4 py-2 bg-gray-100 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-xl text-[10px] font-black uppercase tracking-widest group-hover:text-gray-900 dark:group-hover:text-white transition-colors">
-                  {count} Questions
+                <div className="relative flex items-center gap-2 mt-auto">
+                  <span className="text-sm font-bold text-accent-purple tabular-nums">{count}</span>
+                  <span className="text-[10px] font-bold text-gray-500 uppercase tracking-wider">Questions</span>
                 </div>
               </button>
             );
