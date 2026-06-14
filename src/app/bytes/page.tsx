@@ -5,18 +5,7 @@ import Link from 'next/link';
 import { getBytes, getCourses, deleteCustomByte, type Byte } from '@/lib/dataLoader';
 import { clearGitHubCache } from '@/lib/githubFetcher';
 import { markSectionChecked } from '@/lib/notifications';
-
-const FolderIcon = ({ className = "w-10 h-10 text-accent-purple" }: { className?: string }) => (
-  <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-    <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 13.5h3.86a2.25 2.25 0 012.008 1.24l.885 1.77a2.25 2.25 0 002.007 1.24h1.98a2.25 2.25 0 002.007-1.24l.885-1.77a2.25 2.25 0 012.007-1.24h3.86m-18 0h18a2.25 2.25 0 012.25 2.25v4.5A2.25 2.25 0 0120.25 21H3.75A2.25 2.25 0 011.5 18.75v-4.5A2.25 2.25 0 013.75 13.5zm0-3h16.5a1.5 1.5 0 001.5-1.5V6.75A1.5 1.5 0 0020.25 5.25H9.75a1.5 1.5 0 01-1.12-.5l-1.01-1.26a1.5 1.5 0 00-1.12-.5H3.75A1.5 1.5 0 002.25 4.5v4.25a1.5 1.5 0 001.5 1.5z" />
-  </svg>
-);
-
-const DocumentIcon = ({ className = "w-6 h-6 text-gray-500 dark:text-gray-400" }: { className?: string }) => (
-  <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-    <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
-  </svg>
-);
+import { Search, RefreshCw, Folder, FileText, ChevronRight, Home, Image, HelpCircle, Trash2 } from 'lucide-react';
 
 export default function BytesPage() {
   const [bytes, setBytes] = useState<Byte[]>([]);
@@ -55,16 +44,13 @@ export default function BytesPage() {
     await loadBytes();
   };
 
-  // Filtered bytes based on major and search (for search view) or folders (for folder view)
   const filteredBytes = useMemo(() => {
     let filtered = bytes;
 
-    // Apply major filter first
     if (majorFilter !== 'all') {
       filtered = filtered.filter((b) => b.major === majorFilter || b.major === 'Both');
     }
 
-    // Apply search query globally (flat search results) or folder structure
     if (searchQuery) {
       const query = searchQuery.toLowerCase();
       filtered = filtered.filter(
@@ -75,7 +61,6 @@ export default function BytesPage() {
           (b.sub_topic && b.sub_topic.toLowerCase().includes(query))
       );
     } else {
-      // Normal hierarchical filtering
       if (currentSubject) {
         filtered = filtered.filter((b) => b.topic === currentSubject);
       }
@@ -84,7 +69,6 @@ export default function BytesPage() {
       }
     }
 
-    // Sort newest first
     filtered.sort((a, b) => {
       const dateA = a.date ? new Date(a.date).getTime() : 0;
       const dateB = b.date ? new Date(b.date).getTime() : 0;
@@ -94,13 +78,11 @@ export default function BytesPage() {
     return filtered;
   }, [bytes, currentSubject, currentSubTopic, majorFilter, searchQuery]);
 
-  // Compute counts for folder display based on major filter
   const bytesForFolderCount = useMemo(() => {
     if (majorFilter === 'all') return bytes;
     return bytes.filter((b) => b.major === majorFilter || b.major === 'Both');
   }, [bytes, majorFilter]);
 
-  // Calculate subject counts
   const subjectCounts = useMemo(() => {
     const counts: Record<string, number> = {};
     bytesForFolderCount.forEach((b) => {
@@ -109,7 +91,6 @@ export default function BytesPage() {
     return counts;
   }, [bytesForFolderCount]);
 
-  // Calculate unique subtopics inside active subject
   const subTopics = useMemo(() => {
     if (!currentSubject) return [];
     const subjectBytes = bytesForFolderCount.filter((b) => b.topic === currentSubject);
@@ -117,7 +98,6 @@ export default function BytesPage() {
     return Array.from(subSet).sort();
   }, [bytesForFolderCount, currentSubject]);
 
-  // Calculate sub-topic counts
   const subTopicCounts = useMemo(() => {
     const counts: Record<string, number> = {};
     if (!currentSubject) return counts;
@@ -142,11 +122,11 @@ export default function BytesPage() {
 
   if (!mounted) {
     return (
-      <div className="animate-pulse space-y-6">
-        <div className="h-12 bg-gray-200 dark:bg-dark-700 rounded-xl w-48" />
+      <div className="animate-pulse space-y-6 py-4">
+        <div className="h-10 bg-surface-container-highest rounded-xl w-48" />
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {[1, 2, 3, 4, 5, 6].map((i) => (
-            <div key={i} className="h-64 bg-gray-200 dark:bg-dark-700 rounded-xl" />
+            <div key={i} className="h-48 bg-surface-container-highest rounded-xl" />
           ))}
         </div>
       </div>
@@ -154,15 +134,15 @@ export default function BytesPage() {
   }
 
   return (
-    <div className="space-y-6 animate-in pb-16">
+    <div className="space-y-6 py-4 pb-16">
       {/* Header */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h1 className="text-2xl font-black text-gray-900 dark:text-white uppercase italic tracking-tighter flex items-center gap-2">
+          <h1 className="text-headline-2xl font-bold text-on-surface flex items-center gap-2">
             Learning Bytes
-            <span className="badge bg-accent-purple/10 text-accent-purple-glow border border-accent-purple/20 text-[10px] font-black uppercase tracking-widest px-2 py-0.5 mt-1">Matrix</span>
+            <span className="badge bg-primary-container text-on-primary-container text-label-xs font-bold">Matrix</span>
           </h1>
-          <p className="text-gray-500 dark:text-gray-400 text-xs mt-1 uppercase font-bold tracking-widest">
+          <p className="text-label-sm text-on-surface-variant mt-1 font-medium tracking-wider">
             {searchQuery 
               ? `Found ${filteredBytes.length} bytes matching search`
               : !currentSubject 
@@ -176,34 +156,30 @@ export default function BytesPage() {
         {bytes.some(b => b.githubUrl) && (
           <button 
             onClick={handleRefreshGithub}
-            className="text-[10px] font-black uppercase tracking-widest flex items-center gap-1.5 px-3 py-2 rounded-xl bg-gray-100 dark:bg-white/5 border border-gray-200 dark:border-white/10 text-gray-500 dark:text-gray-400 hover:text-accent-purple hover:border-accent-purple/30 transition-all group"
+            className="btn-ghost text-label-xs inline-flex items-center gap-1.5"
           >
-            <svg className="w-3.5 h-3.5 group-hover:rotate-180 transition-transform duration-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-            </svg>
+            <RefreshCw className="w-3.5 h-3.5 group-hover:rotate-180 transition-transform duration-500" />
             Refresh GitHub Cache
           </button>
         )}
       </div>
 
       {/* Search & Filter Panel */}
-      <div className="glass-card p-4 flex flex-col sm:flex-row flex-wrap gap-3 border-gray-200 dark:border-white/5 bg-white dark:bg-black/40">
+      <div className="card p-4 flex flex-col sm:flex-row flex-wrap gap-3">
         <div className="flex-1 min-w-[200px] relative">
-          <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500 dark:text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-          </svg>
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-on-surface-variant" />
           <input
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search all learning bytes globally..."
-            className="w-full bg-white dark:bg-black/20 border border-gray-200 dark:border-white/10 rounded-xl pl-10 pr-4 py-2.5 text-xs text-gray-900 dark:text-white placeholder-gray-500 focus:border-accent-purple focus:outline-none transition-all font-bold tracking-wide"
+            className="input-field pl-10"
           />
         </div>
         <select 
           value={majorFilter} 
           onChange={(e) => setMajorFilter(e.target.value)}
-          className="bg-white dark:bg-black/20 border border-gray-200 dark:border-white/10 rounded-xl px-4 py-2.5 text-xs text-gray-500 dark:text-gray-400 font-bold uppercase tracking-wider focus:border-accent-purple focus:outline-none cursor-pointer"
+          className="input-field w-fit min-w-[130px]"
         >
           <option value="all">Any Major</option>
           <option value="CSE">CSE Focus</option>
@@ -211,25 +187,23 @@ export default function BytesPage() {
         </select>
       </div>
 
-      {/* Navigation Breadcrumbs (Bypassed if search is active) */}
+      {/* Navigation Breadcrumbs */}
       {!searchQuery && (
-        <div className="flex items-center gap-2 text-xs font-black uppercase tracking-widest text-gray-500 dark:text-gray-400 bg-white dark:bg-black/40 p-4 rounded-xl border border-gray-200 dark:border-white/5">
+        <div className="flex items-center gap-2 text-label-xs font-bold tracking-wider text-on-surface-variant bg-surface-container p-4 rounded-xl border border-outline-variant">
           <button 
             onClick={() => { setCurrentSubject(null); setCurrentSubTopic(null); }}
-            className={`hover:text-gray-900 dark:text-white transition-colors flex items-center gap-1.5 ${!currentSubject ? 'text-gray-900 dark:text-white' : ''}`}
+            className={`hover:text-on-surface transition-colors flex items-center gap-1.5 ${!currentSubject ? 'text-on-surface' : ''}`}
           >
-            <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-            </svg>
+            <Home className="w-3.5 h-3.5" />
             Matrix
           </button>
           
           {currentSubject && (
             <>
-              <span className="text-gray-700 font-black">/</span>
+              <span className="text-outline font-bold">/</span>
               <button 
                 onClick={() => { setCurrentSubTopic(null); }}
-                className={`hover:text-gray-900 dark:text-white transition-colors ${!currentSubTopic ? 'text-accent-purple' : ''}`}
+                className={`hover:text-on-surface transition-colors ${!currentSubTopic ? 'text-primary' : ''}`}
               >
                 {currentSubject}
               </button>
@@ -238,8 +212,8 @@ export default function BytesPage() {
 
           {currentSubTopic && (
             <>
-              <span className="text-gray-700 font-black">/</span>
-              <span className="text-accent-purple">
+              <span className="text-outline font-bold">/</span>
+              <span className="text-primary">
                 {currentSubTopic}
               </span>
             </>
@@ -249,21 +223,19 @@ export default function BytesPage() {
 
       {/* RENDER VIEW PORTIONS */}
       {searchQuery ? (
-        // Flat search results list
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
           {filteredBytes.map((byte) => (
             <ByteCard key={byte.id} byte={byte} onDelete={handleDelete} deleteConfirm={deleteConfirm} getTopicColor={getTopicColor} />
           ))}
           {filteredBytes.length === 0 && (
-            <div className="col-span-full glass-card p-12 text-center border-gray-200 dark:border-white/5">
+            <div className="col-span-full card p-12 text-center">
               <div className="text-4xl mb-4">🔍</div>
-              <h3 className="text-lg font-black text-gray-900 dark:text-white uppercase italic tracking-tighter">No Match Found</h3>
-              <p className="text-gray-500 dark:text-gray-400 text-xs font-bold uppercase tracking-wider mt-1">Try relaxing your search terms or changing major filter.</p>
+              <h3 className="text-headline-xl-mobile font-bold text-on-surface tracking-tight">No Match Found</h3>
+              <p className="text-on-surface-variant text-label-xs font-bold tracking-wider mt-1">Try relaxing your search terms or changing major filter.</p>
             </div>
           )}
         </div>
       ) : !currentSubject ? (
-        // Root View: List of Subjects
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {courses.map((course) => {
             const count = subjectCounts[course] || 0;
@@ -274,71 +246,65 @@ export default function BytesPage() {
                   setCurrentSubject(course);
                   setCurrentSubTopic(null);
                 }}
-                className="group text-left p-5 rounded-2xl border border-gray-200 dark:border-white/5 bg-white dark:bg-black/20 hover:border-accent-purple/40 hover:bg-[#11152a] hover:shadow-xl hover:shadow-purple-500/5 transition-all duration-300 flex items-center gap-4 relative overflow-hidden"
+                className="card-hover p-5 flex items-center gap-4 relative overflow-hidden text-left"
               >
-                <div className="w-12 h-12 rounded-xl bg-accent-purple/10 flex items-center justify-center group-hover:scale-110 transition-transform flex-shrink-0">
-                  <FolderIcon className="w-6 h-6 text-accent-purple" />
+                <div className="w-12 h-12 rounded-xl bg-primary-container flex items-center justify-center group-hover:scale-110 transition-transform shrink-0">
+                  <Folder className="w-6 h-6 text-primary" />
                 </div>
                 <div className="min-w-0 flex-1">
-                  <h3 className="text-gray-900 dark:text-white font-bold text-sm truncate leading-tight group-hover:text-accent-purple-light transition-colors">
+                  <h3 className="text-label-sm font-bold text-on-surface truncate leading-tight group-hover:text-primary transition-colors">
                     {course}
                   </h3>
-                  <p className="text-gray-500 dark:text-gray-400 text-[10px] font-black uppercase tracking-wider mt-1.5">
+                  <p className="text-label-xs text-on-surface-variant font-bold tracking-wider mt-1">
                     {count} {count === 1 ? 'Byte' : 'Bytes'}
                   </p>
                 </div>
-                <div className="absolute top-0 right-0 w-24 h-24 blur-[40px] opacity-0 group-hover:opacity-20 bg-accent-purple transition-opacity pointer-events-none" />
               </button>
             );
           })}
         </div>
       ) : !currentSubTopic ? (
-        // Subject View: List of Sub-topics
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {subTopics.map((sub) => {
             const count = subTopicCounts[sub] || 0;
             return (
               <button
                 key={sub}
-                onClick={() => {
-                  setCurrentSubTopic(sub);
-                }}
-                className="group text-left p-5 rounded-2xl border border-gray-200 dark:border-white/5 bg-white dark:bg-black/20 hover:border-accent-purple/40 hover:bg-[#11152a] hover:shadow-xl hover:shadow-purple-500/5 transition-all duration-300 flex items-center gap-4 relative overflow-hidden"
+                onClick={() => { setCurrentSubTopic(sub); }}
+                className="card-hover p-5 flex items-center gap-4 relative overflow-hidden text-left"
               >
-                <div className="w-12 h-12 rounded-xl bg-accent-purple/10 flex items-center justify-center group-hover:scale-110 transition-transform flex-shrink-0">
-                  <FolderIcon className="w-6 h-6 text-accent-purple" />
+                <div className="w-12 h-12 rounded-xl bg-primary-container flex items-center justify-center group-hover:scale-110 transition-transform shrink-0">
+                  <Folder className="w-6 h-6 text-primary" />
                 </div>
                 <div className="min-w-0 flex-1">
-                  <h3 className="text-gray-900 dark:text-white font-bold text-sm truncate leading-tight group-hover:text-accent-purple-light transition-colors">
+                  <h3 className="text-label-sm font-bold text-on-surface truncate leading-tight group-hover:text-primary transition-colors">
                     {sub}
                   </h3>
-                  <p className="text-gray-500 dark:text-gray-400 text-[10px] font-black uppercase tracking-wider mt-1.5">
+                  <p className="text-label-xs text-on-surface-variant font-bold tracking-wider mt-1">
                     {count} {count === 1 ? 'Byte' : 'Bytes'}
                   </p>
                 </div>
-                <div className="absolute top-0 right-0 w-24 h-24 blur-[40px] opacity-0 group-hover:opacity-20 bg-accent-purple transition-opacity pointer-events-none" />
               </button>
             );
           })}
           {subTopics.length === 0 && (
-            <div className="col-span-full glass-card p-12 text-center border-gray-200 dark:border-white/5 bg-white dark:bg-black/20">
-              <div className="text-3xl mb-4 text-accent-purple">📂</div>
-              <h3 className="text-sm font-black text-gray-500 dark:text-gray-400 uppercase tracking-wider">Empty Folder</h3>
-              <p className="text-gray-500 dark:text-gray-400 text-xs font-bold mt-1 uppercase">There are no sub-topics created in this course yet.</p>
+            <div className="col-span-full card p-12 text-center">
+              <div className="text-3xl mb-4 text-primary">📂</div>
+              <h3 className="text-label-sm font-bold text-on-surface-variant tracking-wider">Empty Folder</h3>
+              <p className="text-on-surface-variant text-label-xs font-bold mt-1 tracking-wider">There are no sub-topics created in this course yet.</p>
             </div>
           )}
         </div>
       ) : (
-        // Sub-topic View: List of actual Bytes
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
           {filteredBytes.map((byte) => (
             <ByteCard key={byte.id} byte={byte} onDelete={handleDelete} deleteConfirm={deleteConfirm} getTopicColor={getTopicColor} />
           ))}
           {filteredBytes.length === 0 && (
-            <div className="col-span-full glass-card p-12 text-center border-gray-200 dark:border-white/5 bg-white dark:bg-black/20">
-              <div className="text-3xl mb-4 text-accent-purple">⚡</div>
-              <h3 className="text-sm font-black text-gray-500 dark:text-gray-400 uppercase tracking-wider">No Bytes</h3>
-              <p className="text-gray-500 dark:text-gray-400 text-xs font-bold mt-1 uppercase">No bytes in this sub-topic matching your filter.</p>
+            <div className="col-span-full card p-12 text-center">
+              <div className="text-3xl mb-4 text-primary">⚡</div>
+              <h3 className="text-label-sm font-bold text-on-surface-variant tracking-wider">No Bytes</h3>
+              <p className="text-on-surface-variant text-label-xs font-bold mt-1 tracking-wider">No bytes in this sub-topic matching your filter.</p>
             </div>
           )}
         </div>
@@ -359,56 +325,50 @@ function ByteCard({
   getTopicColor: (topic: string) => string;
 }) {
   return (
-    <div className="relative group glass-card p-4 overflow-hidden hover:border-accent-purple/40 hover:shadow-xl hover:shadow-purple-500/5 transition-all duration-300 flex flex-col h-full bg-white dark:bg-black/20 border-gray-200 dark:border-white/5 min-h-[180px]">
+    <div className="relative card p-4 flex flex-col h-full min-h-[180px] group hover:border-primary-fixed-dim transition-all duration-300">
       <Link href={`/bytes/view?id=${byte.id}`} className="flex-1 flex flex-col">
         <div className="flex flex-wrap gap-1.5 mb-3">
-          <span className={`badge ${getTopicColor(byte.topic)} text-[9px] font-black uppercase tracking-wider px-1.5 py-0.5`}>
+          <span className={`badge ${getTopicColor(byte.topic)} text-label-xs font-bold tracking-wider`}>
             {byte.topic}
           </span>
           {byte.sub_topic && (
-            <span className="badge bg-gray-100 dark:bg-white/5 border border-gray-200 dark:border-white/10 text-gray-500 dark:text-gray-400 text-[9px] font-black uppercase tracking-wider px-1.5 py-0.5">
+            <span className="badge bg-surface-container border border-outline-variant text-on-surface-variant text-label-xs font-bold tracking-wider">
               {byte.sub_topic}
             </span>
           )}
           {byte.major && byte.major !== 'Both' && (
-            <span className="badge bg-accent-purple/10 text-accent-purple-light border border-accent-purple/20 text-[9px] font-black uppercase tracking-wider px-1.5 py-0.5">
+            <span className="badge bg-primary-container text-on-primary-container text-label-xs font-bold tracking-wider">
               {byte.major}
             </span>
           )}
         </div>
         
-        <h3 className="text-xs sm:text-sm font-bold text-gray-900 dark:text-white mb-1.5 group-hover:text-accent-purple-light transition-colors line-clamp-2 leading-snug">
+        <h3 className="text-label-sm font-bold text-on-surface mb-1.5 group-hover:text-primary transition-colors line-clamp-2 leading-snug">
           {byte.title}
         </h3>
         
-        <p className="text-gray-500 dark:text-gray-400 text-[11px] leading-relaxed line-clamp-2 mb-3 flex-1">
+        <p className="text-label-xs text-on-surface-variant leading-relaxed line-clamp-2 mb-3 flex-1">
           {byte.content}
         </p>
         
-        <div className="mt-auto pt-3 border-t border-gray-200 dark:border-white/5 flex items-center justify-between text-[10px] font-black uppercase tracking-widest text-gray-500 dark:text-gray-400">
+        <div className="mt-auto pt-3 border-t border-outline-variant flex items-center justify-between text-label-xs font-bold tracking-wider text-on-surface-variant">
           <div className="flex gap-2">
             {byte.relatedQuestionIds && byte.relatedQuestionIds.length > 0 && (
-              <span className="flex items-center gap-1 text-accent-purple-light" title="Interactive reinforcement questions">
-                <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
+              <span className="flex items-center gap-1 text-primary">
+                <HelpCircle className="w-3 h-3" />
                 {byte.relatedQuestionIds.length} Qs
               </span>
             )}
             {byte.images && byte.images.length > 0 && (
-              <span className="flex items-center gap-1 text-gray-500 dark:text-gray-400" title="Contains visual assets">
-                <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                </svg>
+              <span className="flex items-center gap-1" title="Contains visual assets">
+                <Image className="w-3 h-3" />
                 Media
               </span>
             )}
           </div>
-          <span className="text-accent-purple-glow group-hover:translate-x-1 transition-transform flex items-center gap-0.5 text-[9px]">
+          <span className="text-primary group-hover:translate-x-1 transition-transform flex items-center gap-0.5 text-label-xs">
             Read
-            <svg className="w-2.5 h-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-            </svg>
+            <ChevronRight className="w-3 h-3" />
           </span>
         </div>
       </Link>
@@ -418,15 +378,13 @@ function ByteCard({
           <button
             onClick={(e) => onDelete(byte.id, e)}
             title={deleteConfirm === byte.id ? 'Click again to confirm delete' : 'Delete byte'}
-            className={`w-6 h-6 rounded-lg bg-white dark:bg-black/40 border flex items-center justify-center transition-all ${
+            className={`w-6 h-6 rounded-lg bg-surface border flex items-center justify-center transition-all ${
               deleteConfirm === byte.id
-                ? 'border-red-500/60 bg-red-500/10 hover:bg-red-500/20'
-                : 'border-gray-200 dark:border-white/10 hover:border-red-500/50 hover:bg-red-500/10'
+                ? 'border-error/60 bg-error-container/20'
+                : 'border-outline-variant hover:border-error/50 hover:bg-error-container/10'
             }`}
           >
-            <svg className={`w-3 h-3 ${deleteConfirm === byte.id ? 'text-red-400' : 'text-gray-500 dark:text-gray-400 group-hover:text-red-400'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-            </svg>
+            <Trash2 className={`w-3 h-3 ${deleteConfirm === byte.id ? 'text-error' : 'text-on-surface-variant group-hover:text-error'}`} />
           </button>
         </div>
       )}
