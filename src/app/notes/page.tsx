@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { getNotes, getCourses, getTopics, type Note } from '@/lib/dataLoader';
 import { getProgress } from '@/lib/progressManager';
 import { markSectionChecked, getUnreadCount } from '@/lib/notifications';
+import { BookOpen, Search, ChevronLeft, ChevronRight, CheckCircle, Video } from 'lucide-react';
 
 function extractChapterNum(title: string): number {
   const match = title.match(/Chapter\s+(\d+)/i);
@@ -128,10 +129,10 @@ export default function NotesPage() {
 
   if (!mounted || !loaded) {
     return (
-      <div className="animate-pulse space-y-6">
-        <div className="h-12 bg-gray-200 dark:bg-dark-700 rounded-xl w-48" />
+      <div className="animate-pulse space-y-6 py-4">
+        <div className="h-10 bg-surface-container-highest rounded-xl w-48" />
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {[1, 2, 3, 4].map((i) => <div key={i} className="h-40 bg-gray-200 dark:bg-dark-700 rounded-xl" />)}
+          {[1, 2, 3, 4].map((i) => <div key={i} className="h-36 bg-surface-container-highest rounded-xl" />)}
         </div>
       </div>
     );
@@ -147,23 +148,21 @@ export default function NotesPage() {
     const isComplete = courseNotes.length > 0 && courseNotes.every(n => completedNotes[n.id]);
 
     return (
-      <div className="space-y-6 animate-in">
-        {/* Back button + course header */}
+      <div className="space-y-6 py-4">
         <div className="flex items-center gap-4">
-          <button onClick={() => setSelectedCourse(null)} className="w-9 h-9 rounded-xl bg-gray-100 dark:bg-dark-600 border border-gray-200 dark:border-white/10 flex items-center justify-center text-gray-500 hover:text-gray-900 dark:hover:text-white transition-colors flex-shrink-0">
-            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" /></svg>
+          <button onClick={() => setSelectedCourse(null)} className="w-9 h-9 rounded-xl bg-surface-container border border-outline-variant flex items-center justify-center text-on-surface-variant hover:text-on-surface transition-colors shrink-0">
+            <ChevronLeft className="w-4 h-4" />
           </button>
-          <div className={`w-10 h-10 rounded-xl bg-gradient-to-br ${colors} flex items-center justify-center text-lg flex-shrink-0`}>{icon}</div>
+          <div className={`w-10 h-10 rounded-xl bg-gradient-to-br ${colors} flex items-center justify-center text-lg shrink-0`}>{icon}</div>
           <div>
-            <h1 className="text-xl font-bold text-gray-900 dark:text-white">{selectedCourse}</h1>
-            <p className="text-sm text-gray-500 dark:text-gray-400">{courseNotes.length} chapter{courseNotes.length !== 1 ? 's' : ''}</p>
+            <h1 className="text-headline-xl-mobile font-bold text-on-surface">{selectedCourse}</h1>
+            <p className="text-label-sm text-on-surface-variant">{courseNotes.length} chapter{courseNotes.length !== 1 ? 's' : ''}</p>
           </div>
         </div>
 
-        {/* Chapters */}
         {courseNotes.length === 0 && (
           <div className="card p-12 text-center">
-            <p className="text-gray-400 italic">No chapters in this course yet.</p>
+            <p className="text-on-surface-variant italic">No chapters in this course yet.</p>
           </div>
         )}
 
@@ -176,44 +175,42 @@ export default function NotesPage() {
               <Link
                 key={note.id}
                 href={`/notes/view?id=${note.id}`}
-                className="group glass-card p-4 overflow-hidden hover:border-accent-purple/40 hover:shadow-xl hover:shadow-purple-500/5 transition-all duration-300 flex flex-col bg-white dark:bg-black/20 border-gray-200 dark:border-white/5 min-h-[160px]"
+                className="card p-4 hover:border-primary-fixed-dim transition-all duration-300 flex flex-col min-h-[160px] group"
               >
                 <div className="flex items-start gap-3 mb-3">
-                  <div className={`w-8 h-8 rounded-lg bg-gradient-to-br ${colors} flex items-center justify-center text-sm flex-shrink-0 group-hover:scale-105 transition-transform`}>
+                  <div className={`w-8 h-8 rounded-lg bg-gradient-to-br ${colors} flex items-center justify-center text-sm shrink-0 group-hover:scale-105 transition-transform`}>
                     {icon}
                   </div>
                   <div className="flex-1 min-w-0">
-                    <h3 className="text-sm font-bold text-gray-900 dark:text-white group-hover:text-accent-purple-light transition-colors line-clamp-2 leading-snug">
+                    <h3 className="text-label-sm font-bold text-on-surface group-hover:text-primary transition-colors line-clamp-2 leading-snug">
                       {note.title}
                     </h3>
                   </div>
                 </div>
 
                 {note.summary && (
-                  <p className="text-gray-500 dark:text-gray-400 text-[11px] leading-relaxed line-clamp-2 mb-3 flex-1">
+                  <p className="text-label-xs text-on-surface-variant leading-relaxed line-clamp-2 mb-3 flex-1">
                     {note.summary}
                   </p>
                 )}
 
-                <div className="mt-auto pt-3 border-t border-gray-200 dark:border-white/5 flex items-center justify-between text-[10px] font-black uppercase tracking-widest text-gray-500 dark:text-gray-400">
+                <div className="mt-auto pt-3 border-t border-outline-variant flex items-center justify-between text-label-xs font-bold tracking-wider text-on-surface-variant">
                   <div className="flex items-center gap-2">
                     <span>{formatDate(note.date)}</span>
                     {(note.videoUrl || (note.videoUrls && note.videoUrls.length > 0)) && (
-                      <span className="text-rose-400" title="Has video">🎬</span>
+                      <Video className="w-3 h-3 text-secondary" />
                     )}
                   </div>
                   <div className="flex items-center gap-2">
-                    {isCompleted && <span className="text-emerald-400">✅ Done</span>}
+                    {isCompleted && <CheckCircle className="w-3.5 h-3.5 text-secondary" />}
                     {note.label && (
-                      <span className="badge bg-gray-100 dark:bg-dark-500 text-gray-600 dark:text-gray-300 px-1.5 py-0.5">
+                      <span className="badge bg-surface-container text-on-surface-variant">
                         {note.label}
                       </span>
                     )}
-                    <span className="text-accent-purple-glow group-hover:translate-x-1 transition-transform flex items-center gap-0.5">
+                    <span className="text-primary group-hover:translate-x-1 transition-transform flex items-center gap-0.5">
                       Open
-                      <svg className="w-2.5 h-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-                      </svg>
+                      <ChevronRight className="w-3 h-3" />
                     </span>
                   </div>
                 </div>
@@ -223,9 +220,9 @@ export default function NotesPage() {
         </div>
 
         {courseNotes.length > 0 && (
-          <div className="text-center pt-4">
-            <button onClick={() => setSelectedCourse(null)} className="text-sm text-gray-400 hover:text-accent-purple-light transition-colors">
-              ← Back to all courses
+          <div className="text-center pt-2">
+            <button onClick={() => setSelectedCourse(null)} className="text-label-sm text-on-surface-variant hover:text-primary transition-colors">
+              &larr; Back to all courses
             </button>
           </div>
         )}
@@ -235,29 +232,27 @@ export default function NotesPage() {
 
   // ── All courses grid ──
   return (
-    <div className="space-y-6 animate-in">
+    <div className="space-y-6 py-4">
       <div>
-        <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Study Notes</h1>
-        <p className="text-gray-500 dark:text-gray-400 text-sm mt-1">
+        <h1 className="text-headline-2xl font-bold text-on-surface">Study Notes</h1>
+        <p className="text-body-base text-on-surface-variant mt-1">
           {notes.length} chapters across {courses.length} courses
         </p>
       </div>
 
       <div className="card p-4 flex flex-col sm:flex-row flex-wrap gap-3">
         <div className="flex-1 min-w-[200px] relative">
-          <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-          </svg>
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-on-surface-variant" />
           <input type="text" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} placeholder="Search notes..."
-            className="input-field pl-10 h-11" />
+            className="input-field pl-10" />
         </div>
         <select value={topicFilter} onChange={(e) => setTopicFilter(e.target.value)}
-          className="input-field h-11 w-fit min-w-[140px]">
+          className="input-field w-fit min-w-[140px]">
           <option value="all">All Courses</option>
           {courses.map((t) => <option key={t} value={t}>{t}</option>)}
         </select>
         <select value={labelFilter} onChange={(e) => setLabelFilter(e.target.value)}
-          className="bg-gray-100 dark:bg-dark-600 border border-gray-200 dark:border-dark-400/50 rounded-lg px-3 py-2 text-sm text-gray-900 dark:text-white focus:border-accent-purple focus:outline-none">
+          className="input-field w-fit min-w-[130px]">
           <option value="all">All Labels</option>
           <option value="Course Material">Course Material</option>
           <option value="Syllabus">Syllabus</option>
@@ -265,9 +260,9 @@ export default function NotesPage() {
           {allLabels.filter(l => !['Course Material', 'Syllabus', 'Short Note'].includes(l)).map(l => <option key={l} value={l}>{l}</option>)}
         </select>
         <select value={sortOrder} onChange={(e) => setSortOrder(e.target.value as 'asc' | 'desc')}
-          className="bg-gray-100 dark:bg-dark-600 border border-gray-200 dark:border-dark-400/50 rounded-lg px-3 py-2 text-sm text-gray-900 dark:text-white focus:border-accent-purple focus:outline-none">
-          <option value="asc">Chapter 1 → N</option>
-          <option value="desc">Chapter N → 1</option>
+          className="input-field w-fit min-w-[130px]">
+          <option value="asc">Chapter 1 &rarr; N</option>
+          <option value="desc">Chapter N &rarr; 1</option>
         </select>
       </div>
 
@@ -280,40 +275,36 @@ export default function NotesPage() {
 
           return (
             <button key={course} onClick={() => setSelectedCourse(course)} className="text-left w-full">
-              <div className="relative group glass-card p-5 sm:p-6 overflow-hidden hover:border-accent-purple/40 hover:shadow-xl hover:shadow-purple-500/5 transition-all duration-300 flex flex-col h-full bg-white dark:bg-black/20 border-gray-200 dark:border-white/5 min-h-[150px] cursor-pointer">
+              <div className="card p-5 sm:p-6 flex flex-col h-full min-h-[150px] cursor-pointer hover:border-primary-fixed-dim transition-all duration-300 group">
                 <div className="flex flex-wrap gap-2 mb-4">
-                  <div className={`w-8 h-8 rounded-lg bg-gradient-to-br ${colors} flex items-center justify-center text-base flex-shrink-0 group-hover:scale-105 transition-transform`}>
+                  <div className={`w-8 h-8 rounded-lg bg-gradient-to-br ${colors} flex items-center justify-center text-base shrink-0 group-hover:scale-105 transition-transform`}>
                     {icon}
                   </div>
                   {unreadCount > 0 && (
-                    <span className="badge bg-red-500/15 text-red-400 border border-red-500/30 text-[10px] font-black uppercase tracking-wider px-2 py-0.5">
+                    <span className="badge bg-primary-container text-on-primary-container text-label-xs font-bold">
                       {unreadCount} new
                     </span>
                   )}
                 </div>
 
-                <h3 className="text-sm sm:text-base font-bold text-gray-900 dark:text-white mb-2 group-hover:text-accent-purple-light transition-colors line-clamp-2">
+                <h3 className="text-label-sm font-bold text-on-surface mb-2 group-hover:text-primary transition-colors line-clamp-2">
                   {course}
                 </h3>
 
                 {courseNotes.length === 0 && (
-                  <p className="text-gray-500 dark:text-gray-400 text-xs leading-relaxed flex-1 italic">
+                  <p className="text-label-xs text-on-surface-variant flex-1 italic">
                     No chapters yet
                   </p>
                 )}
 
-                <div className="mt-auto pt-4 border-t border-gray-200 dark:border-white/5 flex items-center justify-between text-xs font-black uppercase tracking-widest text-gray-500 dark:text-gray-400">
+                <div className="mt-auto pt-4 border-t border-outline-variant flex items-center justify-between text-label-xs font-bold tracking-wider text-on-surface-variant">
                   <span className="flex items-center gap-1">
-                    <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                    </svg>
+                    <BookOpen className="w-3.5 h-3.5" />
                     {courseNotes.length} chapter{courseNotes.length !== 1 ? 's' : ''}
                   </span>
-                  <span className="text-accent-purple-glow group-hover:translate-x-1 transition-transform flex items-center gap-0.5 text-[10px]">
+                  <span className="text-primary group-hover:translate-x-1 transition-transform flex items-center gap-0.5 text-label-xs">
                     Open
-                    <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-                    </svg>
+                    <ChevronRight className="w-3 h-3" />
                   </span>
                 </div>
               </div>
@@ -325,8 +316,8 @@ export default function NotesPage() {
       {courses.length === 0 && (
         <div className="card p-12 text-center">
           <div className="text-4xl mb-4">📝</div>
-          <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">No Courses Found</h3>
-          <p className="text-gray-500 dark:text-gray-400">Courses will appear here once configured.</p>
+          <h3 className="text-headline-xl-mobile font-semibold text-on-surface mb-2">No Courses Found</h3>
+          <p className="text-on-surface-variant">Courses will appear here once configured.</p>
         </div>
       )}
     </div>
