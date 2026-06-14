@@ -333,7 +333,7 @@ export default function Sidebar({ isCollapsed, setIsCollapsed }: SidebarProps) {
         })}
       </nav>
 
-      {!isCollapsed && (
+      {!isCollapsed && xp > 0 && (
         <div className="px-4 py-3">
           <div className="relative bg-surface-container-low rounded-xl px-4 py-2.5 overflow-hidden">
             <div className="absolute inset-0 bg-gradient-to-r from-primary/5 via-transparent to-secondary/5 pointer-events-none" />
@@ -406,24 +406,24 @@ export default function Sidebar({ isCollapsed, setIsCollapsed }: SidebarProps) {
 
   return (
     <>
-      <header className="lg:hidden fixed top-0 left-0 right-0 h-16 bg-surface-container-lowest z-[60] px-4 flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary to-primary-fixed-dim flex items-center justify-center text-on-primary text-sm font-bold shadow-sm">
-            E
-          </div>
-          <h1 className="text-on-surface font-bold text-sm">ExitPrep</h1>
-        </div>
+      <header className="lg:hidden fixed top-0 left-0 right-0 h-14 bg-surface-container-lowest z-[75] flex items-center">
         <button
           onClick={() => setIsMobileOpen(!isMobileOpen)}
-          className="w-10 h-10 flex items-center justify-center rounded-xl text-on-surface-variant hover:bg-surface-container-high active:scale-90 transition-all"
+          className="w-14 h-full flex items-center justify-center text-on-surface-variant hover:text-on-surface active:bg-surface-container-high transition-colors"
           aria-label="Toggle menu"
         >
           {isMobileOpen ? (
-            <X className="w-5 h-5 transition-transform duration-300 rotate-0" />
+            <X className="w-5 h-5" />
           ) : (
-            <Menu className="w-5 h-5 transition-transform duration-300" />
+            <Menu className="w-5 h-5" />
           )}
         </button>
+        <div className="flex items-center gap-2.5 flex-1 min-w-0 pr-4">
+          <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-primary to-primary-fixed-dim flex items-center justify-center text-on-primary text-[10px] font-bold shadow-sm shrink-0">
+            E
+          </div>
+          <h1 className="text-on-surface font-bold text-sm truncate">ExitPrep</h1>
+        </div>
       </header>
 
       <aside className={`hidden lg:flex flex-col h-screen fixed left-0 top-0 bg-surface-container-lowest z-50 transition-all duration-300 ${isCollapsed ? 'w-20' : 'w-64'}`}>
