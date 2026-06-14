@@ -65,58 +65,58 @@
   .dark {
     color-scheme: dark;
 
-    --surface: #0d1117;
-    --surface-dim: #090c12;
-    --surface-bright: #1c2129;
-    --surface-container-lowest: #11151d;
-    --surface-container-low: #161b23;
-    --surface-container: #1c212a;
-    --surface-container-high: #232730;
-    --surface-container-highest: #2a2f38;
+    --surface: #060b1a;
+    --surface-dim: #040814;
+    --surface-bright: #1a2344;
+    --surface-container-lowest: #0a1124;
+    --surface-container-low: #0d1428;
+    --surface-container: #121b35;
+    --surface-container-high: #182344;
+    --surface-container-highest: #1f2c54;
     --on-surface: #e8eaed;
-    --on-surface-variant: #9ca3af;
+    --on-surface-variant: #8b8fa3;
     --inverse-surface: #e8eaed;
-    --inverse-on-surface: #191c1f;
-    --outline: #525866;
-    --outline-variant: #333845;
-    --surface-tint: #7c6ff0;
+    --inverse-on-surface: #060b1a;
+    --outline: #2d3a60;
+    --outline-variant: #0f1a35;
+    --surface-tint: #a78bfa;
 
-    --primary: #8b7cf7;
-    --on-primary: #1a1040;
-    --primary-container: #3d2ec9;
-    --on-primary-container: #e8e4ff;
-    --inverse-primary: #4231cf;
-    --primary-fixed: #4231cf;
-    --primary-fixed-dim: #3d2ec9;
-    --on-primary-fixed: #e3dfff;
-    --on-primary-fixed-variant: #c4c0ff;
+    --primary: #a78bfa;
+    --on-primary: #1a0e3a;
+    --primary-container: #6d3bd4;
+    --on-primary-container: #ede9fe;
+    --inverse-primary: #5b21b6;
+    --primary-fixed: #8b5cf6;
+    --primary-fixed-dim: #7c3aed;
+    --on-primary-fixed: #ede9fe;
+    --on-primary-fixed-variant: #c4b5fd;
 
-    --secondary: #4adeb2;
-    --on-secondary: #00382a;
-    --secondary-container: #00513d;
-    --on-secondary-container: #82f8cf;
-    --secondary-fixed: #006c52;
-    --secondary-fixed-dim: #00513d;
-    --on-secondary-fixed: #82f8cf;
-    --on-secondary-fixed-variant: #64dbb4;
+    --secondary: #f472b6;
+    --on-secondary: #3a001f;
+    --secondary-container: #9d174d;
+    --on-secondary-container: #fce7f3;
+    --secondary-fixed: #ec4899;
+    --secondary-fixed-dim: #db2777;
+    --on-secondary-fixed: #fdf2f8;
+    --on-secondary-fixed-variant: #fbcfe8;
 
-    --tertiary: #ffb77d;
-    --on-tertiary: #4a2800;
-    --tertiary-container: #6e3900;
-    --on-tertiary-container: #ffdcc3;
-    --tertiary-fixed: #ffdcc3;
-    --tertiary-fixed-dim: #ffb77d;
-    --on-tertiary-fixed: #2f1500;
-    --on-tertiary-fixed-variant: #9e5400;
+    --tertiary: #fb923c;
+    --on-tertiary: #3a1a00;
+    --tertiary-container: #9a4300;
+    --on-tertiary-container: #ffedd5;
+    --tertiary-fixed: #f97316;
+    --tertiary-fixed-dim: #ea580c;
+    --on-tertiary-fixed: #fff7ed;
+    --on-tertiary-fixed-variant: #fed7aa;
 
     --error: #ff8a86;
-    --on-error: #601410;
-    --error-container: #93001a;
+    --on-error: #5a1010;
+    --error-container: #8a0015;
     --on-error-container: #ffdad6;
 
-    --background: #0d1117;
+    --background: #060b1a;
     --on-background: #e8eaed;
-    --surface-variant: #232730;
+    --surface-variant: #121b35;
   }
 
   html {
@@ -178,8 +178,14 @@
     @apply border-primary-fixed-dim shadow-ambient;
   }
 
+  .dark .card {
+    border-color: transparent;
+    background-color: var(--surface-container-low);
+  }
+
   .dark .card:hover {
-    border-color: rgb(139 124 247 / 0.3);
+    border-color: rgb(167 139 250 / 0.25);
+    box-shadow: 0 0 20px rgb(167 139 250 / 0.06);
   }
 
   .card-hover {
@@ -203,12 +209,13 @@
   }
 
   .dark .input-field {
-    @apply bg-surface-container-low border-outline-variant;
+    @apply bg-surface-container-low;
+    border-color: var(--outline-variant);
   }
 
   .dark .input-field:focus {
-    border-color: rgb(139 124 247);
-    --tw-ring-color: rgb(196 192 255 / 0.3);
+    border-color: var(--primary);
+    --tw-ring-color: rgb(167 139 250 / 0.3);
   }
 
   .label-text {
@@ -224,8 +231,8 @@
   }
 
   .dark .badge-easy {
-    background-color: rgb(74 222 178 / 0.2);
-    color: rgb(74 222 178);
+    background-color: rgb(244 114 182 / 0.2);
+    color: rgb(244 114 182);
   }
 
   .badge-medium {
@@ -233,8 +240,8 @@
   }
 
   .dark .badge-medium {
-    background-color: rgb(255 183 125 / 0.2);
-    color: rgb(255 183 125);
+    background-color: rgb(167 139 250 / 0.2);
+    color: rgb(167 139 250);
   }
 
   .badge-hard {
@@ -251,8 +258,8 @@
   }
 
   .dark .badge-source {
-    background-color: rgb(139 124 247 / 0.2);
-    color: rgb(139 124 247);
+    background-color: rgb(167 139 250 / 0.2);
+    color: rgb(167 139 250);
   }
 
   .progress-bar {
@@ -370,7 +377,8 @@
   }
 
   .dark .feature-card:hover {
-    border-color: var(--primary);
+    border-color: rgb(167 139 250 / 0.25);
+    box-shadow: 0 0 24px rgb(167 139 250 / 0.08);
   }
 
   /* Timeline card for progress page */
