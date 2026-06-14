@@ -233,10 +233,11 @@ export default function Sidebar({ isCollapsed, setIsCollapsed }: SidebarProps) {
 
   const sidebarContent = (
     <div className="flex flex-col h-full">
-      <div className={`flex items-center ${isCollapsed ? 'justify-center py-6' : 'px-6 py-6'}`}>
+      <div className={`relative ${isCollapsed ? 'py-6' : 'px-6 py-5'}`}>
+        <div className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-primary/5 to-transparent pointer-events-none" />
         {!isCollapsed && (
-          <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-lg bg-primary flex items-center justify-center text-on-primary font-bold text-sm shadow-sm flex-shrink-0">
+          <div className="flex items-center gap-3 relative">
+            <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-primary to-primary-fixed-dim flex items-center justify-center text-on-primary font-bold text-sm shadow-sm flex-shrink-0">
               E
             </div>
             <div>
@@ -333,26 +334,29 @@ export default function Sidebar({ isCollapsed, setIsCollapsed }: SidebarProps) {
 
       {!isCollapsed && (
         <div className="px-4 py-3">
-          <div className="flex items-center gap-3 bg-surface-container-low rounded-xl px-4 py-2.5 border border-outline-variant/50">
-            <div className="flex items-center gap-1.5 text-sm">
-              <span className="text-amber-500">⚡</span>
-              <span className="font-bold text-on-surface tabular-nums">{xp.toLocaleString()}</span>
-            </div>
-            <div className="w-px h-4 bg-outline-variant" />
-            <div className="flex items-center gap-1.5 text-sm">
-              <span className="text-orange-400">🔥</span>
-              <span className="font-bold text-on-surface tabular-nums">{streak}</span>
-            </div>
-            <div className="w-px h-4 bg-outline-variant" />
-            <div className="flex items-center gap-1.5 ml-auto">
-              <div className="w-1.5 h-1.5 rounded-full bg-secondary animate-pulse" />
-              <span className="text-[10px] font-medium text-on-surface-variant tabular-nums">{onlineCount}</span>
+          <div className="relative bg-surface-container-low rounded-xl px-4 py-2.5 overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-to-r from-primary/5 via-transparent to-secondary/5 pointer-events-none" />
+            <div className="flex items-center gap-3 relative">
+              <div className="flex items-center gap-1.5 text-sm">
+                <span className="text-amber-500">⚡</span>
+                <span className="font-bold text-on-surface tabular-nums">{xp.toLocaleString()}</span>
+              </div>
+              <div className="w-px h-4 bg-outline-variant" />
+              <div className="flex items-center gap-1.5 text-sm">
+                <span className="text-secondary">🔥</span>
+                <span className="font-bold text-on-surface tabular-nums">{streak}</span>
+              </div>
+              <div className="w-px h-4 bg-outline-variant" />
+              <div className="flex items-center gap-1.5 ml-auto">
+                <div className="w-1.5 h-1.5 rounded-full bg-secondary animate-pulse" />
+                <span className="text-[10px] font-medium text-on-surface-variant tabular-nums">{onlineCount}</span>
+              </div>
             </div>
           </div>
         </div>
       )}
 
-      <div className="px-4 py-4 border-t border-outline-variant/50 space-y-3">
+      <div className="px-4 py-4 border-t border-primary/10 space-y-3">
         {user && (
           <div className={`flex items-center ${isCollapsed ? 'justify-center' : 'gap-3 px-1'}`}>
             <div className="w-9 h-9 rounded-lg bg-primary-container flex items-center justify-center flex-shrink-0 text-on-primary-container text-sm font-bold">
@@ -400,7 +404,7 @@ export default function Sidebar({ isCollapsed, setIsCollapsed }: SidebarProps) {
 
   return (
     <>
-      <header className="lg:hidden fixed top-0 left-0 right-0 h-16 bg-surface-container-lowest border-b border-outline-variant z-[60] px-4 flex items-center justify-between">
+      <header className="lg:hidden fixed top-0 left-0 right-0 h-16 bg-surface-container-lowest border-b border-primary/10 z-[60] px-4 flex items-center justify-between">
         <div className="flex items-center gap-3">
           <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center text-on-primary text-sm font-bold shadow-sm">
             E
@@ -419,7 +423,7 @@ export default function Sidebar({ isCollapsed, setIsCollapsed }: SidebarProps) {
         </button>
       </header>
 
-      <aside className={`hidden lg:flex flex-col h-screen fixed left-0 top-0 bg-surface-container-lowest border-r border-outline-variant z-50 transition-all duration-300 ${isCollapsed ? 'w-20' : 'w-64'}`}>
+      <aside className={`hidden lg:flex flex-col h-screen fixed left-0 top-0 bg-surface-container-lowest border-r border-primary/10 z-50 transition-all duration-300 ${isCollapsed ? 'w-20' : 'w-64'}`}>
         {sidebarContent}
       </aside>
 
@@ -428,7 +432,7 @@ export default function Sidebar({ isCollapsed, setIsCollapsed }: SidebarProps) {
         onClick={() => setIsMobileOpen(false)}
       />
       <aside
-        className={`lg:hidden fixed left-0 top-0 bottom-0 w-[280px] bg-surface-container-lowest border-r border-outline-variant z-[80] transition-transform duration-300 transform ${isMobileOpen ? 'translate-x-0' : '-translate-x-full'}`}
+        className={`lg:hidden fixed left-0 top-0 bottom-0 w-[280px] bg-surface-container-lowest border-r border-primary/10 z-[80] transition-transform duration-300 transform ${isMobileOpen ? 'translate-x-0' : '-translate-x-full'}`}
       >
         {sidebarContent}
       </aside>
