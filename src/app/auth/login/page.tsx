@@ -61,8 +61,8 @@ export default function LoginPage() {
       <div className={`relative z-10 w-full max-w-5xl ${mounted ? 'fade-up visible' : 'fade-up'}`}>
         <div className="bg-[#06060F]/70 backdrop-blur-2xl border border-white/[0.06] rounded-[2.5rem] shadow-[0_8px_40px_rgba(0,0,0,0.5)] overflow-hidden">
           <div className="flex flex-col lg:flex-row min-h-[600px]">
-            {/* Left: Brand section */}
-            <div className="relative flex flex-col justify-between lg:w-[42%] p-10 lg:p-12 xl:p-14 bg-gradient-to-br from-[#7C3AED]/5 via-transparent to-transparent">
+            {/* Left: Brand section — hidden below lg screens */}
+            <div className="hidden lg:flex relative flex-col justify-between lg:w-[42%] p-10 lg:p-12 xl:p-14 bg-gradient-to-br from-[#7C3AED]/5 via-transparent to-transparent">
               {/* Brand */}
               <div>
                 <Link href="/" className="inline-flex items-center gap-2.5 group mb-10">
@@ -104,6 +104,15 @@ export default function LoginPage() {
             <div className="flex-1 flex items-center justify-center p-8 sm:p-10 lg:p-12 xl:p-14">
               <div className="w-full max-w-sm">
                 <div className="mb-8">
+                  {/* Mobile-only brand logo */}
+                  <Link href="/" className="inline-flex items-center gap-2 group lg:hidden mb-6">
+                    <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-[#7C3AED] to-indigo-500 flex items-center justify-center text-white font-black shadow-[0_0_15px_rgba(124,58,237,0.3)]">
+                      EE
+                    </div>
+                    <span className="font-black text-lg tracking-tight text-white">
+                      Exit<span className="text-[#7C3AED]">Exam</span>
+                    </span>
+                  </Link>
                   <h2 className="text-xl font-bold text-white tracking-tight">Sign in</h2>
                   <p className="text-gray-500 text-sm mt-1">to access your account</p>
                 </div>
