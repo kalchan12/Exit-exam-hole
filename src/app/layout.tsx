@@ -33,7 +33,7 @@ export default function RootLayout({
           `
         }} />
       </head>
-      <body className="app-background min-h-screen">
+      <body className="bg-background text-on-background min-h-screen">
         <ThemeProvider>
           <AuthProvider>
             <ClientLayout>
