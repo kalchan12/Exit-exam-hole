@@ -110,14 +110,14 @@ export default function BytesPage() {
   }, [bytesForFolderCount, currentSubject]);
 
   const topicColors: Record<string, { badge: string; gradient: string; icon: string }> = {
-    'Algorithms': { badge: 'text-purple-400 border-purple-500/30 bg-purple-500/10', gradient: 'from-purple-500/20 to-violet-600/20', icon: '⚡' },
-    'Operating Systems': { badge: 'text-blue-400 border-blue-500/30 bg-blue-500/10', gradient: 'from-blue-500/20 to-indigo-600/20', icon: '💻' },
-    'Database Systems': { badge: 'text-emerald-400 border-emerald-500/30 bg-emerald-500/10', gradient: 'from-emerald-500/20 to-teal-600/20', icon: '🗄️' },
-    'Networking': { badge: 'text-orange-400 border-orange-500/30 bg-orange-500/10', gradient: 'from-orange-500/20 to-amber-600/20', icon: '🌐' },
+    'Algorithms': { badge: 'text-purple-400 border-purple-500/40 bg-purple-500/20', gradient: 'from-purple-500/30 to-violet-600/30', icon: '⚡' },
+    'Operating Systems': { badge: 'text-blue-400 border-blue-500/40 bg-blue-500/20', gradient: 'from-blue-500/30 to-indigo-600/30', icon: '💻' },
+    'Database Systems': { badge: 'text-emerald-400 border-emerald-500/40 bg-emerald-500/20', gradient: 'from-emerald-500/30 to-teal-600/30', icon: '🗄️' },
+    'Networking': { badge: 'text-orange-400 border-orange-500/40 bg-orange-500/20', gradient: 'from-orange-500/30 to-amber-600/30', icon: '🌐' },
   };
 
   const getTopicColor = (topic: string) => {
-    return topicColors[topic] || { badge: 'text-cyan-400 border-cyan-500/30 bg-cyan-500/10', gradient: 'from-cyan-500/20 to-sky-600/20', icon: '📘' };
+    return topicColors[topic] || { badge: 'text-cyan-400 border-cyan-500/40 bg-cyan-500/20', gradient: 'from-cyan-500/30 to-sky-600/30', icon: '📘' };
   };
 
   if (!mounted) {

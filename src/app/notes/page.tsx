@@ -90,20 +90,20 @@ export default function NotesPage() {
   }, [sortedCourseNotes]);
 
   const topicColors: Record<string, string> = {
-    'Fundamentals of Programming': 'from-amber-500/20 to-orange-500/20 border-amber-500/30',
-    'Data Structures & Algorithms': 'from-purple-500/20 to-blue-500/20 border-purple-500/30',
-    'Object Oriented Programming': 'from-sky-500/20 to-indigo-500/20 border-sky-500/30',
-    'Database Systems': 'from-green-500/20 to-emerald-500/20 border-green-500/30',
-    'Fundamentals of Software Engineering': 'from-teal-500/20 to-cyan-500/20 border-teal-500/30',
-    'Microcomputer & Interfacing': 'from-rose-500/20 to-pink-500/20 border-rose-500/30',
-    'Operating Systems': 'from-blue-500/20 to-cyan-500/20 border-blue-500/30',
-    'Digital Logic Design': 'from-violet-500/20 to-purple-500/20 border-violet-500/30',
-    'Computer Architecture & Organization': 'from-red-500/20 to-rose-500/20 border-red-500/30',
-    'Data Communication and Computer Networks': 'from-orange-500/20 to-yellow-500/20 border-orange-500/30',
-    'Computer Systems Security': 'from-lime-500/20 to-green-500/20 border-lime-500/30',
-    'Distributed Systems': 'from-cyan-500/20 to-teal-500/20 border-cyan-500/30',
-    'Compiler Design': 'from-indigo-500/20 to-violet-500/20 border-indigo-500/30',
-    'Introduction to Artificial Intelligence': 'from-fuchsia-500/20 to-pink-500/20 border-fuchsia-500/30',
+    'Fundamentals of Programming': 'from-amber-500/30 to-orange-500/30 border-amber-500/40',
+    'Data Structures & Algorithms': 'from-blue-500/30 to-indigo-500/30 border-blue-500/40',
+    'Object Oriented Programming': 'from-emerald-500/30 to-teal-500/30 border-emerald-500/40',
+    'Database Systems': 'from-sky-500/30 to-blue-500/30 border-sky-500/40',
+    'Fundamentals of Software Engineering': 'from-yellow-500/30 to-amber-500/30 border-yellow-500/40',
+    'Microcomputer & Interfacing': 'from-slate-500/30 to-gray-500/30 border-slate-500/40',
+    'Operating Systems': 'from-rose-500/30 to-red-500/30 border-rose-500/40',
+    'Digital Logic Design': 'from-violet-500/30 to-purple-500/30 border-violet-500/40',
+    'Computer Architecture & Organization': 'from-red-500/30 to-rose-500/30 border-red-500/40',
+    'Data Communication and Computer Networks': 'from-orange-500/30 to-yellow-500/30 border-orange-500/40',
+    'Computer Systems Security': 'from-lime-500/30 to-green-500/30 border-lime-500/40',
+    'Distributed Systems': 'from-cyan-500/30 to-teal-500/30 border-cyan-500/40',
+    'Compiler Design': 'from-indigo-500/30 to-violet-500/30 border-indigo-500/40',
+    'Introduction to Artificial Intelligence': 'from-fuchsia-500/30 to-pink-500/30 border-fuchsia-500/40',
   };
   const topicIcons: Record<string, string> = {
     'Fundamentals of Programming': '💻',
@@ -169,7 +169,7 @@ export default function NotesPage() {
         <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
           {courseNotes.map((note) => {
             const isCompleted = completedNotes[note.id];
-            const colors = topicColors[selectedCourse] || 'from-gray-500/20 to-gray-600/20 border-gray-500/30';
+    const colors = topicColors[selectedCourse] || 'from-gray-500/30 to-gray-600/30 border-gray-500/40';
 
             return (
               <Link
