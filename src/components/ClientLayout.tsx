@@ -36,8 +36,8 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
   // to prevent flashing the dashboard shell.
   if (loading || (!user && !isGuest)) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="w-12 h-12 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <div className="w-10 h-10 border-2 border-primary border-t-transparent rounded-full animate-spin"></div>
       </div>
     );
   }
@@ -50,7 +50,7 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
           isCollapsed ? 'lg:ml-20' : 'lg:ml-64'
         }`}
       >
-        <div className="max-w-full mx-auto px-3 sm:px-6 lg:px-8 py-4 lg:py-8">
+        <div className="max-w-full mx-auto px-margin-mobile lg:px-margin-desktop py-6 lg:py-8">
           {children}
         </div>
       </main>
