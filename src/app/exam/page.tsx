@@ -10,6 +10,7 @@ import { getProgress, recordAnswer, syncProgressToRemote } from '@/lib/progressM
 import { updateTopicAccuracy } from '@/lib/gamification';
 import { useAuth } from '@/components/AuthProvider';
 import { deleteTopicQuestions } from '@/lib/supabaseLoader';
+import { ArrowLeft, Search, Timer, X, Flag, Check, X as XIcon, ChevronLeft, ChevronRight, BookOpen, Zap, Flame, FileText, Trophy, Clock, AlertTriangle, BarChart3 } from 'lucide-react';
 
 const topicMeta: Record<string, { icon: string; gradient: string; border: string }> = {
   'Algorithms': { icon: '⚡', gradient: 'from-purple-500/20 to-indigo-500/20', border: 'border-purple-500/30' },
@@ -20,7 +21,13 @@ const topicMeta: Record<string, { icon: string; gradient: string; border: string
   'Data Structures': { icon: '🧱', gradient: 'from-violet-500/20 to-purple-500/20', border: 'border-violet-500/30' },
   'Computer Architecture': { icon: '🔧', gradient: 'from-sky-500/20 to-blue-500/20', border: 'border-sky-500/30' },
 };
-const defaultMeta = { icon: '📝', gradient: 'from-indigo-500/20 to-slate-500/20', border: 'border-indigo-500/30' };
+const defaultMeta = { icon: '📝', gradient: 'from-primary/20 to-surface-container-highest', border: 'border-primary/30' };
+
+const DIFFICULTY_COLORS: Record<string, string> = {
+  easy: 'badge-easy',
+  medium: 'badge-medium',
+  hard: 'badge-hard',
+};
 
 function ExamContent() {
   const router = useRouter();
@@ -65,14 +72,12 @@ function ExamContent() {
 
   const loadData = useCallback(async () => {
     const allQs = await getQuestions();
-    // ONLY include past exams and model exams
     const excludeSources = ['Resource', 'Study Material', 'GitHub', 'Local'];
     const examQs = allQs.filter(q => 
       q.source && !excludeSources.includes(q.source)
     );
     setQuestions(examQs);
     
-    // Group by source (Exam Title) instead of topic
     const sourceSet = new Set(examQs.map(q => q.source));
     setTopics(Array.from(sourceSet).sort());
   }, []);
@@ -81,8 +86,6 @@ function ExamContent() {
     setMounted(true);
     loadData();
   }, [loadData]);
-
-
 
   const handleDeleteTopic = async (e: React.MouseEvent, topic: string) => {
     e.stopPropagation();
@@ -112,8 +115,6 @@ function ExamContent() {
 
   const currentQuestion = filteredQuestions[currentIndex];
 
-
-
   const handleSelectAnswer = useCallback(
     (answer: string) => {
       if (isReviewMode || !currentQuestion) return;
@@ -121,7 +122,6 @@ function ExamContent() {
       const isCorrect = answer === currentQuestion.answer;
       setUserAnswers(prev => ({ ...prev, [currentQuestion.id]: answer }));
       
-      // We don't show explanation yet, but we record progress for the system
       const newState = recordAnswer(currentQuestion.id, isCorrect, currentQuestion.topic);
       updateTopicAccuracy(currentQuestion.topic, isCorrect);
       setProgressState(newState);
@@ -144,7 +144,6 @@ function ExamContent() {
     }
   };
 
-  // Format time as MM:SS or H:MM:SS
   const formatTime = (seconds: number): string => {
     const hrs = Math.floor(seconds / 3600);
     const mins = Math.floor((seconds % 3600) / 60);
@@ -155,7 +154,6 @@ function ExamContent() {
     return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
   };
 
-  // Start timer when exam begins (disclaimer accepted and questions loaded)
   useEffect(() => {
     if (!isDisclaimerAccepted || filteredQuestions.length === 0) return;
 
@@ -174,7 +172,6 @@ function ExamContent() {
     };
   }, [isDisclaimerAccepted, filteredQuestions.length]);
 
-  // Stop timer when exam is finished
   useEffect(() => {
     if (isFinished && timerRef.current) {
       clearInterval(timerRef.current);
@@ -182,7 +179,6 @@ function ExamContent() {
     }
   }, [isFinished]);
 
-  // Auto-submit when timer reaches 0
   useEffect(() => {
     if (timeLeft === 0 && !isFinished) {
       handleFinish();
@@ -237,47 +233,45 @@ function ExamContent() {
   // ─── DEPARTMENT LISTING ───
   if (!department && !selectedCategory) {
     return (
-      <div className="space-y-10 animate-in py-4 relative">
+      <div className="space-y-10 py-4">
         <Link 
           href="/dashboard"
-          className="relative inline-flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2em] text-gray-400 hover:text-accent-purple transition-all duration-300 group"
+          className="inline-flex items-center gap-2 text-label-xs text-on-surface-variant hover:text-primary transition-colors font-medium"
         >
-          <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
-          </svg>
+          <ChevronLeft className="w-4 h-4" />
           Return to Dashboard
         </Link>
 
-        <div className="flex flex-col items-center text-center gap-5">
-          <h1 className="text-5xl sm:text-6xl lg:text-7xl font-black text-gray-900 dark:text-white tracking-tighter leading-none">
+        <div className="flex flex-col items-center text-center gap-6">
+          <h1 className="text-hero-sm md:text-hero font-extrabold text-on-surface tracking-tight leading-none">
             Exit{' '}
-            <span className="bg-gradient-to-r from-accent-purple via-purple-400 to-indigo-400 bg-clip-text text-transparent">
+            <span className="text-gradient">
               Exam
             </span>
           </h1>
-          <p className="text-gray-500 dark:text-gray-400 text-sm leading-relaxed font-medium max-w-lg">
+          <p className="text-body-base text-on-surface-variant max-w-lg">
             Select your department to access authentic past-year exit exam questions, precisely timed to build your competitive edge.
           </p>
           <div className="flex flex-wrap justify-center gap-3">
-            <div className="flex items-center gap-2 bg-white/5 backdrop-blur-md rounded-2xl px-5 py-3">
-              <span className="text-lg">⚡</span>
+            <div className="px-4 py-2.5 rounded-xl bg-surface-container border border-outline-variant flex items-center gap-2.5">
+              <Zap className="w-4 h-4 text-primary" />
               <div>
-                <span className="text-gray-900 dark:text-white font-black text-sm tabular-nums">{progress.xp.toLocaleString()}</span>
-                <span className="text-[8px] text-gray-500 font-black uppercase tracking-widest block leading-tight">XP</span>
+                <span className="font-bold text-sm text-on-surface tabular-nums">{progress.xp.toLocaleString()}</span>
+                <span className="text-label-xs text-on-surface-variant block leading-tight">XP</span>
               </div>
             </div>
-            <div className="flex items-center gap-2 bg-white/5 backdrop-blur-md rounded-2xl px-5 py-3">
-              <span className="text-lg">🔥</span>
+            <div className="px-4 py-2.5 rounded-xl bg-surface-container border border-outline-variant flex items-center gap-2.5">
+              <Flame className="w-4 h-4 text-secondary" />
               <div>
-                <span className="text-gray-900 dark:text-white font-black text-sm tabular-nums">{progress.streak}</span>
-                <span className="text-[8px] text-gray-500 font-black uppercase tracking-widest block leading-tight">Day Streak</span>
+                <span className="font-bold text-sm text-on-surface tabular-nums">{progress.streak}</span>
+                <span className="text-label-xs text-on-surface-variant block leading-tight">Day Streak</span>
               </div>
             </div>
-            <div className="flex items-center gap-2 bg-white/5 backdrop-blur-md rounded-2xl px-5 py-3">
-              <span className="text-lg">📜</span>
+            <div className="px-4 py-2.5 rounded-xl bg-surface-container border border-outline-variant flex items-center gap-2.5">
+              <FileText className="w-4 h-4 text-tertiary" />
               <div>
-                <span className="text-gray-900 dark:text-white font-black text-sm tabular-nums">{questions.length.toLocaleString()}</span>
-                <span className="text-[8px] text-gray-500 font-black uppercase tracking-widest block leading-tight">Exam Qs</span>
+                <span className="font-bold text-sm text-on-surface tabular-nums">{questions.length.toLocaleString()}</span>
+                <span className="text-label-xs text-on-surface-variant block leading-tight">Exam Qs</span>
               </div>
             </div>
           </div>
@@ -285,19 +279,17 @@ function ExamContent() {
 
         {/* Search */}
         <div className="relative max-w-md mx-auto">
-          <svg className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-          </svg>
+          <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-on-surface-variant" />
           <input
             type="text"
             value={searchQuery}
             onChange={e => setSearchQuery(e.target.value)}
             placeholder="Search departments..."
-            className="w-full pl-11 pr-4 py-3.5 rounded-2xl bg-white/5 text-gray-900 dark:text-white text-sm placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-accent-purple/30 transition-all"
+            className="input-field pl-11"
           />
         </div>
 
-        <div className="relative grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
           {filteredDeptEntries.map(([dept, sources], index) => {
             const isPinned = PINNED_DEPTS.includes(dept);
             const count = questions.filter(q => sources.includes(q.source)).length;
@@ -311,29 +303,29 @@ function ExamContent() {
                 key={dept}
                 onClick={() => router.push(`/exam?department=${encodeURIComponent(dept)}`)}
                 style={{ animationDelay: `${index * 40}ms` }}
-                className="group relative flex flex-col items-start rounded-3xl bg-gradient-to-br from-accent-purple/[0.07] to-accent-purple/[0.02] p-7 text-left transition-all duration-500 hover:from-accent-purple/[0.12] hover:to-accent-purple/[0.05] hover:-translate-y-1 hover:shadow-[0_0_30px_rgba(124,58,237,0.15)] overflow-hidden animate-in fade-in slide-in-from-bottom-4"
+                className="card-hover flex flex-col items-start p-6 text-left group animate-in fade-in slide-in-from-bottom-4"
               >
                 {isPinned && (
-                  <div className="absolute top-3.5 right-3.5 px-2.5 py-1 rounded-full bg-amber-500/20 border border-amber-400/30 text-[8px] font-black uppercase tracking-[0.15em] text-amber-400 shadow-[0_0_12px_rgba(251,191,36,0.15)] z-10">
+                  <div className="absolute top-3 right-3 px-2.5 py-1 rounded-full bg-secondary-fixed-dim/30 border border-secondary/30 text-label-xs text-secondary font-bold z-10">
                     Pinned
                   </div>
                 )}
 
-                <div className="relative w-12 h-12 rounded-2xl bg-accent-purple/[0.1] flex items-center justify-center text-2xl mb-5 group-hover:scale-110 group-hover:bg-accent-purple/[0.15] transition-all duration-500">
+                <div className="w-11 h-11 rounded-xl bg-surface-container flex items-center justify-center text-xl mb-4 group-hover:scale-110 group-hover:bg-primary-container transition-all duration-300">
                   {meta.icon}
                 </div>
 
-                <h3 className="relative text-xl sm:text-2xl font-extrabold text-gray-900 dark:text-white tracking-tight mb-3 group-hover:text-accent-purple transition-colors duration-300">
+                <h3 className="text-headline-xl-mobile font-bold text-on-surface mb-2 group-hover:text-primary transition-colors">
                   {dept}
                 </h3>
 
-                <p className="relative text-xs leading-relaxed mb-6 text-gray-500 dark:text-gray-400 font-medium flex-1">
+                <p className="text-label-sm text-on-surface-variant flex-1 mb-4">
                   {sources.length} exam set{sources.length !== 1 ? 's' : ''} available
                 </p>
 
-                <div className="relative flex items-center gap-2 mt-auto">
-                  <span className="text-sm font-bold text-accent-purple tabular-nums">{count}</span>
-                  <span className="text-[10px] font-bold text-gray-500 uppercase tracking-wider">Questions</span>
+                <div className="flex items-center gap-2 mt-auto">
+                  <span className="text-sm font-bold text-primary tabular-nums">{count}</span>
+                  <span className="text-label-xs text-on-surface-variant">Questions</span>
                 </div>
               </button>
             );
@@ -343,7 +335,7 @@ function ExamContent() {
         {searchQuery && filteredDeptEntries.length === 0 && (
           <div className="text-center py-12">
             <div className="text-4xl mb-4 opacity-40">🔍</div>
-            <p className="text-gray-500 text-sm">No departments matching &quot;{searchQuery}&quot;</p>
+            <p className="text-on-surface-variant text-sm">No departments matching &quot;{searchQuery}&quot;</p>
           </div>
         )}
       </div>
@@ -356,48 +348,44 @@ function ExamContent() {
     const examTopics = topics.filter(t => sourcesInDept.includes(t));
     if (examTopics.length === 0) {
       return (
-        <div className="space-y-10 animate-in py-4">
-          <button onClick={() => router.push('/exam')} className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-400 hover:text-accent-purple transition-colors flex items-center gap-2">
-            <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
-            </svg>
+        <div className="space-y-10 py-4">
+          <button onClick={() => router.push('/exam')} className="inline-flex items-center gap-2 text-label-xs text-on-surface-variant hover:text-primary transition-colors font-medium">
+            <ChevronLeft className="w-4 h-4" />
             All Departments
           </button>
           <div className="text-center py-20">
-            <p className="text-gray-500">No exam sets found for this department.</p>
+            <p className="text-on-surface-variant">No exam sets found for this department.</p>
           </div>
         </div>
       );
     }
 
     return (
-      <div className="space-y-10 animate-in py-4">
-        <button onClick={() => router.push('/exam')} className="inline-flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2em] text-gray-400 hover:text-accent-purple transition-all duration-300 group">
-          <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
-          </svg>
+      <div className="space-y-10 py-4">
+        <button onClick={() => router.push('/exam')} className="inline-flex items-center gap-2 text-label-xs text-on-surface-variant hover:text-primary transition-colors font-medium">
+          <ChevronLeft className="w-4 h-4" />
           All Departments
         </button>
 
-        <div className="flex flex-col items-center text-center gap-5">
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-gray-900 dark:text-white tracking-tighter leading-none">
-            <span className="bg-gradient-to-r from-accent-purple via-purple-400 to-indigo-400 bg-clip-text text-transparent">
+        <div className="flex flex-col items-center text-center gap-6">
+          <h1 className="text-headline-2xl md:text-headline-3xl font-extrabold text-on-surface tracking-tight">
+            <span className="text-gradient">
               {department}
             </span>
           </h1>
-          <p className="text-gray-500 dark:text-gray-400 text-sm leading-relaxed font-medium">
+          <p className="text-body-base text-on-surface-variant">
             Select an exam set below to begin practicing.
           </p>
-          <div className="flex items-center gap-2 bg-white/5 backdrop-blur-md rounded-2xl px-5 py-3">
-            <span className="text-lg">📜</span>
+          <div className="px-4 py-2.5 rounded-xl bg-surface-container border border-outline-variant flex items-center gap-2.5">
+            <FileText className="w-4 h-4 text-primary" />
             <div>
-              <span className="text-gray-900 dark:text-white font-black text-sm tabular-nums">{questions.filter(q => sourcesInDept.includes(q.source)).length.toLocaleString()}</span>
-              <span className="text-[8px] text-gray-500 font-black uppercase tracking-widest block leading-tight">Exam Qs</span>
+              <span className="font-bold text-sm text-on-surface tabular-nums">{questions.filter(q => sourcesInDept.includes(q.source)).length.toLocaleString()}</span>
+              <span className="text-label-xs text-on-surface-variant block leading-tight">Exam Qs</span>
             </div>
           </div>
         </div>
 
-        <div className="relative grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
           {examTopics
             .filter(topic => topic !== 'past_exam')
             .map((topic, index) => {
@@ -419,34 +407,32 @@ function ExamContent() {
                   router.push(`/exam?department=${encodeURIComponent(department)}&exam=${encodeURIComponent(topic)}`);
                 }}
                 style={{ animationDelay: `${index * 40}ms` }}
-                className="group relative flex flex-col items-start rounded-3xl bg-gradient-to-br from-accent-purple/[0.07] to-accent-purple/[0.02] p-7 text-left transition-all duration-500 hover:from-accent-purple/[0.12] hover:to-accent-purple/[0.05] hover:-translate-y-1 hover:shadow-[0_0_30px_rgba(124,58,237,0.15)] overflow-hidden animate-in fade-in slide-in-from-bottom-4"
+                className="card-hover flex flex-col items-start p-6 text-left group animate-in fade-in slide-in-from-bottom-4"
               >
-                <div className="absolute top-3.5 right-3.5 z-10 flex gap-2">
+                <div className="absolute top-3 right-3 z-10 flex gap-2">
                   {isAdmin && (
                     <div 
                       onClick={(e) => handleDeleteTopic(e, topic)}
-                      className="p-1.5 rounded-lg bg-red-500/10 hover:bg-red-500 group/del transition-all cursor-pointer"
+                      className="p-1.5 rounded-lg bg-error-container/30 hover:bg-error-container group/del transition-all cursor-pointer"
                       title="Delete this topic from Supabase"
                     >
-                      <svg className="w-3.5 h-3.5 text-red-400 group-hover/del:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                      </svg>
+                      <XIcon className="w-3.5 h-3.5 text-error" />
                     </div>
                   )}
                 </div>
 
-                <div className="relative w-12 h-12 rounded-2xl bg-accent-purple/[0.1] flex items-center justify-center text-2xl mb-5 group-hover:scale-110 group-hover:bg-accent-purple/[0.15] transition-all duration-500">
+                <div className="w-11 h-11 rounded-xl bg-surface-container flex items-center justify-center text-xl mb-4 group-hover:scale-110 group-hover:bg-primary-container transition-all duration-300">
                   {is2017 ? '🎓' : meta.icon}
                 </div>
-                <h3 className="relative text-xl sm:text-2xl font-extrabold text-gray-900 dark:text-white tracking-tight mb-3 group-hover:text-accent-purple transition-colors duration-300 text-left">
+                <h3 className="text-headline-xl-mobile font-bold text-on-surface mb-2 group-hover:text-primary transition-colors text-left">
                   {displayTitle}
                 </h3>
-                <p className="relative text-xs leading-relaxed mb-6 text-gray-500 dark:text-gray-400 font-medium flex-1 text-left">
+                <p className="text-label-sm text-on-surface-variant flex-1 mb-4 text-left">
                    {displayDesc}
                 </p>
-                <div className="relative flex items-center gap-2 mt-auto">
-                  <span className="text-sm font-bold text-accent-purple tabular-nums">{count}</span>
-                  <span className="text-[10px] font-bold text-gray-500 uppercase tracking-wider">Questions</span>
+                <div className="flex items-center gap-2 mt-auto">
+                  <span className="text-sm font-bold text-primary tabular-nums">{count}</span>
+                  <span className="text-label-xs text-on-surface-variant">Questions</span>
                 </div>
               </button>
             );
@@ -456,30 +442,31 @@ function ExamContent() {
     );
   }
 
+  // ─── DISCLAIMER MODAL ───
   if (!isDisclaimerAccepted) {
     const is2017 = selectedCategory === 'Exit Exam 2017' || selectedCategory === 'Archived Exams';
     const displayTitle = is2017 ? 'Exit Exam 2017' : selectedCategory;
     const displayDesc = is2017 
-      ? "Enter the **2017 Vault**! 🌩️ This is based on actual materials, but we're still in 'active review' mode. If you see a typo that looks like ancient Script, don't worry—it’s either a deployment error or you're just not smart enough to understand it yet. 💀 We're also working on adding those missing diagrams soon. Don't say we didn't warn you! 📉 😊"
+      ? "Enter the **2017 Vault**! 🌩️ This is based on actual materials, but we're still in 'active review' mode. If you see a typo that looks like ancient Script, don't worry—it's either a deployment error or you're just not smart enough to understand it yet. 💀 We're also working on adding those missing diagrams soon. Don't say we didn't warn you! 📉 😊"
       : 'Official certification and exit exam questions provided for academic preparation.';
 
     return (
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-6 bg-white/80 dark:bg-black/80 backdrop-blur-xl animate-in fade-in duration-500">
-        <div className="glass-card max-w-xl w-full p-8 sm:p-12 border-accent-purple/30 shadow-2xl shadow-accent-purple/20 animate-in zoom-in-95 duration-500 flex flex-col items-center text-center">
-          <div className="w-20 h-20 rounded-3xl bg-accent-purple/10 flex items-center justify-center text-4xl mb-8 animate-bounce transition-all duration-1000">
+      <div className="fixed inset-0 z-50 flex items-center justify-center p-6 bg-black/40 backdrop-blur-sm animate-in fade-in duration-300">
+        <div className="card max-w-xl w-full p-8 sm:p-12 animate-in zoom-in-95 duration-300 flex flex-col items-center text-center">
+          <div className="w-16 h-16 rounded-2xl bg-primary-container flex items-center justify-center text-3xl mb-6">
             {is2017 ? '🎓' : '📝'}
           </div>
           
-          <h2 className="text-3xl sm:text-4xl font-black text-gray-900 dark:text-white italic uppercase tracking-tighter mb-6">
+          <h2 className="text-headline-2xl font-bold text-on-surface tracking-tight mb-4">
             {displayTitle}
           </h2>
           
-          <div className="space-y-4 mb-10 w-full text-left">
-            <div className="text-gray-500 dark:text-gray-400 leading-relaxed font-medium prose prose-sm max-w-none">
+          <div className="space-y-4 mb-8 w-full text-left">
+            <div className="text-body-base text-on-surface-variant leading-relaxed prose prose-sm max-w-none prose-p:text-on-surface-variant prose-strong:text-primary">
               <ReactMarkdown remarkPlugins={[remarkGfm]}>{displayDesc}</ReactMarkdown>
             </div>
             {is2017 && (
-              <p className="text-accent-purple-light/80 text-xs font-black uppercase tracking-widest italic text-center">
+              <p className="text-label-xs text-primary font-bold tracking-wider text-center">
                 Under Active Review
               </p>
             )}
@@ -495,13 +482,13 @@ function ExamContent() {
                   router.push('/exam');
                 }
               }}
-              className="flex-1 px-8 py-4 bg-gray-100 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-2xl font-black uppercase tracking-widest hover:bg-gray-200 dark:hover:bg-white/10 hover:text-gray-900 dark:hover:text-white transition-all"
+              className="btn-secondary flex-1"
             >
               Go Back
             </button>
             <button 
               onClick={() => setIsDisclaimerAccepted(true)}
-              className="flex-1 px-8 py-4 bg-accent-purple hover:bg-accent-purple-light text-white font-black uppercase tracking-widest rounded-2xl shadow-[0_0_30px_rgba(147,51,234,0.3)] hover:shadow-[0_0_40px_rgba(147,51,234,0.5)] transition-all transform hover:-translate-y-1"
+              className="btn-primary flex-1"
             >
               Start Exam
             </button>
@@ -511,323 +498,399 @@ function ExamContent() {
     );
   }
 
-  return (
-    <div className="space-y-6 animate-in">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-4">
-          <button onClick={() => {
-            if (timerRef.current) { clearInterval(timerRef.current); timerRef.current = null; }
-            setTimeLeft(null);
-            setSelectedCategory(null);
-            if (department) {
-              router.push(`/exam?department=${encodeURIComponent(department)}`);
-            } else {
-              router.push('/exam');
-            }
-          }} className="btn-secondary py-2 text-xs">
-            ← Exit Exam
-          </button>
-          <div>
-            <h1 className="text-xl font-bold text-gray-900 dark:text-white uppercase italic">{selectedCategory === 'all' ? 'Full Mock' : selectedCategory}</h1>
-            <p className="text-gray-500 text-[10px] uppercase font-bold tracking-widest mt-0.5">Exit Exam</p>
+  // ─── RESULTS VIEW ───
+  if (isFinished) {
+    return (
+      <div className="card p-8 sm:p-12 text-center space-y-8 animate-in zoom-in-95 max-w-3xl mx-auto">
+        <div className="space-y-2">
+          <div className="text-5xl mb-4">
+            {Math.round((quizScore.correct / quizScore.total) * 100) >= 80 ? '🎖️' : Math.round((quizScore.correct / quizScore.total) * 100) >= 50 ? '📄' : '💀'}
+          </div>
+          <h2 className="text-headline-2xl font-bold text-on-surface tracking-tight">
+            Exam <span className="text-gradient">Results</span>
+          </h2>
+          <p className="text-body-base text-on-surface-variant">
+            You&apos;ve completed the {selectedCategory === 'all' ? 'Full Mock' : selectedCategory} simulation.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-3 gap-4 max-w-lg mx-auto">
+          <div className="p-5 rounded-xl bg-surface-container border border-outline-variant">
+            <div className="text-headline-2xl font-bold text-on-surface">{Math.round((quizScore.correct / quizScore.total) * 100)}%</div>
+            <div className="text-label-xs text-on-surface-variant font-medium mt-1">Score</div>
+          </div>
+          <div className="p-5 rounded-xl bg-surface-container border border-outline-variant">
+            <div className="text-headline-2xl font-bold text-primary">{quizScore.correct}/{quizScore.total}</div>
+            <div className="text-label-xs text-on-surface-variant font-medium mt-1">Correct</div>
+          </div>
+          <div className="p-5 rounded-xl bg-surface-container border border-outline-variant">
+            <div className={`text-sm font-bold ${timeLeft === 0 ? 'text-error' : 'text-secondary'}`}>
+              {timeLeft === 0 ? "Time's up!" : formatTime((filteredQuestions.length * 60) - (timeLeft || 0))}
+            </div>
+            <div className="text-label-xs text-on-surface-variant font-medium mt-1">Time</div>
           </div>
         </div>
+
+        <div className="p-5 rounded-xl bg-primary-container/30 border border-primary/20 max-w-xl mx-auto">
+          <p className="text-headline-xl-mobile font-bold text-on-surface">
+            &quot;{getHumorMessage(Math.round((quizScore.correct / quizScore.total) * 100))}&quot;
+          </p>
+        </div>
+
+        <div className="max-w-xl mx-auto text-left space-y-5">
+          <h3 className="text-label-sm text-on-surface-variant font-bold tracking-wider flex items-center gap-2">
+            <BarChart3 className="w-4 h-4" /> Exam Breakdown
+          </h3>
+          <div className="space-y-4">
+            {Array.from(new Set(filteredQuestions.map(q => q.topic))).map(topic => {
+              const topicQs = filteredQuestions.filter(q => q.topic === topic);
+              const correctCount = topicQs.filter(q => userAnswers[q.id] === q.answer).length;
+              const percent = Math.round((correctCount / topicQs.length) * 100);
+              
+              return (
+                <div key={topic} className="p-4 rounded-xl bg-surface-container border border-outline-variant group hover:border-primary/30 transition-all">
+                  <div className="flex items-center justify-between mb-2.5">
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 rounded-lg bg-surface-container-highest flex items-center justify-center text-sm">
+                        {topicMeta[topic]?.icon || '📝'}
+                      </div>
+                      <span className="text-label-sm font-bold text-on-surface">{topic}</span>
+                    </div>
+                    <span className={`text-label-xs font-bold ${percent >= 70 ? 'text-secondary' : percent >= 50 ? 'text-tertiary' : 'text-error'}`}>
+                      {percent}%
+                    </span>
+                  </div>
+                  <div className="progress-bar">
+                    <div 
+                      className={`progress-bar-fill ${percent >= 70 ? '!bg-secondary' : percent >= 50 ? '!bg-tertiary' : '!bg-error'}`}
+                      style={{ width: `${percent}%` }}
+                    />
+                  </div>
+                  <span className="text-label-xs text-on-surface-variant mt-1.5 block">{correctCount}/{topicQs.length} correct</span>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+          <button 
+            onClick={() => { setIsFinished(false); setIsReviewMode(true); setCurrentIndex(0); }}
+            className="btn-primary"
+          >
+            Review Answers
+          </button>
+          <button 
+            onClick={resetExam}
+            className="btn-secondary"
+          >
+            Restart Exam
+          </button>
+          <button 
+            onClick={() => {
+              setSelectedCategory(null);
+              if (department) {
+                router.push(`/exam?department=${encodeURIComponent(department)}`);
+              } else {
+                router.push('/exam');
+              }
+            }}
+            className="btn-ghost"
+          >
+            Exit
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  // ─── LIVE EXAM ───
+  return (
+    <div className="flex flex-col h-full">
+      {/* Sticky Header Bar */}
+      <header className="h-14 bg-surface border-b border-outline-variant flex items-center justify-between px-margin-desktop shrink-0 z-10 shadow-sm">
         <div className="flex items-center gap-4">
-          {isReviewMode && (
-            <span className="badge bg-accent-purple/20 text-accent-purple border border-accent-purple/30 text-[10px] uppercase font-bold">Reviewing</span>
-          )}
-          {timeLeft !== null && !isReviewMode && (
-            <div className={`flex items-center gap-2 px-4 py-1.5 rounded-full border backdrop-blur-md transition-all duration-500 ${
-              timeLeft <= 60 
-                ? 'bg-red-500/20 border-red-500/50 animate-pulse' 
-                : timeLeft <= 300 
-                  ? 'bg-orange-500/15 border-orange-500/40' 
-                  : 'bg-emerald-500/10 border-emerald-500/20'
+          <button
+            onClick={() => {
+              if (timerRef.current) { clearInterval(timerRef.current); timerRef.current = null; }
+              setTimeLeft(null);
+              setSelectedCategory(null);
+              if (department) {
+                router.push(`/exam?department=${encodeURIComponent(department)}`);
+              } else {
+                router.push('/exam');
+              }
+            }}
+            className="w-9 h-9 rounded-full flex items-center justify-center text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors"
+            aria-label="Exit Exam"
+          >
+            <X className="w-5 h-5" />
+          </button>
+          <div className="h-5 w-px bg-outline-variant hidden md:block" />
+          <div className="bg-surface-container-high px-3 py-1 rounded-full flex items-center gap-2">
+            <BookOpen className="w-3.5 h-3.5 text-primary" />
+            <span className="text-label-xs text-on-surface font-medium">{selectedCategory === 'all' ? 'Full Mock' : selectedCategory}</span>
+          </div>
+        </div>
+
+        <div className="hidden sm:flex items-center gap-6 absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+          <span className="text-body-base text-on-surface-variant font-medium">Question {currentIndex + 1} of {filteredQuestions.length}</span>
+          {timeLeft !== null && (
+            <div className={`flex items-center gap-2 px-3 py-1.5 rounded-lg border transition-all ${
+              timeLeft <= 60
+                ? 'bg-error-container/30 border-error/40'
+                : timeLeft <= 300
+                  ? 'bg-tertiary-fixed-dim/30 border-tertiary/40'
+                  : 'bg-secondary-fixed-dim/30 border-secondary/40'
             }`}>
-              <svg className={`w-4 h-4 ${timeLeft <= 60 ? 'text-red-400' : timeLeft <= 300 ? 'text-orange-400' : 'text-emerald-400'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-              <span className={`font-black text-sm tabular-nums tracking-wider ${
-                timeLeft <= 60 ? 'text-red-400' : timeLeft <= 300 ? 'text-orange-400' : 'text-emerald-400'
+              <Timer className={`w-4 h-4 ${timeLeft <= 60 ? 'text-error' : timeLeft <= 300 ? 'text-tertiary' : 'text-secondary'}`} />
+              <span className={`font-mono text-sm font-bold tabular-nums tracking-tight ${
+                timeLeft <= 60 ? 'text-error' : timeLeft <= 300 ? 'text-tertiary' : 'text-secondary'
               }`}>
                 {formatTime(timeLeft)}
               </span>
             </div>
           )}
-          <div className="flex items-center gap-2 bg-indigo-500/10 border border-indigo-500/20 rounded-full px-4 py-1.5">
-            <span className="text-indigo-400 font-black text-sm">{currentIndex + 1} / {filteredQuestions.length}</span>
-          </div>
         </div>
-      </div>
 
-      {currentQuestion && !isFinished ? (
-        <div className="flex flex-col lg:flex-row gap-6 items-start">
-          {/* Main Question Area */}
-          <div className="glass-card p-4 sm:p-10 border-indigo-500/20 flex-1 w-full relative">
-            <div className="flex items-center gap-1.5 sm:gap-2 mb-4 sm:mb-8">
-             <span className="badge bg-indigo-500/20 text-indigo-400 border border-indigo-500/30 text-[10px] uppercase tracking-tighter">
-              {currentQuestion.source}
-            </span>
+        <div className="flex items-center gap-3">
+          {timeLeft !== null && (
+            <div className="sm:hidden flex items-center gap-2 px-3 py-1.5 rounded-lg bg-surface-container border border-outline-variant">
+              <Timer className={`w-3.5 h-3.5 ${timeLeft <= 60 ? 'text-error' : timeLeft <= 300 ? 'text-tertiary' : 'text-secondary'}`} />
+              <span className={`font-mono text-xs font-bold tabular-nums ${timeLeft <= 60 ? 'text-error' : timeLeft <= 300 ? 'text-tertiary' : 'text-secondary'}`}>
+                {formatTime(timeLeft)}
+              </span>
+            </div>
+          )}
+          <button
+            onClick={handleFinish}
+            disabled={Object.keys(userAnswers).length === 0}
+            className="btn-primary text-label-xs py-2 disabled:opacity-50"
+          >
+            Submit Exam
+          </button>
+        </div>
+      </header>
 
-            <span className="badge bg-gray-100 dark:bg-dark-500 text-[10px] uppercase">
-              {currentQuestion.difficulty}
-            </span>
-            {isReviewMode && userAnswers[currentQuestion.id] === currentQuestion.answer && (
-              <span className="badge bg-green-500/20 text-green-400 border border-green-500/30 text-[10px] uppercase">Correct</span>
-            )}
-            {isReviewMode && userAnswers[currentQuestion.id] && userAnswers[currentQuestion.id] !== currentQuestion.answer && (
-              <span className="badge bg-red-500/20 text-red-400 border border-red-500/30 text-[10px] uppercase">Incorrect</span>
-            )}
-          </div>
-
-
-          <div className="text-base sm:text-2xl font-bold text-gray-900 dark:text-white leading-snug sm:leading-snug mb-5 sm:mb-10 prose prose-sm sm:prose-lg max-w-none prose-headings:text-gray-900 dark:prose-headings:text-white prose-p:text-gray-900 dark:prose-p:text-white prose-strong:text-accent-purple-light prose-code:text-accent-cyan prose-pre:bg-gray-100 dark:prose-pre:bg-dark-900/50 prose-pre:border prose-pre:border-gray-200 dark:prose-pre:border-white/10">
-            <ReactMarkdown 
-              remarkPlugins={[remarkGfm]}
-              components={{
-                img: ({node, ...props}) => (
-                  <img 
-                    {...props} 
-                    className="max-w-full sm:max-w-md h-auto rounded-xl mx-auto my-6 border border-gray-200 dark:border-white/10 shadow-2xl shadow-indigo-500/10" 
-                  />
-                ),
-                p: ({children}) => <p className="font-bold leading-relaxed">{children}</p>
-              }}
-            >
-              {`${currentIndex + 1}. ${currentQuestion.question}`}
-            </ReactMarkdown>
-          </div>
-
-          <div className="grid gap-2 sm:gap-4 mb-6 sm:mb-10">
-            {currentQuestion.options.map((option, idx) => {
-              const isSelected = userAnswers[currentQuestion.id] === option;
-              const isCorrect = option === currentQuestion.answer;
-              const isAnswered = !!userAnswers[currentQuestion.id];
-
-              let style = "py-4 px-3 sm:p-5 rounded-xl sm:rounded-2xl border-2 transition-all text-left relative overflow-hidden ";
-              
-              if (isReviewMode) {
-                if (isCorrect) {
-                  style += "border-green-500/50 bg-green-500/10 text-green-400";
-                } else if (isSelected) {
-                  style += "border-red-500/50 bg-red-500/10 text-red-400";
-                } else {
-                  style += "border-gray-200 dark:border-white/5 bg-gray-100 dark:bg-white/5 opacity-50";
-                }
-              } else {
-                if (isSelected) {
-                  style += "border-indigo-500 bg-indigo-500/20 text-white shadow-[0_0_15px_rgba(99,102,241,0.3)]";
-                } else {
-                  style += "border-gray-200 dark:border-white/5 bg-gray-50 dark:bg-white/5 hover:bg-gray-100 dark:hover:bg-white/10 hover:border-gray-300 dark:hover:border-white/20";
-                }
-              }
-
-              return (
-                <button key={idx} onClick={() => handleSelectAnswer(option)} disabled={isReviewMode} className={style}>
-                  <div className="flex items-center gap-2 sm:gap-4">
-                    <span className={`w-6 h-6 sm:w-8 sm:h-8 rounded-md sm:rounded-lg flex items-center justify-center text-[10px] sm:text-sm font-black flex-shrink-0 ${isSelected && !isReviewMode ? 'bg-indigo-500 text-white' : 'bg-gray-200 dark:bg-white/10'}`}>
-                      {String.fromCharCode(65 + idx)}
-                    </span>
-                    <span className="font-medium text-xs sm:text-lg leading-snug">
-                      {option.replace(/^[A-Z]\)\s?/, '')}
-                    </span>
-                    {isReviewMode && isCorrect && (
-                      <svg className="w-3.5 h-3.5 sm:w-5 sm:h-5 text-green-400 ml-auto flex-shrink-0" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" />
-                      </svg>
-                    )}
-                    {isReviewMode && isSelected && !isCorrect && (
-                      <svg className="w-3.5 h-3.5 sm:w-5 sm:h-5 text-red-400 ml-auto flex-shrink-0" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z" />
-                      </svg>
-                    )}
+      {/* Main Content */}
+      {currentQuestion ? (
+        <div className="flex-1 flex overflow-hidden max-w-[1280px] w-full mx-auto px-margin-desktop gap-gutter py-6">
+          {/* Left: Question Panel */}
+          <main className="flex-1 overflow-y-auto pr-2 pb-12 custom-scrollbar">
+            <div className="max-w-[800px] mx-auto flex flex-col gap-8">
+              {/* Question Header */}
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <div className="bg-primary-container text-on-primary-container px-3 py-1 rounded-full text-label-xs font-bold shadow-sm">
+                    Q.{String(currentIndex + 1).padStart(2, '0')}
                   </div>
-                </button>
-              );
-            })}
-          </div>
+                  <span className={DIFFICULTY_COLORS[currentQuestion.difficulty] || 'badge-medium'}>
+                    {currentQuestion.difficulty}
+                  </span>
+                  {isReviewMode && userAnswers[currentQuestion.id] === currentQuestion.answer && (
+                    <span className="badge-easy">Correct</span>
+                  )}
+                  {isReviewMode && userAnswers[currentQuestion.id] && userAnswers[currentQuestion.id] !== currentQuestion.answer && (
+                    <span className="badge-hard">Incorrect</span>
+                  )}
+                </div>
+                <div className="text-label-sm text-on-surface-variant">+2 Points</div>
+              </div>
 
-          {isReviewMode && (
-            <div className="p-6 rounded-2xl bg-indigo-500/5 border border-indigo-500/20 mb-8 animate-in slide-in-from-bottom-2">
-              <span className="text-xs font-bold text-indigo-400 uppercase tracking-widest block mb-2">Detailed Analysis</span>
-              <div className="prose prose-sm max-w-none text-gray-700 dark:text-gray-300 leading-relaxed prose-pre:bg-gray-100 dark:prose-pre:bg-dark-900/50 prose-pre:border prose-pre:border-gray-200 dark:prose-pre:border-white/10">
-                <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                  {currentQuestion.explanation}
+              {/* Question Content */}
+              <div className="text-body-lg text-on-surface leading-relaxed prose prose-lg max-w-none prose-headings:text-on-surface prose-p:text-on-surface prose-strong:text-primary prose-code:text-secondary prose-pre:bg-surface-container prose-pre:border prose-pre:border-outline-variant">
+                <ReactMarkdown 
+                  remarkPlugins={[remarkGfm]}
+                  components={{
+                    img: ({node, ...props}) => (
+                      <img 
+                        {...props} 
+                        className="max-w-full sm:max-w-md h-auto rounded-xl mx-auto my-6 border border-outline-variant shadow-sm" 
+                      />
+                    ),
+                    p: ({children}) => <p className="font-medium leading-relaxed">{children}</p>
+                  }}
+                >
+                  {currentQuestion.question}
                 </ReactMarkdown>
               </div>
-            </div>
-          )}
 
-          <div className="flex items-center justify-between pt-4 sm:pt-6 border-t border-gray-200 dark:border-white/5">
-            <button onClick={handlePrevious} disabled={currentIndex === 0} className="text-gray-500 hover:text-gray-900 dark:hover:text-white disabled:opacity-0 transition-all font-bold text-xs sm:text-sm uppercase">Previous</button>
-            <button onClick={handleNext} disabled={currentIndex >= filteredQuestions.length - 1} className="btn-primary px-6 sm:px-10 py-2.5 sm:py-3 bg-indigo-600 hover:bg-indigo-500 text-xs sm:text-sm italic font-black uppercase tracking-widest disabled:opacity-50">Next Question</button>
-          </div>
-        </div>
+              {currentQuestion.options[0] && (
+                <div className="flex flex-col gap-4">
+                  {currentQuestion.options.map((option, idx) => {
+                    const isSelected = userAnswers[currentQuestion.id] === option;
+                    const isCorrect = option === currentQuestion.answer;
+                    const isAnswered = !!userAnswers[currentQuestion.id];
 
-        {/* Right Sidebar Navigation */}
-        <div className="w-full lg:w-72 flex-shrink-0 glass-card p-4 sm:p-6 sticky top-6 border-indigo-500/20 max-h-[85vh] flex flex-col">
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="text-sm font-black text-gray-900 dark:text-white italic uppercase tracking-widest">Questions</h3>
-            <span className="text-xs font-bold text-gray-500 bg-gray-100 dark:bg-white/5 px-2 py-1 rounded-md">
-              {Object.keys(userAnswers).length} / {filteredQuestions.length}
-            </span>
-          </div>
-          
-          <div className="grid grid-cols-5 gap-2 overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-gray-200 dark:scrollbar-thumb-white/10 scrollbar-track-transparent flex-1 pb-4">
-            {filteredQuestions.map((q, idx) => {
-              const isCurrent = currentIndex === idx;
-              const isAnswered = !!userAnswers[q.id];
-              const isCorrect = isReviewMode ? userAnswers[q.id] === q.answer : false;
-              const isWrong = isReviewMode ? userAnswers[q.id] !== q.answer && userAnswers[q.id] : false;
-              
-              let btnClass = "aspect-square flex items-center justify-center rounded-lg text-xs font-black transition-all border ";
-              
-              if (isReviewMode) {
-                if (isCurrent) btnClass += "ring-2 ring-gray-900 dark:ring-white scale-110 z-10 ";
-                if (isCorrect) btnClass += "bg-green-500/20 text-green-400 border-green-500/30";
-                else if (isWrong) btnClass += "bg-red-500/20 text-red-400 border-red-500/30";
-                else btnClass += "bg-gray-100 dark:bg-white/5 text-gray-500 border-gray-200 dark:border-white/5";
-              } else {
-                if (isCurrent) {
-                  btnClass += "bg-indigo-600 text-white border-indigo-500 shadow-md scale-110 z-10";
-                } else if (isAnswered) {
-                  btnClass += "bg-indigo-500/20 text-indigo-300 border-indigo-500/30 hover:bg-indigo-500/30";
-                } else {
-                  btnClass += "bg-gray-100 dark:bg-white/5 hover:bg-gray-200 dark:hover:bg-white/10 border-gray-200 dark:border-white/5 hover:border-gray-300 dark:hover:border-white/20";
-                }
-              }
+                    let containerClass = "group relative flex items-center p-4 rounded-xl border cursor-pointer transition-all overflow-hidden ";
+                    let circleClass = "w-7 h-7 rounded-full border-2 flex items-center justify-center text-label-sm font-bold shrink-0 transition-colors ";
 
-              return (
+                    if (isReviewMode) {
+                      containerClass += isCorrect
+                        ? "border-secondary bg-secondary-fixed-dim/10"
+                        : isSelected
+                          ? "border-error bg-error-container/20"
+                          : "border-outline-variant bg-surface-container-lowest opacity-60";
+                      circleClass += isCorrect
+                        ? "border-secondary bg-secondary text-on-secondary"
+                        : isSelected
+                          ? "border-error bg-error text-on-error"
+                          : "border-outline text-on-surface-variant";
+                    } else {
+                      containerClass += isSelected
+                        ? "border-primary bg-primary-container/10 shadow-sm"
+                        : "border-outline-variant bg-surface-container-lowest hover:border-primary-fixed-dim hover:shadow-sm";
+                      circleClass += isSelected
+                        ? "border-primary bg-primary text-on-primary"
+                        : "border-outline text-on-surface-variant group-hover:border-primary-fixed-dim";
+                    }
+
+                    return (
+                      <button
+                        key={idx}
+                        onClick={() => handleSelectAnswer(option)}
+                        disabled={isReviewMode}
+                        className={containerClass}
+                      >
+                        <div className="absolute inset-0 bg-primary-container opacity-0 peer-checked:opacity-10 transition-opacity" />
+                        <div className="flex items-center gap-4 relative z-10 w-full">
+                          <div className={circleClass}>
+                            {isReviewMode && isCorrect ? (
+                              <Check className="w-3.5 h-3.5" />
+                            ) : isReviewMode && isSelected && !isCorrect ? (
+                              <XIcon className="w-3.5 h-3.5" />
+                            ) : (
+                              String.fromCharCode(65 + idx)
+                            )}
+                          </div>
+                          <span className={`text-body-base ${isSelected ? 'font-medium' : ''} text-on-surface text-left`}>
+                            {option.replace(/^[A-Z]\)\s?/, '')}
+                          </span>
+                        </div>
+                      </button>
+                    );
+                  })}
+                </div>
+              )}
+
+              {/* Explanation (review mode) */}
+              {isReviewMode && currentQuestion.explanation && (
+                <div className="p-5 rounded-xl bg-primary-container/20 border border-primary/20 animate-in slide-in-from-bottom-2">
+                  <span className="text-label-xs font-bold text-primary tracking-wider block mb-2">Detailed Analysis</span>
+                  <div className="text-body-base text-on-surface-variant leading-relaxed prose prose-sm max-w-none prose-p:text-on-surface-variant prose-strong:text-primary prose-code:text-secondary prose-pre:bg-surface-container prose-pre:border prose-pre:border-outline-variant">
+                    <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                      {currentQuestion.explanation}
+                    </ReactMarkdown>
+                  </div>
+                </div>
+              )}
+
+              {/* Navigation Buttons */}
+              <div className="flex justify-between items-center pt-6 border-t border-outline-variant">
                 <button
-                  key={q.id}
-                  onClick={() => setCurrentIndex(idx)}
-                  className={btnClass}
+                  onClick={handlePrevious}
+                  disabled={currentIndex === 0}
+                  className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg border border-outline-variant text-on-surface hover:bg-surface-container-low transition-colors text-label-sm font-medium disabled:opacity-30"
                 >
-                  {idx + 1}
+                  <ChevronLeft className="w-4 h-4" />
+                  Previous
                 </button>
-              );
-            })}
-          </div>
-          
-          {!isReviewMode && (
-             <div className="mt-4 pt-4 border-t border-gray-200 dark:border-white/10">
-               <button 
+                <button
+                  onClick={handleNext}
+                  disabled={currentIndex >= filteredQuestions.length - 1}
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-primary text-on-primary hover:brightness-110 transition-all text-label-sm font-bold shadow-sm disabled:opacity-50"
+                >
+                  Next Question
+                  <ChevronRight className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
+          </main>
+
+          {/* Right: Navigator Sidebar */}
+          <aside className="w-[280px] shrink-0 h-full flex flex-col bg-surface-container-lowest rounded-xl border border-outline-variant shadow-sm overflow-hidden max-lg:hidden">
+            <div className="p-4 border-b border-outline-variant bg-surface">
+              <h3 className="text-headline-xl-mobile font-bold text-on-surface mb-2">Overview</h3>
+              <div className="flex items-center gap-2">
+                <div className="progress-bar flex-1">
+                  <div
+                    className="progress-bar-fill"
+                    style={{ width: `${(Object.keys(userAnswers).length / filteredQuestions.length) * 100}%` }}
+                  />
+                </div>
+                <span className="text-label-xs font-bold text-on-surface-variant w-10 text-right tabular-nums">
+                  {Object.keys(userAnswers).length}/{filteredQuestions.length}
+                </span>
+              </div>
+            </div>
+
+            <div className="flex-1 overflow-y-auto p-4 custom-scrollbar">
+              {/* Legend */}
+              <div className="flex flex-wrap gap-x-4 gap-y-2 mb-5">
+                <div className="flex items-center gap-1.5 text-label-xs text-on-surface-variant">
+                  <div className="w-2.5 h-2.5 rounded-full bg-secondary-fixed-dim" /> Answered
+                </div>
+                <div className="flex items-center gap-1.5 text-label-xs text-on-surface-variant">
+                  <div className="w-2.5 h-2.5 rounded-full bg-tertiary-fixed-dim" /> Skipped
+                </div>
+                <div className="flex items-center gap-1.5 text-label-xs text-on-surface-variant">
+                  <div className="w-2.5 h-2.5 rounded-full bg-surface-container border border-outline-variant" /> Unseen
+                </div>
+              </div>
+
+              {/* Question Grid */}
+              <div className="grid grid-cols-5 gap-2">
+                {filteredQuestions.map((q, idx) => {
+                  const isCurrent = currentIndex === idx;
+                  const isAnswered = !!userAnswers[q.id];
+                  const isCorrectFlag = isReviewMode ? userAnswers[q.id] === q.answer : false;
+                  const isWrong = isReviewMode ? userAnswers[q.id] !== q.answer && !!userAnswers[q.id] : false;
+
+                  let btnClass = "aspect-square rounded-lg flex items-center justify-center text-label-xs font-medium transition-all border ";
+
+                  if (isCurrent) {
+                    btnClass += "bg-primary text-on-primary shadow-md ring-2 ring-primary ring-offset-2 ring-offset-surface-container-lowest scale-105 z-10 border-primary";
+                  } else if (isReviewMode) {
+                    if (isCorrectFlag) btnClass += "bg-secondary-fixed-dim text-on-secondary-fixed border-secondary/30";
+                    else if (isWrong) btnClass += "bg-error-container text-on-error-container border-error/30";
+                    else btnClass += "bg-surface-container border-outline-variant text-on-surface-variant";
+                  } else {
+                    if (isAnswered) btnClass += "bg-secondary-fixed-dim text-on-secondary-fixed border-secondary/30 hover:brightness-95";
+                    else btnClass += "bg-surface-container border-outline-variant text-on-surface-variant hover:bg-surface-container-high";
+                  }
+
+                  return (
+                    <button
+                      key={q.id}
+                      onClick={() => setCurrentIndex(idx)}
+                      className={btnClass}
+                    >
+                      {idx + 1}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            <div className="p-4 border-t border-outline-variant bg-surface-container-low text-center">
+              <span className="text-label-xs text-on-surface-variant block mb-2">Need a break?</span>
+              <button
                 onClick={handleFinish}
                 disabled={Object.keys(userAnswers).length === 0}
-                className="w-full btn-primary py-3 bg-green-600 hover:bg-green-500 text-xs italic font-black uppercase tracking-widest shadow-[0_0_15px_rgba(22,163,74,0.3)] disabled:opacity-50"
-               >
-                 Submit Exam
-               </button>
-             </div>
-          )}
-        </div>
-      </div>
-      ) : isFinished ? (
-        <div className="glass-card p-12 text-center space-y-8 animate-in zoom-in-95 border-indigo-500/30">
-          <div className="space-y-2">
-            <div className="text-6xl mb-4">
-              {Math.round((quizScore.correct / quizScore.total) * 100) >= 80 ? '🎖️' : Math.round((quizScore.correct / quizScore.total) * 100) >= 50 ? '📄' : '💀'}
+                className="w-full py-2 rounded-lg border border-outline text-label-sm font-medium text-on-surface hover:bg-surface-container-high transition-colors disabled:opacity-40"
+              >
+                Submit & Finish
+              </button>
             </div>
-            <h2 className="text-3xl font-black text-gray-900 dark:text-white italic tracking-tighter uppercase">
-              Exam <span className="text-accent-purple">Results</span>
-            </h2>
-            <p className="text-gray-500 dark:text-gray-400 font-medium">
-              You&apos;ve completed the {selectedCategory === 'all' ? 'Full Mock' : selectedCategory} simulation.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-3 gap-4 max-w-lg mx-auto">
-            <div className="p-6 rounded-2xl bg-gray-100 dark:bg-white/5 border border-gray-200 dark:border-white/10">
-              <div className="text-3xl font-black text-gray-900 dark:text-white italic">{Math.round((quizScore.correct / quizScore.total) * 100)}%</div>
-              <div className="text-[10px] text-gray-500 font-black uppercase tracking-widest mt-1">Score</div>
-            </div>
-            <div className="p-6 rounded-2xl bg-gray-100 dark:bg-white/5 border border-gray-200 dark:border-white/10">
-              <div className="text-3xl font-black text-accent-purple italic">{quizScore.correct}/{quizScore.total}</div>
-              <div className="text-[10px] text-gray-500 font-black uppercase tracking-widest mt-1">Correct</div>
-            </div>
-            <div className="p-6 rounded-2xl bg-gray-100 dark:bg-white/5 border border-gray-200 dark:border-white/10">
-              <div className={`text-xl font-black italic ${timeLeft === 0 ? 'text-red-400' : 'text-emerald-400'}`}>
-                {timeLeft === 0 ? "Time's up!" : formatTime((filteredQuestions.length * 60) - (timeLeft || 0))}
-              </div>
-              <div className="text-[10px] text-gray-500 font-black uppercase tracking-widest mt-1">Time</div>
-            </div>
-          </div>
-
-          <div className="p-6 rounded-3xl bg-indigo-500/10 border border-indigo-500/20 max-w-xl mx-auto">
-            <p className="text-xl font-bold text-gray-900 dark:text-white italic">
-              &quot;{getHumorMessage(Math.round((quizScore.correct / quizScore.total) * 100))}&quot;
-            </p>
-          </div>
-
-          <div className="max-w-xl mx-auto text-left space-y-6">
-            <h3 className="text-sm font-black text-gray-500 uppercase tracking-[0.2em] flex items-center gap-2">
-              <span>📊</span> Exam Breakdown
-            </h3>
-            <div className="space-y-4">
-              {Array.from(new Set(filteredQuestions.map(q => q.topic))).map(topic => {
-                const topicQs = filteredQuestions.filter(q => q.topic === topic);
-                const correctCount = topicQs.filter(q => userAnswers[q.id] === q.answer).length;
-                const percent = Math.round((correctCount / topicQs.length) * 100);
-                
-                return (
-                  <div key={topic} className="p-4 rounded-2xl bg-gray-100 dark:bg-white/5 border border-gray-200 dark:border-white/10 group hover:border-indigo-500/30 transition-all">
-                    <div className="flex items-center justify-between mb-3">
-                      <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-lg bg-gray-100 dark:bg-dark-500 flex items-center justify-center text-sm">
-                          {topicMeta[topic]?.icon || '📝'}
-                        </div>
-                        <span className="text-sm font-bold text-gray-900 dark:text-white italic uppercase tracking-tighter">{topic}</span>
-                      </div>
-                      <span className={`text-xs font-black ${percent >= 70 ? 'text-green-400' : percent >= 50 ? 'text-yellow-400' : 'text-red-400'}`}>
-                        {percent}%
-                      </span>
-                    </div>
-                    <div className="flex items-center gap-2 mb-2">
-                      <div className="flex-1 h-1.5 bg-gray-100 dark:bg-dark-600 rounded-full overflow-hidden">
-                        <div 
-                          className={`h-full transition-all duration-1000 ${percent >= 70 ? 'bg-green-500' : percent >= 50 ? 'bg-yellow-500' : 'bg-red-500'}`}
-                          style={{ width: `${percent}%` }}
-                        />
-                      </div>
-                      <span className="text-[10px] font-black text-gray-500 uppercase">{correctCount}/{topicQs.length}</span>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <button 
-              onClick={() => { setIsFinished(false); setIsReviewMode(true); setCurrentIndex(0); }}
-              className="btn-primary px-10 py-3 rounded-xl font-black uppercase italic tracking-widest text-sm bg-indigo-600 hover:bg-indigo-500"
-            >
-              Review Answers
-            </button>
-            <button 
-              onClick={resetExam}
-              className="px-10 py-3 rounded-xl border border-gray-200 dark:border-white/10 bg-gray-100 dark:bg-white/5 hover:bg-gray-200 dark:hover:bg-white/10 text-gray-900 dark:text-white font-black uppercase italic tracking-widest text-sm transition-all"
-            >
-              Restart Exam
-            </button>
-            <button 
-              onClick={() => {
-                setSelectedCategory(null);
-                if (department) {
-                  router.push(`/exam?department=${encodeURIComponent(department)}`);
-                } else {
-                  router.push('/exam');
-                }
-              }}
-              className="px-10 py-3 rounded-xl border border-gray-200 dark:border-white/10 bg-gray-100 dark:bg-white/5 hover:bg-gray-200 dark:hover:bg-white/10 font-black uppercase italic tracking-widest text-sm transition-all"
-            >
-              Exit
-            </button>
-          </div>
+          </aside>
         </div>
       ) : (
-        <div className="glass-card p-20 text-center">
-          <p className="text-gray-500 dark:text-gray-400">No exam questions found for this topic.</p>
+        <div className="flex-1 flex items-center justify-center p-10">
+          <div className="text-center">
+            <div className="card p-10">
+              <p className="text-on-surface-variant">No exam questions found for this topic.</p>
+            </div>
+          </div>
         </div>
       )}
     </div>
@@ -836,7 +899,14 @@ function ExamContent() {
 
 export default function ExamPage() {
   return (
-    <Suspense fallback={<div className="p-10 text-center text-gray-500">Loading Exam...</div>}>
+    <Suspense fallback={
+      <div className="flex items-center justify-center h-40">
+        <div className="flex items-center gap-3 text-on-surface-variant">
+          <div className="w-5 h-5 rounded-full border-2 border-primary border-t-transparent animate-spin" />
+          <span className="text-label-sm">Loading Exam...</span>
+        </div>
+      </div>
+    }>
       <ExamContent />
     </Suspense>
   );
