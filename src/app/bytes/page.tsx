@@ -109,15 +109,15 @@ export default function BytesPage() {
     return counts;
   }, [bytesForFolderCount, currentSubject]);
 
-  const topicColors: Record<string, string> = {
-    'Algorithms': 'text-purple-400 border-purple-500/30 bg-purple-500/10',
-    'Operating Systems': 'text-blue-400 border-blue-500/30 bg-blue-500/10',
-    'Database Systems': 'text-emerald-400 border-emerald-500/30 bg-emerald-500/10',
-    'Networking': 'text-orange-400 border-orange-500/30 bg-orange-500/10',
+  const topicColors: Record<string, { badge: string; gradient: string; icon: string }> = {
+    'Algorithms': { badge: 'text-purple-400 border-purple-500/30 bg-purple-500/10', gradient: 'from-purple-500/20 to-violet-600/20', icon: '⚡' },
+    'Operating Systems': { badge: 'text-blue-400 border-blue-500/30 bg-blue-500/10', gradient: 'from-blue-500/20 to-indigo-600/20', icon: '💻' },
+    'Database Systems': { badge: 'text-emerald-400 border-emerald-500/30 bg-emerald-500/10', gradient: 'from-emerald-500/20 to-teal-600/20', icon: '🗄️' },
+    'Networking': { badge: 'text-orange-400 border-orange-500/30 bg-orange-500/10', gradient: 'from-orange-500/20 to-amber-600/20', icon: '🌐' },
   };
 
   const getTopicColor = (topic: string) => {
-    return topicColors[topic] || 'text-cyan-400 border-cyan-500/30 bg-cyan-500/10';
+    return topicColors[topic] || { badge: 'text-cyan-400 border-cyan-500/30 bg-cyan-500/10', gradient: 'from-cyan-500/20 to-sky-600/20', icon: '📘' };
   };
 
   if (!mounted) {
@@ -136,32 +136,35 @@ export default function BytesPage() {
   return (
     <div className="space-y-6 py-4 pb-16">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-        <div>
-          <h1 className="text-headline-2xl font-bold text-on-surface flex items-center gap-2">
-            Learning Bytes
-            <span className="badge bg-primary-container text-on-primary-container text-label-xs font-bold">Matrix</span>
-          </h1>
-          <p className="text-label-sm text-on-surface-variant mt-1 font-medium tracking-wider">
-            {searchQuery 
-              ? `Found ${filteredBytes.length} bytes matching search`
-              : !currentSubject 
-                ? `Structured index of ${courses.length} default & custom courses`
-                : currentSubTopic 
-                  ? `${filteredBytes.length} modules in ${currentSubject} › ${currentSubTopic}`
-                  : `${subTopics.length} sub-folders in ${currentSubject}`}
-          </p>
-        </div>
+      <div className="relative bg-gradient-to-br from-surface-container-low to-surface-container rounded-xl p-6 overflow-hidden">
+        <div className="absolute top-0 right-0 w-48 h-48 bg-gradient-to-bl from-primary/5 to-transparent rounded-full blur-2xl pointer-events-none" />
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 relative">
+          <div>
+            <h1 className="text-headline-2xl font-bold text-on-surface flex items-center gap-2">
+              Learning Bytes
+              <span className="badge bg-primary-container text-on-primary-container text-label-xs font-bold">Matrix</span>
+            </h1>
+            <p className="text-label-sm text-on-surface-variant mt-1 font-medium tracking-wider">
+              {searchQuery 
+                ? `Found ${filteredBytes.length} bytes matching search`
+                : !currentSubject 
+                  ? `Structured index of ${courses.length} default & custom courses`
+                  : currentSubTopic 
+                    ? `${filteredBytes.length} modules in ${currentSubject} › ${currentSubTopic}`
+                    : `${subTopics.length} sub-folders in ${currentSubject}`}
+            </p>
+          </div>
 
-        {bytes.some(b => b.githubUrl) && (
-          <button 
-            onClick={handleRefreshGithub}
-            className="btn-ghost text-label-xs inline-flex items-center gap-1.5"
-          >
-            <RefreshCw className="w-3.5 h-3.5 group-hover:rotate-180 transition-transform duration-500" />
-            Refresh GitHub Cache
-          </button>
-        )}
+          {bytes.some(b => b.githubUrl) && (
+            <button 
+              onClick={handleRefreshGithub}
+              className="btn-ghost text-label-xs inline-flex items-center gap-1.5"
+            >
+              <RefreshCw className="w-3.5 h-3.5 group-hover:rotate-180 transition-transform duration-500" />
+              Refresh GitHub Cache
+            </button>
+          )}
+        </div>
       </div>
 
       {/* Search & Filter Panel */}
@@ -322,52 +325,62 @@ function ByteCard({
   byte: Byte; 
   onDelete: (id: string, e: React.MouseEvent) => void; 
   deleteConfirm: string | null;
-  getTopicColor: (topic: string) => string;
+  getTopicColor: (topic: string) => { badge: string; gradient: string; icon: string };
 }) {
+  const colors = getTopicColor(byte.topic);
   return (
-    <div className="relative card p-4 flex flex-col h-full min-h-[180px] group hover:border-primary-fixed-dim transition-all duration-300">
-      <Link href={`/bytes/view?id=${byte.id}`} className="flex-1 flex flex-col">
-        <div className="flex flex-wrap gap-1.5 mb-3">
-          <span className={`badge ${getTopicColor(byte.topic)} text-label-xs font-bold tracking-wider`}>
-            {byte.topic}
-          </span>
+    <div className="relative card p-5 flex flex-col gap-3 group transition-all duration-300 overflow-hidden">
+      <Link href={`/bytes/view?id=${byte.id}`} className="flex flex-col gap-3 flex-1">
+        <div className="flex items-start gap-3 relative z-10">
+          <div className={`w-11 h-11 rounded-xl bg-gradient-to-br ${colors.gradient} flex items-center justify-center text-lg shrink-0 group-hover:scale-110 transition-transform`}>
+            {colors.icon}
+          </div>
+          <div className="min-w-0 flex-1">
+            <h3 className="text-label-sm font-bold text-on-surface group-hover:text-primary transition-colors line-clamp-2 leading-snug">
+              {byte.title}
+            </h3>
+            <span className={`badge ${colors.badge} text-label-xs font-bold tracking-wider mt-1.5 inline-block`}>
+              {byte.topic}
+            </span>
+          </div>
+        </div>
+        
+        <p className="text-label-xs text-on-surface-variant leading-relaxed line-clamp-2 flex-1">
+          {byte.content}
+        </p>
+        
+        <div className="flex flex-wrap items-center gap-2 relative z-10">
           {byte.sub_topic && (
-            <span className="badge bg-surface-container border border-outline-variant text-on-surface-variant text-label-xs font-bold tracking-wider">
+            <span className="text-label-xs px-2 py-1 rounded-full bg-surface-container text-on-surface-variant font-bold border border-outline-variant">
               {byte.sub_topic}
             </span>
           )}
           {byte.major && byte.major !== 'Both' && (
-            <span className="badge bg-primary-container text-on-primary-container text-label-xs font-bold tracking-wider">
+            <span className="text-label-xs px-2 py-1 rounded-full bg-primary-container/30 text-primary font-bold border border-primary/20">
               {byte.major}
             </span>
           )}
+          <span className="text-label-xs text-on-surface-variant font-bold ml-auto">
+            {byte.relatedQuestionIds ? byte.relatedQuestionIds.length : 0} Qs
+          </span>
+          {byte.images && byte.images.length > 0 && (
+            <span className="flex items-center gap-1 text-label-xs text-on-surface-variant" title="Contains visual assets">
+              <Image className="w-3 h-3" />
+            </span>
+          )}
         </div>
-        
-        <h3 className="text-label-sm font-bold text-on-surface mb-1.5 group-hover:text-primary transition-colors line-clamp-2 leading-snug">
-          {byte.title}
-        </h3>
-        
-        <p className="text-label-xs text-on-surface-variant leading-relaxed line-clamp-2 mb-3 flex-1">
-          {byte.content}
-        </p>
-        
-        <div className="mt-auto pt-3 border-t border-outline-variant flex items-center justify-between text-label-xs font-bold tracking-wider text-on-surface-variant">
-          <div className="flex gap-2">
-            {byte.relatedQuestionIds && byte.relatedQuestionIds.length > 0 && (
-              <span className="flex items-center gap-1 text-primary">
-                <HelpCircle className="w-3 h-3" />
-                {byte.relatedQuestionIds.length} Qs
+
+        <div className="flex items-center justify-between pt-2 border-t border-outline-variant mt-1 relative z-10">
+          <span className="text-label-xs text-on-surface-variant font-bold tracking-wider">
+            {byte.relatedQuestionIds && byte.relatedQuestionIds.length > 0 ? (
+              <span className="flex items-center gap-1">
+                <HelpCircle className="w-3 h-3 text-primary" />
+                Practice
               </span>
-            )}
-            {byte.images && byte.images.length > 0 && (
-              <span className="flex items-center gap-1" title="Contains visual assets">
-                <Image className="w-3 h-3" />
-                Media
-              </span>
-            )}
-          </div>
-          <span className="text-primary group-hover:translate-x-1 transition-transform flex items-center gap-0.5 text-label-xs">
-            Read
+            ) : null}
+          </span>
+          <span className="text-label-xs font-bold tracking-wider text-primary opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1">
+            Read Now
             <ChevronRight className="w-3 h-3" />
           </span>
         </div>
@@ -378,13 +391,13 @@ function ByteCard({
           <button
             onClick={(e) => onDelete(byte.id, e)}
             title={deleteConfirm === byte.id ? 'Click again to confirm delete' : 'Delete byte'}
-            className={`w-6 h-6 rounded-lg bg-surface border flex items-center justify-center transition-all ${
+            className={`w-7 h-7 rounded-lg bg-surface-container flex items-center justify-center transition-all ${
               deleteConfirm === byte.id
-                ? 'border-error/60 bg-error-container/20'
-                : 'border-outline-variant hover:border-error/50 hover:bg-error-container/10'
+                ? 'text-error'
+                : 'text-on-surface-variant hover:text-error'
             }`}
           >
-            <Trash2 className={`w-3 h-3 ${deleteConfirm === byte.id ? 'text-error' : 'text-on-surface-variant group-hover:text-error'}`} />
+            <Trash2 className="w-3.5 h-3.5" />
           </button>
         </div>
       )}
