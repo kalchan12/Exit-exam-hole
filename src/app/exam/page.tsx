@@ -305,11 +305,7 @@ function ExamContent() {
                 style={{ animationDelay: `${index * 40}ms` }}
                 className="card-hover flex flex-col items-start p-6 text-left group animate-in fade-in slide-in-from-bottom-4"
               >
-                {isPinned && (
-                  <div className="absolute top-3 right-3 px-2.5 py-1 rounded-full bg-secondary-fixed-dim/30 border border-secondary/30 text-label-xs text-secondary font-bold z-10">
-                    Pinned
-                  </div>
-                )}
+                
 
                 <div className="w-11 h-11 rounded-xl bg-surface-container flex items-center justify-center text-xl mb-4 group-hover:scale-110 group-hover:bg-primary-container transition-all duration-300">
                   {meta.icon}

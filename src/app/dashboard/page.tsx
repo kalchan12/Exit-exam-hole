@@ -100,26 +100,26 @@ export default function Dashboard() {
       </div>
 
       {/* XP Level Card */}
-      <div className="relative bg-gradient-to-br from-primary to-surface-tint rounded-xl p-6 md:p-8 overflow-hidden shadow-ambient">
+      <div className="relative bg-gradient-to-br from-primary to-surface-tint dark:from-[#6d28d9] dark:to-[#a21caf] rounded-xl p-6 md:p-8 overflow-hidden shadow-ambient">
         <div className="absolute -right-12 -top-12 w-64 h-64 bg-white/10 rounded-full blur-2xl pointer-events-none" />
         <div className="absolute -left-8 -bottom-8 w-48 h-48 bg-secondary-container/10 rounded-full blur-xl pointer-events-none" />
         <div className="relative z-10 flex flex-col md:flex-row md:items-end justify-between gap-6">
-          <div className="text-on-primary">
-            <div className="text-label-sm uppercase tracking-wider text-on-primary/80 mb-2">Current Level</div>
+          <div className="text-on-primary dark:text-white">
+            <div className="text-label-sm uppercase tracking-wider text-on-primary/80 dark:text-white/80 mb-2">Current Level</div>
             <div className="text-headline-3xl font-bold mb-1">{levelInfo.title}</div>
-            <div className="text-body-base text-on-primary/90 flex items-center gap-2">
+            <div className="text-body-base text-on-primary/90 dark:text-white/90 flex items-center gap-2">
               <span>{progress?.xp || 0} XP Total</span>
             </div>
           </div>
           <div className="w-full md:w-1/2 flex flex-col gap-2">
-            <div className="flex justify-between text-label-sm text-on-primary">
+            <div className="flex justify-between text-label-sm text-on-primary dark:text-white">
               <span>Level Progress</span>
               <span>{levelInfo.progress}%</span>
             </div>
-            <div className="w-full h-2 bg-on-primary/20 rounded-full overflow-hidden">
+            <div className="w-full h-2 bg-on-primary/20 dark:bg-white/20 rounded-full overflow-hidden">
               <div className="h-full bg-white rounded-full transition-all duration-700" style={{ width: `${levelInfo.progress}%` }} />
             </div>
-            <div className="text-right text-label-sm text-on-primary/80 mt-1">
+            <div className="text-right text-label-sm text-on-primary/80 dark:text-white/80 mt-1">
               → {levelInfo.title === 'Grandmaster' ? 'Max Level' : `${levelInfo.nextLevelXP - (progress?.xp || 0)} XP to next level`}
             </div>
           </div>
