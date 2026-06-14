@@ -59,7 +59,6 @@ export default function ProgressPage() {
   const accuracy = calculateOverallAccuracy(progress);
   const levelInfo = getLevel(progress.xp);
 
-  // Calculate Topic Mastery on the fly for accuracy
   const questionTopicMap: Record<string, string> = {};
   stats.questions.forEach(q => { questionTopicMap[q.id] = q.topic; });
 
@@ -70,104 +69,96 @@ export default function ProgressPage() {
   })).sort((a, b) => b.mastery - a.mastery);
 
   return (
-    <div className="max-w-6xl mx-auto px-4 sm:px-6 py-6 sm:py-8 md:py-12 space-y-6 sm:space-y-10 animate-in fade-in duration-700 pb-32">
-      {/* Header Section */}
+    <div className="max-w-6xl mx-auto space-y-8 py-4">
+      {/* Header */}
       <div className="flex items-start justify-between">
-        <div className="space-y-1">
-          <p className="text-[10px] font-black text-purple-500 uppercase tracking-[0.3em] mb-1">Your Growth</p>
-          <h1 className="text-2xl sm:text-4xl md:text-5xl font-black text-gray-900 dark:text-white tracking-tighter leading-tight">
+        <div>
+          <p className="text-label-xs text-primary font-bold tracking-wider mb-1">Your Growth</p>
+          <h1 className="text-headline-2xl md:text-headline-3xl font-bold text-on-surface tracking-tight">
             User Progress
           </h1>
         </div>
-
-        <div className="flex items-center gap-3 px-4 py-2 bg-gray-50 dark:bg-white/[0.03] border border-gray-200 dark:border-white/10 rounded-2xl backdrop-blur-md">
-          <div className="w-8 h-8 rounded-lg bg-purple-500/20 flex items-center justify-center">
-            <Zap size={16} className="text-purple-400 fill-purple-400" />
+        <div className="flex items-center gap-3 px-4 py-2.5 rounded-xl bg-surface-container border border-outline-variant">
+          <div className="w-8 h-8 rounded-lg bg-primary-container flex items-center justify-center">
+            <Zap className="w-4 h-4 text-primary" />
           </div>
           <div>
-            <div className="text-lg font-black text-gray-900 dark:text-white leading-none tracking-tight">{progress.xp} XP</div>
-            <p className="text-[8px] text-gray-500 uppercase font-bold tracking-widest mt-0.5">Total Points</p>
+            <div className="text-sm font-bold text-on-surface leading-none">{progress.xp} XP</div>
+            <p className="text-label-xs text-on-surface-variant font-medium mt-0.5">Total Points</p>
           </div>
         </div>
       </div>
 
-      {/* Main Progress Card */}
-      <div className="bg-white dark:bg-[#111226]/50 border border-gray-200 dark:border-white/5 rounded-2xl sm:rounded-[2.5rem] p-5 sm:p-8 md:p-10 relative overflow-hidden group shadow-2xl">
-        {/* Glow effect */}
-        <div className="absolute top-0 right-0 w-80 h-80 bg-purple-600/10 blur-[100px] -mr-40 -mt-40 pointer-events-none group-hover:bg-purple-600/20 transition-all duration-700"></div>
-
-        <div className="relative z-10 space-y-8">
+      {/* Level Progress Card */}
+      <div className="card p-6 sm:p-8 relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-72 h-72 bg-primary-container/30 blur-[100px] -mr-36 -mt-36 pointer-events-none" />
+        <div className="relative z-10 space-y-6">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-            <div className="space-y-1">
-              <h2 className="text-base sm:text-xl md:text-2xl font-black text-gray-900 dark:text-white uppercase tracking-tight">Current Rank: {levelInfo.title} (Lvl {levelInfo.level})</h2>
-              <p className="text-gray-500 text-xs sm:text-sm font-bold">Next Rank: Tier {Math.ceil((levelInfo.level + 1) / 5)} (Requires {levelInfo.nextLevelXP} XP)</p>
+            <div>
+              <h2 className="text-headline-xl-mobile font-bold text-on-surface">Current Rank: {levelInfo.title} (Lvl {levelInfo.level})</h2>
+              <p className="text-label-sm text-on-surface-variant mt-1">Next Rank: Tier {Math.ceil((levelInfo.level + 1) / 5)} (Requires {levelInfo.nextLevelXP} XP)</p>
             </div>
-            <div className="text-3xl sm:text-6xl md:text-7xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-fuchsia-400 tracking-tighter opacity-90">
+            <div className="text-headline-2xl md:text-headline-3xl font-bold text-gradient tracking-tight">
               {levelInfo.progress}%
             </div>
           </div>
-
-          <div className="relative h-6 bg-gray-50 dark:bg-white/[0.03] rounded-full overflow-hidden border border-gray-200 dark:border-white/5 backdrop-blur-sm p-1">
+          <div className="progress-bar h-3 p-0.5">
             <div
-              className="h-full bg-gradient-to-r from-purple-600 via-fuchsia-500 to-purple-400 rounded-full transition-all duration-1000 shadow-[0_0_20px_rgba(168,85,247,0.4)]"
+              className="progress-bar-fill h-full"
               style={{ width: `${levelInfo.progress}%` }}
             />
           </div>
         </div>
       </div>
 
-      {/* Stats Cards Row */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      {/* Stats Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
         {[
-          { icon: <Flame size={18} />, label: "Day Streak", val: progress.streak, color: "orange", accent: "text-orange-500" },
-          { icon: <Target size={18} />, label: "Global Accuracy", val: `${accuracy}%`, color: "blue", accent: "text-blue-500" },
-          { icon: <Shield size={18} />, label: "Status Level", val: levelInfo.title, color: "rose", accent: "text-rose-500" }
+          { icon: <Flame className="w-4 h-4" />, label: "Day Streak", val: progress.streak, color: "text-secondary" },
+          { icon: <Target className="w-4 h-4" />, label: "Global Accuracy", val: `${accuracy}%`, color: "text-primary" },
+          { icon: <Shield className="w-4 h-4" />, label: "Status Level", val: levelInfo.title, color: "text-tertiary" }
         ].map((stat, i) => (
-          <div key={i} className="bg-white dark:bg-[#111226]/50 border border-gray-200 dark:border-white/5 rounded-2xl sm:rounded-3xl p-5 sm:p-8 flex flex-col justify-between min-h-[120px] sm:min-h-[160px] group hover:border-gray-300 dark:hover:border-white/10 transition-all">
-            <div className={`w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl bg-gray-100 dark:bg-white/5 flex items-center justify-center ${stat.accent} opacity-80 group-hover:scale-110 transition-transform`}>
+          <div key={i} className="card p-5 sm:p-6 flex flex-col justify-between min-h-[120px] sm:min-h-[140px] group hover:border-primary-fixed-dim transition-all">
+            <div className={`w-9 h-9 rounded-xl bg-surface-container flex items-center justify-center ${stat.color} group-hover:scale-110 transition-transform`}>
               {stat.icon}
             </div>
             <div>
-              <div className="text-xl sm:text-3xl font-black text-gray-900 dark:text-white tracking-tighter mb-1 leading-none truncate">{stat.val}</div>
-              <p className="text-[10px] text-gray-500 uppercase font-black tracking-widest leading-none">{stat.label}</p>
+              <div className="text-headline-xl-mobile font-bold text-on-surface mb-0.5 leading-none truncate">{stat.val}</div>
+              <p className="text-label-xs text-on-surface-variant font-medium leading-none">{stat.label}</p>
             </div>
           </div>
         ))}
       </div>
 
-      {/* Breakdown and Mastery Sections */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 pt-4">
+      {/* Breakdown and Mastery */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 pt-2">
         {/* Preparation Breakdown */}
-        <div className="space-y-8">
-          <div className="space-y-1">
-            <p className="text-[10px] font-black text-gray-500 uppercase tracking-widest">Preparation Breakdown</p>
-            <div className="h-px w-20 bg-purple-500/30"></div>
+        <div className="space-y-6">
+          <div>
+            <p className="text-label-xs text-on-surface-variant font-bold tracking-wider">Preparation Breakdown</p>
+            <div className="h-px w-16 bg-primary mt-2" />
           </div>
-
-          <div className="space-y-10">
-            {/* Questions Solved */}
+          <div className="space-y-8">
             <div className="space-y-3">
               <div className="flex justify-between items-end">
-                <span className="text-sm font-black text-gray-700 dark:text-gray-300 uppercase tracking-wider">Questions Solved</span>
-                <span className="text-lg font-black text-purple-400 tracking-tighter uppercase">{Math.round((stats.answeredCount / (stats.totalQuestions || 1)) * 100)}%</span>
+                <span className="text-label-sm font-bold text-on-surface tracking-wider">Questions Solved</span>
+                <span className="text-sm font-bold text-primary">{Math.round((stats.answeredCount / (stats.totalQuestions || 1)) * 100)}%</span>
               </div>
-              <div className="h-2 bg-gray-100 dark:bg-white/5 rounded-full overflow-hidden">
+              <div className="progress-bar">
                 <div
-                  className="h-full bg-gradient-to-r from-purple-600 to-fuchsia-500 rounded-full"
+                  className="progress-bar-fill"
                   style={{ width: `${(stats.answeredCount / (stats.totalQuestions || 1)) * 100}%` }}
                 />
               </div>
             </div>
-
-            {/* Concept Notes */}
             <div className="space-y-3">
               <div className="flex justify-between items-end">
-                <span className="text-sm font-black text-gray-700 dark:text-gray-300 uppercase tracking-wider">Concept Notes</span>
-                <span className="text-lg font-black text-fuchsia-400 tracking-tighter uppercase">{Math.round((stats.completedNotesCount / (stats.totalNotes || 1)) * 100)}%</span>
+                <span className="text-label-sm font-bold text-on-surface tracking-wider">Concept Notes</span>
+                <span className="text-sm font-bold text-secondary">{Math.round((stats.completedNotesCount / (stats.totalNotes || 1)) * 100)}%</span>
               </div>
-              <div className="h-2 bg-gray-100 dark:bg-white/5 rounded-full overflow-hidden">
+              <div className="progress-bar">
                 <div
-                  className="h-full bg-gradient-to-r from-fuchsia-600 to-rose-500 rounded-full"
+                  className="h-full bg-secondary rounded-full transition-all duration-700"
                   style={{ width: `${(stats.completedNotesCount / (stats.totalNotes || 1)) * 100}%` }}
                 />
               </div>
@@ -176,12 +167,11 @@ export default function ProgressPage() {
         </div>
 
         {/* Domain Mastery */}
-        <div className="space-y-8">
-          <div className="space-y-1">
-            <p className="text-[10px] font-black text-gray-500 uppercase tracking-widest">Domain Mastery</p>
-            <div className="h-px w-20 bg-fuchsia-500/30"></div>
+        <div className="space-y-6">
+          <div>
+            <p className="text-label-xs text-on-surface-variant font-bold tracking-wider">Domain Mastery</p>
+            <div className="h-px w-16 bg-primary mt-2" />
           </div>
-
           <div className="space-y-3 max-h-[400px] overflow-y-auto pr-2 custom-scrollbar">
             {topicMastery.length > 0 ? (
               topicMastery.map(({ name: topic, mastery: acc }) => {
@@ -193,18 +183,18 @@ export default function ProgressPage() {
                           topic.toLowerCase().includes('programming') ? Code2 : Settings;
 
                 return (
-                  <div key={topic} className="flex items-center gap-4 bg-white dark:bg-[#111226]/50 border border-gray-200 dark:border-white/5 p-4 rounded-2xl group hover:bg-gray-50 dark:hover:bg-white/[0.03] transition-all">
-                    <div className="w-10 h-10 rounded-xl bg-gray-100 dark:bg-white/5 flex items-center justify-center text-purple-400/60 group-hover:text-purple-400 transition-colors">
-                      <TopicIcon size={18} />
+                  <div key={topic} className="flex items-center gap-4 card p-4 hover:border-primary-fixed-dim transition-all">
+                    <div className="w-10 h-10 rounded-xl bg-surface-container flex items-center justify-center text-primary">
+                      <TopicIcon className="w-4 h-4" />
                     </div>
                     <div className="flex-1 space-y-2 text-left">
                       <div className="flex justify-between items-center">
-                        <span className="text-[10px] font-black text-gray-500 dark:text-gray-400 uppercase tracking-wider truncate mr-2">{topic}</span>
-                        <span className="text-sm font-black text-gray-900 dark:text-white tracking-tighter shrink-0">{acc}%</span>
+                        <span className="text-label-xs text-on-surface-variant font-bold tracking-wider truncate mr-2">{topic}</span>
+                        <span className="text-label-sm font-bold text-on-surface shrink-0">{acc}%</span>
                       </div>
-                      <div className="h-1.5 bg-gray-100 dark:bg-white/5 rounded-full overflow-hidden">
+                      <div className="progress-bar h-1.5">
                         <div
-                          className="h-full bg-gradient-to-r from-purple-600 to-fuchsia-500 rounded-full transition-all duration-700"
+                          className="progress-bar-fill"
                           style={{ width: `${acc}%` }}
                         />
                       </div>
@@ -213,26 +203,25 @@ export default function ProgressPage() {
                 );
               })
             ) : (
-              <div className="flex items-center gap-4 bg-white dark:bg-[#111226]/50 border border-gray-200 dark:border-white/5 p-4 rounded-2xl opacity-50 grayscale italic">
-                <div className="w-10 h-10 rounded-xl bg-gray-100 dark:bg-white/5 flex items-center justify-center text-gray-500">
-                  <Hexagon size={18} />
+              <div className="flex items-center gap-4 card p-4 opacity-60">
+                <div className="w-10 h-10 rounded-xl bg-surface-container flex items-center justify-center text-on-surface-variant">
+                  <Hexagon className="w-4 h-4" />
                 </div>
-                <p className="text-[10px] text-gray-500 font-bold uppercase tracking-widest text-left">No topic data yet</p>
+                <p className="text-label-xs text-on-surface-variant font-bold tracking-wider text-left">No topic data yet</p>
               </div>
             )}
           </div>
         </div>
       </div>
 
-      {/* Simplified Footer */}
-      <div className="pt-12 flex justify-center">
+      {/* Footer */}
+      <div className="pt-8 flex justify-center">
         <Link
           href="/questions"
-          className="group relative px-8 py-4 bg-white text-black font-black uppercase text-xs tracking-[0.2em] rounded-2xl hover:scale-105 active:scale-95 transition-all flex items-center gap-3 overflow-hidden"
+          className="btn-primary inline-flex items-center gap-2"
         >
-          <div className="absolute inset-0 bg-gradient-to-r from-purple-400 to-fuchsia-400 opacity-0 group-hover:opacity-10 transition-opacity"></div>
           Start Practicing
-          <ChevronRight size={16} />
+          <ChevronRight className="w-4 h-4" />
         </Link>
       </div>
     </div>
