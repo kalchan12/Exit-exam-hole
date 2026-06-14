@@ -21,7 +21,6 @@ export default function Dashboard() {
   const [syncStatus, setSyncStatus] = useState<'syncing' | 'synced' | 'error' | 'idle'>('idle');
   const router = useRouter();
 
-  // Protected route logic
   useEffect(() => {
     if (!authLoading && !user && !isGuest) {
       router.replace('/auth/login');
@@ -34,7 +33,6 @@ export default function Dashboard() {
     setProgress(getProgress());
   }, []);
 
-  // Sync on login
   useEffect(() => {
     if (user) {
       onSyncStatus(setSyncStatus);
@@ -46,8 +44,6 @@ export default function Dashboard() {
       onSyncStatus(null);
     }
   }, [user]);
-
-
 
   const levelInfo = useMemo(() => {
     if (!progress) return { level: 1, title: 'Beginner', nextLevelXP: 100, progress: 0 };
@@ -76,232 +72,257 @@ export default function Dashboard() {
   if (!mounted) {
     return (
       <div className="animate-pulse space-y-6">
-          <div className="h-48 bg-gray-200 dark:bg-dark-700 rounded-2xl" />
+        <div className="h-48 bg-surface-container-high rounded-2xl" />
         <div className="grid grid-cols-2 gap-4">
-          <div className="h-32 bg-gray-200 dark:bg-dark-700 rounded-xl" />
-          <div className="h-32 bg-gray-200 dark:bg-dark-700 rounded-xl" />
+          <div className="h-32 bg-surface-container-high rounded-xl" />
+          <div className="h-32 bg-surface-container-high rounded-xl" />
         </div>
       </div>
     );
   }
 
   return (
-    <div className="space-y-8 animate-in">
-      {/* Hero Card */}
-      <div className="relative overflow-hidden rounded-2xl sm:rounded-3xl bg-white dark:bg-[#11152a] p-5 sm:p-8 border border-accent-purple/20 shadow-2xl">
-        <div className="absolute top-0 right-0 w-96 h-96 bg-accent-purple/10 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2" />
-        <div className="relative z-10 flex flex-col md:flex-row justify-between gap-8">
-          <div className="flex-1">
-            <span className="text-[10px] uppercase font-black tracking-[0.3em] text-accent-purple-light mb-4 block">
-              Welcome Back, {user?.user_metadata?.username || user?.email?.split('@')[0] || 'User'}
-            </span>
-            <h2 className="text-2xl sm:text-5xl font-black text-gray-900 dark:text-white mb-3 sm:mb-4 italic tracking-tighter">
-              READY TO <span className="text-accent-purple">ASCEND?</span>
-            </h2>
-            <p className="text-gray-500 dark:text-gray-400 max-w-md leading-relaxed mb-5 sm:mb-8 text-xs sm:text-sm">
-                Your performance is trending upward. Continue where you left off in <span className="text-gray-900 dark:text-white font-bold uppercase">{progress?.lastTopic || 'General Study'}</span>.
-            </p>
-            <div className="flex flex-wrap gap-3 sm:gap-4">
-                <Link href="/questions" className="btn-primary px-5 sm:px-8 py-2.5 sm:py-3 rounded-xl font-black uppercase italic tracking-widest text-xs sm:text-sm">
-                    Resume Study
-                </Link>
-                <Link href="/exam" className="px-5 sm:px-8 py-2.5 sm:py-3 rounded-xl border border-gray-200 dark:border-white/10 bg-gray-100 dark:bg-white/5 hover:bg-white/10 text-gray-900 dark:text-white font-black uppercase italic tracking-widest text-xs sm:text-sm transition-all">
-                    Exit Exam
-                </Link>
-            </div>
-          </div>
-          
-          {user && (
-            <div className="flex gap-4 sm:gap-8 items-center bg-gray-100/80 dark:bg-black/20 backdrop-blur-md p-4 sm:p-6 rounded-2xl sm:rounded-3xl border border-gray-200 dark:border-white/5">
-                <div className="text-center">
-                    <div className="text-xl sm:text-3xl font-black text-gray-900 dark:text-white italic">{progress?.xp || 0}</div>
-                    <div className="text-[8px] sm:text-[10px] text-gray-500 uppercase font-black tracking-widest">XP</div>
-                </div>
-                <div className="w-[1px] h-8 sm:h-10 bg-white/10" />
-                <div className="text-center">
-                    <div className="text-xl sm:text-3xl font-black text-neon-green italic">{progress?.streak || 0}</div>
-                    <div className="text-[8px] sm:text-[10px] text-gray-500 uppercase font-black tracking-widest">🔥 Streak</div>
-                </div>
-                <div className="w-[1px] h-8 sm:h-10 bg-white/10" />
-                <div className="text-center">
-                    <div className="text-xl sm:text-3xl font-black text-accent-purple italic">{overallAccuracy} %</div>
-                    <div className="text-[8px] sm:text-[10px] text-gray-500 uppercase font-black tracking-widest">Accuracy</div>
-                </div>
-            </div>
-          )}
+    <div className="space-y-6 animate-fade-in">
+      {/* Greeting & Streak */}
+      <div className="flex justify-between items-end">
+        <div>
+          <h1 className="text-headline-xl-mobile md:text-headline-xl text-primary mb-1">
+            Good morning, {user?.user_metadata?.username || user?.email?.split('@')[0] || 'User'} 👋
+          </h1>
+          <p className="text-body-base text-on-surface-variant">Ready to crush today&apos;s goals?</p>
+        </div>
+        <div className="flex items-center gap-1 bg-tertiary-fixed text-on-tertiary-fixed-variant px-3 py-1.5 rounded-full text-label-sm shadow-sm border border-tertiary-fixed-dim/30">
+          <svg className="w-4 h-4 text-tertiary" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M13.5.67s.74 2.65.74 4.8c0 2.06-1.35 3.73-3.41 3.73-2.07 0-3.63-1.67-3.63-3.73l.03-.36C5.21 7.51 4 10.62 4 14c0 4.42 3.58 8 8 8s8-3.58 8-8C20 8.61 17.41 3.8 13.5.67zM11.71 19c-1.78 0-3.22-1.4-3.22-3.14 0-1.62 1.05-2.76 2.81-3.12 1.77-.36 3.6-1.21 4.62-2.58.39 1.08.59 2.22.59 3.33 0 3.05-2.18 5.51-4.8 5.51z" />
+          </svg>
+          <span>{progress?.streak || 0} Day Streak</span>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Main Column */}
-        <div className="lg:col-span-2 space-y-4">
-          <div className="card p-5 sm:p-8 bg-gradient-to-br from-gray-100 dark:from-white/[0.05] to-transparent border border-gray-200 dark:border-white/10">
-            <h3 className="text-lg sm:text-2xl font-bold text-gray-900 dark:text-white mb-3 sm:mb-4">Start Your Journey</h3>
-            <p className="text-gray-500 dark:text-gray-400 mb-6 leading-relaxed">
-              Begin practicing questions or taking the full mock exit exam to test your knowledge across all computer science domains.
-            </p>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <Link href="/questions" className="flex items-center gap-4 p-4 rounded-2xl bg-gray-100 dark:bg-white/5 border border-gray-200 dark:border-white/10 hover:bg-white/10 transition-all group">
-                <div className="w-12 h-12 rounded-xl bg-blue-500/20 flex items-center justify-center text-blue-400 group-hover:scale-110 transition-transform">
-                  <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+      {/* XP Level Card */}
+      <div className="relative bg-gradient-to-br from-primary to-surface-tint rounded-xl p-6 md:p-8 overflow-hidden shadow-ambient">
+        <div className="absolute -right-12 -top-12 w-64 h-64 bg-white/10 rounded-full blur-2xl pointer-events-none" />
+        <div className="absolute -left-8 -bottom-8 w-48 h-48 bg-secondary-container/10 rounded-full blur-xl pointer-events-none" />
+        <div className="relative z-10 flex flex-col md:flex-row md:items-end justify-between gap-6">
+          <div className="text-on-primary">
+            <div className="text-label-sm uppercase tracking-wider text-on-primary/80 mb-2">Current Level</div>
+            <div className="text-headline-3xl font-bold mb-1">{levelInfo.title}</div>
+            <div className="text-body-base text-on-primary/90 flex items-center gap-2">
+              <span>{progress?.xp || 0} XP Total</span>
+            </div>
+          </div>
+          <div className="w-full md:w-1/2 flex flex-col gap-2">
+            <div className="flex justify-between text-label-sm text-on-primary">
+              <span>Level Progress</span>
+              <span>{levelInfo.progress}%</span>
+            </div>
+            <div className="w-full h-2 bg-on-primary/20 rounded-full overflow-hidden">
+              <div className="h-full bg-white rounded-full transition-all duration-700" style={{ width: `${levelInfo.progress}%` }} />
+            </div>
+            <div className="text-right text-label-sm text-on-primary/80 mt-1">
+              → {levelInfo.title === 'Grandmaster' ? 'Max Level' : `${levelInfo.nextLevelXP - (progress?.xp || 0)} XP to next level`}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        {/* Left Column (8/12) */}
+        <div className="lg:col-span-8 flex flex-col gap-6">
+          {/* Daily Challenge & Stats Row */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Daily Challenge */}
+            <div className="bg-surface-container-lowest rounded-xl p-6 shadow-ambient border border-surface-variant flex flex-col justify-between">
+              <div>
+                <div className="flex items-center gap-2 mb-4 text-primary">
+                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 18.75a60.07 60.07 0 0115.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 013 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m0 0H5.25M20.25 21H5.25" />
+                  </svg>
+                  <h2 className="text-headline-xl-mobile md:text-headline-2xl">Daily Challenge</h2>
                 </div>
-                <div>
-                  <div className="text-gray-900 dark:text-white font-bold tracking-tight italic">Practice Questions</div>
-                  <div className="text-xs text-gray-500 uppercase font-black">Browse by topic</div>
+                <div className="flex gap-2 mb-3">
+                  {[...Array(5)].map((_, i) => (
+                    <div
+                      key={i}
+                      className={`w-4 h-4 rounded-full ${i < (progress?.streak || 0) % 5 ? 'bg-primary shadow-sm' : 'bg-surface-variant border border-outline-variant'}`}
+                    />
+                  ))}
                 </div>
+                <p className="text-body-base text-on-surface-variant">5 questions · Resets midnight</p>
+              </div>
+              <Link
+                href="/exam"
+                className="mt-6 w-full bg-primary text-on-primary text-label-sm font-medium rounded-lg py-2.5 hover:brightness-110 active:scale-[0.98] transition-all shadow-sm text-center block"
+              >
+                Continue Challenge
               </Link>
-              <Link href="/exam" className="flex items-center gap-4 p-4 rounded-2xl bg-gray-100 dark:bg-white/5 border border-gray-200 dark:border-white/10 hover:bg-white/10 transition-all group">
-                <div className="w-12 h-12 rounded-xl bg-purple-500/20 flex items-center justify-center text-purple-400 group-hover:scale-110 transition-transform">
-                  <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01m-.01 4h.01" /></svg>
+            </div>
+
+            {/* Stats Card */}
+            <div className="bg-surface-container-lowest rounded-xl p-6 shadow-ambient border border-surface-variant">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-headline-xl-mobile text-on-surface">Quick Stats</h3>
+              </div>
+              <div className="flex justify-around items-center py-4">
+                <div className="text-center">
+                  <div className="text-headline-2xl font-bold text-primary">{progress?.xp || 0}</div>
+                  <div className="text-label-xs text-on-surface-variant uppercase tracking-wider">Total XP</div>
                 </div>
-                <div>
-                  <div className="text-gray-900 dark:text-white font-bold tracking-tight italic">Mock Exit Exam</div>
-                  <div className="text-xs text-gray-500 uppercase font-black">Full test mode</div>
+                <div className="w-px h-12 bg-outline-variant" />
+                <div className="text-center">
+                  <div className="text-headline-2xl font-bold text-secondary">{progress?.streak || 0}</div>
+                  <div className="text-label-xs text-on-surface-variant uppercase tracking-wider">Streak</div>
                 </div>
+                <div className="w-px h-12 bg-outline-variant" />
+                <div className="text-center">
+                  <div className="text-headline-2xl font-bold text-primary">{overallAccuracy}%</div>
+                  <div className="text-label-xs text-on-surface-variant uppercase tracking-wider">Accuracy</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Quick Actions Grid */}
+          <div>
+            <h3 className="text-headline-xl-mobile text-on-surface mb-4">Quick Actions</h3>
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+              <Link href="/exam" className="bg-surface-container-lowest rounded-xl p-5 shadow-sm border border-surface-variant hover:shadow-ambient hover:border-primary-fixed-dim transition-all group">
+                <div className="w-10 h-10 rounded-lg bg-primary-container text-primary flex items-center justify-center mb-3 group-hover:bg-primary group-hover:text-on-primary transition-colors">
+                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01m-.01 4h.01" />
+                  </svg>
+                </div>
+                <div className="text-label-sm text-on-surface font-bold">Mock Exam</div>
+                <div className="text-label-xs text-on-surface-variant mt-1">{questions.length} questions available</div>
+              </Link>
+
+              <Link href="/notes" className="bg-surface-container-lowest rounded-xl p-5 shadow-sm border border-surface-variant hover:shadow-ambient hover:border-primary-fixed-dim transition-all group">
+                <div className="w-10 h-10 rounded-lg bg-secondary-fixed text-on-secondary-fixed flex items-center justify-center mb-3">
+                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                  </svg>
+                </div>
+                <div className="text-label-sm text-on-surface font-bold">Study Notes</div>
+                <div className="text-label-xs text-on-surface-variant mt-1">Review modules</div>
+              </Link>
+
+              <Link href="/bytes" className="bg-surface-container-lowest rounded-xl p-5 shadow-sm border border-surface-variant hover:shadow-ambient hover:border-primary-fixed-dim transition-all group">
+                <div className="w-10 h-10 rounded-lg bg-tertiary-fixed text-on-tertiary-fixed flex items-center justify-center mb-3">
+                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                  </svg>
+                </div>
+                <div className="text-label-sm text-on-surface font-bold">Quick Bytes</div>
+                <div className="text-label-xs text-on-surface-variant mt-1">5 min concepts</div>
+              </Link>
+
+              <Link href="/documents" className="bg-surface-container-lowest rounded-xl p-5 shadow-sm border border-surface-variant hover:shadow-ambient hover:border-primary-fixed-dim transition-all group">
+                <div className="w-10 h-10 rounded-lg bg-surface-variant text-on-surface-variant flex items-center justify-center mb-3">
+                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
+                  </svg>
+                </div>
+                <div className="text-label-sm text-on-surface font-bold">Documents</div>
+                <div className="text-label-xs text-on-surface-variant mt-1">Past papers &amp; rubrics</div>
+              </Link>
+
+              <Link href="/progress" className="bg-surface-container-lowest rounded-xl p-5 shadow-sm border border-surface-variant hover:shadow-ambient hover:border-primary-fixed-dim transition-all group">
+                <div className="w-10 h-10 rounded-lg bg-primary-fixed text-on-primary-fixed flex items-center justify-center mb-3">
+                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                  </svg>
+                </div>
+                <div className="text-label-sm text-on-surface font-bold">Progress</div>
+                <div className="text-label-xs text-on-surface-variant mt-1">View detailed analytics</div>
+              </Link>
+
+              <Link href="/stats" className="bg-surface-container-lowest rounded-xl p-5 shadow-sm border border-surface-variant hover:shadow-ambient hover:border-primary-fixed-dim transition-all group">
+                <div className="w-10 h-10 rounded-lg bg-surface-container-high text-on-surface flex items-center justify-center mb-3">
+                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z" />
+                  </svg>
+                </div>
+                <div className="text-label-sm text-on-surface font-bold">Global Stats</div>
+                <div className="text-label-xs text-on-surface-variant mt-1">Compare with peers</div>
               </Link>
             </div>
           </div>
         </div>
 
-        {/* Right Column */}
-        <div className="space-y-6">
-          {user && (
-            <>
-              {/* Daily Challenge */}
-              <div className="card p-5">
-                <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-lg font-bold flex items-center gap-2">
-                    <span>🏆</span> Daily Challenge
-                  </h3>
-                </div>
-                {dailyQuestion ? (
-                  <>
-                    <span className="badge bg-accent-purple/20 text-accent-purple-glow text-xs mb-3 inline-block">
-                      +50 XP Available
-                    </span>
-                    <h4 className="text-gray-900 dark:text-white font-semibold mb-2 text-sm leading-relaxed">
-                      {dailyQuestion.topic} Master
-                    </h4>
-                    <p className="text-gray-500 dark:text-gray-400 text-xs mb-4">
-                      Keep your streak alive by solving today&apos;s puzzle.
-                    </p>
-                    <div className="flex items-center gap-4 mb-4">
-                      <div className="text-center">
-                        <p className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">{progress?.streak || 0}</p>
-                        <p className="text-[10px] text-gray-500 uppercase tracking-wider">Day Streak</p>
-                      </div>
-                      <div className="flex gap-0.5">
-                        {[...Array(7)].map((_, i) => (
-                          <div
-                            key={i}
-                            className={`w-2 rounded-full transition-all ${
-                              i < (progress?.streak || 0) % 7
-                              ? 'h-6 bg-accent-purple'
-                              : 'h-4 bg-gray-200 dark:bg-dark-500'
-                            }`}
-                          />
-                        ))}
-                      </div>
+        {/* Right Column (4/12) */}
+        <div className="lg:col-span-4 flex flex-col gap-6">
+          {/* Weak Topics */}
+          <div className="bg-surface-container-lowest rounded-xl p-6 shadow-ambient border border-surface-variant">
+            <div className="flex items-center justify-between mb-5">
+              <h3 className="text-headline-xl-mobile text-on-surface">Weak Topics</h3>
+              <svg className="w-5 h-5 text-outline" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z" />
+              </svg>
+            </div>
+            {weakTopics.length > 0 ? (
+              <div className="flex flex-col gap-5">
+                {weakTopics.slice(0, 3).map(topic => (
+                  <div key={topic}>
+                    <div className="flex justify-between text-label-sm mb-1 text-on-surface">
+                      <span>{topic}</span>
+                      <span className="text-error font-bold">&lt;50%</span>
                     </div>
-                    <Link
-                      href="/questions"
-                      className="block w-full text-center btn-secondary text-sm py-2.5 font-semibold hover:bg-gray-200 dark:hover:bg-dark-500"
-                    >
-                      Start Now
-                    </Link>
-                  </>
-                ) : (
-                  <p className="text-gray-500 dark:text-gray-400 text-sm">Loading challenge...</p>
-                )}
-              </div>
-
-              {/* Stats Summary */}
-              <div className="card p-5">
-                <h3 className="text-sm text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-3">Global Ranking</h3>
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-yellow-500/20 flex items-center justify-center flex-shrink-0">
-                    <svg className="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-                    </svg>
+                    <div className="w-full h-2 bg-error-container rounded-full overflow-hidden">
+                      <div className="h-full bg-error rounded-full" style={{ width: '35%' }} />
+                    </div>
                   </div>
-                  <div className="min-w-0">
-                    <p className="text-xl font-bold text-gray-900 dark:text-white truncate">
-                      {(progress?.xp || 0) > 0 ? `#${Math.max(1, 1000 - Math.floor((progress?.xp || 0) / 10))}` : 'Unranked'}
-                    </p>
-                    <p className="text-xs text-accent-purple-light truncate">
-                      {(progress?.xp || 0) > 0 ? `Top ${Math.max(1, Math.max(1, 100 - Math.floor((progress?.xp || 0) / 50)))}% of all students` : 'Start practicing to rank up!'}
-                    </p>
-                  </div>
-                </div>
+                ))}
               </div>
-
-              {/* XP & Level */}
-              <div className="card p-5">
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-sm text-gray-500 dark:text-gray-400">Level {levelInfo.level}</span>
-                  <span className="text-sm font-semibold text-accent-purple-light">{levelInfo.title}</span>
-                </div>
-                <div className="progress-bar mb-2">
-                  <div
-                    className="progress-bar-fill"
-                    style={{ width: `${levelInfo.progress}%` }}
-                  />
-                </div>
-                <p className="text-xs text-gray-500">
-                  {progress?.xp || 0} / {levelInfo.nextLevelXP} XP
-                </p>
-              </div>
-            </>
-          )}
-
-          {!user && (
-            <div className="card p-6 border-accent-purple/30 bg-accent-purple/5">
-              <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-3">Join the Leaderboard</h3>
-              <p className="text-sm text-gray-500 dark:text-gray-400 mb-6 leading-relaxed">
-                Unlock streaks, levels, and compete with other students by creating an account.
-              </p>
-              <Link href="/auth/register" className="btn-primary w-full py-3 rounded-xl font-black uppercase text-xs tracking-widest text-center block transition-all">
-                Create Account
-              </Link>
-            </div>
-          )}
-        </div>
-      </div>
-
-      {/* Weak Topics Alert */}
-      {user && weakTopics.length > 0 && (
-        <div className="card p-5 border-yellow-500/30 bg-yellow-500/5">
-          <div className="flex items-center gap-3">
-            <span className="text-xl">⚠️</span>
-            <div>
-              <h4 className="text-gray-900 dark:text-white font-semibold text-sm">Weak Topics Detected</h4>
-              <p className="text-gray-500 dark:text-gray-400 text-xs mt-1">
-                Focus on: {weakTopics.join(', ')} — accuracy below 50%
-              </p>
-            </div>
-            <Link href="/questions" className="ml-auto btn-secondary text-xs">
-              Practice Now
+            ) : (
+              <p className="text-sm text-on-surface-variant">No weak topics — keep up the great work!</p>
+            )}
+            <Link
+              href="/questions"
+              className="mt-6 w-full py-2 border border-outline-variant text-on-surface-variant rounded-lg text-label-sm hover:bg-surface-container-low transition-colors text-center block"
+            >
+              Review Materials
             </Link>
           </div>
-        </div>
-      )}
 
-      {/* Footer */}
-      <footer className="flex flex-col md:flex-row items-center justify-between text-xs text-gray-600 pt-4 border-t border-gray-200 dark:border-dark-400/10 text-center md:text-left gap-2 mb-4 lg:mb-0">
+          {/* Recent Activity */}
+          <div className="bg-surface-container-lowest rounded-xl p-6 shadow-ambient border border-surface-variant flex-1">
+            <h3 className="text-headline-xl-mobile text-on-surface mb-5">Recent Activity</h3>
+            <div className="relative border-l-2 border-surface-variant ml-3 space-y-6">
+              <div className="relative pl-6">
+                <div className="absolute w-3 h-3 bg-primary rounded-full -left-[7px] top-1.5 border-2 border-surface-container-lowest" />
+                <div className="text-label-sm text-on-surface">Practicing {progress?.lastTopic || 'topics'}</div>
+                <div className="text-label-xs text-on-surface-variant mt-0.5">Recent activity</div>
+              </div>
+              <div className="relative pl-6">
+                <div className="absolute w-3 h-3 bg-surface-variant rounded-full -left-[7px] top-1.5 border-2 border-surface-container-lowest" />
+                <div className="text-label-sm text-on-surface">Earned &apos;Consistent&apos; Badge</div>
+                <div className="text-label-xs text-on-surface-variant mt-0.5">Keep your streak alive</div>
+              </div>
+              <div className="relative pl-6">
+                <div className="absolute w-3 h-3 bg-surface-variant rounded-full -left-[7px] top-1.5 border-2 border-surface-container-lowest" />
+                <div className="text-label-sm text-on-surface">Joined ExitPrep</div>
+                <div className="text-label-xs text-on-surface-variant mt-0.5">Account setup complete</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Sync Status Footer */}
+      <footer className="flex flex-col md:flex-row items-center justify-between text-label-xs text-on-surface-variant pt-4 border-t border-outline-variant/50 text-center md:text-left gap-2">
         <p>
           {user ? (
-            syncStatus === 'syncing' ? '🔄 Syncing progress to cloud...' :
-            syncStatus === 'error' ? '🔴 Sync error — will retry' :
-            syncStatus === 'synced' ? '🟢 Progress synced to cloud' :
-            '🟢 Progress synced to cloud'
+            syncStatus === 'syncing' ? 'Syncing progress...' :
+            syncStatus === 'error' ? 'Sync error — will retry' :
+            'Progress synced to cloud'
           ) : (
-            '🟡 Login to sync progress across devices'
+            'Login to sync progress across devices'
           )}
         </p>
-        <div className="flex flex-wrap justify-center gap-4 mt-2 md:mt-0">
-          <span className="hover:text-gray-500 dark:hover:text-gray-400 cursor-pointer">Privacy Policy</span>
-          <span className="hover:text-gray-500 dark:hover:text-gray-400 cursor-pointer">User Settings</span>
-          <span className="hover:text-gray-500 dark:hover:text-gray-400 cursor-pointer">Support Docs</span>
+        <div className="flex flex-wrap justify-center gap-4">
+          <span className="hover:text-on-surface cursor-pointer transition-colors">Privacy Policy</span>
+          <span className="hover:text-on-surface cursor-pointer transition-colors">Settings</span>
+          <span className="hover:text-on-surface cursor-pointer transition-colors">Support</span>
         </div>
       </footer>
     </div>
