@@ -14,7 +14,8 @@ import {
   Zap,
   Share2,
   Mail,
-  BookOpen
+  BookOpen,
+  X
 } from 'lucide-react';
 
 export default function ProfilePage() {
@@ -107,118 +108,103 @@ export default function ProfilePage() {
   const classLetter = profile?.major?.substring(0, 1)?.toUpperCase() || 'C';
 
   return (
-    <div className="min-h-[calc(100vh-6rem)] flex flex-col items-center justify-center px-4 py-8">
-      {/* Navigation - pinned top-left */}
+    <div className="min-h-[calc(100vh-6rem)] flex flex-col items-center justify-center py-8">
+      {/* Navigation */}
       <div className="w-full max-w-4xl mb-6">
-        <Link href="/dashboard" className="inline-flex items-center text-gray-500 hover:text-gray-900 dark:hover:text-white transition-colors group">
-          <ArrowLeft size={16} className="mr-2 group-hover:-translate-x-1 transition-transform" />
-          <span className="text-sm font-medium tracking-tight">Return to Dashboard</span>
+        <Link href="/dashboard" className="inline-flex items-center text-on-surface-variant hover:text-on-surface transition-colors group">
+          <ArrowLeft className="w-4 h-4 mr-2 group-hover:-translate-x-1 transition-transform" />
+          <span className="text-label-sm font-medium">Return to Dashboard</span>
         </Link>
       </div>
 
-      {/* ─── Single Card Container ─── */}
-      <div className="w-full max-w-4xl relative bg-white dark:bg-[#0d1025]/80 backdrop-blur-xl border border-purple-500/15 rounded-2xl overflow-hidden shadow-[0_8px_60px_rgba(124,58,237,0.1)] transition-all duration-500 ease-out">
+      {/* Single Card Container */}
+      <div className="w-full max-w-4xl card border-primary/20 overflow-hidden transition-all duration-500">
         {/* Top glow accent */}
-        <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-purple-500/50 to-transparent"></div>
-        {/* Corner glow accents */}
-        <div className="absolute -top-20 -left-20 w-48 h-48 bg-purple-600/8 rounded-full blur-3xl pointer-events-none"></div>
-        <div className="absolute -bottom-20 -right-20 w-48 h-48 bg-fuchsia-600/5 rounded-full blur-3xl pointer-events-none"></div>
+        <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-primary/50 to-transparent"></div>
 
-        {/* Inner content with crossfade */}
+        {/* Inner content */}
         <div className="relative z-10">
           {!isEditing ? (
-            /* ─── VIEW MODE ─── */
+            /* VIEW MODE */
             <div key="view" className="animate-in fade-in duration-300">
-              <div className="flex flex-col md:flex-row min-h-[420px]">
-                {/* ── Left Column: Avatar + Name + Actions ── */}
-                <div className="flex flex-col items-center justify-center p-5 sm:p-10 md:p-12 md:border-r border-purple-500/10 md:w-[270px] shrink-0">
-                  {/* Avatar with glow ring */}
+              <div className="flex flex-col md:flex-row min-h-[400px]">
+                {/* Left Column: Avatar + Name + Actions */}
+                <div className="flex flex-col items-center justify-center p-6 sm:p-10 md:p-12 md:border-r border-outline-variant md:w-[270px] shrink-0">
                   <div className="relative group/avatar mb-5">
-                    <div className="absolute -inset-1 bg-gradient-to-br from-purple-500/20 to-fuchsia-500/20 rounded-2xl blur-sm"></div>
-                    <div className="relative w-20 h-20 sm:w-28 sm:h-28 rounded-2xl overflow-hidden bg-gray-100 dark:bg-white/5 ring-2 ring-purple-500/30 flex items-center justify-center shadow-2xl shadow-purple-500/10">
+                    <div className="absolute -inset-1 bg-gradient-to-br from-primary-container/30 to-secondary-fixed-dim/20 rounded-2xl blur-sm"></div>
+                    <div className="relative w-20 h-20 sm:w-28 sm:h-28 rounded-2xl overflow-hidden bg-surface-container ring-2 ring-primary/30 flex items-center justify-center shadow-sm">
                       {avatarPreview ? (
                         <img src={avatarPreview} alt="Profile" className="w-full h-full object-cover" />
                       ) : (
-                        <UserIcon size={44} className="text-gray-500 dark:text-gray-600 opacity-40" />
+                        <UserIcon className="w-10 h-10 text-on-surface-variant opacity-40" />
                       )}
                     </div>
-                    <input 
-                      type="file" 
-                      ref={fileInputRef} 
-                      onChange={handleFileChange} 
-                      className="hidden" 
-                      accept="image/*" 
-                    />
                   </div>
 
-                  {/* Name & Username */}
-                  <h1 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white tracking-tight text-center leading-tight">
+                  <h1 className="text-headline-xl-mobile font-bold text-on-surface tracking-tight text-center leading-tight">
                     {profile?.full_name || "New Explorer"}
                   </h1>
-                  <p className="text-gray-500 text-sm font-medium mt-1">@{profile?.username || "username"}</p>
+                  <p className="text-label-sm text-on-surface-variant font-medium mt-1">@{profile?.username || "username"}</p>
 
-                  {/* Action Buttons */}
                   <div className="flex items-center gap-3 mt-6 w-full">
                     <button 
                       onClick={() => setIsEditing(true)}
-                      className="flex-1 py-3 px-5 text-xs font-bold uppercase tracking-widest bg-gradient-to-r from-purple-600 to-fuchsia-600 hover:from-purple-500 hover:to-fuchsia-500 text-white rounded-full transition-all duration-300 shadow-lg shadow-purple-500/25 hover:shadow-purple-500/40 hover:-translate-y-0.5"
+                      className="btn-primary flex-1 text-label-xs"
                     >
+                      <Pencil className="w-3.5 h-3.5" />
                       Update
                     </button>
-                    <button className="w-11 h-11 rounded-full bg-gray-100 dark:bg-white/5 border border-gray-200 dark:border-white/10 hover:bg-gray-200 dark:hover:bg-white/10 hover:border-purple-500/30 transition-all duration-300 flex items-center justify-center text-gray-500 dark:text-gray-400 hover:text-purple-400">
-                      <Share2 size={15} />
+                    <button className="w-10 h-10 rounded-xl bg-surface-container border border-outline-variant hover:border-primary/30 transition-all flex items-center justify-center text-on-surface-variant hover:text-primary">
+                      <Share2 className="w-4 h-4" />
                     </button>
                   </div>
                 </div>
 
-                {/* ── Right Column: Stats & Info ── */}
-                <div className="flex-1 p-5 sm:p-10 md:p-12 flex flex-col justify-center space-y-6 sm:space-y-8">
-                  {/* Stats Row */}
+                {/* Right Column: Stats & Info */}
+                <div className="flex-1 p-6 sm:p-10 md:p-12 flex flex-col justify-center space-y-6 sm:space-y-8">
                   <div className="flex items-center gap-4 sm:gap-8">
                     <div className="flex flex-col items-center md:items-start">
-                      <span className="text-[10px] uppercase font-bold tracking-[0.15em] text-gray-500/60 mb-1.5">Rank</span>
-                      <span className="text-xl sm:text-3xl font-extrabold text-gray-900 dark:text-white tracking-tighter">{rankDisplay}</span>
+                      <span className="text-label-xs text-on-surface-variant/60 font-bold tracking-wider mb-1.5">Rank</span>
+                      <span className="text-headline-xl-mobile sm:text-headline-2xl font-bold text-on-surface tracking-tight">{rankDisplay}</span>
                     </div>
-                    <div className="w-[1px] h-12 bg-gradient-to-b from-transparent via-purple-500/20 to-transparent"></div>
+                    <div className="w-px h-12 bg-gradient-to-b from-transparent via-primary/20 to-transparent"></div>
                     <div className="flex flex-col items-center md:items-start">
-                      <span className="text-[10px] uppercase font-bold tracking-[0.15em] text-gray-500/60 mb-1.5">XP</span>
-                      <span className="text-xl sm:text-3xl font-extrabold text-gray-900 dark:text-white tracking-tighter">{xp}</span>
+                      <span className="text-label-xs text-on-surface-variant/60 font-bold tracking-wider mb-1.5">XP</span>
+                      <span className="text-headline-xl-mobile sm:text-headline-2xl font-bold text-on-surface tracking-tight">{xp}</span>
                     </div>
-                    <div className="w-[1px] h-12 bg-gradient-to-b from-transparent via-purple-500/20 to-transparent"></div>
+                    <div className="w-px h-12 bg-gradient-to-b from-transparent via-primary/20 to-transparent"></div>
                     <div className="flex flex-col items-center md:items-start">
-                      <span className="text-[10px] uppercase font-bold tracking-[0.15em] text-gray-500/60 mb-1.5">Class</span>
-                      <span className="text-xl sm:text-3xl font-extrabold text-purple-400 tracking-tighter">{classLetter}</span>
+                      <span className="text-label-xs text-on-surface-variant/60 font-bold tracking-wider mb-1.5">Class</span>
+                      <span className="text-headline-xl-mobile sm:text-headline-2xl font-bold text-primary tracking-tight">{classLetter}</span>
                     </div>
                   </div>
 
-                  {/* Info Grid */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                     <div>
-                      <span className="text-[10px] uppercase font-bold tracking-[0.15em] text-gray-500/60 block mb-2">Study Track</span>
-                      <div className="flex items-center gap-3 bg-gray-50 dark:bg-white/[0.03] border border-gray-200 dark:border-white/[0.06] rounded-xl px-4 py-3 hover:border-purple-500/20 transition-colors duration-300 group">
-                        <div className="w-8 h-8 rounded-lg bg-purple-500/10 flex items-center justify-center group-hover:bg-purple-500/15 transition-colors">
-                          <BookOpen size={15} className="text-purple-400" />
+                      <span className="text-label-xs text-on-surface-variant/60 font-bold tracking-wider block mb-2">Study Track</span>
+                      <div className="flex items-center gap-3 bg-surface-container border border-outline-variant rounded-xl px-4 py-3 transition-colors">
+                        <div className="w-8 h-8 rounded-lg bg-primary-container flex items-center justify-center">
+                          <BookOpen className="w-4 h-4 text-primary" />
                         </div>
-                        <span className="text-gray-900 dark:text-white text-sm font-semibold truncate">{profile?.major || "Computer Science"}</span>
+                        <span className="text-label-sm text-on-surface font-semibold truncate">{profile?.major || "Computer Science"}</span>
                       </div>
                     </div>
                     <div>
-                      <span className="text-[10px] uppercase font-bold tracking-[0.15em] text-gray-500/60 block mb-2">Connection</span>
-                      <div className="flex items-center gap-3 bg-gray-50 dark:bg-white/[0.03] border border-gray-200 dark:border-white/[0.06] rounded-xl px-4 py-3 hover:border-purple-500/20 transition-colors duration-300 group">
-                        <div className="w-8 h-8 rounded-lg bg-purple-500/10 flex items-center justify-center group-hover:bg-purple-500/15 transition-colors">
-                          <Mail size={15} className="text-purple-400" />
+                      <span className="text-label-xs text-on-surface-variant/60 font-bold tracking-wider block mb-2">Connection</span>
+                      <div className="flex items-center gap-3 bg-surface-container border border-outline-variant rounded-xl px-4 py-3 transition-colors">
+                        <div className="w-8 h-8 rounded-lg bg-primary-container flex items-center justify-center">
+                          <Mail className="w-4 h-4 text-primary" />
                         </div>
-                        <span className="text-gray-900 dark:text-white text-sm font-semibold truncate">{user?.email}</span>
+                        <span className="text-label-sm text-on-surface font-semibold truncate">{user?.email}</span>
                       </div>
                     </div>
                   </div>
 
-                  {/* About */}
                   <div>
-                    <span className="text-[10px] uppercase font-bold tracking-[0.15em] text-gray-500/60 block mb-2">About You</span>
-                    <div className="bg-gray-50 dark:bg-white/[0.03] border border-gray-200 dark:border-white/[0.06] rounded-xl px-4 py-3.5 hover:border-purple-500/20 transition-colors duration-300">
-                      <p className="text-gray-500 dark:text-gray-400 text-sm font-medium leading-relaxed">
-                        &quot;{profile?.bio || "Every student has a story. Tell us more about yourself."}&quot;
+                    <span className="text-label-xs text-on-surface-variant/60 font-bold tracking-wider block mb-2">About You</span>
+                    <div className="bg-surface-container border border-outline-variant rounded-xl px-4 py-3.5 transition-colors">
+                      <p className="text-label-sm text-on-surface-variant font-medium leading-relaxed">
+                        &ldquo;{profile?.bio || "Every student has a story. Tell us more about yourself."}&rdquo;
                       </p>
                     </div>
                   </div>
@@ -226,25 +212,25 @@ export default function ProfilePage() {
               </div>
             </div>
           ) : (
-            /* ─── EDIT MODE ─── */
+            /* EDIT MODE */
             <div key="edit" className="animate-in fade-in duration-300">
-              <div className="p-5 sm:p-10 md:p-12 space-y-5 sm:space-y-7 min-h-[420px] flex flex-col justify-center">
+              <div className="p-6 sm:p-10 md:p-12 space-y-5 sm:space-y-7 min-h-[400px] flex flex-col justify-center">
                 {/* Avatar + Name Row */}
                 <div className="flex flex-col md:flex-row items-center gap-6">
                   <div className="relative group/avatar">
-                    <div className="absolute -inset-1 bg-gradient-to-br from-purple-500/20 to-fuchsia-500/20 rounded-2xl blur-sm"></div>
-                    <div className="relative w-20 h-20 sm:w-28 sm:h-28 rounded-2xl overflow-hidden bg-gray-100 dark:bg-white/5 ring-2 ring-purple-500/30 flex items-center justify-center">
+                    <div className="absolute -inset-1 bg-gradient-to-br from-primary-container/30 to-secondary-fixed-dim/20 rounded-2xl blur-sm"></div>
+                    <div className="relative w-20 h-20 sm:w-28 sm:h-28 rounded-2xl overflow-hidden bg-surface-container ring-2 ring-primary/30 flex items-center justify-center">
                       {avatarPreview ? (
                         <img src={avatarPreview} alt="Profile" className="w-full h-full object-cover" />
                       ) : (
-                        <UserIcon size={44} className="text-gray-500 dark:text-gray-600 opacity-40" />
+                        <UserIcon className="w-10 h-10 text-on-surface-variant opacity-40" />
                       )}
                       <button 
                         onClick={() => fileInputRef.current?.click()}
                         className="absolute inset-0 bg-black/50 backdrop-blur-[2px] flex flex-col items-center justify-center opacity-0 group-hover/avatar:opacity-100 transition-opacity rounded-2xl"
                       >
-                        <Camera size={22} className="text-white mb-1" />
-                        <span className="text-[9px] text-white font-black uppercase tracking-widest">Change</span>
+                        <Camera className="w-5 h-5 text-white mb-1" />
+                        <span className="text-label-xs text-white font-bold tracking-wider">Change</span>
                       </button>
                     </div>
                     <input 
@@ -257,75 +243,72 @@ export default function ProfilePage() {
                   </div>
 
                   <div className="flex-1 w-full">
-                    <label className="text-[10px] uppercase font-bold tracking-[0.15em] text-gray-500/60 mb-2 block">Full Name</label>
+                    <label className="text-label-xs text-on-surface-variant/60 font-bold tracking-wider mb-2 block">Full Name</label>
                     <input
                       type="text"
                       value={formData.fullName}
                       onChange={(e) => setFormData({...formData, fullName: e.target.value})}
                       placeholder="Full Name"
-                      className="w-full bg-white dark:bg-white/[0.04] border border-gray-200 dark:border-white/10 rounded-xl px-4 sm:px-5 py-3 sm:py-3.5 text-gray-900 dark:text-white text-base sm:text-lg font-bold focus:outline-none focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/20 transition-all"
+                      className="input-field text-body-base font-bold"
                     />
                   </div>
                 </div>
 
-                {/* Fields Grid */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                   <div>
-                    <label className="text-[10px] uppercase font-bold tracking-[0.15em] text-gray-500/60 mb-2 block">Username</label>
+                    <label className="text-label-xs text-on-surface-variant/60 font-bold tracking-wider mb-2 block">Username</label>
                     <input
                       type="text"
                       value={formData.username}
                       onChange={(e) => setFormData({...formData, username: e.target.value})}
-                      className="w-full bg-white dark:bg-white/[0.04] border border-gray-200 dark:border-white/10 rounded-xl px-5 py-3.5 text-gray-900 dark:text-white font-medium focus:outline-none focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/20 transition-all"
+                      className="input-field"
                     />
                   </div>
                   <div>
-                    <label className="text-[10px] uppercase font-bold tracking-[0.15em] text-gray-500/60 mb-2 block">Academic Major</label>
+                    <label className="text-label-xs text-on-surface-variant/60 font-bold tracking-wider mb-2 block">Academic Major</label>
                     <input
                       type="text"
                       value={formData.major}
                       onChange={(e) => setFormData({...formData, major: e.target.value})}
-                      className="w-full bg-white dark:bg-white/[0.04] border border-gray-200 dark:border-white/10 rounded-xl px-5 py-3.5 text-gray-900 dark:text-white font-medium focus:outline-none focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/20 transition-all"
+                      className="input-field"
                     />
                   </div>
                 </div>
 
-                {/* Bio */}
                 <div>
-                  <label className="text-[10px] uppercase font-bold tracking-[0.15em] text-gray-500/60 mb-2 block">About You</label>
+                  <label className="text-label-xs text-on-surface-variant/60 font-bold tracking-wider mb-2 block">About You</label>
                   <textarea
                     value={formData.bio}
                     onChange={(e) => setFormData({...formData, bio: e.target.value})}
                     rows={3}
-                    className="w-full bg-white dark:bg-white/[0.04] border border-gray-200 dark:border-white/10 rounded-xl px-5 py-3.5 text-gray-900 dark:text-white font-medium focus:outline-none focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/20 transition-all resize-none"
+                    className="input-field resize-none"
                     placeholder="Share your goals and background..."
                   />
                 </div>
                 
                 {updateError && (
-                  <div className="text-red-400 text-xs font-bold flex items-center gap-2 bg-red-400/5 p-3.5 rounded-xl border border-red-400/10">
-                     <div className="w-2 h-2 rounded-full bg-red-400 animate-pulse"></div>
+                  <div className="text-label-xs text-error font-bold flex items-center gap-2 bg-error-container/10 p-3.5 rounded-xl border border-error/10">
+                     <div className="w-2 h-2 rounded-full bg-error animate-pulse"></div>
                      {updateError}
                   </div>
                 )}
 
-                {/* Save / Cancel */}
                 <div className="flex gap-3 pt-2">
                   <button 
                     onClick={handleSave}
                     disabled={profileLoading}
-                    className="flex-1 py-3.5 bg-gradient-to-r from-purple-600 to-fuchsia-600 hover:from-purple-500 hover:to-fuchsia-500 text-white text-sm font-bold uppercase tracking-widest rounded-full flex items-center justify-center gap-2 disabled:opacity-50 transition-all duration-300 shadow-lg shadow-purple-500/25 hover:shadow-purple-500/40 hover:-translate-y-0.5"
+                    className="btn-primary flex-1 inline-flex items-center justify-center gap-2"
                   >
                     {profileLoading ? (
-                      <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                      <div className="w-4 h-4 border-2 border-on-primary/30 border-t-on-primary rounded-full animate-spin" />
                     ) : (
-                      <Save size={16} />
+                      <Save className="w-4 h-4" />
                     )}
                     Save Changes
                   </button>
                   <button 
                     onClick={cancelEdit}
-                    className="flex-1 py-3.5 text-sm font-bold uppercase tracking-widest text-gray-500 hover:text-gray-900 dark:hover:text-white transition-all duration-300 bg-gray-50 dark:bg-white/[0.03] rounded-full border border-gray-200 dark:border-white/10 hover:bg-gray-100 dark:hover:bg-white/[0.06] hover:border-purple-500/20"
+                    className="btn-secondary flex-1"
                   >
                     Discard
                   </button>
@@ -338,17 +321,17 @@ export default function ProfilePage() {
 
       {/* Success Toast */}
       {updateSuccess && (
-        <div className="flex items-center justify-center gap-3 text-green-400 animate-in fade-in slide-in-from-bottom-2 mt-5">
-          <CheckCircle size={18} />
-          <span className="text-sm font-bold uppercase tracking-[0.15em]">Profile Updated</span>
+        <div className="flex items-center justify-center gap-3 text-secondary animate-in fade-in slide-in-from-bottom-2 mt-5">
+          <CheckCircle className="w-4 h-4" />
+          <span className="text-label-sm font-bold tracking-wider">Profile Updated</span>
         </div>
       )}
 
       {/* Footer Link */}
       <div className="mt-6">
-         <Link href="/progress" className="text-xs font-bold uppercase tracking-widest text-gray-500 hover:text-purple-400 transition-all duration-300 inline-flex items-center gap-2.5 group">
-            <div className="w-7 h-7 rounded-full bg-gray-100 dark:bg-white/5 flex items-center justify-center group-hover:bg-purple-500/10 transition-colors duration-300">
-              <Zap size={13} className="text-gray-500 group-hover:text-purple-400 transition-colors" />
+         <Link href="/progress" className="text-label-xs text-on-surface-variant hover:text-primary font-bold tracking-wider inline-flex items-center gap-2.5 group">
+            <div className="w-7 h-7 rounded-full bg-surface-container flex items-center justify-center group-hover:bg-primary-container transition-colors">
+              <Zap className="w-3.5 h-3.5 text-on-surface-variant group-hover:text-primary transition-colors" />
             </div>
             Progress & Analytics
          </Link>
