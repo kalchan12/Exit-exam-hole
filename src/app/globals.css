@@ -8,20 +8,20 @@
   :root {
     color-scheme: light;
 
-    --surface: #f8f9fd;
-    --surface-dim: #d9dade;
-    --surface-bright: #f8f9fd;
+    --surface: #f2f4f8;
+    --surface-dim: #dcdee3;
+    --surface-bright: #f2f4f8;
     --surface-container-lowest: #ffffff;
-    --surface-container-low: #f2f3f7;
-    --surface-container: #edeef2;
-    --surface-container-high: #e7e8ec;
-    --surface-container-highest: #e1e2e6;
+    --surface-container-low: #f6f7fb;
+    --surface-container: #eef0f5;
+    --surface-container-high: #e6e8ef;
+    --surface-container-highest: #dee1e9;
     --on-surface: #191c1f;
-    --on-surface-variant: #464555;
+    --on-surface-variant: #555770;
     --inverse-surface: #2e3134;
     --inverse-on-surface: #eff1f5;
-    --outline: #777586;
-    --outline-variant: #c8c4d8;
+    --outline: #b0b3c2;
+    --outline-variant: #e0e2ea;
     --surface-tint: #5244de;
 
     --primary: #4231cf;
@@ -57,9 +57,9 @@
     --error-container: #ffdad6;
     --on-error-container: #93000a;
 
-    --background: #f8f9fd;
+    --background: #f2f4f8;
     --on-background: #191c1f;
-    --surface-variant: #e1e2e6;
+    --surface-variant: #e6e8ef;
   }
 
   .dark {
@@ -171,20 +171,22 @@
 
 @layer components {
   .card {
-    @apply bg-surface-container-lowest rounded-xl border border-outline-variant shadow-sm transition-all duration-200;
+    background-color: var(--surface-container-lowest);
+    border-radius: 0.75rem;
+    box-shadow: 0 1px 3px rgb(0 0 0 / 0.04), 0 1px 2px rgb(0 0 0 / 0.02);
+    transition: all 0.2s ease;
   }
 
   .card:hover {
-    @apply border-primary-fixed-dim shadow-ambient;
+    box-shadow: 0 4px 24px rgb(91 79 232 / 0.04), 0 2px 8px rgb(91 79 232 / 0.02);
   }
 
   .dark .card {
-    border-color: transparent;
     background-color: var(--surface-container-low);
+    box-shadow: none;
   }
 
   .dark .card:hover {
-    border-color: rgb(167 139 250 / 0.25);
     box-shadow: 0 0 20px rgb(167 139 250 / 0.06);
   }
 
@@ -197,7 +199,7 @@
   }
 
   .btn-secondary {
-    @apply bg-surface-container-low text-on-surface font-medium px-5 py-2.5 rounded-lg border border-outline-variant hover:bg-surface-container-high hover:border-outline transition-all duration-200;
+    @apply bg-surface-container-low text-on-surface font-medium px-5 py-2.5 rounded-lg hover:bg-surface-container-high transition-all duration-200;
   }
 
   .btn-ghost {
@@ -290,12 +292,10 @@
     background-color: color-mix(in srgb, var(--surface) 70%, transparent);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
-    border: 1px solid color-mix(in srgb, var(--outline-variant) 60%, transparent);
   }
 
   .dark .glass {
     background-color: color-mix(in srgb, var(--surface) 50%, transparent);
-    border-color: color-mix(in srgb, var(--outline-variant) 30%, transparent);
   }
 
   .text-gradient {
@@ -373,7 +373,7 @@
 
   .feature-card:hover {
     transform: translateY(-4px);
-    border-color: var(--primary-fixed-dim);
+    box-shadow: 0 8px 32px rgb(91 79 232 / 0.08), 0 2px 8px rgb(91 79 232 / 0.04);
   }
 
   .dark .feature-card:hover {
