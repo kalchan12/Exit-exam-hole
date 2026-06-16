@@ -188,7 +188,7 @@ export default function RegisterPage() {
                     </svg>
                   )}
                 </div>
-                <div className="absolute -bottom-0.5 -right-0.5 w-6 h-6 rounded-full bg-surface-container border-2 border-primary/40 flex items-center justify-center z-20">
+                <div className="absolute -bottom-0.5 -right-0.5 w-6 h-6 rounded-full bg-primary-container border-2 border-primary/40 flex items-center justify-center z-20">
                   <svg className="w-3 h-3 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
                     <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" />
                     <circle cx="12" cy="13" r="4" />

@@ -62,7 +62,7 @@ export default function LoginPage() {
             <button
               type="button"
               onClick={toggleTheme}
-              className="w-11 h-11 rounded-xl flex items-center justify-center text-primary hover:bg-primary-container/30 transition-colors shrink-0 border border-primary/20"
+              className="w-11 h-11 rounded-xl flex items-center justify-center text-primary hover:bg-primary-container/30 transition-colors shrink-0"
               aria-label="Toggle theme"
             >
               {theme === 'dark' ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
