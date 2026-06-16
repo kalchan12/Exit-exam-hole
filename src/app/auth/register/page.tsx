@@ -188,7 +188,7 @@ export default function RegisterPage() {
                     </svg>
                   )}
                 </div>
-                <div className="absolute -bottom-0.5 -right-0.5 w-6 h-6 rounded-full bg-surface-container border-2 border-surface-container-lowest flex items-center justify-center z-20">
+                <div className="absolute -bottom-0.5 -right-0.5 w-6 h-6 rounded-full bg-surface-container border-2 border-primary/30 flex items-center justify-center z-20">
                   <svg className="w-3 h-3 text-on-surface-variant" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
                     <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" />
                     <circle cx="12" cy="13" r="4" />
@@ -205,7 +205,7 @@ export default function RegisterPage() {
                   required
                   value={formData.fullName}
                   onChange={handleChange}
-                  placeholder="Enter your name or username"
+                  placeholder="Enter Your Fullname"
                   className="input-field"
                 />
               </div>
@@ -221,7 +221,7 @@ export default function RegisterPage() {
                   required
                   value={formData.username}
                   onChange={handleChange}
-                  placeholder="abebe_k"
+                  placeholder="Enter Your Username"
                   className="input-field"
                 />
               </div>
@@ -286,7 +286,7 @@ export default function RegisterPage() {
 
               <div>
                 <label className="label-text">Gender</label>
-                <div className="flex bg-surface-container-low rounded-lg p-1 gap-1">
+                <div className="flex bg-surface-container-low rounded-lg p-1 gap-1 border border-outline-variant">
                   {['Male', 'Female'].map(g => (
                     <label key={g} className="flex-1 text-center cursor-pointer">
                       <input
@@ -297,7 +297,7 @@ export default function RegisterPage() {
                         onChange={handleChange}
                         className="peer sr-only"
                       />
-                      <div className="py-2 rounded-md text-label-sm font-medium peer-checked:bg-surface-container-lowest peer-checked:text-primary peer-checked:shadow-sm text-on-surface-variant transition-all">
+                      <div className="py-2 rounded-md text-label-sm font-medium peer-checked:bg-primary peer-checked:text-on-primary peer-checked:shadow-sm text-on-surface-variant transition-all">
                         {g}
                       </div>
                     </label>

@@ -4,10 +4,13 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useAuth } from '@/components/AuthProvider';
+import { useTheme } from '@/components/ThemeProvider';
+import { Sun, Moon } from 'lucide-react';
 
 export default function LoginPage() {
   const router = useRouter();
   const { signIn, loginAsGuest, user, isGuest, loading: authLoading } = useAuth();
+  const { theme, toggleTheme } = useTheme();
 
   const [formData, setFormData] = useState({
     username: '',
@@ -45,15 +48,25 @@ export default function LoginPage() {
     <div className="min-h-screen flex items-center justify-center p-4 bg-background">
       <div className={`w-full max-w-[420px] ${mounted ? 'animate-fade-in' : 'opacity-0'}`}>
         <div className="bg-surface-container-lowest border-l-[3px] border-l-primary shadow-ambient-md rounded-r-xl p-8 sm:p-10">
-          <div className="flex flex-col gap-2 mb-8">
-            <div className="flex items-center gap-2 mb-4">
-              <div className="w-9 h-9 rounded-lg bg-primary flex items-center justify-center text-on-primary font-bold text-sm shadow-sm">
-                E
+          <div className="flex items-start justify-between mb-8">
+            <div className="flex flex-col gap-2">
+              <div className="flex items-center gap-2 mb-4">
+                <div className="w-9 h-9 rounded-lg bg-primary flex items-center justify-center text-on-primary font-bold text-sm shadow-sm">
+                  E
+                </div>
+                <span className="font-bold text-xl text-primary">ExitPrep</span>
               </div>
-              <span className="font-bold text-xl text-primary">ExitPrep</span>
+              <h1 className="text-headline-xl text-on-surface font-bold">Welcome back</h1>
+              <p className="text-body-base text-on-surface-variant">Sign in to continue your preparation</p>
             </div>
-            <h1 className="text-headline-xl text-on-surface font-bold">Welcome back</h1>
-            <p className="text-body-base text-on-surface-variant">Sign in to continue your preparation</p>
+            <button
+              type="button"
+              onClick={toggleTheme}
+              className="w-9 h-9 rounded-lg flex items-center justify-center text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors shrink-0"
+              aria-label="Toggle theme"
+            >
+              {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+            </button>
           </div>
 
           <form onSubmit={handleSubmit} className="flex flex-col gap-5">
