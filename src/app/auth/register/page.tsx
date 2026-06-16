@@ -171,7 +171,7 @@ export default function RegisterPage() {
               </div>
             )}
 
-            <div className="flex flex-col sm:flex-row items-start gap-6 mb-6 pb-6 border-b border-outline-variant/50">
+            <div className="flex flex-col sm:flex-row items-start gap-6 mb-6 pb-6 border-b border-primary/10">
               <div className="relative group shrink-0">
                 <input
                   type="file"
@@ -179,17 +179,17 @@ export default function RegisterPage() {
                   onChange={handleAvatarChange}
                   className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10 rounded-full"
                 />
-                <div className={`w-20 h-20 rounded-full flex items-center justify-center overflow-hidden transition-all duration-300 border-2 ${avatarPreview ? 'border-primary' : 'border-primary/30'}`}>
+                <div className={`w-20 h-20 rounded-full flex items-center justify-center overflow-hidden transition-all duration-300 border-2 ${avatarPreview ? 'border-primary' : 'border-primary/50'}`}>
                   {avatarPreview ? (
                     <img src={avatarPreview} alt="Avatar" className="w-full h-full object-cover" />
                   ) : (
-                    <svg className="w-8 h-8 text-on-surface-variant group-hover:text-primary transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                    <svg className="w-8 h-8 text-primary/60 group-hover:text-primary transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                     </svg>
                   )}
                 </div>
-                <div className="absolute -bottom-0.5 -right-0.5 w-6 h-6 rounded-full bg-surface-container border-2 border-primary/30 flex items-center justify-center z-20">
-                  <svg className="w-3 h-3 text-on-surface-variant" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+                <div className="absolute -bottom-0.5 -right-0.5 w-6 h-6 rounded-full bg-surface-container border-2 border-primary/40 flex items-center justify-center z-20">
+                  <svg className="w-3 h-3 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
                     <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" />
                     <circle cx="12" cy="13" r="4" />
                   </svg>
@@ -337,7 +337,7 @@ export default function RegisterPage() {
               </div>
             </div>
 
-            <div className="mt-6 pt-6 border-t border-outline-variant/50">
+            <div className="mt-6 pt-6 border-t border-primary/10">
               <button
                 type="submit"
                 disabled={loading}
