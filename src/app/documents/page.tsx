@@ -133,26 +133,16 @@ export default function DocumentsPage() {
   }
 
   return (
-    <div className="max-w-6xl mx-auto space-y-8 py-4 pb-20">
-      {/* Header */}
-      <div className="card p-6 sm:p-8 relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-80 h-80 bg-primary-container/20 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2" />
-        <div className="relative z-10">
-          <span className="text-label-xs text-primary font-bold tracking-wider mb-3 block">
-            Study Resources
-          </span>
-          <h1 className="text-headline-2xl sm:text-headline-3xl font-bold text-on-surface mb-2 tracking-tight">
-            PDF <span className="text-gradient">Documents</span>
-          </h1>
-          <p className="text-body-base text-on-surface-variant max-w-lg leading-relaxed">
-            Access course materials, past exams, and study guides uploaded by instructors. Read them directly in your browser.
-          </p>
-        </div>
+    <div className="space-y-6 py-4">
+      <div>
+        <h1 className="text-headline-2xl font-bold text-on-surface">PDF Documents</h1>
+        <p className="text-body-base text-on-surface-variant mt-1">
+          {filtered.length} document{filtered.length !== 1 ? 's' : ''} available
+        </p>
       </div>
 
-      {/* Filters */}
-      <div className="flex flex-col sm:flex-row gap-3">
-        <div className="relative flex-1">
+      <div className="card p-4 flex flex-col sm:flex-row flex-wrap gap-3">
+        <div className="flex-1 min-w-[200px] relative">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-on-surface-variant" />
           <input
             type="text"
@@ -165,7 +155,7 @@ export default function DocumentsPage() {
         <select
           value={selectedTopic}
           onChange={(e) => setSelectedTopic(e.target.value)}
-          className="input-field sm:w-48"
+          className="input-field w-fit min-w-[140px]"
         >
           <option value="all">All Topics</option>
           {topics.map((t) => (
@@ -175,7 +165,7 @@ export default function DocumentsPage() {
         <select
           value={selectedMajor}
           onChange={(e) => setSelectedMajor(e.target.value)}
-          className="input-field sm:w-48"
+          className="input-field w-fit min-w-[130px]"
         >
           <option value="all">All Majors</option>
           <option value="CSE">CSE</option>
@@ -184,70 +174,66 @@ export default function DocumentsPage() {
         </select>
       </div>
 
-      {/* Results count */}
-      <div className="text-label-xs text-on-surface-variant font-bold tracking-wider">
-        {filtered.length} document{filtered.length !== 1 ? 's' : ''} available
-      </div>
-
-      {/* Documents Grid */}
       {loading ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {[...Array(6)].map((_, i) => (
-            <div key={i} className="animate-pulse">
-              <div className="h-40 bg-surface-container-highest rounded-xl" />
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 animate-pulse">
+          {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
+            <div key={i} className="card p-4 flex flex-col min-h-[160px]">
+              <div className="flex items-start gap-3 mb-3">
+                <div className="w-8 h-8 rounded-lg bg-surface-container-highest" />
+                <div className="flex-1 space-y-2">
+                  <div className="h-3 bg-surface-container-highest rounded w-3/4" />
+                  <div className="h-3 bg-surface-container-highest rounded w-1/2" />
+                </div>
+              </div>
+              <div className="mt-auto pt-3 border-t border-outline-variant">
+                <div className="h-3 bg-surface-container-highest rounded w-1/3" />
+              </div>
             </div>
           ))}
         </div>
       ) : filtered.length === 0 ? (
-        <div className="text-center py-20">
+        <div className="card p-12 text-center">
           <div className="w-16 h-16 rounded-xl bg-surface-container flex items-center justify-center mx-auto mb-4">
             <FileText className="w-8 h-8 text-on-surface-variant" />
           </div>
-          <p className="text-label-sm text-on-surface-variant font-bold tracking-wider">No documents found</p>
-          <p className="text-label-xs text-on-surface-variant mt-2">Try adjusting your filters or check back later.</p>
+          <h3 className="text-headline-xl-mobile font-semibold text-on-surface mb-2">No documents found</h3>
+          <p className="text-on-surface-variant">Try adjusting your filters or check back later.</p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {filtered.map((doc) => (
             <button
               key={doc.id}
               onClick={() => setViewingDoc(doc)}
-              className="card p-5 text-left flex flex-col gap-3 group hover:border-primary-fixed-dim transition-all relative overflow-hidden"
+              className="card p-4 text-left flex flex-col min-h-[160px] group transition-all"
             >
-              <div className="flex items-start gap-3 relative z-10">
-                <div className="w-11 h-11 rounded-xl bg-primary-container flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+              <div className="flex items-start gap-3">
+                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary/15 to-primary-container/25 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
                   <FileText className="w-5 h-5 text-primary" />
                 </div>
-                <div className="min-w-0 flex-1">
-                  <p className="text-label-sm font-bold text-on-surface leading-relaxed line-clamp-2 group-hover:text-primary transition-colors">
+                <div className="flex-1 min-w-0">
+                  <h3 className="text-label-sm font-bold text-on-surface group-hover:text-primary transition-colors line-clamp-2 leading-snug">
                     {doc.title}
-                  </p>
-                  <p className="text-label-xs text-on-surface-variant font-bold tracking-wider mt-1">
-                    {doc.topic}
+                  </h3>
+                  <p className="text-label-xs text-on-surface-variant mt-1 flex items-center gap-1.5">
+                    <span className="line-clamp-1">{doc.topic}</span>
+                    <span className="text-on-surface-variant/30">·</span>
+                    <span className="shrink-0">{formatFileSize(doc.file_size)}</span>
                   </p>
                 </div>
               </div>
 
-              <div className="flex flex-wrap items-center gap-2 mt-auto pt-2 relative z-10">
-                <span className="text-label-xs px-2 py-1 rounded-full bg-surface-container border border-outline-variant text-on-surface-variant font-bold">
-                  {doc.major || 'Both'}
-                </span>
-                <span className="text-label-xs px-2 py-1 rounded-full bg-primary-container/30 text-primary border border-primary/20 font-bold">
-                  PDF
-                </span>
-                <span className="text-label-xs text-on-surface-variant font-bold ml-auto">
-                  {formatFileSize(doc.file_size)}
-                </span>
-              </div>
-
-              <div className="flex items-center justify-between pt-2 border-t border-outline-variant mt-1 relative z-10">
-                <span className="text-label-xs text-on-surface-variant">
-                  {formatDate(doc.created_at)}
-                </span>
-                <span className="text-label-xs font-bold tracking-wider text-primary opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1">
-                  Read Now
-                  <ChevronRight className="w-3 h-3" />
-                </span>
+              <div className="mt-auto pt-3 border-t border-outline-variant flex items-center justify-between text-label-xs font-bold tracking-wider text-on-surface-variant">
+                <span>{formatDate(doc.created_at)}</span>
+                <div className="flex items-center gap-2">
+                  <span className="px-2 py-0.5 rounded-md bg-surface-container text-on-surface-variant font-medium">
+                    {doc.major || 'Both'}
+                  </span>
+                  <span className="text-primary opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-0.5">
+                    Open
+                    <ChevronRight className="w-3 h-3" />
+                  </span>
+                </div>
               </div>
             </button>
           ))}
