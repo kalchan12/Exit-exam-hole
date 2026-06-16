@@ -275,26 +275,26 @@ export default function LandingPage() {
 
       {/* CTA */}
       <section id="cta" className="relative z-10 max-w-4xl mx-auto px-6 pb-24 md:pb-32 fade-up">
-        <div className="relative overflow-hidden rounded-2xl bg-primary px-10 py-16 sm:p-16 text-center">
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-on-primary/5 rounded-full blur-[150px] pointer-events-none" />
+        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#1a0e3a] to-[#2d1b69] px-10 py-16 sm:p-16 text-center">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-white/5 rounded-full blur-[150px] pointer-events-none" />
 
           <div className="relative z-10">
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-on-primary mb-4">
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-white mb-4">
               Ready to Pass?
             </h2>
-            <p className="text-on-primary/80 max-w-lg mx-auto mb-8">
+            <p className="text-white/70 max-w-lg mx-auto mb-8">
               Join thousands of students securing their degrees with ExitExam.
             </p>
             <div className="flex flex-col sm:flex-row justify-center items-center gap-4">
               <Link
                 href="/auth/register"
-                className="px-8 py-3.5 rounded-xl bg-surface text-primary font-bold text-sm shadow-md hover:shadow-lg active:scale-[0.98] transition-all"
+                className="px-8 py-3.5 rounded-xl bg-white text-[#1a0e3a] font-bold text-sm shadow-md hover:shadow-lg active:scale-[0.98] transition-all"
               >
                 Create Free Account
               </Link>
               <Link
                 href="/auth/login"
-                className="px-8 py-3.5 rounded-xl border-2 border-on-primary/30 text-on-primary font-bold text-sm hover:bg-on-primary/10 active:scale-[0.98] transition-all"
+                className="px-8 py-3.5 rounded-xl border-2 border-white/30 text-white font-bold text-sm hover:bg-white/10 active:scale-[0.98] transition-all"
               >
                 Sign In
               </Link>

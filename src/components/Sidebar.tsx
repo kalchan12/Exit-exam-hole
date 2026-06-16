@@ -433,7 +433,6 @@ export default function Sidebar({ isCollapsed, setIsCollapsed }: SidebarProps) {
       </header>
 
       <aside className={`hidden lg:flex flex-col h-screen fixed left-0 top-0 bg-surface-container-lowest z-50 transition-all duration-300 ${isCollapsed ? 'w-20' : 'w-64'}`}>
-        <div className="absolute right-0 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-primary/10 to-transparent pointer-events-none" />
         {sidebarContent}
       </aside>
 
@@ -444,7 +443,6 @@ export default function Sidebar({ isCollapsed, setIsCollapsed }: SidebarProps) {
       <aside
         className={`lg:hidden fixed left-0 top-0 bottom-0 w-[280px] bg-surface-container-lowest z-[80] transition-transform duration-300 transform ${isMobileOpen ? 'translate-x-0' : '-translate-x-full'}`}
       >
-        <div className="absolute right-0 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-primary/10 to-transparent pointer-events-none" />
         {sidebarContent}
       </aside>
     </>
