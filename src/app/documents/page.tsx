@@ -212,12 +212,12 @@ export default function DocumentsPage() {
                   <FileText className="w-5 h-5 text-primary" />
                 </div>
               </div>
-              <h3 className="text-label-sm font-bold text-on-surface group-hover:text-primary transition-colors line-clamp-2 leading-snug mb-1">
+              <h3 className="text-body-base font-bold text-on-surface group-hover:text-primary transition-colors line-clamp-2 leading-snug mb-1">
                 {doc.title}
               </h3>
-              <p className="text-label-xs text-on-surface-variant line-clamp-1">{doc.topic}</p>
+              <p className="text-label-sm text-on-surface-variant line-clamp-1">{doc.topic}</p>
 
-              <div className="mt-auto pt-3 border-t border-outline-variant flex items-center justify-between text-label-xs font-bold tracking-wider text-on-surface-variant">
+              <div className="mt-auto pt-3 border-t border-outline-variant flex items-center justify-between text-label-sm font-bold tracking-wider text-on-surface-variant">
                 <div className="flex items-center gap-2">
                   <span>{formatFileSize(doc.file_size)}</span>
                   <span className="text-on-surface-variant/30">·</span>

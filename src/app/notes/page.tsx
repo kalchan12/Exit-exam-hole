@@ -171,23 +171,23 @@ export default function NotesPage() {
                     {icon}
                   </div>
                   <div className="flex-1 min-w-0">
-                    <h3 className="text-label-sm font-bold text-on-surface group-hover:text-primary transition-colors line-clamp-2 leading-snug">
+                    <h3 className="text-body-base font-bold text-on-surface group-hover:text-primary transition-colors line-clamp-2 leading-snug">
                       {note.title}
                     </h3>
                   </div>
                 </div>
 
                 {note.summary && (
-                  <p className="text-label-xs text-on-surface-variant leading-relaxed line-clamp-2 mb-3 flex-1">
+                  <p className="text-label-sm text-on-surface-variant leading-relaxed line-clamp-2 mb-3 flex-1">
                     {note.summary}
                   </p>
                 )}
 
-                <div className="mt-auto pt-3 border-t border-outline-variant flex items-center justify-between text-label-xs font-bold tracking-wider text-on-surface-variant">
+                <div className="mt-auto pt-3 border-t border-outline-variant flex items-center justify-between text-label-sm font-bold tracking-wider text-on-surface-variant">
                   <div className="flex items-center gap-2">
                     <span>{formatDate(note.date)}</span>
                     {(note.videoUrl || (note.videoUrls && note.videoUrls.length > 0)) && (
-                      <Video className="w-3 h-3 text-secondary" />
+                      <Video className="w-3.5 h-3.5 text-secondary" />
                     )}
                   </div>
                   <div className="flex items-center gap-2">
@@ -300,22 +300,22 @@ export default function NotesPage() {
                     )}
                   </div>
 
-                  <h3 className="text-label-sm font-bold text-on-surface mb-2 group-hover:text-primary transition-colors line-clamp-2">
+                  <h3 className="text-body-base font-bold text-on-surface mb-2 group-hover:text-primary transition-colors line-clamp-2">
                     {course}
                   </h3>
 
                   {courseNotes.length === 0 && (
-                    <p className="text-label-xs text-on-surface-variant flex-1 italic">
+                    <p className="text-label-sm text-on-surface-variant flex-1 italic">
                       No chapters yet
                     </p>
                   )}
 
-                  <div className="mt-auto pt-4 border-t border-outline-variant flex items-center justify-between text-label-xs font-bold tracking-wider text-on-surface-variant">
+                  <div className="mt-auto pt-4 border-t border-outline-variant flex items-center justify-between text-label-sm font-bold tracking-wider text-on-surface-variant">
                     <span className="flex items-center gap-1">
                       <BookOpen className="w-3.5 h-3.5" />
                       {courseNotes.length} chapter{courseNotes.length !== 1 ? 's' : ''}
                     </span>
-                    <span className="text-primary group-hover:translate-x-1 transition-transform flex items-center gap-0.5 text-label-xs">
+                    <span className="text-primary group-hover:translate-x-1 transition-transform flex items-center gap-0.5 text-label-sm">
                       Open
                       <ChevronRight className="w-3 h-3" />
                     </span>

@@ -222,13 +222,13 @@ export default function BytesPage() {
                       <Folder className="w-4 h-4 text-primary" />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <h3 className="text-label-sm font-bold text-on-surface group-hover:text-primary transition-colors line-clamp-2 leading-snug">
+                      <h3 className="text-body-base font-bold text-on-surface group-hover:text-primary transition-colors line-clamp-2 leading-snug">
                         {course}
                       </h3>
                     </div>
                   </div>
 
-                  <div className="mt-auto pt-3 border-t border-outline-variant flex items-center justify-between text-label-xs font-bold tracking-wider text-on-surface-variant">
+                  <div className="mt-auto pt-3 border-t border-outline-variant flex items-center justify-between text-label-sm font-bold tracking-wider text-on-surface-variant">
                     <span className="flex items-center gap-1">
                       <Folder className="w-3.5 h-3.5" />
                       {count} {count === 1 ? 'Byte' : 'Bytes'}
@@ -259,13 +259,13 @@ export default function BytesPage() {
                       <Folder className="w-4 h-4 text-primary" />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <h3 className="text-label-sm font-bold text-on-surface group-hover:text-primary transition-colors line-clamp-2 leading-snug">
+                      <h3 className="text-body-base font-bold text-on-surface group-hover:text-primary transition-colors line-clamp-2 leading-snug">
                         {sub}
                       </h3>
                     </div>
                   </div>
 
-                  <div className="mt-auto pt-3 border-t border-outline-variant flex items-center justify-between text-label-xs font-bold tracking-wider text-on-surface-variant">
+                  <div className="mt-auto pt-3 border-t border-outline-variant flex items-center justify-between text-label-sm font-bold tracking-wider text-on-surface-variant">
                     <span className="flex items-center gap-1">
                       <Folder className="w-3.5 h-3.5" />
                       {count} {count === 1 ? 'Byte' : 'Bytes'}
@@ -320,49 +320,50 @@ function ByteCard({
   return (
     <Link
       href={`/bytes/view?id=${byte.id}`}
-      className="relative card p-5 transition-all duration-300 flex flex-col min-h-[280px] group"
+      className="relative card p-5 transition-all duration-300 flex flex-col min-h-[180px] group"
     >
       <div className="mb-3">
         <div className={`w-10 h-10 rounded-xl bg-gradient-to-br ${colors.gradient} flex items-center justify-center text-base group-hover:scale-105 transition-transform`}>
           {colors.icon}
         </div>
       </div>
-      <h3 className="text-label-sm font-bold text-on-surface group-hover:text-primary transition-colors line-clamp-2 leading-snug mb-1">
+      <h3 className="text-body-base font-bold text-on-surface group-hover:text-primary transition-colors line-clamp-2 leading-snug mb-1">
         {byte.title}
       </h3>
-      <span className={`badge ${colors.badge} text-label-xs mb-2`}>{byte.topic}</span>
+      <p className="text-label-sm text-on-surface-variant line-clamp-1">{byte.topic}</p>
 
-      <p className="text-label-xs text-on-surface-variant leading-relaxed line-clamp-3 flex-1">
+      <p className="text-label-sm text-on-surface-variant leading-relaxed line-clamp-2 flex-1 mt-1.5">
         {byte.content}
       </p>
 
-      <div className="flex items-center gap-2 mt-2">
-        {byte.sub_topic && (
-          <span className="text-label-xs px-2 py-0.5 rounded-md bg-surface-container text-on-surface-variant font-medium">
-            {byte.sub_topic}
+      <div className="mt-auto pt-3 border-t border-outline-variant flex items-center justify-between text-label-sm text-on-surface-variant mt-3">
+        <div className="flex items-center gap-2">
+          {byte.sub_topic && (
+            <span className="px-2 py-0.5 rounded-md bg-surface-container font-medium">
+              {byte.sub_topic}
+            </span>
+          )}
+          {byte.major && byte.major !== 'Both' && (
+            <span className="px-2 py-0.5 rounded-md bg-primary/10 text-primary font-medium">
+              {byte.major}
+            </span>
+          )}
+        </div>
+        <div className="flex items-center gap-2">
+          {byte.relatedQuestionIds && byte.relatedQuestionIds.length > 0 && (
+            <span className="flex items-center gap-1 font-bold text-primary">
+              <HelpCircle className="w-3.5 h-3.5" />
+              {byte.relatedQuestionIds.length}
+            </span>
+          )}
+          {byte.images && byte.images.length > 0 && (
+            <Image className="w-3.5 h-3.5" />
+          )}
+          <span className="text-primary opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-0.5 font-bold">
+            Open
+            <ChevronRight className="w-3 h-3" />
           </span>
-        )}
-        {byte.major && byte.major !== 'Both' && (
-          <span className="text-label-xs px-2 py-0.5 rounded-md bg-primary/10 text-primary font-medium">
-            {byte.major}
-          </span>
-        )}
-        {byte.relatedQuestionIds && byte.relatedQuestionIds.length > 0 && (
-          <span className="text-label-xs text-on-surface-variant ml-auto flex items-center gap-1">
-            <HelpCircle className="w-3 h-3 text-primary" />
-            {byte.relatedQuestionIds.length}
-          </span>
-        )}
-        {byte.images && byte.images.length > 0 && (
-          <Image className="w-3 h-3 text-on-surface-variant" />
-        )}
-      </div>
-
-      <div className="pt-3 border-t border-outline-variant flex items-center justify-between text-label-xs font-bold tracking-wider text-on-surface-variant mt-2">
-        <span className="text-primary opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-0.5">
-          Open
-          <ChevronRight className="w-3 h-3" />
-        </span>
+        </div>
       </div>
 
       {byte.source !== 'system' && (
