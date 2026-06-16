@@ -233,7 +233,7 @@ function ExamContent() {
   // ─── DEPARTMENT LISTING ───
   if (!department && !selectedCategory) {
     return (
-      <div className="space-y-10 py-4">
+      <div className="space-y-6 py-4">
         <Link 
           href="/dashboard"
           className="inline-flex items-center gap-2 text-label-xs text-on-surface-variant hover:text-primary transition-colors font-medium"
@@ -242,38 +242,24 @@ function ExamContent() {
           Return to Dashboard
         </Link>
 
-        <div className="flex flex-col items-center text-center gap-6">
-          <h1 className="text-hero-sm md:text-hero font-extrabold text-on-surface tracking-tight leading-none">
-            Exit{' '}
-            <span className="text-gradient">
-              Exam
-            </span>
-          </h1>
-          <p className="text-body-base text-on-surface-variant max-w-lg">
+        <div>
+          <h1 className="text-headline-2xl font-bold text-on-surface">Exit Exam</h1>
+          <p className="text-body-base text-on-surface-variant mt-1">
             Select your department to access authentic past-year exit exam questions, precisely timed to build your competitive edge.
           </p>
-          <div className="flex flex-wrap justify-center gap-3">
-            <div className="px-4 py-2.5 rounded-xl bg-surface-container border border-outline-variant flex items-center gap-2.5">
-              <Zap className="w-4 h-4 text-primary" />
-              <div>
-                <span className="font-bold text-sm text-on-surface tabular-nums">{progress.xp.toLocaleString()}</span>
-                <span className="text-label-xs text-on-surface-variant block leading-tight">XP</span>
-              </div>
-            </div>
-            <div className="px-4 py-2.5 rounded-xl bg-surface-container border border-outline-variant flex items-center gap-2.5">
-              <Flame className="w-4 h-4 text-secondary" />
-              <div>
-                <span className="font-bold text-sm text-on-surface tabular-nums">{progress.streak}</span>
-                <span className="text-label-xs text-on-surface-variant block leading-tight">Day Streak</span>
-              </div>
-            </div>
-            <div className="px-4 py-2.5 rounded-xl bg-surface-container border border-outline-variant flex items-center gap-2.5">
-              <FileText className="w-4 h-4 text-tertiary" />
-              <div>
-                <span className="font-bold text-sm text-on-surface tabular-nums">{questions.length.toLocaleString()}</span>
-                <span className="text-label-xs text-on-surface-variant block leading-tight">Exam Qs</span>
-              </div>
-            </div>
+          <div className="flex flex-wrap items-center gap-x-4 gap-y-1 mt-3 text-label-sm text-on-surface-variant">
+            <span className="flex items-center gap-1.5">
+              <Zap className="w-3.5 h-3.5 text-primary" />
+              <span className="font-semibold text-on-surface tabular-nums">{progress.xp.toLocaleString()}</span> XP
+            </span>
+            <span className="flex items-center gap-1.5">
+              <Flame className="w-3.5 h-3.5 text-secondary" />
+              <span className="font-semibold text-on-surface tabular-nums">{progress.streak}</span> Day Streak
+            </span>
+            <span className="flex items-center gap-1.5">
+              <FileText className="w-3.5 h-3.5 text-tertiary" />
+              <span className="font-semibold text-on-surface tabular-nums">{questions.length.toLocaleString()}</span> Exam Qs
+            </span>
           </div>
         </div>
 
@@ -357,28 +343,23 @@ function ExamContent() {
     }
 
     return (
-      <div className="space-y-10 py-4">
+      <div className="space-y-6 py-4">
         <button onClick={() => router.push('/exam')} className="inline-flex items-center gap-2 text-label-xs text-on-surface-variant hover:text-primary transition-colors font-medium">
           <ChevronLeft className="w-4 h-4" />
           All Departments
         </button>
 
-        <div className="flex flex-col items-center text-center gap-6">
-          <h1 className="text-headline-2xl md:text-headline-3xl font-extrabold text-on-surface tracking-tight">
-            <span className="text-gradient">
-              {department}
+        <div>
+          <div className="flex items-center gap-4">
+            <h1 className="text-headline-2xl font-bold text-on-surface">{department}</h1>
+            <span className="flex items-center gap-1.5 text-label-sm text-on-surface-variant">
+              <FileText className="w-3.5 h-3.5 text-primary" />
+              <span className="font-semibold text-on-surface tabular-nums">{questions.filter(q => sourcesInDept.includes(q.source)).length.toLocaleString()}</span> Exam Qs
             </span>
-          </h1>
-          <p className="text-body-base text-on-surface-variant">
+          </div>
+          <p className="text-body-base text-on-surface-variant mt-1">
             Select an exam set below to begin practicing.
           </p>
-          <div className="px-4 py-2.5 rounded-xl bg-surface-container border border-outline-variant flex items-center gap-2.5">
-            <FileText className="w-4 h-4 text-primary" />
-            <div>
-              <span className="font-bold text-sm text-on-surface tabular-nums">{questions.filter(q => sourcesInDept.includes(q.source)).length.toLocaleString()}</span>
-              <span className="text-label-xs text-on-surface-variant block leading-tight">Exam Qs</span>
-            </div>
-          </div>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">

@@ -172,40 +172,6 @@ export default function BytesPage() {
         </select>
       </div>
 
-      {/* Navigation Breadcrumbs */}
-      {!searchQuery && (
-        <div className="flex items-center gap-2 text-label-xs font-bold tracking-wider text-on-surface-variant bg-surface-container p-3 rounded-xl">
-          <button 
-            onClick={() => { setCurrentSubject(null); setCurrentSubTopic(null); }}
-            className={`hover:text-on-surface transition-colors flex items-center gap-1.5 ${!currentSubject ? 'text-on-surface' : ''}`}
-          >
-            <Home className="w-3.5 h-3.5" />
-            Matrix
-          </button>
-          
-          {currentSubject && (
-            <>
-              <span className="text-outline font-bold">/</span>
-              <button 
-                onClick={() => { setCurrentSubTopic(null); }}
-                className={`hover:text-on-surface transition-colors ${!currentSubTopic ? 'text-primary' : ''}`}
-              >
-                {currentSubject}
-              </button>
-            </>
-          )}
-
-          {currentSubTopic && (
-            <>
-              <span className="text-outline font-bold">/</span>
-              <span className="text-primary">
-                {currentSubTopic}
-              </span>
-            </>
-          )}
-        </div>
-      )}
-
       {/* RENDER VIEW PORTIONS */}
       {!mounted ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 animate-pulse">
@@ -354,25 +320,23 @@ function ByteCard({
   return (
     <Link
       href={`/bytes/view?id=${byte.id}`}
-      className="relative card p-4 transition-all duration-300 flex flex-col min-h-[320px] group"
+      className="relative card p-5 transition-all duration-300 flex flex-col min-h-[280px] group"
     >
-      <div className="flex items-start gap-3 mb-2">
-        <div className={`w-10 h-10 rounded-xl bg-gradient-to-br ${colors.gradient} flex items-center justify-center text-base shrink-0 group-hover:scale-105 transition-transform`}>
+      <div className="mb-3">
+        <div className={`w-10 h-10 rounded-xl bg-gradient-to-br ${colors.gradient} flex items-center justify-center text-base group-hover:scale-105 transition-transform`}>
           {colors.icon}
         </div>
-        <div className="flex-1 min-w-0">
-          <h3 className="text-label-sm font-bold text-on-surface group-hover:text-primary transition-colors line-clamp-2 leading-snug">
-            {byte.title}
-          </h3>
-          <span className={`badge ${colors.badge} text-label-xs mt-1`}>{byte.topic}</span>
-        </div>
       </div>
+      <h3 className="text-label-sm font-bold text-on-surface group-hover:text-primary transition-colors line-clamp-2 leading-snug mb-1">
+        {byte.title}
+      </h3>
+      <span className={`badge ${colors.badge} text-label-xs mb-2`}>{byte.topic}</span>
 
-      <p className="text-label-xs text-on-surface-variant leading-relaxed line-clamp-4 flex-1">
+      <p className="text-label-xs text-on-surface-variant leading-relaxed line-clamp-3 flex-1">
         {byte.content}
       </p>
 
-      <div className="flex items-center gap-2 mt-2 mb-2">
+      <div className="flex items-center gap-2 mt-2">
         {byte.sub_topic && (
           <span className="text-label-xs px-2 py-0.5 rounded-md bg-surface-container text-on-surface-variant font-medium">
             {byte.sub_topic}
@@ -383,20 +347,18 @@ function ByteCard({
             {byte.major}
           </span>
         )}
+        {byte.relatedQuestionIds && byte.relatedQuestionIds.length > 0 && (
+          <span className="text-label-xs text-on-surface-variant ml-auto flex items-center gap-1">
+            <HelpCircle className="w-3 h-3 text-primary" />
+            {byte.relatedQuestionIds.length}
+          </span>
+        )}
         {byte.images && byte.images.length > 0 && (
-          <Image className="w-3 h-3 text-on-surface-variant ml-auto" />
+          <Image className="w-3 h-3 text-on-surface-variant" />
         )}
       </div>
 
-      <div className="pt-3 border-t border-outline-variant flex items-center justify-between text-label-xs font-bold tracking-wider text-on-surface-variant">
-        <div className="flex items-center gap-2">
-          {byte.relatedQuestionIds && byte.relatedQuestionIds.length > 0 && (
-            <span className="flex items-center gap-1 text-primary">
-              <HelpCircle className="w-3 h-3" />
-              {byte.relatedQuestionIds.length} Qs
-            </span>
-          )}
-        </div>
+      <div className="pt-3 border-t border-outline-variant flex items-center justify-between text-label-xs font-bold tracking-wider text-on-surface-variant mt-2">
         <span className="text-primary opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-0.5">
           Open
           <ChevronRight className="w-3 h-3" />

@@ -205,26 +205,24 @@ export default function DocumentsPage() {
             <button
               key={doc.id}
               onClick={() => setViewingDoc(doc)}
-              className="card p-4 text-left flex flex-col min-h-[160px] group transition-all"
+              className="card p-5 text-left flex flex-col min-h-[160px] group transition-all"
             >
-              <div className="flex items-start gap-3">
-                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary/15 to-primary-container/25 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
+              <div className="mb-3">
+                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary/15 to-primary-container/25 flex items-center justify-center group-hover:scale-105 transition-transform">
                   <FileText className="w-5 h-5 text-primary" />
                 </div>
-                <div className="flex-1 min-w-0">
-                  <h3 className="text-label-sm font-bold text-on-surface group-hover:text-primary transition-colors line-clamp-2 leading-snug">
-                    {doc.title}
-                  </h3>
-                  <p className="text-label-xs text-on-surface-variant mt-1 flex items-center gap-1.5">
-                    <span className="line-clamp-1">{doc.topic}</span>
-                    <span className="text-on-surface-variant/30">·</span>
-                    <span className="shrink-0">{formatFileSize(doc.file_size)}</span>
-                  </p>
-                </div>
               </div>
+              <h3 className="text-label-sm font-bold text-on-surface group-hover:text-primary transition-colors line-clamp-2 leading-snug mb-1">
+                {doc.title}
+              </h3>
+              <p className="text-label-xs text-on-surface-variant line-clamp-1">{doc.topic}</p>
 
               <div className="mt-auto pt-3 border-t border-outline-variant flex items-center justify-between text-label-xs font-bold tracking-wider text-on-surface-variant">
-                <span>{formatDate(doc.created_at)}</span>
+                <div className="flex items-center gap-2">
+                  <span>{formatFileSize(doc.file_size)}</span>
+                  <span className="text-on-surface-variant/30">·</span>
+                  <span>{formatDate(doc.created_at)}</span>
+                </div>
                 <div className="flex items-center gap-2">
                   <span className="px-2 py-0.5 rounded-md bg-surface-container text-on-surface-variant font-medium">
                     {doc.major || 'Both'}
