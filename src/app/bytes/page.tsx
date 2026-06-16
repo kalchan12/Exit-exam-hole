@@ -120,31 +120,13 @@ export default function BytesPage() {
     return topicColors[topic] || { badge: 'text-cyan-400 border-cyan-500/40 bg-cyan-500/20', gradient: 'from-cyan-500/30 to-sky-600/30', icon: '📘' };
   };
 
-  if (!mounted) {
-    return (
-      <div className="animate-pulse space-y-6 py-4">
-        <div className="h-10 bg-surface-container-highest rounded-xl w-48" />
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {[1, 2, 3, 4, 5, 6].map((i) => (
-            <div key={i} className="h-48 bg-surface-container-highest rounded-xl" />
-          ))}
-        </div>
-      </div>
-    );
-  }
-
   return (
-    <div className="space-y-6 py-4 pb-16">
-      {/* Header */}
-      <div className="relative bg-gradient-to-br from-surface-container-low to-surface-container rounded-xl p-6 overflow-hidden">
-        <div className="absolute top-0 right-0 w-48 h-48 bg-gradient-to-bl from-primary/5 to-transparent rounded-full blur-2xl pointer-events-none" />
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 relative">
+    <div className="space-y-6 py-4">
+      <div>
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
           <div>
-            <h1 className="text-headline-2xl font-bold text-on-surface flex items-center gap-2">
-              Learning Bytes
-              <span className="badge bg-primary-container text-on-primary-container text-label-xs font-bold">Matrix</span>
-            </h1>
-            <p className="text-label-sm text-on-surface-variant mt-1 font-medium tracking-wider">
+            <h1 className="text-headline-2xl font-bold text-on-surface">Learning Bytes</h1>
+            <p className="text-body-base text-on-surface-variant mt-1">
               {searchQuery 
                 ? `Found ${filteredBytes.length} bytes matching search`
                 : !currentSubject 
@@ -158,7 +140,7 @@ export default function BytesPage() {
           {bytes.some(b => b.githubUrl) && (
             <button 
               onClick={handleRefreshGithub}
-              className="btn-ghost text-label-xs inline-flex items-center gap-1.5"
+              className="btn-ghost text-label-xs inline-flex items-center gap-1.5 shrink-0"
             >
               <RefreshCw className="w-3.5 h-3.5 group-hover:rotate-180 transition-transform duration-500" />
               Refresh GitHub Cache
@@ -192,7 +174,7 @@ export default function BytesPage() {
 
       {/* Navigation Breadcrumbs */}
       {!searchQuery && (
-        <div className="flex items-center gap-2 text-label-xs font-bold tracking-wider text-on-surface-variant bg-surface-container p-4 rounded-xl border border-outline-variant">
+        <div className="flex items-center gap-2 text-label-xs font-bold tracking-wider text-on-surface-variant bg-surface-container p-3 rounded-xl">
           <button 
             onClick={() => { setCurrentSubject(null); setCurrentSubTopic(null); }}
             className={`hover:text-on-surface transition-colors flex items-center gap-1.5 ${!currentSubject ? 'text-on-surface' : ''}`}
@@ -225,7 +207,24 @@ export default function BytesPage() {
       )}
 
       {/* RENDER VIEW PORTIONS */}
-      {searchQuery ? (
+      {!mounted ? (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 animate-pulse">
+          {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
+            <div key={i} className="card p-5 flex flex-col min-h-[150px]">
+              <div className="flex items-start gap-3 mb-3">
+                <div className="w-8 h-8 rounded-lg bg-surface-container-highest" />
+                <div className="flex-1 space-y-2">
+                  <div className="h-3 bg-surface-container-highest rounded w-3/4" />
+                  <div className="h-3 bg-surface-container-highest rounded w-1/2" />
+                </div>
+              </div>
+              <div className="mt-auto pt-4 border-t border-outline-variant">
+                <div className="h-3 bg-surface-container-highest rounded w-1/3" />
+              </div>
+            </div>
+          ))}
+        </div>
+      ) : searchQuery ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
           {filteredBytes.map((byte) => (
             <ByteCard key={byte.id} byte={byte} onDelete={handleDelete} deleteConfirm={deleteConfirm} getTopicColor={getTopicColor} />
@@ -233,8 +232,8 @@ export default function BytesPage() {
           {filteredBytes.length === 0 && (
             <div className="col-span-full card p-12 text-center">
               <div className="text-4xl mb-4">🔍</div>
-              <h3 className="text-headline-xl-mobile font-bold text-on-surface tracking-tight">No Match Found</h3>
-              <p className="text-on-surface-variant text-label-xs font-bold tracking-wider mt-1">Try relaxing your search terms or changing major filter.</p>
+              <h3 className="text-headline-xl-mobile font-semibold text-on-surface mb-2">No Match Found</h3>
+              <p className="text-on-surface-variant">Try relaxing your search terms or changing major filter.</p>
             </div>
           )}
         </div>
@@ -249,18 +248,30 @@ export default function BytesPage() {
                   setCurrentSubject(course);
                   setCurrentSubTopic(null);
                 }}
-                className="card-hover p-5 flex items-center gap-4 relative overflow-hidden text-left"
+                className="text-left w-full"
               >
-                <div className="w-12 h-12 rounded-xl bg-primary-container flex items-center justify-center group-hover:scale-110 transition-transform shrink-0">
-                  <Folder className="w-6 h-6 text-primary" />
-                </div>
-                <div className="min-w-0 flex-1">
-                  <h3 className="text-label-sm font-bold text-on-surface truncate leading-tight group-hover:text-primary transition-colors">
-                    {course}
-                  </h3>
-                  <p className="text-label-xs text-on-surface-variant font-bold tracking-wider mt-1">
-                    {count} {count === 1 ? 'Byte' : 'Bytes'}
-                  </p>
+                <div className="card p-5 flex flex-col h-full min-h-[150px] cursor-pointer group transition-all duration-300">
+                  <div className="flex items-start gap-3 mb-3">
+                    <div className="w-8 h-8 rounded-lg bg-primary-container flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
+                      <Folder className="w-4 h-4 text-primary" />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <h3 className="text-label-sm font-bold text-on-surface group-hover:text-primary transition-colors line-clamp-2 leading-snug">
+                        {course}
+                      </h3>
+                    </div>
+                  </div>
+
+                  <div className="mt-auto pt-3 border-t border-outline-variant flex items-center justify-between text-label-xs font-bold tracking-wider text-on-surface-variant">
+                    <span className="flex items-center gap-1">
+                      <Folder className="w-3.5 h-3.5" />
+                      {count} {count === 1 ? 'Byte' : 'Bytes'}
+                    </span>
+                    <span className="text-primary group-hover:translate-x-1 transition-transform flex items-center gap-0.5">
+                      Open
+                      <ChevronRight className="w-3 h-3" />
+                    </span>
+                  </div>
                 </div>
               </button>
             );
@@ -274,18 +285,30 @@ export default function BytesPage() {
               <button
                 key={sub}
                 onClick={() => { setCurrentSubTopic(sub); }}
-                className="card-hover p-5 flex items-center gap-4 relative overflow-hidden text-left"
+                className="text-left w-full"
               >
-                <div className="w-12 h-12 rounded-xl bg-primary-container flex items-center justify-center group-hover:scale-110 transition-transform shrink-0">
-                  <Folder className="w-6 h-6 text-primary" />
-                </div>
-                <div className="min-w-0 flex-1">
-                  <h3 className="text-label-sm font-bold text-on-surface truncate leading-tight group-hover:text-primary transition-colors">
-                    {sub}
-                  </h3>
-                  <p className="text-label-xs text-on-surface-variant font-bold tracking-wider mt-1">
-                    {count} {count === 1 ? 'Byte' : 'Bytes'}
-                  </p>
+                <div className="card p-5 flex flex-col h-full min-h-[150px] cursor-pointer group transition-all duration-300">
+                  <div className="flex items-start gap-3 mb-3">
+                    <div className="w-8 h-8 rounded-lg bg-primary-container flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
+                      <Folder className="w-4 h-4 text-primary" />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <h3 className="text-label-sm font-bold text-on-surface group-hover:text-primary transition-colors line-clamp-2 leading-snug">
+                        {sub}
+                      </h3>
+                    </div>
+                  </div>
+
+                  <div className="mt-auto pt-3 border-t border-outline-variant flex items-center justify-between text-label-xs font-bold tracking-wider text-on-surface-variant">
+                    <span className="flex items-center gap-1">
+                      <Folder className="w-3.5 h-3.5" />
+                      {count} {count === 1 ? 'Byte' : 'Bytes'}
+                    </span>
+                    <span className="text-primary group-hover:translate-x-1 transition-transform flex items-center gap-0.5">
+                      Open
+                      <ChevronRight className="w-3 h-3" />
+                    </span>
+                  </div>
                 </div>
               </button>
             );
@@ -293,8 +316,8 @@ export default function BytesPage() {
           {subTopics.length === 0 && (
             <div className="col-span-full card p-12 text-center">
               <div className="text-3xl mb-4 text-primary">📂</div>
-              <h3 className="text-label-sm font-bold text-on-surface-variant tracking-wider">Empty Folder</h3>
-              <p className="text-on-surface-variant text-label-xs font-bold mt-1 tracking-wider">There are no sub-topics created in this course yet.</p>
+              <h3 className="text-headline-xl-mobile font-semibold text-on-surface mb-2">Empty Folder</h3>
+              <p className="text-on-surface-variant">There are no sub-topics created in this course yet.</p>
             </div>
           )}
         </div>
@@ -306,8 +329,8 @@ export default function BytesPage() {
           {filteredBytes.length === 0 && (
             <div className="col-span-full card p-12 text-center">
               <div className="text-3xl mb-4 text-primary">⚡</div>
-              <h3 className="text-label-sm font-bold text-on-surface-variant tracking-wider">No Bytes</h3>
-              <p className="text-on-surface-variant text-label-xs font-bold mt-1 tracking-wider">No bytes in this sub-topic matching your filter.</p>
+              <h3 className="text-headline-xl-mobile font-semibold text-on-surface mb-2">No Bytes</h3>
+              <p className="text-on-surface-variant">No bytes in this sub-topic matching your filter.</p>
             </div>
           )}
         </div>
@@ -329,67 +352,61 @@ function ByteCard({
 }) {
   const colors = getTopicColor(byte.topic);
   return (
-    <div className="relative card p-5 flex flex-col gap-3 group transition-all duration-300 overflow-hidden">
-      <Link href={`/bytes/view?id=${byte.id}`} className="flex flex-col gap-3 flex-1">
-        <div className="flex items-start gap-3 relative z-10">
-          <div className={`w-11 h-11 rounded-xl bg-gradient-to-br ${colors.gradient} flex items-center justify-center text-lg shrink-0 group-hover:scale-110 transition-transform`}>
-            {colors.icon}
-          </div>
-          <div className="min-w-0 flex-1">
-            <h3 className="text-label-sm font-bold text-on-surface group-hover:text-primary transition-colors line-clamp-2 leading-snug">
-              {byte.title}
-            </h3>
-            <span className={`badge ${colors.badge} text-label-xs font-bold tracking-wider mt-1.5 inline-block`}>
-              {byte.topic}
-            </span>
-          </div>
+    <Link
+      href={`/bytes/view?id=${byte.id}`}
+      className="relative card p-4 transition-all duration-300 flex flex-col min-h-[320px] group"
+    >
+      <div className="flex items-start gap-3 mb-2">
+        <div className={`w-10 h-10 rounded-xl bg-gradient-to-br ${colors.gradient} flex items-center justify-center text-base shrink-0 group-hover:scale-105 transition-transform`}>
+          {colors.icon}
         </div>
-        
-        <p className="text-label-xs text-on-surface-variant leading-relaxed line-clamp-2 flex-1">
-          {byte.content}
-        </p>
-        
-        <div className="flex flex-wrap items-center gap-2 relative z-10">
-          {byte.sub_topic && (
-            <span className="text-label-xs px-2 py-1 rounded-full bg-surface-container text-on-surface-variant font-bold border border-outline-variant">
-              {byte.sub_topic}
-            </span>
-          )}
-          {byte.major && byte.major !== 'Both' && (
-            <span className="text-label-xs px-2 py-1 rounded-full bg-primary-container/30 text-primary font-bold border border-primary/20">
-              {byte.major}
-            </span>
-          )}
-          <span className="text-label-xs text-on-surface-variant font-bold ml-auto">
-            {byte.relatedQuestionIds ? byte.relatedQuestionIds.length : 0} Qs
-          </span>
-          {byte.images && byte.images.length > 0 && (
-            <span className="flex items-center gap-1 text-label-xs text-on-surface-variant" title="Contains visual assets">
-              <Image className="w-3 h-3" />
-            </span>
-          )}
+        <div className="flex-1 min-w-0">
+          <h3 className="text-label-sm font-bold text-on-surface group-hover:text-primary transition-colors line-clamp-2 leading-snug">
+            {byte.title}
+          </h3>
+          <span className={`badge ${colors.badge} text-label-xs mt-1`}>{byte.topic}</span>
         </div>
+      </div>
 
-        <div className="flex items-center justify-between pt-2 border-t border-outline-variant mt-1 relative z-10">
-          <span className="text-label-xs text-on-surface-variant font-bold tracking-wider">
-            {byte.relatedQuestionIds && byte.relatedQuestionIds.length > 0 ? (
-              <span className="flex items-center gap-1">
-                <HelpCircle className="w-3 h-3 text-primary" />
-                Practice
-              </span>
-            ) : null}
+      <p className="text-label-xs text-on-surface-variant leading-relaxed line-clamp-4 flex-1">
+        {byte.content}
+      </p>
+
+      <div className="flex items-center gap-2 mt-2 mb-2">
+        {byte.sub_topic && (
+          <span className="text-label-xs px-2 py-0.5 rounded-md bg-surface-container text-on-surface-variant font-medium">
+            {byte.sub_topic}
           </span>
-          <span className="text-label-xs font-bold tracking-wider text-primary opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1">
-            Read Now
-            <ChevronRight className="w-3 h-3" />
+        )}
+        {byte.major && byte.major !== 'Both' && (
+          <span className="text-label-xs px-2 py-0.5 rounded-md bg-primary/10 text-primary font-medium">
+            {byte.major}
           </span>
+        )}
+        {byte.images && byte.images.length > 0 && (
+          <Image className="w-3 h-3 text-on-surface-variant ml-auto" />
+        )}
+      </div>
+
+      <div className="pt-3 border-t border-outline-variant flex items-center justify-between text-label-xs font-bold tracking-wider text-on-surface-variant">
+        <div className="flex items-center gap-2">
+          {byte.relatedQuestionIds && byte.relatedQuestionIds.length > 0 && (
+            <span className="flex items-center gap-1 text-primary">
+              <HelpCircle className="w-3 h-3" />
+              {byte.relatedQuestionIds.length} Qs
+            </span>
+          )}
         </div>
-      </Link>
-      
+        <span className="text-primary opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-0.5">
+          Open
+          <ChevronRight className="w-3 h-3" />
+        </span>
+      </div>
+
       {byte.source !== 'system' && (
-        <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity z-10">
+        <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity z-10">
           <button
-            onClick={(e) => onDelete(byte.id, e)}
+            onClick={(e) => { e.preventDefault(); e.stopPropagation(); onDelete(byte.id, e); }}
             title={deleteConfirm === byte.id ? 'Click again to confirm delete' : 'Delete byte'}
             className={`w-7 h-7 rounded-lg bg-surface-container flex items-center justify-center transition-all ${
               deleteConfirm === byte.id
@@ -401,6 +418,6 @@ function ByteCard({
           </button>
         </div>
       )}
-    </div>
+    </Link>
   );
 }
