@@ -133,7 +133,7 @@ export default function LandingPage() {
 
       {/* Navbar */}
       <nav className="fixed top-0 left-0 right-0 z-50">
-        <div className="mx-4 mt-4 max-w-7xl xl:mx-auto rounded-2xl bg-surface/80 backdrop-blur-xl border border-primary/10 shadow-ambient">
+        <div className="mx-4 mt-4 max-w-7xl xl:mx-auto rounded-2xl bg-surface/80 backdrop-blur-xl shadow-ambient">
           <div className="flex items-center justify-between px-6 py-3">
             <Link href="/" className="flex items-center gap-2.5 group shrink-0">
               <div className="w-9 h-9 rounded-lg bg-primary flex items-center justify-center text-on-primary font-bold text-sm shadow-sm">
@@ -153,7 +153,7 @@ export default function LandingPage() {
             <div className="flex items-center gap-3 shrink-0">
               <button
                 onClick={toggleTheme}
-                className="w-9 h-9 flex items-center justify-center rounded-lg text-on-surface-variant border border-primary/10 hover:bg-surface-container-high hover:text-on-surface transition-all"
+                className="w-9 h-9 flex items-center justify-center rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all"
                 aria-label="Toggle theme"
               >
                 {theme === 'dark' ? (
