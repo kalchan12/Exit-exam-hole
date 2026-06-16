@@ -127,17 +127,6 @@ export default function NotesPage() {
     return new Date(isoString).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
   };
 
-  if (!mounted || !loaded) {
-    return (
-      <div className="animate-pulse space-y-6 py-4">
-        <div className="h-10 bg-surface-container-highest rounded-xl w-48" />
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {[1, 2, 3, 4].map((i) => <div key={i} className="h-36 bg-surface-container-highest rounded-xl" />)}
-        </div>
-      </div>
-    );
-  }
-
   const allLabels = Array.from(new Set(notes.map(n => n.label).filter(Boolean))) as string[];
 
   // ── Single course detail view ──
@@ -266,58 +255,75 @@ export default function NotesPage() {
         </select>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        {courses.map((course) => {
-          const courseNotes = sortedCourseNotes[course] || [];
-          const colors = topicColors[course] || 'from-gray-500/20 to-gray-600/20 border-gray-500/30';
-          const icon = topicIcons[course] || '📖';
-          const unreadCount = unreadCourseCounts[course] || 0;
-
-          return (
-            <button key={course} onClick={() => setSelectedCourse(course)} className="text-left w-full">
-              <div className="card p-5 sm:p-6 flex flex-col h-full min-h-[150px] cursor-pointer hover:border-primary-fixed-dim transition-all duration-300 group">
-                <div className="flex flex-wrap gap-2 mb-4">
-                  <div className={`w-8 h-8 rounded-lg bg-gradient-to-br ${colors} flex items-center justify-center text-base shrink-0 group-hover:scale-105 transition-transform`}>
-                    {icon}
-                  </div>
-                  {unreadCount > 0 && (
-                    <span className="badge bg-primary-container text-on-primary-container text-label-xs font-bold">
-                      {unreadCount} new
-                    </span>
-                  )}
-                </div>
-
-                <h3 className="text-label-sm font-bold text-on-surface mb-2 group-hover:text-primary transition-colors line-clamp-2">
-                  {course}
-                </h3>
-
-                {courseNotes.length === 0 && (
-                  <p className="text-label-xs text-on-surface-variant flex-1 italic">
-                    No chapters yet
-                  </p>
-                )}
-
-                <div className="mt-auto pt-4 border-t border-outline-variant flex items-center justify-between text-label-xs font-bold tracking-wider text-on-surface-variant">
-                  <span className="flex items-center gap-1">
-                    <BookOpen className="w-3.5 h-3.5" />
-                    {courseNotes.length} chapter{courseNotes.length !== 1 ? 's' : ''}
-                  </span>
-                  <span className="text-primary group-hover:translate-x-1 transition-transform flex items-center gap-0.5 text-label-xs">
-                    Open
-                    <ChevronRight className="w-3 h-3" />
-                  </span>
+      {!mounted || !loaded ? (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 animate-pulse">
+          {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
+            <div key={i} className="card p-5 flex flex-col min-h-[150px]">
+              <div className="flex items-start gap-3 mb-3">
+                <div className="w-8 h-8 rounded-lg bg-surface-container-highest" />
+                <div className="flex-1 space-y-2">
+                  <div className="h-3 bg-surface-container-highest rounded w-3/4" />
+                  <div className="h-3 bg-surface-container-highest rounded w-1/2" />
                 </div>
               </div>
-            </button>
-          );
-        })}
-      </div>
-
-      {courses.length === 0 && (
+              <div className="mt-auto pt-4 border-t border-outline-variant">
+                <div className="h-3 bg-surface-container-highest rounded w-1/3" />
+              </div>
+            </div>
+          ))}
+        </div>
+      ) : courses.length === 0 ? (
         <div className="card p-12 text-center">
           <div className="text-4xl mb-4">📝</div>
           <h3 className="text-headline-xl-mobile font-semibold text-on-surface mb-2">No Courses Found</h3>
           <p className="text-on-surface-variant">Courses will appear here once configured.</p>
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          {courses.map((course) => {
+            const courseNotes = sortedCourseNotes[course] || [];
+            const colors = topicColors[course] || 'from-gray-500/20 to-gray-600/20 border-gray-500/30';
+            const icon = topicIcons[course] || '📖';
+            const unreadCount = unreadCourseCounts[course] || 0;
+
+            return (
+              <button key={course} onClick={() => setSelectedCourse(course)} className="text-left w-full">
+                <div className="card p-5 sm:p-6 flex flex-col h-full min-h-[150px] cursor-pointer hover:border-primary-fixed-dim transition-all duration-300 group">
+                  <div className="flex flex-wrap gap-2 mb-4">
+                    <div className={`w-8 h-8 rounded-lg bg-gradient-to-br ${colors} flex items-center justify-center text-base shrink-0 group-hover:scale-105 transition-transform`}>
+                      {icon}
+                    </div>
+                    {unreadCount > 0 && (
+                      <span className="badge bg-primary-container text-on-primary-container text-label-xs font-bold">
+                        {unreadCount} new
+                      </span>
+                    )}
+                  </div>
+
+                  <h3 className="text-label-sm font-bold text-on-surface mb-2 group-hover:text-primary transition-colors line-clamp-2">
+                    {course}
+                  </h3>
+
+                  {courseNotes.length === 0 && (
+                    <p className="text-label-xs text-on-surface-variant flex-1 italic">
+                      No chapters yet
+                    </p>
+                  )}
+
+                  <div className="mt-auto pt-4 border-t border-outline-variant flex items-center justify-between text-label-xs font-bold tracking-wider text-on-surface-variant">
+                    <span className="flex items-center gap-1">
+                      <BookOpen className="w-3.5 h-3.5" />
+                      {courseNotes.length} chapter{courseNotes.length !== 1 ? 's' : ''}
+                    </span>
+                    <span className="text-primary group-hover:translate-x-1 transition-transform flex items-center gap-0.5 text-label-xs">
+                      Open
+                      <ChevronRight className="w-3 h-3" />
+                    </span>
+                  </div>
+                </div>
+              </button>
+            );
+          })}
         </div>
       )}
     </div>
