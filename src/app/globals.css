@@ -215,7 +215,7 @@
 
   .dark .input-field {
     background-color: transparent;
-    border-color: var(--outline-variant);
+    border-color: color-mix(in srgb, var(--primary) 25%, var(--outline-variant));
   }
 
   .dark .input-field:hover {

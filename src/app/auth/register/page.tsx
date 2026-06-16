@@ -1,9 +1,10 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useAuth } from '@/components/AuthProvider';
+import { DEPARTMENT_SOURCES } from '@/lib/dataLoader';
 
 function PasswordStrength({ password }: { password: string }) {
   if (!password) return null;
@@ -61,6 +62,13 @@ export default function RegisterPage() {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const [majorSearch, setMajorSearch] = useState('');
+  const [majorOpen, setMajorOpen] = useState(false);
+  const majorList = useMemo(() => Object.keys(DEPARTMENT_SOURCES).sort(), []);
+  const filteredMajors = useMemo(
+    () => majorList.filter(m => m.toLowerCase().includes(majorSearch.toLowerCase())),
+    [majorList, majorSearch]
+  );
 
   useEffect(() => { setMounted(true); }, []);
 
@@ -171,7 +179,7 @@ export default function RegisterPage() {
                   onChange={handleAvatarChange}
                   className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10 rounded-full"
                 />
-                <div className={`w-20 h-20 rounded-full flex items-center justify-center overflow-hidden transition-all duration-300 border-2 ${avatarPreview ? 'border-primary' : 'border-dashed border-outline-variant group-hover:border-primary/50'}`}>
+                <div className={`w-20 h-20 rounded-full flex items-center justify-center overflow-hidden transition-all duration-300 border-2 ${avatarPreview ? 'border-primary' : 'border-primary/30'}`}>
                   {avatarPreview ? (
                     <img src={avatarPreview} alt="Avatar" className="w-full h-full object-cover" />
                   ) : (
@@ -179,6 +187,12 @@ export default function RegisterPage() {
                       <path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                     </svg>
                   )}
+                </div>
+                <div className="absolute -bottom-0.5 -right-0.5 w-6 h-6 rounded-full bg-surface-container border-2 border-surface-container-lowest flex items-center justify-center z-20">
+                  <svg className="w-3 h-3 text-on-surface-variant" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" />
+                    <circle cx="12" cy="13" r="4" />
+                  </svg>
                 </div>
               </div>
 
@@ -191,7 +205,7 @@ export default function RegisterPage() {
                   required
                   value={formData.fullName}
                   onChange={handleChange}
-                  placeholder="Abebe Kebede"
+                  placeholder="Enter your name or username"
                   className="input-field"
                 />
               </div>
@@ -221,33 +235,52 @@ export default function RegisterPage() {
                   required
                   value={formData.email}
                   onChange={handleChange}
-                  placeholder="student@university.edu"
+                  placeholder="Enter your email"
                   className="input-field"
                 />
               </div>
 
               <div>
-                <label className="label-text" htmlFor="major">Academic Major</label>
+                <label className="label-text" htmlFor="majorSearch">Academic Major</label>
                 <div className="relative">
-                  <select
-                    id="major"
-                    name="major"
+                  <input
+                    id="majorSearch"
+                    type="text"
                     required
-                    value={formData.major}
-                    onChange={handleChange}
-                    className="input-field appearance-none cursor-pointer"
-                  >
-                    <option value="" disabled>Select your major</option>
-                    <option value="Computer Science">Computer Science</option>
-                    <option value="Engineering">Engineering</option>
-                    <option value="Medicine">Medicine</option>
-                    <option value="Business Administration">Business Administration</option>
-                    <option value="Accounting">Accounting</option>
-                    <option value="Law">Law</option>
-                  </select>
+                    value={majorSearch}
+                    onChange={e => { setMajorSearch(e.target.value); setMajorOpen(true); setFormData(prev => ({ ...prev, major: '' })); }}
+                    onFocus={() => setMajorOpen(true)}
+                    placeholder={formData.major || "Search your major..."}
+                    className="input-field"
+                  />
                   <svg className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-on-surface-variant pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
                   </svg>
+                  {majorOpen && (
+                    <>
+                      <div className="fixed inset-0 z-10" onClick={() => setMajorOpen(false)} />
+                      <div className="absolute z-20 mt-1 w-full max-h-48 overflow-y-auto bg-surface-container-lowest border border-outline-variant rounded-lg shadow-ambient-md">
+                        {filteredMajors.length === 0 ? (
+                          <div className="p-3 text-label-sm text-on-surface-variant text-center">No majors found</div>
+                        ) : (
+                          filteredMajors.map(m => (
+                            <button
+                              key={m}
+                              type="button"
+                              className={`w-full text-left px-4 py-2.5 text-label-sm hover:bg-surface-container-high transition-colors ${formData.major === m ? 'bg-primary-container/30 text-primary font-bold' : 'text-on-surface'}`}
+                              onClick={() => {
+                                setFormData(prev => ({ ...prev, major: m }));
+                                setMajorSearch(m);
+                                setMajorOpen(false);
+                              }}
+                            >
+                              {m}
+                            </button>
+                          ))
+                        )}
+                      </div>
+                    </>
+                  )}
                 </div>
               </div>
 
