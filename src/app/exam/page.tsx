@@ -242,24 +242,28 @@ function ExamContent() {
           Return to Dashboard
         </Link>
 
-        <div>
-          <h1 className="text-headline-2xl font-bold text-on-surface">Exit Exam</h1>
-          <p className="text-body-base text-on-surface-variant mt-1">
-            Select your department to access authentic past-year exit exam questions, precisely timed to build your competitive edge.
-          </p>
-          <div className="flex flex-wrap items-center gap-x-4 gap-y-1 mt-3 text-label-sm text-on-surface-variant">
-            <span className="flex items-center gap-1.5">
-              <Zap className="w-3.5 h-3.5 text-primary" />
-              <span className="font-semibold text-on-surface tabular-nums">{progress.xp.toLocaleString()}</span> XP
-            </span>
-            <span className="flex items-center gap-1.5">
-              <Flame className="w-3.5 h-3.5 text-secondary" />
-              <span className="font-semibold text-on-surface tabular-nums">{progress.streak}</span> Day Streak
-            </span>
-            <span className="flex items-center gap-1.5">
-              <FileText className="w-3.5 h-3.5 text-tertiary" />
-              <span className="font-semibold text-on-surface tabular-nums">{questions.length.toLocaleString()}</span> Exam Qs
-            </span>
+        <div className="flex flex-col sm:flex-row sm:items-start gap-6">
+          <div className="flex-1">
+            <h1 className="text-headline-2xl font-bold text-on-surface">Exit Exam</h1>
+            <p className="text-body-base text-on-surface-variant mt-1">
+              Select your department to access authentic past-year exit exam questions, precisely timed to build your competitive edge.
+            </p>
+          </div>
+          <div className="card p-4 shrink-0 flex items-center gap-6 min-w-[220px] self-start">
+            <div className="text-center">
+              <div className="text-headline-xl-mobile font-bold text-on-surface tabular-nums">{progress.xp.toLocaleString()}</div>
+              <div className="text-label-xs text-on-surface-variant font-medium">XP</div>
+            </div>
+            <div className="w-px h-10 bg-outline-variant" />
+            <div className="text-center">
+              <div className="text-headline-xl-mobile font-bold text-on-surface tabular-nums">{progress.streak}</div>
+              <div className="text-label-xs text-on-surface-variant font-medium">Day Streak</div>
+            </div>
+            <div className="w-px h-10 bg-outline-variant" />
+            <div className="text-center">
+              <div className="text-headline-xl-mobile font-bold text-on-surface tabular-nums">{questions.length.toLocaleString()}</div>
+              <div className="text-label-xs text-on-surface-variant font-medium">Exam Qs</div>
+            </div>
           </div>
         </div>
 
