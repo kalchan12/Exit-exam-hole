@@ -406,10 +406,16 @@ export default function Sidebar({ isCollapsed, setIsCollapsed }: SidebarProps) {
 
   return (
     <>
-      <header className="lg:hidden fixed top-0 left-0 right-0 h-14 bg-surface-container-lowest z-[75] flex items-center">
+      <header className="lg:hidden fixed top-0 left-0 right-0 h-14 bg-surface-container-lowest z-[75] flex items-center px-4">
+        <div className="flex items-center gap-2.5 flex-1 min-w-0">
+          <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-primary to-primary-fixed-dim flex items-center justify-center text-on-primary text-[10px] font-bold shadow-sm shrink-0">
+            E
+          </div>
+          <h1 className="text-on-surface font-bold text-sm truncate">ExitPrep</h1>
+        </div>
         <button
           onClick={() => setIsMobileOpen(!isMobileOpen)}
-          className="w-14 h-full flex items-center justify-center text-on-surface-variant hover:text-on-surface active:bg-surface-container-high transition-colors"
+          className="w-10 h-10 flex items-center justify-center text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high rounded-xl transition-colors -mr-1"
           aria-label="Toggle menu"
         >
           {isMobileOpen ? (
@@ -418,12 +424,6 @@ export default function Sidebar({ isCollapsed, setIsCollapsed }: SidebarProps) {
             <Menu className="w-5 h-5" />
           )}
         </button>
-        <div className="flex items-center gap-2.5 flex-1 min-w-0 pr-4">
-          <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-primary to-primary-fixed-dim flex items-center justify-center text-on-primary text-[10px] font-bold shadow-sm shrink-0">
-            E
-          </div>
-          <h1 className="text-on-surface font-bold text-sm truncate">ExitPrep</h1>
-        </div>
       </header>
 
       <aside className={`hidden lg:flex flex-col h-screen fixed left-0 top-0 bg-surface-container-lowest z-50 transition-all duration-300 ${isCollapsed ? 'w-20' : 'w-64'}`}>
