@@ -65,25 +65,25 @@
   .dark {
     color-scheme: dark;
 
-    --surface: #060b1a;
-    --surface-dim: #040814;
-    --surface-bright: #1a2344;
-    --surface-container-lowest: #0a1124;
-    --surface-container-low: #0d1428;
-    --surface-container: #121b35;
-    --surface-container-high: #182344;
-    --surface-container-highest: #1f2c54;
-    --on-surface: #e8eaed;
-    --on-surface-variant: #8b8fa3;
-    --inverse-surface: #e8eaed;
-    --inverse-on-surface: #060b1a;
-    --outline: #2d3a60;
-    --outline-variant: #0f1a35;
-    --surface-tint: #8b5cf6;
+    --surface: #080523;
+    --surface-dim: #050319;
+    --surface-bright: #1b1745;
+    --surface-container-lowest: #0c0a2e;
+    --surface-container-low: #0f0d33;
+    --surface-container: #131039;
+    --surface-container-high: #191543;
+    --surface-container-highest: #201c50;
+    --on-surface: #e8e6f0;
+    --on-surface-variant: #9d9bb5;
+    --inverse-surface: #e8e6f0;
+    --inverse-on-surface: #080523;
+    --outline: #2a2555;
+    --outline-variant: #161244;
+    --surface-tint: #a78bfa;
 
     --primary: #a78bfa;
     --on-primary: #1a0e3a;
-    --primary-container: #6d3bd4;
+    --primary-container: #7c4ae8;
     --on-primary-container: #ede9fe;
     --inverse-primary: #5b21b6;
     --primary-fixed: #8b5cf6;
@@ -93,7 +93,7 @@
 
     --secondary: #f472b6;
     --on-secondary: #3a001f;
-    --secondary-container: #9d174d;
+    --secondary-container: #a81d54;
     --on-secondary-container: #fce7f3;
     --secondary-fixed: #ec4899;
     --secondary-fixed-dim: #db2777;
@@ -102,7 +102,7 @@
 
     --tertiary: #fb923c;
     --on-tertiary: #3a1a00;
-    --tertiary-container: #9a4300;
+    --tertiary-container: #a84a00;
     --on-tertiary-container: #ffedd5;
     --tertiary-fixed: #f97316;
     --tertiary-fixed-dim: #ea580c;
@@ -114,9 +114,9 @@
     --error-container: #8a0015;
     --on-error-container: #ffdad6;
 
-    --background: #060b1a;
-    --on-background: #e8eaed;
-    --surface-variant: #121b35;
+    --background: #080523;
+    --on-background: #e8e6f0;
+    --surface-variant: #131039;
   }
 
   html {
@@ -183,12 +183,13 @@
   }
 
   .dark .card {
-    background-color: var(--surface-container-low);
-    box-shadow: none;
+    background-color: var(--surface-container-high);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2), 0 1px 2px rgba(0, 0, 0, 0.15);
   }
 
   .dark .card:hover {
-    box-shadow: 0 0 20px rgb(167 139 250 / 0.06);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25), 0 1px 4px rgba(167, 139, 250, 0.08);
+    border-color: transparent;
   }
 
   .card-hover {
@@ -212,13 +213,13 @@
   }
 
   .dark .input-field {
-    @apply bg-surface-container-low;
+    background-color: var(--surface-container-low);
     border-color: var(--outline-variant);
   }
 
   .dark .input-field:focus {
     border-color: var(--primary);
-    --tw-ring-color: rgb(167 139 250 / 0.3);
+    --tw-ring-color: rgb(167 139 250 / 0.25);
   }
 
   .label-text {
@@ -234,8 +235,8 @@
   }
 
   .dark .badge-easy {
-    background-color: rgb(244 114 182 / 0.2);
-    color: rgb(244 114 182);
+    background-color: color-mix(in srgb, var(--secondary) 20%, transparent);
+    color: var(--secondary);
   }
 
   .badge-medium {
@@ -243,8 +244,8 @@
   }
 
   .dark .badge-medium {
-    background-color: rgb(167 139 250 / 0.2);
-    color: rgb(167 139 250);
+    background-color: color-mix(in srgb, var(--primary) 20%, transparent);
+    color: var(--primary);
   }
 
   .badge-hard {
@@ -252,8 +253,8 @@
   }
 
   .dark .badge-hard {
-    background-color: rgb(255 138 134 / 0.2);
-    color: rgb(255 138 134);
+    background-color: color-mix(in srgb, var(--error) 20%, transparent);
+    color: var(--error);
   }
 
   .badge-source {
@@ -261,8 +262,8 @@
   }
 
   .dark .badge-source {
-    background-color: rgb(167 139 250 / 0.2);
-    color: rgb(167 139 250);
+    background-color: color-mix(in srgb, var(--primary) 20%, transparent);
+    color: var(--primary);
   }
 
   .progress-bar {
@@ -281,12 +282,9 @@
     @apply nav-link bg-primary-container text-on-primary-container font-bold;
   }
 
-  .dark .nav-link {
-    @apply hover:bg-surface-container-high;
-  }
-
   .dark .nav-link-active {
-    @apply bg-primary-container text-on-primary-container;
+    background-color: var(--primary-container);
+    color: var(--on-primary-container);
   }
 
   .glass {
@@ -296,7 +294,7 @@
   }
 
   .dark .glass {
-    background-color: color-mix(in srgb, var(--surface) 50%, transparent);
+    background-color: color-mix(in srgb, var(--surface-container) 60%, transparent);
   }
 
   .text-gradient {
@@ -378,8 +376,8 @@
   }
 
   .dark .feature-card:hover {
-    border-color: rgb(167 139 250 / 0.25);
-    box-shadow: 0 0 24px rgb(167 139 250 / 0.08);
+    border-color: transparent;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3), 0 0 24px rgb(167 139 250 / 0.06);
   }
 
   /* Timeline card for progress page */
