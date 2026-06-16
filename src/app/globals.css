@@ -185,11 +185,12 @@
   .dark .card {
     background-color: var(--surface-container-high);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2), 0 1px 2px rgba(0, 0, 0, 0.15);
+    border: 1px solid transparent;
   }
 
   .dark .card:hover {
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25), 0 1px 4px rgba(167, 139, 250, 0.08);
-    border-color: transparent;
+    border-color: color-mix(in srgb, var(--primary) 40%, transparent);
   }
 
   .card-hover {
@@ -218,7 +219,7 @@
   }
 
   .dark .input-field:hover {
-    border-color: var(--outline);
+    border-color: color-mix(in srgb, var(--primary) 50%, transparent);
   }
 
   .dark .input-field:focus {
