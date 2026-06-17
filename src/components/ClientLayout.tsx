@@ -12,7 +12,7 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
   const router = useRouter();
   const { user, isGuest, loading } = useAuth();
   
-  const isAuthRoute = pathname === '/' || pathname?.startsWith('/auth');
+  const isAuthRoute = pathname === '/' || pathname === '/home' || pathname?.startsWith('/auth');
 
   // Trigger redirect for unauthenticated users trying to access protected routes
   useEffect(() => {

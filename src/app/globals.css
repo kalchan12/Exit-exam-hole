@@ -367,16 +367,16 @@
     animation: breathe 12s ease-in-out infinite 4s;
   }
 
-  /* Hero stagger */
+  /* Hero stagger — only animate when JS is running (.js-ready on <html>) */
   @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(30px); }
-    to { opacity: 1; transform: translateY(0); }
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
   }
 
-  .hero-badge { opacity: 0; animation: fadeUp 0.6s ease forwards 0.3s; }
-  .hero-headline { opacity: 0; animation: fadeUp 0.6s ease forwards 0.5s; }
-  .hero-subtext { opacity: 0; animation: fadeUp 0.6s ease forwards 0.7s; }
-  .hero-cta { opacity: 0; animation: fadeUp 0.6s ease forwards 0.9s; }
+  .js-ready .hero-badge    { animation: fadeUp 0.55s ease forwards 0.2s; opacity: 0; }
+  .js-ready .hero-headline { animation: fadeUp 0.55s ease forwards 0.35s; opacity: 0; }
+  .js-ready .hero-subtext  { animation: fadeUp 0.55s ease forwards 0.5s;  opacity: 0; }
+  .js-ready .hero-cta      { animation: fadeUp 0.55s ease forwards 0.65s; opacity: 0; }
 
   /* Feature card hover */
   .feature-card {
@@ -454,16 +454,31 @@
     animation: float 4.5s ease-in-out infinite 2s;
   }
 
-  /* Scroll reveal */
+  /* Scroll reveal — only hides when .js-ready is on <html> */
   .fade-up {
-    opacity: 0;
-    transform: translateY(40px);
     transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
+  .js-ready .fade-up {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+
   .fade-up.visible {
-    opacity: 1;
-    transform: translateY(0);
+    opacity: 1 !important;
+    transform: translateY(0) !important;
+  }
+
+  /* Data-reveal scroll animation — only hides when .js-ready is on <html> */
+  .js-ready [data-reveal] {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1), transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  [data-reveal].revealed {
+    opacity: 1 !important;
+    transform: translateY(0) !important;
   }
 
   /* Custom scrollbar class for exam page */
