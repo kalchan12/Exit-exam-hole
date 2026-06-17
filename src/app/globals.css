@@ -173,24 +173,43 @@
   .card {
     background-color: var(--surface-container-lowest);
     border-radius: 0.75rem;
-    box-shadow: 0 1px 3px rgb(0 0 0 / 0.06), 0 1px 2px rgb(0 0 0 / 0.04);
-    transition: all 0.2s ease;
+    /* 3D layered shadow: top-left highlight, bottom-right depth, ambient */
+    box-shadow:
+      inset 0 1px 0 rgb(255 255 255 / 0.6),
+      inset 1px 0 0 rgb(255 255 255 / 0.3),
+      0 1px 3px rgb(0 0 0 / 0.07),
+      0 4px 12px rgb(0 0 0 / 0.04);
+    transition: all 0.25s ease;
   }
 
   .card:hover {
-    box-shadow: 0 4px 12px rgb(91 79 232 / 0.06), 0 1px 3px rgb(91 79 232 / 0.04);
-    transform: translateY(-1px);
+    box-shadow:
+      inset 0 1px 0 rgb(255 255 255 / 0.6),
+      inset 1px 0 0 rgb(255 255 255 / 0.3),
+      0 6px 20px rgb(66 49 207 / 0.08),
+      0 2px 6px rgb(66 49 207 / 0.05);
+    transform: translateY(-2px);
   }
 
   .dark .card {
     background-color: var(--surface-container-high);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2), 0 1px 2px rgba(0, 0, 0, 0.15);
-    border: 1px solid transparent;
+    /* Dark mode 3D: subtle top highlight + deep bottom shadow */
+    box-shadow:
+      inset 0 1px 0 rgb(255 255 255 / 0.06),
+      inset 1px 0 0 rgb(255 255 255 / 0.03),
+      0 1px 0 rgb(0 0 0 / 0.4),
+      0 4px 16px rgb(0 0 0 / 0.3),
+      0 1px 3px rgb(0 0 0 / 0.2);
   }
 
   .dark .card:hover {
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25), 0 1px 4px rgba(167, 139, 250, 0.08);
-    border-color: color-mix(in srgb, var(--primary) 40%, transparent);
+    box-shadow:
+      inset 0 1px 0 rgb(167 139 250 / 0.12),
+      inset 1px 0 0 rgb(167 139 250 / 0.06),
+      0 1px 0 rgb(0 0 0 / 0.5),
+      0 8px 24px rgb(0 0 0 / 0.35),
+      0 0 20px rgb(167 139 250 / 0.06);
+    transform: translateY(-2px);
   }
 
   .card-hover {
