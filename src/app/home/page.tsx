@@ -78,34 +78,38 @@ export default function HomePage() {
   const c3 = useCounter(87,    1400, statsVisible);
   const c4 = useCounter(12000, 2200, statsVisible);
 
-  /* Single mount effect — stable [] dep array, never changes */
+  /* Single stable mount effect */
   useEffect(() => {
     setMounted(true);
 
-    // 1. Enable JS-gated CSS animations
-    document.documentElement.classList.add('js-ready');
-
-    // 2. Scroll-reveal: immediately show elements already in viewport,
-    //    observe the rest
-    const revealEls = document.querySelectorAll('[data-reveal]');
+    // Hide [data-reveal] elements that are below the fold via inline style,
+    // then reveal them as they scroll in. Elements already in viewport get
+    // revealed immediately. No CSS class hiding = no flash of invisible content.
+    const revealEls = Array.from(document.querySelectorAll<HTMLElement>('[data-reveal]'));
     const revealObs = new IntersectionObserver(
       (entries) => entries.forEach(e => {
         if (e.isIntersecting) {
-          e.target.classList.add('revealed');
-          revealObs.unobserve(e.target);
+          const el = e.target as HTMLElement;
+          el.style.opacity = '1';
+          el.style.transform = 'translateY(0)';
+          revealObs.unobserve(el);
         }
       }),
       { threshold: 0 }
     );
+
     revealEls.forEach(el => {
       if (el.getBoundingClientRect().top < window.innerHeight + 50) {
-        (el as HTMLElement).classList.add('revealed');
+        // Already visible — no hide needed
       } else {
+        // Below fold — hide via inline style and observe
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(28px)';
         revealObs.observe(el);
       }
     });
 
-    // 3. Stats counter trigger
+    // Stats counter trigger
     const statsEl = statsRef.current;
     let statsObs: IntersectionObserver | null = null;
     if (statsEl) {
@@ -122,14 +126,17 @@ export default function HomePage() {
     }
 
     return () => {
-      document.documentElement.classList.remove('js-ready');
       revealObs.disconnect();
       if (statsObs) statsObs.disconnect();
+      // Restore inline styles on unmount so nothing is stuck hidden
+      revealEls.forEach(el => {
+        el.style.opacity = '';
+        el.style.transform = '';
+      });
     };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []); // intentionally empty — runs once on mount only
+  }, []); // runs once on mount
 
-  /* Auth redirect — separate effect with its own deps */
+  /* Auth redirect */
   useEffect(() => {
     if (!loading && mounted && (user || isGuest)) {
       router.replace('/dashboard');
@@ -240,8 +247,8 @@ export default function HomePage() {
 
           {/* ── left: copy ── */}
           <div>
-            <div className="hero-badge inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-primary-container/70 text-on-primary-container text-[11px] font-bold uppercase tracking-widest mb-7"
-              style={{ boxShadow: 'inset 0 1px 0 rgb(255 255 255 / 0.25), 0 1px 3px rgb(66 49 207 / 0.15)' }}>
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-primary-container/70 text-on-primary-container text-[11px] font-bold uppercase tracking-widest mb-7"
+              style={{ animation: 'fadeUp 0.55s ease forwards 0.1s', opacity: 0, boxShadow: 'inset 0 1px 0 rgb(255 255 255 / 0.25), 0 1px 3px rgb(66 49 207 / 0.15)' }}>
               <span className="relative flex h-2 w-2 shrink-0">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75" />
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-primary" />
@@ -249,7 +256,8 @@ export default function HomePage() {
               Ethiopian University Exit Exam
             </div>
 
-            <h1 className="hero-headline text-[2.6rem] sm:text-5xl lg:text-[3.4rem] font-black tracking-tight leading-[1.08] mb-6">
+            <h1 className="text-[2.6rem] sm:text-5xl lg:text-[3.4rem] font-black tracking-tight leading-[1.08] mb-6"
+              style={{ animation: 'fadeUp 0.55s ease forwards 0.25s', opacity: 0 }}>
               The Smartest Way<br />to{' '}
               <span className="relative inline-block">
                 <span className="text-gradient">Pass Your Exit Exam</span>
@@ -257,11 +265,13 @@ export default function HomePage() {
               </span>
             </h1>
 
-            <p className="hero-subtext text-on-surface-variant text-base sm:text-[1.05rem] leading-relaxed max-w-lg mb-10">
+            <p className="text-on-surface-variant text-base sm:text-[1.05rem] leading-relaxed max-w-lg mb-10"
+              style={{ animation: 'fadeUp 0.55s ease forwards 0.4s', opacity: 0 }}>
               Practice with <span className="font-semibold text-on-surface">real past questions</span>, get instant explanations, track your progress, and walk into your exam with calm confidence.
             </p>
 
-            <div className="hero-cta flex flex-wrap gap-3 mb-9">
+            <div className="flex flex-wrap gap-3 mb-9"
+              style={{ animation: 'fadeUp 0.55s ease forwards 0.52s', opacity: 0 }}>
               <Link href="/auth/register"
                 className="group relative px-7 py-3.5 rounded-xl bg-primary text-on-primary font-bold text-sm shadow-md overflow-hidden hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300">
                 <span className="relative z-10">Start Practicing Free</span>
@@ -274,7 +284,8 @@ export default function HomePage() {
               </Link>
             </div>
 
-            <div className="hero-cta flex items-center gap-3 text-sm text-on-surface-variant">
+            <div className="flex items-center gap-3 text-sm text-on-surface-variant"
+              style={{ animation: 'fadeUp 0.55s ease forwards 0.65s', opacity: 0 }}>
               <div className="flex -space-x-2">
                 {(['#6366f1','#8b5cf6','#ec4899','#f97316'] as const).map((c, i) => (
                   <div key={i} className="w-7 h-7 rounded-full border-2 border-background flex items-center justify-center text-white text-[9px] font-bold" style={{ backgroundColor: c }}>
