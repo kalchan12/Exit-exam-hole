@@ -101,7 +101,7 @@ export async function POST(request: NextRequest) {
     const { data: existingRows } = await supabaseAdmin
       .from('questions')
       .select('id');
-    const existingIdSet = new Set((existingRows || []).map((r: any) => r.id));
+    const existingIdSet = new Set((existingRows || []).map((r: { id: string }) => r.id));
 
     const result: {
       file: string;

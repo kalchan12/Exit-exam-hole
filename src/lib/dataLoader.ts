@@ -405,7 +405,7 @@ export async function getCourses(): Promise<string[]> {
   try {
     const { data, error } = await supabase.from('courses').select('name');
     if (!error && data) {
-      dbCourses = data.map((c: any) => c.name);
+      dbCourses = data.map((c: { name: string }) => c.name);
     }
   } catch (e) {
     // Ignore database errors

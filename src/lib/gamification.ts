@@ -1,5 +1,5 @@
 import { getProgress, saveProgress, ProgressState } from './progressManager';
-import { ACCURACY_WEIGHT } from './constants/game';
+import { ACCURACY_WEIGHT, LEVELS } from './constants/game';
 
 export function calculateXP(state: ProgressState): number {
   return state.xp;
@@ -86,34 +86,24 @@ export function getDailyChallenge(totalQuestions: number): number[] {
 }
 
 export function getLevel(xp: number): { level: number; title: string; nextLevelXP: number; progress: number } {
-  const levels = [
-    { min: 0, title: 'Beginner' },
-    { min: 100, title: 'Learner' },
-    { min: 300, title: 'Student' },
-    { min: 600, title: 'User' },
-    { min: 1000, title: 'Expert' },
-    { min: 1500, title: 'Master' },
-    { min: 2500, title: 'Grandmaster' },
-  ];
-
   let currentLevel = 0;
-  for (let i = levels.length - 1; i >= 0; i--) {
-    if (xp >= levels[i].min) {
+  for (let i = LEVELS.length - 1; i >= 0; i--) {
+    if (xp >= LEVELS[i].min) {
       currentLevel = i;
       break;
     }
   }
 
-  const nextLevel = currentLevel < levels.length - 1 ? currentLevel + 1 : currentLevel;
-  const currentMin = levels[currentLevel].min;
-  const nextMin = levels[nextLevel].min;
+  const nextLevel = LEVELS[currentLevel + 1];
+  const currentMin = LEVELS[currentLevel].min;
+  const nextMin = nextLevel ? nextLevel.min : currentMin;
   const progress = nextMin > currentMin
     ? Math.round(((xp - currentMin) / (nextMin - currentMin)) * 100)
     : 100;
 
   return {
     level: currentLevel + 1,
-    title: levels[currentLevel].title,
+    title: LEVELS[currentLevel].title,
     nextLevelXP: nextMin,
     progress,
   };
