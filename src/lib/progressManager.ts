@@ -148,6 +148,15 @@ export function getCompletedBytesCount(): number {
   return Object.keys(state.completedBytes || {}).length;
 }
 
+export function recordExamCompleted(correct: number, total: number): void {
+  const state = getProgress();
+  state.xp += XP_EXAM_COMPLETED;
+  if (correct === total) {
+    state.xp += XP_PERFECT_SCORE_BONUS;
+  }
+  saveProgress(state);
+}
+
 export function resetProgress(): void {
   if (typeof window === 'undefined') return;
   try {
@@ -183,7 +192,7 @@ import {
   deleteRemoteProgress,
   mergeProgress,
 } from './supabaseProgress';
-import { XP_CORRECT_ANSWER, XP_NOTE_COMPLETED, XP_BYTE_COMPLETED, SYNC_DEBOUNCE_MS } from './constants/game';
+import { XP_CORRECT_ANSWER, XP_NOTE_COMPLETED, XP_BYTE_COMPLETED, XP_EXAM_COMPLETED, XP_PERFECT_SCORE_BONUS, SYNC_DEBOUNCE_MS } from './constants/game';
 
 let syncTimer: ReturnType<typeof setTimeout> | null = null;
 let isSyncing = false;

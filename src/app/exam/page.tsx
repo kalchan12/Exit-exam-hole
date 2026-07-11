@@ -6,7 +6,7 @@ import { useSearchParams, useRouter } from 'next/navigation';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { getQuestions, getTopics, type Question, invalidateQuestionsCache, DEPARTMENT_SOURCES } from '@/lib/dataLoader';
-import { getProgress, recordAnswer, syncProgressToRemote } from '@/lib/progressManager';
+import { getProgress, recordAnswer, recordExamCompleted, syncProgressToRemote } from '@/lib/progressManager';
 import { updateTopicAccuracy } from '@/lib/gamification';
 import { useAuth } from '@/components/AuthProvider';
 import { isAdmin } from '@/lib/rbac';
@@ -137,6 +137,8 @@ function ExamContent() {
     filteredQuestions.forEach(q => {
       if (userAnswers[q.id] === q.answer) correct++;
     });
+    recordExamCompleted(correct, filteredQuestions.length);
+    setProgressState(getProgress());
     setQuizScore({ correct, total: filteredQuestions.length });
     setIsFinished(true);
     if (timerRef.current) {
@@ -505,7 +507,7 @@ function ExamContent() {
           </p>
         </div>
 
-        <div className="grid grid-cols-3 gap-4 max-w-lg mx-auto">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-2xl mx-auto">
           <div className="p-5 rounded-xl bg-surface-container border border-outline-variant">
             <div className="text-headline-2xl font-bold text-on-surface">{Math.round((quizScore.correct / quizScore.total) * 100)}%</div>
             <div className="text-label-xs text-on-surface-variant font-medium mt-1">Score</div>
@@ -513,6 +515,12 @@ function ExamContent() {
           <div className="p-5 rounded-xl bg-surface-container border border-outline-variant">
             <div className="text-headline-2xl font-bold text-primary">{quizScore.correct}/{quizScore.total}</div>
             <div className="text-label-xs text-on-surface-variant font-medium mt-1">Correct</div>
+          </div>
+          <div className="p-5 rounded-xl bg-surface-container border border-outline-variant">
+            <div className={`text-headline-2xl font-bold ${quizScore.correct === quizScore.total ? 'text-secondary' : 'text-accent-orange'}`}>
+              +{quizScore.correct * 10 + 50 + (quizScore.correct === quizScore.total ? 100 : 0)}
+            </div>
+            <div className="text-label-xs text-on-surface-variant font-medium mt-1">XP Earned</div>
           </div>
           <div className="p-5 rounded-xl bg-surface-container border border-outline-variant">
             <div className={`text-sm font-bold ${timeLeft === 0 ? 'text-error' : 'text-secondary'}`}>

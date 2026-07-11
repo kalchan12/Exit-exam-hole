@@ -1,6 +1,8 @@
 export const XP_CORRECT_ANSWER = 10;
 export const XP_NOTE_COMPLETED = 5;
 export const XP_BYTE_COMPLETED = 5;
+export const XP_EXAM_COMPLETED = 50;
+export const XP_PERFECT_SCORE_BONUS = 100;
 export const DAILY_CHALLENGE_COUNT = 5;
 export const SYNC_DEBOUNCE_MS = 2000;
 
