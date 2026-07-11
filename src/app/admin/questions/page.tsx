@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { useAuth } from '@/components/AuthProvider';
+import { isAdmin } from '@/lib/rbac';
 import { getQuestions, invalidateQuestionsCache, type Question } from '@/lib/dataLoader';
 import { saveQuestionToSupabase, updateQuestionInSupabase, deleteQuestionFromSupabase } from '@/lib/supabaseLoader';
 import { parseQuestionsFromJson, parseQuestionsFromMarkdown } from '@/lib/parsers';
@@ -55,7 +56,7 @@ export default function AdminQuestionsPage() {
   const [filterSource, setFilterSource] = useState('all');
 
   useEffect(() => {
-    if (!authLoading && profile?.username !== 'psycho') {
+    if (!authLoading && !isAdmin(profile?.username)) {
       router.replace('/dashboard');
     }
   }, [profile, authLoading, router]);
@@ -137,8 +138,8 @@ export default function AdminQuestionsPage() {
             ? parseQuestionsFromJson(text)
             : parseQuestionsFromMarkdown(text, title);
         setFetchedData(parsed);
-    } catch (err: any) {
-        setError(err.message || 'Failed to fetch or parse from GitHub.');
+    } catch (err: unknown) {
+        setError(err instanceof Error ? err.message : 'Failed to fetch or parse from GitHub.');
     } finally {
         setIsFetching(false);
     }
@@ -150,7 +151,7 @@ export default function AdminQuestionsPage() {
     setIsFetching(true);
 
     try {
-      let itemsToSave: any[] = [];
+      let itemsToSave: Question[] = [];
 
       if (method === 'github') {
           if (!fetchedData) throw new Error('Please fetch content first.');
@@ -212,8 +213,8 @@ export default function AdminQuestionsPage() {
           setTab('list');
       }, 1500);
 
-    } catch (err: any) {
-        setError(err.message || 'Failed to save data. Check console.');
+    } catch (err: unknown) {
+        setError(err instanceof Error ? err.message : 'Failed to save data. Check console.');
     } finally {
         setIsFetching(false);
     }
@@ -523,7 +524,15 @@ function SelectionCard({ title, desc, icon, onClick, variant = 'purple' }: { tit
     );
 }
 
-function InputGroup({ label, value, onChange, placeholder, required = false }: any) {
+interface InputGroupProps {
+  label: string;
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  placeholder?: string;
+  required?: boolean;
+}
+
+function InputGroup({ label, value, onChange, placeholder, required = false }: InputGroupProps) {
     return (
         <div className="space-y-1 flex-1 w-full">
             <label className="text-[10px] uppercase font-black tracking-widest text-gray-400 ml-1">{label} {required && <span className="text-accent-purple">*</span>}</label>

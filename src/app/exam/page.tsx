@@ -9,6 +9,7 @@ import { getQuestions, getTopics, type Question, invalidateQuestionsCache, DEPAR
 import { getProgress, recordAnswer, syncProgressToRemote } from '@/lib/progressManager';
 import { updateTopicAccuracy } from '@/lib/gamification';
 import { useAuth } from '@/components/AuthProvider';
+import { isAdmin } from '@/lib/rbac';
 import { deleteTopicQuestions } from '@/lib/supabaseLoader';
 import { ArrowLeft, Search, Timer, X, Flag, Check, X as XIcon, ChevronLeft, ChevronRight, BookOpen, Zap, Flame, FileText, Trophy, Clock, AlertTriangle, BarChart3 } from 'lucide-react';
 
@@ -387,7 +388,7 @@ function ExamContent() {
             
             const meta = topicMeta[topic] || defaultMeta;
             const count = questions.filter(q => q.source === topic).length;
-            const isAdmin = profile?.username === 'psycho';
+            const userIsAdmin = isAdmin(profile?.username);
             return (
               <button
                 key={topic}
@@ -400,7 +401,7 @@ function ExamContent() {
                 className="card-hover flex flex-col items-start p-6 text-left group animate-in fade-in slide-in-from-bottom-4"
               >
                 <div className="absolute top-3 right-3 z-10 flex gap-2">
-                  {isAdmin && (
+                  {userIsAdmin && (
                     <div 
                       onClick={(e) => handleDeleteTopic(e, topic)}
                       className="p-1.5 rounded-lg bg-error-container/30 hover:bg-error-container group/del transition-all cursor-pointer"

@@ -37,8 +37,8 @@ export default function LoginPage() {
       const result = await signIn(formData.username, formData.password);
       if (result.error) setError(result.error);
       else router.push('/dashboard');
-    } catch (err: any) {
-      setError(err.message || 'An unexpected error occurred');
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'An unexpected error occurred');
     } finally {
       setLoading(false);
     }

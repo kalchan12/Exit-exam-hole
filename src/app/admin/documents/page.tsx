@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/components/AuthProvider';
+import { isAdmin } from '@/lib/rbac';
 import { supabase } from '@/lib/supabaseClient';
 
 interface Document {
@@ -40,7 +41,7 @@ export default function AdminDocumentsPage() {
 
   // Admin guard
   useEffect(() => {
-    if (!authLoading && profile?.username !== 'psycho') {
+    if (!authLoading && !isAdmin(profile?.username)) {
       router.replace('/dashboard');
     }
   }, [profile, authLoading, router]);

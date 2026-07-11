@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { useAuth } from '@/components/AuthProvider';
+import { isAdmin } from '@/lib/rbac';
 import { 
   getBytes, 
   getCourses, 
@@ -69,7 +70,7 @@ export default function AdminBytesPage() {
   const [refreshingByteId, setRefreshingByteId] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!authLoading && profile?.username !== 'psycho') {
+    if (!authLoading && !isAdmin(profile?.username)) {
       router.replace('/dashboard');
     }
   }, [profile, authLoading, router]);
@@ -157,8 +158,8 @@ export default function AdminBytesPage() {
       
       setNewCourseName('');
       setIsAddingCourse(false);
-    } catch (err: any) {
-      setError(err.message || 'Failed to create new course folder.');
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Failed to create new course folder.');
     } finally {
       setIsFetching(false);
     }

@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabaseClient';
 import { useAuth } from '@/components/AuthProvider';
+import { isAdmin } from '@/lib/rbac';
 import { deleteUserAccount } from '@/lib/supabaseLoader';
 import Link from 'next/link';
 
@@ -23,7 +24,7 @@ export default function UserManagementPage() {
   const [deletingId, setDeletingId] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!authLoading && profile?.username !== 'psycho') {
+    if (!authLoading && !isAdmin(profile?.username)) {
         window.location.href = '/dashboard';
         return;
     }
@@ -40,7 +41,7 @@ export default function UserManagementPage() {
 
       if (error) throw error;
       setProfiles(data || []);
-    } catch (err: any) {
+    } catch (err: unknown) {
       setError(err.message);
     } finally {
       setLoading(false);

@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useTheme } from './ThemeProvider';
 import { useAuth } from './AuthProvider';
+import { isAdmin } from '@/lib/rbac';
 import { getNotes, getBytes } from '@/lib/dataLoader';
 import { getUnreadCount } from '@/lib/notifications';
 import { getProgress } from '@/lib/progressManager';
@@ -269,8 +270,8 @@ export default function Sidebar({ isCollapsed, setIsCollapsed }: SidebarProps) {
         {navGroups.map((group, index) => {
           const visibleItems = group.items.filter(item => {
             if (!user && (item.label === 'Progress' || item.label === 'Upload' || item.label === 'Profile')) return false;
-            const isAdmin = profile?.username === 'psycho';
-            if (group.group === 'Admin' && !isAdmin) return false;
+            const isUserAdmin = isAdmin(profile?.username);
+            if (group.group === 'Admin' && !isUserAdmin) return false;
             return true;
           });
 

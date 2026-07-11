@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/components/AuthProvider';
+import { isAdmin } from '@/lib/rbac';
 import { saveQuestionToSupabase } from '@/lib/supabaseLoader';
 import { invalidateQuestionsCache } from '@/lib/dataLoader';
 
@@ -64,7 +65,7 @@ export default function BulkImportPage() {
   const [progress, setProgress] = useState<ProgressEntry[]>([]);
 
   useEffect(() => {
-    if (!authLoading && profile?.username !== 'psycho') {
+    if (!authLoading && !isAdmin(profile?.username)) {
       router.replace('/dashboard');
     }
   }, [profile, authLoading, router]);
@@ -82,7 +83,7 @@ export default function BulkImportPage() {
       const data = await res.json();
       setScanData(data);
       setSelectedDepts(new Set(data.departments));
-    } catch (e: any) {
+    } catch (e: unknown) {
       setError(e.message);
     } finally {
       setIsScanning(false);
@@ -192,7 +193,7 @@ export default function BulkImportPage() {
 
       invalidateQuestionsCache();
       setProgress(prev => [...prev]);
-    } catch (e: any) {
+    } catch (e: unknown) {
       setError(e.message);
     } finally {
       setIsImporting(false);

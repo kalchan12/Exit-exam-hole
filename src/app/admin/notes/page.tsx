@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { useAuth } from '@/components/AuthProvider';
+import { isAdmin } from '@/lib/rbac';
 import {
   getNotes, getCourses, saveCustomCourse, invalidateNotesCache,
   type Note, saveCustomNote, deleteCustomNote
@@ -38,7 +39,7 @@ export default function AdminNotesPage() {
   const [courseSearchQuery, setCourseSearchQuery] = useState('');
 
   useEffect(() => {
-    if (!authLoading && profile?.username !== 'psycho') {
+    if (!authLoading && !isAdmin(profile?.username)) {
       router.replace('/dashboard');
     }
   }, [profile, authLoading, router]);
@@ -85,8 +86,8 @@ export default function AdminNotesPage() {
       const { fetchGitHubNote } = await import('@/lib/githubFetcher');
       const noteResult = await fetchGitHubNote(githubUrl, title);
       setFetchedData(noteResult);
-    } catch (err: any) {
-      setError(err.message || 'Failed to fetch from GitHub');
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Failed to fetch from GitHub');
     } finally {
       setIsFetching(false);
     }
@@ -192,8 +193,8 @@ export default function AdminNotesPage() {
         setTab('list');
       }, 1500);
 
-    } catch (err: any) {
-      setError(err.message || 'Failed to save data. Check console.');
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Failed to save data. Check console.');
     } finally {
       setIsFetching(false);
     }

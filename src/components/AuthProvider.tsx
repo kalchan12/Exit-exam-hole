@@ -19,7 +19,13 @@ interface AuthContextType {
   loading: boolean;
   profileLoading: boolean;
   isGuest: boolean;
-  signUp: (email: string, password: string, profileData: any) => Promise<{ error: string | null }>;
+  signUp: (email: string, password: string, profileData: {
+    username: string;
+    fullName: string;
+    major: string;
+    gender: string;
+    avatarFile?: File | null;
+  }) => Promise<{ error: string | null }>;
   signIn: (usernameOrEmail: string, password: string) => Promise<{ error: string | null }>;
   updateProfile: (profileData: Partial<Profile> & { avatarFile?: File }) => Promise<{ error: string | null }>;
   loginAsGuest: () => void;
@@ -138,7 +144,13 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
     return () => subscription.unsubscribe();
   }, []);
 
-  const signUp = useCallback(async (email: string, password: string, profileData: any) => {
+  const signUp = useCallback(async (email: string, password: string, profileData: {
+    username: string;
+    fullName: string;
+    major: string;
+    gender: string;
+    avatarFile?: File | null;
+  }) => {
     setLoading(true);
     try {
       let avatarUrl = null;
@@ -189,9 +201,9 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
 
       setLoading(false);
       return { error: null };
-    } catch (err: any) {
+    } catch (err: unknown) {
       setLoading(false);
-      return { error: err.message || 'An unexpected error occurred' };
+      return { error: err instanceof Error ? err.message : 'An unexpected error occurred' };
     }
   }, []);
 
@@ -225,9 +237,9 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
         return { error: error.message };
       }
       return { error: null };
-    } catch (err: any) {
+    } catch (err: unknown) {
       setLoading(false);
-      return { error: err.message || 'An unexpected error occurred' };
+      return { error: err instanceof Error ? err.message : 'An unexpected error occurred' };
     }
   }, []);
 
@@ -287,9 +299,9 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
 
       await fetchProfile(user.id);
       return { error: null };
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('Unexpected error during profile update:', err);
-      return { error: err.message || 'An unexpected error occurred' };
+      return { error: err instanceof Error ? err.message : 'An unexpected error occurred' };
     } finally {
       setProfileLoading(false);
     }
