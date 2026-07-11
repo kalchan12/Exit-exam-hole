@@ -302,7 +302,7 @@ export default function AdminQuestionsPage() {
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                             <div className="space-y-1">
                                 <label className="text-[10px] uppercase font-black tracking-widest text-gray-400 ml-1">Major Focus</label>
-                                <select value={major} onChange={(e: any) => setMajor(e.target.value)} className="modern-input w-full">
+                                <select value={major} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setMajor(e.target.value as Major)} className="modern-input w-full">
                                     <option value="Both">Both CSE & Software</option>
                                     <option value="CSE">Computer Science (CSE)</option>
                                     <option value="Software">Software Engineering</option>
@@ -527,7 +527,7 @@ function SelectionCard({ title, desc, icon, onClick, variant = 'purple' }: { tit
 interface InputGroupProps {
   label: string;
   value: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange: (value: string) => void;
   placeholder?: string;
   required?: boolean;
 }

@@ -11,6 +11,11 @@ export interface Question {
   topic: string;
   difficulty: 'easy' | 'medium' | 'hard';
   source: string;
+  major?: string;
+  sub_type?: string;
+  year?: string | number;
+  course?: string;
+  chapter?: string;
   created_at?: string;
 }
 

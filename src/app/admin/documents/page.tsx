@@ -155,8 +155,8 @@ export default function AdminDocumentsPage() {
         await loadDocuments();
         setTab('list');
       }, 1500);
-    } catch (err: any) {
-      setError(err.message || 'Upload failed. Please try again.');
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Upload failed. Please try again.');
       setUploadProgress(0);
     } finally {
       setUploading(false);
@@ -185,8 +185,8 @@ export default function AdminDocumentsPage() {
         setSuccess('');
         loadDocuments();
       }, 1500);
-    } catch (err: any) {
-      setError(err.message || 'Failed to delete document.');
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Failed to delete document.');
     }
   };
 
@@ -271,7 +271,7 @@ export default function AdminDocumentsPage() {
                 </label>
                 <select
                   value={major}
-                  onChange={(e: any) => setMajor(e.target.value)}
+                  onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setMajor(e.target.value as any)}
                   className="modern-input w-full"
                 >
                   <option value="Both">Both CSE & Software</option>

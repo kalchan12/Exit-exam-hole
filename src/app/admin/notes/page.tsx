@@ -417,7 +417,7 @@ export default function AdminNotesPage() {
                     <label className="text-[10px] uppercase font-black tracking-widest text-gray-400 ml-1">Major Focus</label>
                     <select
                       value={major}
-                      onChange={(e: any) => setMajor(e.target.value)}
+                      onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setMajor(e.target.value as Major)}
                       className="modern-input w-full cursor-pointer"
                     >
                       <option value="Both">Both CSE & Software</option>

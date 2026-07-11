@@ -42,7 +42,7 @@ export default function UserManagementPage() {
       if (error) throw error;
       setProfiles(data || []);
     } catch (err: unknown) {
-      setError(err.message);
+      setError(err instanceof Error ? err.message : String(err));
     } finally {
       setLoading(false);
     }

@@ -43,9 +43,10 @@ export async function saveByteToLocalFile(byte: Byte): Promise<{ success: boolea
     
     fs.writeFileSync(filePath, JSON.stringify(bytes, null, 2), 'utf8');
     return { success: true };
-  } catch (err: any) {
+  } catch (err: unknown) {
     console.error('Error saving byte locally:', err);
-    return { success: false, error: err.message || 'Failed to save byte' };
+    const message = err instanceof Error ? err.message : 'Failed to save byte';
+    return { success: false, error: message };
   }
 }
 
@@ -61,16 +62,17 @@ export async function deleteByteFromLocalFile(id: string): Promise<{ success: bo
     let bytes: Byte[] = [];
     try {
       bytes = JSON.parse(fileContent);
-    } catch (e) {
+    } catch {
       bytes = [];
     }
     
     bytes = bytes.filter((b) => b.id !== id);
     fs.writeFileSync(filePath, JSON.stringify(bytes, null, 2), 'utf8');
     return { success: true };
-  } catch (err: any) {
+  } catch (err: unknown) {
     console.error('Error deleting byte locally:', err);
-    return { success: false, error: err.message || 'Failed to delete byte' };
+    const message = err instanceof Error ? err.message : 'Failed to delete byte';
+    return { success: false, error: message };
   }
 }
 
@@ -105,9 +107,10 @@ export async function saveNoteToLocalFile(note: Note): Promise<{ success: boolea
     
     fs.writeFileSync(filePath, JSON.stringify(notes, null, 2), 'utf8');
     return { success: true };
-  } catch (err: any) {
+  } catch (err: unknown) {
     console.error('Error saving note locally:', err);
-    return { success: false, error: err.message || 'Failed to save note' };
+    const message = err instanceof Error ? err.message : 'Failed to save note';
+    return { success: false, error: message };
   }
 }
 
@@ -123,16 +126,17 @@ export async function deleteNoteFromLocalFile(id: string): Promise<{ success: bo
     let notes: Note[] = [];
     try {
       notes = JSON.parse(fileContent);
-    } catch (e) {
+    } catch {
       notes = [];
     }
     
     notes = notes.filter((n) => n.id !== id);
     fs.writeFileSync(filePath, JSON.stringify(notes, null, 2), 'utf8');
     return { success: true };
-  } catch (err: any) {
+  } catch (err: unknown) {
     console.error('Error deleting note locally:', err);
-    return { success: false, error: err.message || 'Failed to delete note' };
+    const message = err instanceof Error ? err.message : 'Failed to delete note';
+    return { success: false, error: message };
   }
 }
 
@@ -163,8 +167,9 @@ export async function saveCourseToLocalFile(courseName: string): Promise<{ succe
       fs.writeFileSync(filePath, JSON.stringify(courses, null, 2), 'utf8');
     }
     return { success: true };
-  } catch (err: any) {
+  } catch (err: unknown) {
     console.error('Error saving course locally:', err);
-    return { success: false, error: err.message || 'Failed to save course' };
+    const message = err instanceof Error ? err.message : 'Failed to save course';
+    return { success: false, error: message };
   }
 }

@@ -84,7 +84,7 @@ export default function BulkImportPage() {
       setScanData(data);
       setSelectedDepts(new Set(data.departments));
     } catch (e: unknown) {
-      setError(e.message);
+      setError(e instanceof Error ? e.message : String(e));
     } finally {
       setIsScanning(false);
     }
@@ -194,7 +194,7 @@ export default function BulkImportPage() {
       invalidateQuestionsCache();
       setProgress(prev => [...prev]);
     } catch (e: unknown) {
-      setError(e.message);
+      setError(e instanceof Error ? e.message : String(e));
     } finally {
       setIsImporting(false);
     }

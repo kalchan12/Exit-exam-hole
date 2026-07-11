@@ -1,4 +1,5 @@
-import { getProgress, saveProgress, type ProgressState } from './progressManager';
+import { getProgress, saveProgress, ProgressState } from './progressManager';
+import { ACCURACY_WEIGHT } from './constants/game';
 
 export function calculateXP(state: ProgressState): number {
   return state.xp;
@@ -56,10 +57,8 @@ export function updateTopicAccuracy(
   if (topicAnswered === 0) {
     state.accuracyByTopic[topic] = isCorrect ? 100 : 0;
   } else {
-    // Weighted moving average
-    const weight = 0.3;
     state.accuracyByTopic[topic] = Math.round(
-      currentAccuracy * (1 - weight) + (isCorrect ? 100 : 0) * weight
+      currentAccuracy * (1 - ACCURACY_WEIGHT) + (isCorrect ? 100 : 0) * ACCURACY_WEIGHT
     );
   }
 

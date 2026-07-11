@@ -238,8 +238,8 @@ export default function AdminBytesPage() {
           date: originalDate || new Date().toISOString()
         });
         setStep(3);
-      } catch (err: any) {
-        setError(err.message || 'Failed to fetch content from the provided GitHub link. Verify if it is a raw link.');
+      } catch (err: unknown) {
+        setError(err instanceof Error ? err.message : 'Failed to fetch content from the provided GitHub link. Verify if it is a raw link.');
       } finally {
         setIsFetching(false);
       }
@@ -329,8 +329,8 @@ export default function AdminBytesPage() {
         resetWizard();
         setTab('list');
       }, 1500);
-    } catch (err: any) {
-      setError(err.message || 'Failed to save byte content.');
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Failed to save byte content.');
     } finally {
       setIsFetching(false);
     }
@@ -363,8 +363,8 @@ export default function AdminBytesPage() {
       setSuccess('Byte deleted successfully.');
       loadData();
       setTimeout(() => setSuccess(''), 2000);
-    } catch (err: any) {
-      setError(err.message || 'Failed to delete byte.');
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Failed to delete byte.');
     }
   };
 
@@ -451,8 +451,8 @@ export default function AdminBytesPage() {
       setSuccess(`Successfully refreshed content for "${byte.title}" from GitHub!`);
       await loadData();
       setTimeout(() => setSuccess(''), 3000);
-    } catch (err: any) {
-      setError(err.message || 'Failed to refresh GitHub content.');
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Failed to refresh GitHub content.');
     } finally {
       setRefreshingByteId(null);
     }
@@ -719,7 +719,7 @@ export default function AdminBytesPage() {
                     <label className="text-[10px] uppercase font-black tracking-widest text-gray-400 ml-1">Major Focus</label>
                     <select
                       value={major}
-                      onChange={(e: any) => setMajor(e.target.value)}
+                      onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setMajor(e.target.value as Major)}
                       className="modern-input w-full cursor-pointer"
                     >
                       <option value="Both">Both CSE & Software</option>

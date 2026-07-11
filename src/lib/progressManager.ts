@@ -84,7 +84,7 @@ export function recordAnswer(
   state.correctAnswers[questionId] = isCorrect;
 
   if (isCorrect) {
-    state.xp += 10;
+    state.xp += XP_CORRECT_ANSWER;
   }
 
   updateStreak(state, topic);
@@ -122,7 +122,7 @@ export function recordNoteCompleted(noteId: string): void {
   const state = getProgress();
   if (!state.completedNotes[noteId]) {
     state.completedNotes[noteId] = true;
-    state.xp += 5;
+    state.xp += XP_NOTE_COMPLETED;
     updateStreak(state, state.lastTopic || 'Notes');
     saveProgress(state);
   }
@@ -132,7 +132,7 @@ export function recordByteCompleted(byteId: string): void {
   const state = getProgress();
   if (!state.completedBytes[byteId]) {
     state.completedBytes[byteId] = true;
-    state.xp += 5;
+    state.xp += XP_BYTE_COMPLETED;
     updateStreak(state, state.lastTopic || 'Bytes');
     saveProgress(state);
   }
@@ -183,6 +183,7 @@ import {
   deleteRemoteProgress,
   mergeProgress,
 } from './supabaseProgress';
+import { XP_CORRECT_ANSWER, XP_NOTE_COMPLETED, XP_BYTE_COMPLETED, SYNC_DEBOUNCE_MS } from './constants/game';
 
 let syncTimer: ReturnType<typeof setTimeout> | null = null;
 let isSyncing = false;
