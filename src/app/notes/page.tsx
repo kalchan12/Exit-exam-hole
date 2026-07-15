@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useMemo } from 'react';
+import { useMounted } from '@/hooks/useMounted';
 import Link from 'next/link';
 import { getNotes, getCourses, getTopics, type Note } from '@/lib/dataLoader';
 import { getProgress } from '@/lib/progressManager';
@@ -21,7 +22,7 @@ export default function NotesPage() {
   const [majorFilter] = useState('all');
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
   const [searchQuery, setSearchQuery] = useState('');
-  const [mounted, setMounted] = useState(false);
+  const mounted = useMounted();
   const [loaded, setLoaded] = useState(false);
   const [completedNotes, setCompletedNotes] = useState<Record<string, boolean>>({});
   const [selectedCourse, setSelectedCourse] = useState<string | null>(null);
@@ -29,7 +30,6 @@ export default function NotesPage() {
   const loadNotes = () => getNotes().then(setNotes);
 
   useEffect(() => {
-    setMounted(true);
     Promise.all([loadNotes(), getCourses().then(setCourses)]).then(() => setLoaded(true));
     getTopics().then(setTopics);
     setCompletedNotes(getProgress().completedNotes || {});

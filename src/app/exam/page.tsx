@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useMemo, useCallback, useRef, Suspense } from 'react';
+import { useMounted } from '@/hooks/useMounted';
 import Link from 'next/link';
 import { useSearchParams, useRouter } from 'next/navigation';
 import ReactMarkdown from 'react-markdown';
@@ -41,7 +42,7 @@ function ExamContent() {
   const [topics, setTopics] = useState<string[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(examFromUrl);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [mounted, setMounted] = useState(false);
+  const mounted = useMounted();
   const [progressState, setProgressState] = useState(() => getProgress());
   const [isFinished, setIsFinished] = useState(false);
   const [isReviewMode, setIsReviewMode] = useState(false);
@@ -84,7 +85,6 @@ function ExamContent() {
   }, []);
 
   useEffect(() => {
-    setMounted(true);
     loadData();
   }, [loadData]);
 

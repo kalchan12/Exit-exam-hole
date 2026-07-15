@@ -1,17 +1,15 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
+import { useMounted } from '@/hooks/useMounted';
 import Link from 'next/link';
 import { getProgress } from '@/lib/progressManager';
 import { ChevronLeft, Zap } from 'lucide-react';
 
 export default function QuestionsPage() {
-  const [mounted, setMounted] = useState(false);
+  const mounted = useMounted();
   const [progress] = useState(() => getProgress());
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   if (!mounted) return null;
 

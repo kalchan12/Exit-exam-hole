@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useMemo } from 'react';
+import { useMounted } from '@/hooks/useMounted';
 import Link from 'next/link';
 import { getBytes, getCourses, deleteCustomByte, type Byte } from '@/lib/dataLoader';
 import { clearGitHubCache } from '@/lib/githubFetcher';
@@ -14,13 +15,12 @@ export default function BytesPage() {
   const [currentSubTopic, setCurrentSubTopic] = useState<string | null>(null);
   const [majorFilter, setMajorFilter] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
-  const [mounted, setMounted] = useState(false);
+  const mounted = useMounted();
   const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null);
 
   const loadBytes = () => getBytes().then(setBytes);
 
   useEffect(() => {
-    setMounted(true);
     loadBytes();
     getCourses().then(setCourses);
     markSectionChecked('bytes');

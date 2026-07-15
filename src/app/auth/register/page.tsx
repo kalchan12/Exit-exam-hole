@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useMemo } from 'react';
+import { useMounted } from '@/hooks/useMounted';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useAuth } from '@/components/AuthProvider';
@@ -61,7 +62,7 @@ export default function RegisterPage() {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
-  const [mounted, setMounted] = useState(false);
+  const mounted = useMounted();
   const [majorSearch, setMajorSearch] = useState('');
   const [majorOpen, setMajorOpen] = useState(false);
   const majorList = useMemo(() => Object.keys(DEPARTMENT_SOURCES).sort(), []);
@@ -69,8 +70,6 @@ export default function RegisterPage() {
     () => majorList.filter(m => m.toLowerCase().includes(majorSearch.toLowerCase())),
     [majorList, majorSearch]
   );
-
-  useEffect(() => { setMounted(true); }, []);
 
   useEffect(() => {
     if (!authLoading && user) router.replace('/dashboard');

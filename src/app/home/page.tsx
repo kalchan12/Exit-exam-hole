@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState, useRef } from 'react';
+import { useMounted } from '@/hooks/useMounted';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useAuth } from '@/components/AuthProvider';
@@ -69,7 +70,7 @@ export default function HomePage() {
   const { user, isGuest, loading } = useAuth();
   const { theme, toggleTheme } = useTheme();
   const router = useRouter();
-  const [mounted, setMounted] = useState(false);
+  const mounted = useMounted();
   const [statsVisible, setStatsVisible] = useState(false);
   const statsRef = useRef<HTMLDivElement>(null);
 
@@ -80,7 +81,6 @@ export default function HomePage() {
 
   /* Single stable mount effect */
   useEffect(() => {
-    setMounted(true);
 
     // Hide [data-reveal] elements that are below the fold via inline style,
     // then reveal them as they scroll in. Elements already in viewport get

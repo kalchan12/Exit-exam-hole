@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, createContext, useContext } from 'react';
+import { useMounted } from '@/hooks/useMounted';
 import { getTheme, setTheme as saveTheme } from '@/lib/progressManager';
 
 type ThemeContextType = {
@@ -19,11 +20,10 @@ export function useTheme() {
 
 export default function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [theme, setThemeState] = useState<'dark' | 'light'>('dark');
-  const [mounted, setMounted] = useState(false);
+  const mounted = useMounted();
 
   useEffect(() => {
     setThemeState(getTheme());
-    setMounted(true);
   }, []);
 
   useEffect(() => {

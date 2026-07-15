@@ -3,6 +3,7 @@
 import { useAuth } from '@/components/AuthProvider';
 import { getProgress } from '@/lib/progressManager';
 import { useState, useEffect, useRef } from 'react';
+import { useMounted } from '@/hooks/useMounted';
 import Link from 'next/link';
 import { 
   User as UserIcon, 
@@ -20,7 +21,7 @@ import {
 export default function ProfilePage() {
   const { user, profile, profileLoading, updateProfile } = useAuth();
   const [xp, setXp] = useState(0);
-  const [mounted, setMounted] = useState(false);
+  const mounted = useMounted();
   const [isEditing, setIsEditing] = useState(false);
   
   const [formData, setFormData] = useState({
@@ -37,7 +38,6 @@ export default function ProfilePage() {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    setMounted(true);
     setXp(getProgress().xp);
   }, []);
 

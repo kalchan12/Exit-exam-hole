@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useMemo } from 'react';
+import { useMounted } from '@/hooks/useMounted';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { getQuestions, type Question } from '@/lib/dataLoader';
@@ -15,7 +16,7 @@ import { useAuth } from '@/components/AuthProvider';
 export default function Dashboard() {
   const [questions, setQuestions] = useState<Question[]>([]);
   const [progress, setProgress] = useState<ProgressState | null>(null);
-  const [mounted, setMounted] = useState(false);
+  const mounted = useMounted();
   const { user, isGuest, loading: authLoading } = useAuth();
   const [syncStatus, setSyncStatus] = useState<'syncing' | 'synced' | 'error' | 'idle'>('idle');
   const router = useRouter();
@@ -27,7 +28,6 @@ export default function Dashboard() {
   }, [user, isGuest, authLoading, router]);
 
   useEffect(() => {
-    setMounted(true);
     getQuestions().then(setQuestions);
     setProgress(getProgress());
   }, []);

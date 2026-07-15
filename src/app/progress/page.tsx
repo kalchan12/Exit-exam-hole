@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useMounted } from '@/hooks/useMounted';
 import { getProgress, type ProgressState } from '@/lib/progressManager';
 import { getQuestions, getNotes, getBytes } from '@/lib/dataLoader';
 import { getLevel, calculateTopicMastery, calculateOverallAccuracy } from '@/lib/gamification';
@@ -30,10 +31,9 @@ export default function ProgressPage() {
     completedNotesCount: 0,
     questions: [] as any[],
   });
-  const [mounted, setMounted] = useState(false);
+  const mounted = useMounted();
 
   useEffect(() => {
-    setMounted(true);
     const p = getProgress();
     setProgress(p);
 
