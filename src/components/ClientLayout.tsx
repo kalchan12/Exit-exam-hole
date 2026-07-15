@@ -5,6 +5,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import Sidebar from './Sidebar';
 import { useAuth } from './AuthProvider';
 import GuestUpsellModal from './GuestUpsellModal';
+import ErrorBoundary from './ui/ErrorBoundary';
 
 export default function ClientLayout({ children }: { children: React.ReactNode }) {
   const [isCollapsed, setIsCollapsed] = useState(false);
@@ -51,7 +52,9 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
         }`}
       >
         <div className="max-w-full mx-auto px-margin-mobile lg:px-margin-desktop py-6 lg:py-8">
-          {children}
+          <ErrorBoundary>
+            {children}
+          </ErrorBoundary>
         </div>
       </main>
       <GuestUpsellModal />

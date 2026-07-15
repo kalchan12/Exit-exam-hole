@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useMemo, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useTheme } from './ThemeProvider';
@@ -170,7 +170,6 @@ const navGroups = [
   }
 ];
 
-const bottomNavItems = ['Dashboard', 'Questions', 'Exit Exam', 'Profile'];
 
 interface SidebarProps {
   isCollapsed: boolean;
@@ -180,12 +179,11 @@ interface SidebarProps {
 export default function Sidebar({ isCollapsed, setIsCollapsed }: SidebarProps) {
   const pathname = usePathname();
   const { theme, toggleTheme } = useTheme();
-  const { user, profile, loading, signOut, isGuest } = useAuth();
+  const { user, profile, signOut, isGuest } = useAuth();
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const [expandedGroups, setExpandedGroups] = useState<Set<string>>(new Set(['Main']));
 
   const userEmail = user?.email || '';
-  const truncatedEmail = userEmail.length > 20 ? userEmail.slice(0, 17) + '...' : userEmail;
 
   const [unreadNotes, setUnreadNotes] = useState(0);
   const [unreadBytes, setUnreadBytes] = useState(0);
@@ -278,7 +276,6 @@ export default function Sidebar({ isCollapsed, setIsCollapsed }: SidebarProps) {
           if (visibleItems.length === 0) return null;
 
           const isExpanded = expandedGroups.has(group.group) || isCollapsed;
-          const isMain = group.group === 'Main';
 
           return (
             <div key={group.group}>

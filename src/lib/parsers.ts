@@ -9,8 +9,8 @@ export function parseQuestionsFromMarkdown(text: string, defaultTopic: string = 
 
   entries.forEach(entry => {
     const lines = entry.trim().split('\n');
-    let q: any = { 
-        options: [], 
+    const q: Record<string, any> = { 
+        options: [] as string[], 
         id: `q_parsed_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`,
         date: new Date().toISOString()
     };

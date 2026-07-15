@@ -21,7 +21,7 @@ type Tab = 'upload' | 'list';
 
 export default function AdminDocumentsPage() {
   const router = useRouter();
-  const { user, profile, loading: authLoading } = useAuth();
+  const { profile, loading: authLoading } = useAuth();
   const [tab, setTab] = useState<Tab>('upload');
 
   // Upload state

@@ -5,13 +5,13 @@ import Link from 'next/link';
 import { useSearchParams, useRouter } from 'next/navigation';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
-import { getQuestions, getTopics, type Question, invalidateQuestionsCache, DEPARTMENT_SOURCES } from '@/lib/dataLoader';
+import { getQuestions, type Question, invalidateQuestionsCache, DEPARTMENT_SOURCES } from '@/lib/dataLoader';
 import { getProgress, recordAnswer, recordExamCompleted, syncProgressToRemote } from '@/lib/progressManager';
 import { updateTopicAccuracy } from '@/lib/gamification';
 import { useAuth } from '@/components/AuthProvider';
 import { isAdmin } from '@/lib/rbac';
 import { deleteTopicQuestions } from '@/lib/supabaseLoader';
-import { ArrowLeft, Search, Timer, X, Flag, Check, X as XIcon, ChevronLeft, ChevronRight, BookOpen, Zap, Flame, FileText, Trophy, Clock, AlertTriangle, BarChart3 } from 'lucide-react';
+import { Search, Timer, X, Check, X as XIcon, ChevronLeft, ChevronRight, BookOpen, Zap, Flame, FileText, BarChart3 } from 'lucide-react';
 
 const topicMeta: Record<string, { icon: string; gradient: string; border: string }> = {
   'Algorithms': { icon: '⚡', gradient: 'from-purple-500/20 to-indigo-500/20', border: 'border-purple-500/30' },
@@ -35,7 +35,7 @@ function ExamContent() {
   const searchParams = useSearchParams();
   const department = searchParams.get('department') || null;
   const examFromUrl = searchParams.get('exam') || searchParams.get('topic') || null;
-  const { user, profile, loading: authLoading } = useAuth();
+  const { user, profile } = useAuth();
 
   const [questions, setQuestions] = useState<Question[]>([]);
   const [topics, setTopics] = useState<string[]>([]);
@@ -293,7 +293,6 @@ function ExamContent() {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
           {filteredDeptEntries.map(([dept, sources], index) => {
-            const isPinned = PINNED_DEPTS.includes(dept);
             const count = questions.filter(q => sources.includes(q.source)).length;
             const meta = dept === 'Computer Science'
               ? { icon: '💻', gradient: 'from-emerald-500/20 to-teal-500/20' }
@@ -701,7 +700,7 @@ function ExamContent() {
                 <ReactMarkdown 
                   remarkPlugins={[remarkGfm]}
                   components={{
-                    img: ({node, ...props}) => (
+                    img: ({...props}) => (
                       <img 
                         {...props} 
                         className="max-w-full sm:max-w-md h-auto rounded-xl mx-auto my-6 border border-outline-variant shadow-sm" 
@@ -719,7 +718,6 @@ function ExamContent() {
                   {currentQuestion.options.map((option, idx) => {
                     const isSelected = userAnswers[currentQuestion.id] === option;
                     const isCorrect = option === currentQuestion.answer;
-                    const isAnswered = !!userAnswers[currentQuestion.id];
 
                     let containerClass = "group relative flex items-center p-4 rounded-xl border cursor-pointer transition-all overflow-hidden ";
                     let circleClass = "w-7 h-7 rounded-full border-2 flex items-center justify-center text-label-sm font-bold shrink-0 transition-colors ";

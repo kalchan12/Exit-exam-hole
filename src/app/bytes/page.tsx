@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { getBytes, getCourses, deleteCustomByte, type Byte } from '@/lib/dataLoader';
 import { clearGitHubCache } from '@/lib/githubFetcher';
 import { markSectionChecked } from '@/lib/notifications';
-import { Search, RefreshCw, Folder, FileText, ChevronRight, Home, Image, HelpCircle, Trash2 } from 'lucide-react';
+import { Search, RefreshCw, Folder, ChevronRight, Image, HelpCircle, Trash2 } from 'lucide-react';
 
 export default function BytesPage() {
   const [bytes, setBytes] = useState<Byte[]>([]);

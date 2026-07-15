@@ -9,7 +9,7 @@ import { getBytes, getQuestions, type Byte, type Question } from '@/lib/dataLoad
 import { fetchGitHubNote } from '@/lib/githubFetcher';
 import { getProgress, recordByteCompleted, syncProgressToRemote } from '@/lib/progressManager';
 import { useAuth } from '@/components/AuthProvider';
-import { ChevronLeft, ChevronRight, CheckCircle, Video, HelpCircle, Check, X } from 'lucide-react';
+import { ChevronLeft, ChevronRight, CheckCircle, HelpCircle, Check, X } from 'lucide-react';
 
 export default function ByteViewPage() {
   const searchParams = useSearchParams();
@@ -24,7 +24,6 @@ export default function ByteViewPage() {
   const [isCompleted, setIsCompleted] = useState(false);
 
   const [selectedAnswers, setSelectedAnswers] = useState<Record<string, string>>({});
-  const [revealedHints, setRevealedHints] = useState<Record<string, boolean>>({});
 
   useEffect(() => {
     if (!id) { setLoading(false); return; }

@@ -29,7 +29,7 @@ export async function saveByteToLocalFile(byte: Byte): Promise<{ success: boolea
       const fileContent = fs.readFileSync(filePath, 'utf8');
       try {
         bytes = JSON.parse(fileContent);
-      } catch (e) {
+      } catch {
         bytes = [];
       }
     }
@@ -93,7 +93,7 @@ export async function saveNoteToLocalFile(note: Note): Promise<{ success: boolea
       const fileContent = fs.readFileSync(filePath, 'utf8');
       try {
         notes = JSON.parse(fileContent);
-      } catch (e) {
+      } catch {
         notes = [];
       }
     }
@@ -157,7 +157,7 @@ export async function saveCourseToLocalFile(courseName: string): Promise<{ succe
       const fileContent = fs.readFileSync(filePath, 'utf8');
       try {
         courses = JSON.parse(fileContent);
-      } catch (e) {
+      } catch {
         courses = [];
       }
     }

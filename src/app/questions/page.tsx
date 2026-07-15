@@ -3,11 +3,11 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { getProgress } from '@/lib/progressManager';
-import { ChevronLeft, Zap, FileText } from 'lucide-react';
+import { ChevronLeft, Zap } from 'lucide-react';
 
 export default function QuestionsPage() {
   const [mounted, setMounted] = useState(false);
-  const [progress, setProgress] = useState(() => getProgress());
+  const [progress] = useState(() => getProgress());
 
   useEffect(() => {
     setMounted(true);

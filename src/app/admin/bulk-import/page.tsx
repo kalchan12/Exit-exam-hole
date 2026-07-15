@@ -139,9 +139,6 @@ export default function BulkImportPage() {
         throw new Error(err.error || 'Failed to load questions');
       }
       const data: { files: LoadedFile[] } = await res.json();
-
-      let totalErrors = 0;
-
       for (const fileData of data.files) {
         setProgress(prev =>
           prev.map(p =>
@@ -157,7 +154,6 @@ export default function BulkImportPage() {
                 : p,
             ),
           );
-          totalErrors++;
           continue;
         }
 
@@ -174,7 +170,6 @@ export default function BulkImportPage() {
             source: q.source,
           });
           if (ok) fileOk++;
-          else totalErrors++;
         }
 
         setProgress(prev =>

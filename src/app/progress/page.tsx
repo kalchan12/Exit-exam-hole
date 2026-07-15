@@ -5,14 +5,10 @@ import { getProgress, type ProgressState } from '@/lib/progressManager';
 import { getQuestions, getNotes, getBytes } from '@/lib/dataLoader';
 import { getLevel, calculateTopicMastery, calculateOverallAccuracy } from '@/lib/gamification';
 import {
-  Trophy,
   Flame,
   Target,
-  BookOpen,
   Cpu,
   Zap,
-  TrendingUp,
-  Award,
   ChevronRight,
   Hexagon,
   Shield,
@@ -55,7 +51,6 @@ export default function ProgressPage() {
 
   if (!mounted || !progress) return null;
 
-  const totalAnswered = stats.answeredCount;
   const accuracy = calculateOverallAccuracy(progress);
   const levelInfo = getLevel(progress.xp);
 

@@ -208,7 +208,7 @@ export default function AdminBytesPage() {
     }
 
     // Accumulate all video links
-    let finalVideoUrls = [...videoUrls];
+    const finalVideoUrls = [...videoUrls];
     const typedVideo = normalizeVideoUrl(newVideoUrl || videoUrl);
     if (typedVideo && !finalVideoUrls.includes(typedVideo)) {
       finalVideoUrls.push(typedVideo);

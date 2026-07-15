@@ -3,8 +3,7 @@
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { ChevronLeft, Zap, Flame, FileText, Search } from 'lucide-react';
-import { DEPARTMENT_SOURCES } from '@/lib/dataLoader';
-import { PINNED_DEPARTMENTS } from '@/lib/constants/game';
+
 import { defaultMeta } from '@/lib/constants/exam';
 
 interface DepartmentListingProps {
@@ -83,7 +82,6 @@ export default function DepartmentListing({
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
         {filteredDeptEntries.map(([dept, sources], index) => {
-          const isPinned = PINNED_DEPARTMENTS.includes(dept);
           const count = questionsLength;
           const meta = dept === 'Computer Science'
             ? { icon: '\ud83d\udcbb', gradient: 'from-emerald-500/20 to-teal-500/20' }

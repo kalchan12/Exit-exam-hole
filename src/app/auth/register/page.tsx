@@ -45,7 +45,7 @@ function PasswordStrength({ password }: { password: string }) {
 
 export default function RegisterPage() {
   const router = useRouter();
-  const { signUp, user, isGuest, loading: authLoading } = useAuth();
+  const { signUp, user, loading: authLoading } = useAuth();
 
   const [formData, setFormData] = useState({
     fullName: '',

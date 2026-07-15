@@ -5,7 +5,6 @@ import { supabase } from '@/lib/supabaseClient';
 import { useAuth } from '@/components/AuthProvider';
 import { isAdmin } from '@/lib/rbac';
 import { deleteUserAccount } from '@/lib/supabaseLoader';
-import Link from 'next/link';
 
 interface Profile {
   id: string;
@@ -20,7 +19,7 @@ export default function UserManagementPage() {
   const { profile, loading: authLoading } = useAuth();
   const [profiles, setProfiles] = useState<Profile[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [, setError] = useState<string | null>(null);
   const [deletingId, setDeletingId] = useState<string | null>(null);
 
   useEffect(() => {

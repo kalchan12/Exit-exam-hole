@@ -14,8 +14,7 @@ import {
   Zap,
   Share2,
   Mail,
-  BookOpen,
-  X
+  BookOpen
 } from 'lucide-react';
 
 export default function ProfilePage() {

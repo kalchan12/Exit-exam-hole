@@ -18,11 +18,8 @@ import {
   FileText,
   TrendingUp,
   AlertTriangle,
-  ChevronRight,
-  Trophy,
   Target,
 } from 'lucide-react';
-import Link from 'next/link';
 
 export default function StatsPage() {
   const [questions, setQuestions] = useState<Question[]>([]);

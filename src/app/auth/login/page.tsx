@@ -9,7 +9,7 @@ import { Sun, Moon } from 'lucide-react';
 
 export default function LoginPage() {
   const router = useRouter();
-  const { signIn, loginAsGuest, user, isGuest, loading: authLoading } = useAuth();
+  const { signIn, loginAsGuest, user, loading: authLoading } = useAuth();
   const { theme, toggleTheme } = useTheme();
 
   const [formData, setFormData] = useState({

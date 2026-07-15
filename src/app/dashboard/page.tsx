@@ -8,7 +8,6 @@ import { getProgress, syncOnLogin, onSyncStatus, type ProgressState } from '@/li
 import {
   getLevel,
   calculateOverallAccuracy,
-  getDailyChallenge,
   getWeakTopics,
 } from '@/lib/gamification';
 import { useAuth } from '@/components/AuthProvider';
@@ -50,14 +49,6 @@ export default function Dashboard() {
     return getLevel(progress.xp);
   }, [progress]);
 
-  const dailyChallengeIndices = useMemo(() => {
-    return getDailyChallenge(questions.length);
-  }, [questions]);
-
-  const dailyQuestion = useMemo(() => {
-    if (questions.length === 0 || dailyChallengeIndices.length === 0) return null;
-    return questions[dailyChallengeIndices[0]];
-  }, [questions, dailyChallengeIndices]);
 
   const weakTopics = useMemo(() => {
     if (!progress) return [];

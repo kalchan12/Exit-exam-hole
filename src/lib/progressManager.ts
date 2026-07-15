@@ -192,7 +192,7 @@ import {
   deleteRemoteProgress,
   mergeProgress,
 } from './supabaseProgress';
-import { XP_CORRECT_ANSWER, XP_NOTE_COMPLETED, XP_BYTE_COMPLETED, XP_EXAM_COMPLETED, XP_PERFECT_SCORE_BONUS, SYNC_DEBOUNCE_MS } from './constants/game';
+import { XP_CORRECT_ANSWER, XP_NOTE_COMPLETED, XP_BYTE_COMPLETED, XP_EXAM_COMPLETED, XP_PERFECT_SCORE_BONUS } from './constants/game';
 
 let syncTimer: ReturnType<typeof setTimeout> | null = null;
 let isSyncing = false;

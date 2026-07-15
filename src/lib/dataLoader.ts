@@ -397,7 +397,7 @@ export async function getCourses(): Promise<string[]> {
     if (res.ok) {
       localFileCourses = await res.json();
     }
-  } catch (e) {
+  } catch {
     // Ignore fetch error if file doesn't exist
   }
 
@@ -407,7 +407,7 @@ export async function getCourses(): Promise<string[]> {
     if (!error && data) {
       dbCourses = data.map((c: { name: string }) => c.name);
     }
-  } catch (e) {
+  } catch {
     // Ignore database errors
   }
 

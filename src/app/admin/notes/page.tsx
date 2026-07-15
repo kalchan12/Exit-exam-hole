@@ -221,7 +221,7 @@ export default function AdminNotesPage() {
         setSuccess('');
         loadData();
       }, 1500);
-    } catch (err) {
+    } catch {
       setError('Failed to fully remove this note.');
     }
   };
@@ -234,8 +234,6 @@ export default function AdminNotesPage() {
     );
   }, [notes, searchQuery]);
 
-  if (authLoading) return <div className="text-gray-500 text-center py-20">Loading...</div>;
-
   const noteCounts = useMemo(() => {
     const counts: Record<string, number> = {};
     notes.forEach(n => {
@@ -243,6 +241,8 @@ export default function AdminNotesPage() {
     });
     return counts;
   }, [notes]);
+
+  if (authLoading) return <div className="text-gray-500 text-center py-20">Loading...</div>;
 
   return (
     <div className="max-w-6xl mx-auto space-y-8 animate-in pb-20">

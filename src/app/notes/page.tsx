@@ -15,10 +15,10 @@ function extractChapterNum(title: string): number {
 export default function NotesPage() {
   const [notes, setNotes] = useState<Note[]>([]);
   const [courses, setCourses] = useState<string[]>([]);
-  const [topics, setTopics] = useState<string[]>([]);
+  const [, setTopics] = useState<string[]>([]);
   const [topicFilter, setTopicFilter] = useState('all');
   const [labelFilter, setLabelFilter] = useState('all');
-  const [majorFilter, setMajorFilter] = useState('all');
+  const [majorFilter] = useState('all');
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
   const [searchQuery, setSearchQuery] = useState('');
   const [mounted, setMounted] = useState(false);
@@ -134,7 +134,6 @@ export default function NotesPage() {
     const courseNotes = sortedCourseNotes[selectedCourse] || [];
     const colors = topicColors[selectedCourse] || 'from-gray-500/20 to-gray-600/20 border-gray-500/30';
     const icon = topicIcons[selectedCourse] || '📖';
-    const isComplete = courseNotes.length > 0 && courseNotes.every(n => completedNotes[n.id]);
 
     return (
       <div className="space-y-6 py-4">

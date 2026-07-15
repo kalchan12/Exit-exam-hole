@@ -1,9 +1,7 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import ThemeProvider from '@/components/ThemeProvider';
-import Sidebar from '@/components/Sidebar';
 import ClientLayout from '@/components/ClientLayout';
-
 import AuthProvider from '@/components/AuthProvider';
 
 export const metadata: Metadata = {

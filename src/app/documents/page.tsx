@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useMemo } from 'react';
 import { supabase } from '@/lib/supabaseClient';
-import { Search, FileText, ChevronLeft, ChevronRight, X, Download, ZoomIn } from 'lucide-react';
+import { Search, FileText, ChevronLeft, ChevronRight, X, Download } from 'lucide-react';
 
 interface Document {
   id: string;

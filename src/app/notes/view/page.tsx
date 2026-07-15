@@ -46,8 +46,8 @@ export default function NoteViewPage() {
          try {
             const fresh = await fetchGitHubNote(foundNote.githubUrl, foundNote.topic);
             foundNote = { ...foundNote, body: fresh.body || '', images: fresh.images };
-         } catch (e) {
-            console.error('Failed to auto-fetch GitHub note:', e);
+         } catch {
+            console.error('Failed to auto-fetch GitHub note:');
          }
       }
       
@@ -104,7 +104,7 @@ export default function NoteViewPage() {
       saveCustomNote(updated);
       setRefreshMsg('Synced from GitHub!');
       setTimeout(() => setRefreshMsg(''), 3000);
-    } catch (e) {
+    } catch {
       setRefreshMsg('Refresh failed');
       setTimeout(() => setRefreshMsg(''), 3000);
     } finally {

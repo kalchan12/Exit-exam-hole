@@ -142,7 +142,7 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
     );
 
     return () => subscription.unsubscribe();
-  }, []);
+  }, [fetchProfile]);
 
   const signUp = useCallback(async (email: string, password: string, profileData: {
     username: string;
@@ -279,7 +279,8 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
         avatarUrl = publicUrl;
       }
 
-      const { avatarFile, ...updateData } = profileData;
+      const updateData = { ...profileData };
+      delete updateData.avatarFile;
       const finalUpdateData = {
         ...updateData,
         avatar_url: avatarUrl,
