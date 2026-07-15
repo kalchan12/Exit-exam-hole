@@ -4,8 +4,6 @@ import { useState, useEffect, useMemo, useCallback, useRef, Suspense } from 'rea
 import { useMounted } from '@/hooks/useMounted';
 import Link from 'next/link';
 import { useSearchParams, useRouter } from 'next/navigation';
-import ReactMarkdown from 'react-markdown';
-import remarkGfm from 'remark-gfm';
 import { getQuestions, type Question, invalidateQuestionsCache, DEPARTMENT_SOURCES } from '@/lib/dataLoader';
 import { getProgress, recordAnswer, recordExamCompleted, syncProgressToRemote } from '@/lib/progressManager';
 import { updateTopicAccuracy } from '@/lib/gamification';
@@ -15,7 +13,8 @@ import { deleteTopicQuestions } from '@/lib/supabaseLoader';
 import ExamDisclaimerModal from '@/components/exam/ExamDisclaimerModal';
 import ExamResultsView from '@/components/exam/ExamResultsView';
 import ExamNavigator from '@/components/exam/ExamNavigator';
-import { Search, Timer, X, Check, X as XIcon, ChevronLeft, ChevronRight, BookOpen, Zap, Flame, FileText } from 'lucide-react';
+import ExamQuestionPanel from '@/components/exam/ExamQuestionPanel';
+import { Search, Timer, X, X as XIcon, ChevronLeft, BookOpen, Zap, Flame, FileText } from 'lucide-react';
 
 const topicMeta: Record<string, { icon: string; gradient: string; border: string }> = {
   'Algorithms': { icon: '⚡', gradient: 'from-purple-500/20 to-indigo-500/20', border: 'border-purple-500/30' },
@@ -27,12 +26,6 @@ const topicMeta: Record<string, { icon: string; gradient: string; border: string
   'Computer Architecture': { icon: '🔧', gradient: 'from-sky-500/20 to-blue-500/20', border: 'border-sky-500/30' },
 };
 const defaultMeta = { icon: '📝', gradient: 'from-primary/20 to-surface-container-highest', border: 'border-primary/30' };
-
-const DIFFICULTY_COLORS: Record<string, string> = {
-  easy: 'badge-easy',
-  medium: 'badge-medium',
-  hard: 'badge-hard',
-};
 
 function ExamContent() {
   const router = useRouter();
@@ -548,135 +541,19 @@ function ExamContent() {
       {currentQuestion ? (
         <div className="flex-1 flex overflow-hidden max-w-[1280px] w-full mx-auto px-margin-desktop gap-gutter py-6">
           {/* Left: Question Panel */}
-          <main className="flex-1 overflow-y-auto pr-2 pb-12 custom-scrollbar">
-            <div className="max-w-[800px] mx-auto flex flex-col gap-8">
-              {/* Question Header */}
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <div className="bg-primary-container text-on-primary-container px-3 py-1 rounded-full text-label-xs font-bold shadow-sm">
-                    Q.{String(currentIndex + 1).padStart(2, '0')}
-                  </div>
-                  <span className={DIFFICULTY_COLORS[currentQuestion.difficulty] || 'badge-medium'}>
-                    {currentQuestion.difficulty}
-                  </span>
-                  {isReviewMode && userAnswers[currentQuestion.id] === currentQuestion.answer && (
-                    <span className="badge-easy">Correct</span>
-                  )}
-                  {isReviewMode && userAnswers[currentQuestion.id] && userAnswers[currentQuestion.id] !== currentQuestion.answer && (
-                    <span className="badge-hard">Incorrect</span>
-                  )}
-                </div>
-                <div className="text-label-sm text-on-surface-variant">+2 Points</div>
-              </div>
-
-              {/* Question Content */}
-              <div className="text-body-lg text-on-surface leading-relaxed prose prose-lg max-w-none prose-headings:text-on-surface prose-p:text-on-surface prose-strong:text-primary prose-code:text-secondary prose-pre:bg-surface-container prose-pre:border prose-pre:border-outline-variant">
-                <ReactMarkdown 
-                  remarkPlugins={[remarkGfm]}
-                  components={{
-                    img: ({...props}) => (
-                      <img 
-                        {...props} 
-                        className="max-w-full sm:max-w-md h-auto rounded-xl mx-auto my-6 border border-outline-variant shadow-sm" 
-                      />
-                    ),
-                    p: ({children}) => <p className="font-medium leading-relaxed">{children}</p>
-                  }}
-                >
-                  {currentQuestion.question}
-                </ReactMarkdown>
-              </div>
-
-              {currentQuestion.options[0] && (
-                <div className="flex flex-col gap-4">
-                  {currentQuestion.options.map((option, idx) => {
-                    const isSelected = userAnswers[currentQuestion.id] === option;
-                    const isCorrect = option === currentQuestion.answer;
-
-                    let containerClass = "group relative flex items-center p-4 rounded-xl border cursor-pointer transition-all overflow-hidden ";
-                    let circleClass = "w-7 h-7 rounded-full border-2 flex items-center justify-center text-label-sm font-bold shrink-0 transition-colors ";
-
-                    if (isReviewMode) {
-                      containerClass += isCorrect
-                        ? "border-secondary bg-secondary-fixed-dim/10"
-                        : isSelected
-                          ? "border-error bg-error-container/20"
-                          : "border-outline-variant bg-surface-container-lowest opacity-60";
-                      circleClass += isCorrect
-                        ? "border-secondary bg-secondary text-on-secondary"
-                        : isSelected
-                          ? "border-error bg-error text-on-error"
-                          : "border-outline text-on-surface-variant";
-                    } else {
-                      containerClass += isSelected
-                        ? "border-primary bg-primary-container/10 shadow-sm"
-                        : "border-outline-variant bg-surface-container-lowest hover:border-primary-fixed-dim hover:shadow-sm";
-                      circleClass += isSelected
-                        ? "border-primary bg-primary text-on-primary"
-                        : "border-outline text-on-surface-variant group-hover:border-primary-fixed-dim";
-                    }
-
-                    return (
-                      <button
-                        key={idx}
-                        onClick={() => handleSelectAnswer(option)}
-                        disabled={isReviewMode}
-                        className={containerClass}
-                      >
-                        <div className="absolute inset-0 bg-primary-container opacity-0 peer-checked:opacity-10 transition-opacity" />
-                        <div className="flex items-center gap-4 relative z-10 w-full">
-                          <div className={circleClass}>
-                            {isReviewMode && isCorrect ? (
-                              <Check className="w-3.5 h-3.5" />
-                            ) : isReviewMode && isSelected && !isCorrect ? (
-                              <XIcon className="w-3.5 h-3.5" />
-                            ) : (
-                              String.fromCharCode(65 + idx)
-                            )}
-                          </div>
-                          <span className={`text-body-base ${isSelected ? 'font-medium' : ''} text-on-surface text-left`}>
-                            {option.replace(/^[A-Z]\)\s?/, '')}
-                          </span>
-                        </div>
-                      </button>
-                    );
-                  })}
-                </div>
-              )}
-
-              {/* Explanation (review mode) */}
-              {isReviewMode && currentQuestion.explanation && (
-                <div className="p-5 rounded-xl bg-primary-container/20 border border-primary/20 animate-in slide-in-from-bottom-2">
-                  <span className="text-label-xs font-bold text-primary tracking-wider block mb-2">Detailed Analysis</span>
-                  <div className="text-body-base text-on-surface-variant leading-relaxed prose prose-sm max-w-none prose-p:text-on-surface-variant prose-strong:text-primary prose-code:text-secondary prose-pre:bg-surface-container prose-pre:border prose-pre:border-outline-variant">
-                    <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                      {currentQuestion.explanation}
-                    </ReactMarkdown>
-                  </div>
-                </div>
-              )}
-
-              {/* Navigation Buttons */}
-              <div className="flex justify-between items-center pt-6 border-t border-outline-variant">
-                <button
-                  onClick={handlePrevious}
-                  disabled={currentIndex === 0}
-                  className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg border border-outline-variant text-on-surface hover:bg-surface-container-low transition-colors text-label-sm font-medium disabled:opacity-30"
-                >
-                  <ChevronLeft className="w-4 h-4" />
-                  Previous
-                </button>
-                <button
-                  onClick={handleNext}
-                  disabled={currentIndex >= filteredQuestions.length - 1}
-                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-primary text-on-primary hover:brightness-110 transition-all text-label-sm font-bold shadow-sm disabled:opacity-50"
-                >
-                  Next Question
-                  <ChevronRight className="w-4 h-4" />
-                </button>
-              </div>
-            </div>
-          </main>
+          <ExamQuestionPanel
+            question={currentQuestion}
+            index={currentIndex}
+            total={filteredQuestions.length}
+            userAnswers={userAnswers}
+            isReviewMode={isReviewMode}
+            onSelectAnswer={handleSelectAnswer}
+            onNext={handleNext}
+            onPrevious={handlePrevious}
+            hasNext={currentIndex < filteredQuestions.length - 1}
+            hasPrevious={currentIndex > 0}
+          />
+          {/* Right: Navigator Sidebar */}
 
           {/* Right: Navigator Sidebar */}
           <ExamNavigator
