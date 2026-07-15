@@ -6,6 +6,7 @@ import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { useAuth } from '@/components/AuthProvider';
 import { isAdmin } from '@/lib/rbac';
+import InlineCreator from '@/components/admin/InlineCreator';
 import {
   getNotes, getCourses, saveCustomCourse, invalidateNotesCache,
   type Note, saveCustomNote, deleteCustomNote
@@ -343,44 +344,17 @@ export default function AdminNotesPage() {
                 })}
 
                 {/* Inline Course Creator */}
-                <div className="p-5 rounded-2xl border border-white/5 bg-black/20 flex flex-col justify-center min-h-[82px]">
-                  {isAddingCourse ? (
-                    <form onSubmit={(e) => { e.preventDefault(); handleAddCourse(); }} className="space-y-2 w-full">
-                      <input
-                        type="text"
-                        value={newCourseName}
-                        onChange={(e) => setNewCourseName(e.target.value)}
-                        placeholder="New course name..."
-                        className="w-full bg-black/40 border border-white/10 rounded-lg px-3 py-1.5 text-xs text-white focus:border-accent-purple focus:outline-none"
-                        required
-                        autoFocus
-                      />
-                      <div className="flex gap-2 justify-end">
-                        <button
-                          type="button"
-                          onClick={() => setIsAddingCourse(false)}
-                          className="text-[10px] font-bold text-gray-400 hover:text-white px-2 py-1"
-                        >
-                          Cancel
-                        </button>
-                        <button
-                          type="submit"
-                          className="bg-accent-purple hover:bg-accent-purple-glow text-white text-[10px] font-black uppercase tracking-wider px-3 py-1 rounded-lg transition-colors"
-                        >
-                          Add
-                        </button>
-                      </div>
-                    </form>
-                  ) : (
-                    <button
-                      onClick={() => setIsAddingCourse(true)}
-                      className="w-full h-full flex items-center justify-center gap-2 text-gray-500 hover:text-white transition-colors"
-                    >
-                      <span className="text-xl">+</span>
-                      <span className="text-xs font-black uppercase tracking-widest">New Course</span>
-                    </button>
-                  )}
-                </div>
+                <InlineCreator
+                  isAdding={isAddingCourse}
+                  value={newCourseName}
+                  onValueChange={setNewCourseName}
+                  onAdd={handleAddCourse}
+                  onCancel={() => setIsAddingCourse(false)}
+                  onStart={() => setIsAddingCourse(true)}
+                  placeholder="New course name..."
+                  buttonLabel="Add"
+                  noun="New Course"
+                />
               </div>
             </div>
           )}

@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useAuth } from '@/components/AuthProvider';
 import { isAdmin } from '@/lib/rbac';
 import FolderCard from '@/components/admin/FolderCard';
+import InlineCreator from '@/components/admin/InlineCreator';
 import BytePreview from '@/components/admin/BytePreview';
 import ByteConfigForm from '@/components/admin/ByteConfigForm';
 import { 
@@ -125,8 +126,8 @@ export default function AdminBytesPage() {
     setNewVideoUrl('');
   };
 
-  const handleCreateCourseFolder = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleCreateCourseFolder = async (e?: React.FormEvent) => {
+    e?.preventDefault();
     const name = newCourseName.trim();
     if (!name) return;
     
@@ -592,44 +593,17 @@ export default function AdminBytesPage() {
                 })}
 
                 {/* Inline Course Creator folder card */}
-                <div className="p-5 rounded-2xl border border-white/5 bg-black/20 flex flex-col justify-center min-h-[82px]">
-                  {isAddingCourse ? (
-                    <form onSubmit={handleCreateCourseFolder} className="space-y-2 w-full">
-                      <input
-                        type="text"
-                        value={newCourseName}
-                        onChange={(e) => setNewCourseName(e.target.value)}
-                        placeholder="New folder name..."
-                        className="w-full bg-black/40 border border-white/10 rounded-lg px-3 py-1.5 text-xs text-white focus:border-accent-purple focus:outline-none"
-                        required
-                        autoFocus
-                      />
-                      <div className="flex gap-2 justify-end">
-                        <button
-                          type="button"
-                          onClick={() => setIsAddingCourse(false)}
-                          className="text-[10px] font-bold text-gray-400 hover:text-white px-2 py-1"
-                        >
-                          Cancel
-                        </button>
-                        <button
-                          type="submit"
-                          className="bg-accent-purple hover:bg-accent-purple-glow text-white text-[10px] font-black uppercase tracking-wider px-3 py-1 rounded-lg transition-colors"
-                        >
-                          Create
-                        </button>
-                      </div>
-                    </form>
-                  ) : (
-                    <button
-                      onClick={() => setIsAddingCourse(true)}
-                      className="w-full h-full flex items-center justify-center gap-2 text-gray-500 hover:text-white transition-colors"
-                    >
-                      <span className="text-xl">+</span>
-                      <span className="text-xs font-black uppercase tracking-widest">New Folder</span>
-                    </button>
-                  )}
-                </div>
+                <InlineCreator
+                  isAdding={isAddingCourse}
+                  value={newCourseName}
+                  onValueChange={setNewCourseName}
+                  onAdd={() => { handleCreateCourseFolder(); }}
+                  onCancel={() => setIsAddingCourse(false)}
+                  onStart={() => setIsAddingCourse(true)}
+                  placeholder="New folder name..."
+                  buttonLabel="Create"
+                  noun="New Folder"
+                />
               </div>
             </div>
           )}
