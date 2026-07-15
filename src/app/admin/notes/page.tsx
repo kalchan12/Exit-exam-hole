@@ -7,6 +7,7 @@ import remarkGfm from 'remark-gfm';
 import { useAuth } from '@/components/AuthProvider';
 import { isAdmin } from '@/lib/rbac';
 import InlineCreator from '@/components/admin/InlineCreator';
+import MajorSelect from '@/components/admin/MajorSelect';
 import {
   getNotes, getCourses, saveCustomCourse, invalidateNotesCache,
   type Note, saveCustomNote, deleteCustomNote
@@ -387,18 +388,7 @@ export default function AdminNotesPage() {
                       required
                     />
                   </div>
-                  <div className="space-y-1">
-                    <label className="text-[10px] uppercase font-black tracking-widest text-gray-400 ml-1">Major Focus</label>
-                    <select
-                      value={major}
-                      onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setMajor(e.target.value as Major)}
-                      className="modern-input w-full cursor-pointer"
-                    >
-                      <option value="Both">Both CSE & Software</option>
-                      <option value="CSE">Computer Science (CSE)</option>
-                      <option value="Software">Software Engineering</option>
-                    </select>
-                  </div>
+                  <MajorSelect value={major} onChange={setMajor} />
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

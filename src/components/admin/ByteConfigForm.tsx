@@ -1,6 +1,7 @@
 'use client';
 
 import VideoUrlManager from '@/components/admin/VideoUrlManager';
+import MajorSelect from '@/components/admin/MajorSelect';
 
 type Major = 'CSE' | 'Software' | 'Both';
 type SourceType = 'github' | 'video' | 'manual';
@@ -111,18 +112,7 @@ export default function ByteConfigForm({
             )}
           </div>
 
-          <div className="space-y-1">
-            <label className="text-[10px] uppercase font-black tracking-widest text-gray-400 ml-1">Major Focus</label>
-            <select
-              value={major}
-              onChange={(e) => onMajorChange(e.target.value as Major)}
-              className="modern-input w-full cursor-pointer"
-            >
-              <option value="Both">Both CSE & Software</option>
-              <option value="CSE">Computer Science (CSE)</option>
-              <option value="Software">Software Engineering</option>
-            </select>
-          </div>
+          <MajorSelect value={major} onChange={onMajorChange} />
         </div>
 
         <div className="space-y-4 border-t md:border-t-0 md:border-l border-white/5 pt-6 md:pt-0 md:pl-6">

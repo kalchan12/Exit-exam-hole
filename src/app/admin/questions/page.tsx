@@ -11,6 +11,7 @@ import { saveQuestionToSupabase, updateQuestionInSupabase, deleteQuestionFromSup
 import { parseQuestionsFromJson, parseQuestionsFromMarkdown } from '@/lib/parsers';
 import SelectionCard from '@/components/admin/SelectionCard';
 import InputGroup from '@/components/admin/InputGroup';
+import MajorSelect from '@/components/admin/MajorSelect';
 
 type Tab = 'add' | 'list';
 type SubType = 'practice' | 'past_exam' | 'model_exam' | null;
@@ -302,14 +303,7 @@ export default function AdminQuestionsPage() {
                     <form onSubmit={handleSubmit} className="space-y-8">
                         {/* Common Metadata */}
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                            <div className="space-y-1">
-                                <label className="text-[10px] uppercase font-black tracking-widest text-gray-400 ml-1">Major Focus</label>
-                                <select value={major} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setMajor(e.target.value as Major)} className="modern-input w-full">
-                                    <option value="Both">Both CSE & Software</option>
-                                    <option value="CSE">Computer Science (CSE)</option>
-                                    <option value="Software">Software Engineering</option>
-                                </select>
-                            </div>
+                            <MajorSelect value={major} onChange={setMajor} />
                             <InputGroup 
                                 label={method === 'single' ? "Source / Title" : "Bulk Questions Title/Source"} 
                                 value={title} 
