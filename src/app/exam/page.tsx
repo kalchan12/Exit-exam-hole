@@ -287,6 +287,7 @@ function ExamContent() {
             value={searchQuery}
             onChange={e => setSearchQuery(e.target.value)}
             placeholder="Search departments..."
+            aria-label="Search departments"
             className="input-field pl-11 border-outline"
           />
         </div>
@@ -403,13 +404,14 @@ function ExamContent() {
               >
                 <div className="absolute top-3 right-3 z-10 flex gap-2">
                   {userIsAdmin && (
-                    <div 
+                    <button
                       onClick={(e) => handleDeleteTopic(e, topic)}
                       className="p-1.5 rounded-lg bg-error-container/30 hover:bg-error-container group/del transition-all cursor-pointer"
                       title="Delete this topic from Supabase"
+                      aria-label="Delete topic from Supabase"
                     >
                       <XIcon className="w-3.5 h-3.5 text-error" />
-                    </div>
+                    </button>
                   )}
                 </div>
 

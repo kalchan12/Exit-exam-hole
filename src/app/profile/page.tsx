@@ -153,7 +153,7 @@ export default function ProfilePage() {
                       <Pencil className="w-3.5 h-3.5" />
                       Update
                     </button>
-                    <button className="w-10 h-10 rounded-xl bg-surface-container border border-outline-variant hover:border-primary/30 transition-all flex items-center justify-center text-on-surface-variant hover:text-primary">
+                    <button className="w-10 h-10 rounded-xl bg-surface-container border border-outline-variant hover:border-primary/30 transition-all flex items-center justify-center text-on-surface-variant hover:text-primary" aria-label="Share profile">
                       <Share2 className="w-4 h-4" />
                     </button>
                   </div>

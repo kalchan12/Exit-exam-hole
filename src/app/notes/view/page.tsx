@@ -207,6 +207,7 @@ export default function NoteViewPage() {
               <input type="text" value={editVideoUrl} onChange={(e) => setEditVideoUrl(e.target.value)}
                 onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); handleEditSave(); } }}
                 placeholder="https://www.youtube.com/watch?v=..."
+                aria-label="Add Video URL"
                 className="input-field"
               />
               <button onClick={handleEditSave}

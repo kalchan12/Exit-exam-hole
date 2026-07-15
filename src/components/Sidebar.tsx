@@ -382,6 +382,7 @@ export default function Sidebar({ isCollapsed, setIsCollapsed }: SidebarProps) {
         {isGuest && (
           <Link
             href="/auth/login"
+            aria-label="Sign In"
             className={`flex items-center transition-all rounded-xl text-primary hover:bg-primary-container ${isCollapsed ? 'justify-center p-3' : 'gap-3 px-4 py-2.5'}`}
           >
             <svg className="w-5 h-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
@@ -393,6 +394,7 @@ export default function Sidebar({ isCollapsed, setIsCollapsed }: SidebarProps) {
 
         <button
           onClick={toggleTheme}
+          aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
           className={`flex items-center transition-all rounded-xl text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high ${isCollapsed ? 'justify-center p-3' : 'gap-3 px-4 py-2.5 w-full'}`}
         >
           {theme === 'dark' ? (

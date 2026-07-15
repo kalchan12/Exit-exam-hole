@@ -336,7 +336,7 @@ export default function AdminQuestionsPage() {
                                 </div>
                                 <div className="space-y-2">
                                     <div className="flex justify-between items-center">
-                                        <label className="text-[10px] uppercase font-black tracking-widest text-gray-400">Question Content (MD)</label>
+                                        <label htmlFor="question-content" className="text-[10px] uppercase font-black tracking-widest text-gray-400">Question Content (MD)</label>
                                         <button type="button" onClick={() => setShowPreview(!showPreview)} className="text-[10px] font-black uppercase text-accent-purple">
                                             {showPreview ? 'Edit' : 'Preview'}
                                         </button>
@@ -347,6 +347,7 @@ export default function AdminQuestionsPage() {
                                         </div>
                                     ) : (
                                         <textarea
+                                            id="question-content"
                                             value={questionText}
                                             onChange={e => setQuestionText(e.target.value)}
                                             className="modern-textarea min-h-[100px] font-mono text-xs"
@@ -369,6 +370,7 @@ export default function AdminQuestionsPage() {
                                                         onChange={() => setCorrectAnswer(i)}
                                                         className="accent-purple-500 w-4 h-4 cursor-pointer"
                                                         title="Mark as Correct Answer"
+                                                        aria-label={`Mark option ${String.fromCharCode(65 + i)} as correct`}
                                                     />
                                                     <span className={`text-[10px] uppercase font-black tracking-widest ${correctAnswer === i ? 'text-green-400' : 'text-gray-500'}`}>
                                                         {correctAnswer === i ? 'Correct Choice' : `Option ${String.fromCharCode(65 + i)}`}
@@ -384,6 +386,7 @@ export default function AdminQuestionsPage() {
                                                     }}
                                                     className={`modern-input ${correctAnswer === i ? 'border border-green-500/40 bg-green-500/5' : ''}`}
                                                     placeholder={`Enter option ${String.fromCharCode(65 + i)}`}
+                                                    aria-label={`Option ${String.fromCharCode(65 + i)}`}
                                                     required
                                                 />
                                             </div>
@@ -391,8 +394,9 @@ export default function AdminQuestionsPage() {
                                     </div>
                                 </div>
                                 <div className="space-y-1">
-                                    <label className="text-[10px] uppercase font-black tracking-widest text-gray-400 ml-1">Explanation (MD)</label>
+                                    <label htmlFor="explanation" className="text-[10px] uppercase font-black tracking-widest text-gray-400 ml-1">Explanation (MD)</label>
                                     <textarea
+                                        id="explanation"
                                         value={explanation}
                                         onChange={e => setExplanation(e.target.value)}
                                         className="modern-textarea min-h-[80px] font-mono text-xs"
@@ -405,8 +409,9 @@ export default function AdminQuestionsPage() {
                         {/* Method: Bulk Manual Paste */}
                         {method === 'bulk' && (
                             <div className="space-y-4">
-                                <label className="text-[10px] uppercase font-black tracking-widest text-gray-400 ml-1">JSON or Markdown Questions Array</label>
+                                <label htmlFor="bulk-content" className="text-[10px] uppercase font-black tracking-widest text-gray-400 ml-1">JSON or Markdown Questions Array</label>
                                 <textarea
+                                  id="bulk-content"
                                   value={manualContent}
                                   onChange={(e) => setManualContent(e.target.value)}
                                   className="modern-textarea min-h-[300px] font-mono text-xs"
@@ -466,11 +471,13 @@ export default function AdminQuestionsPage() {
               onChange={e => setSearchQuery(e.target.value)}
               className="modern-input flex-1 min-w-[200px]"
               placeholder="Search by topic, source or question..."
+              aria-label="Search questions"
             />
             <select
               value={filterSource}
               onChange={e => setFilterSource(e.target.value)}
               className="modern-input min-w-[150px]"
+              aria-label="Filter by source"
             >
               <option value="all">Filter: All Sources</option>
               {sources.map(s => <option key={s} value={s}>{s}</option>)}
