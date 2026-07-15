@@ -82,7 +82,7 @@ export async function deleteTopicQuestions(source: string): Promise<boolean> {
   return true;
 }
 
-// ─── Notes & Bytes (unchanged) ───
+// --- Notes & Bytes (unchanged) ---
 
 import { Note, Byte } from './dataLoader';
 

@@ -129,7 +129,7 @@ export default function NotesPage() {
 
   const allLabels = Array.from(new Set(notes.map(n => n.label).filter(Boolean))) as string[];
 
-  // ── Single course detail view ──
+  // -- Single course detail view --
   if (selectedCourse) {
     const courseNotes = sortedCourseNotes[selectedCourse] || [];
     const colors = topicColors[selectedCourse] || 'from-gray-500/20 to-gray-600/20 border-gray-500/30';
@@ -218,7 +218,7 @@ export default function NotesPage() {
     );
   }
 
-  // ── All courses grid ──
+  // -- All courses grid --
   return (
     <div className="space-y-6 py-4">
       <div>

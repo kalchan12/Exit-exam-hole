@@ -229,7 +229,7 @@ function ExamContent() {
 
   if (!mounted) return null;
 
-  // ─── DEPARTMENT LISTING ───
+  // --- DEPARTMENT LISTING ---
   if (!department && !selectedCategory) {
     return (
       <div className="space-y-6 py-4">
@@ -336,7 +336,7 @@ function ExamContent() {
     );
   }
 
-  // ─── EXAM SOURCES WITHIN A DEPARTMENT ───
+  // --- EXAM SOURCES WITHIN A DEPARTMENT ---
   if (department && !selectedCategory) {
     const sourcesInDept = DEPARTMENT_SOURCES[department] || [];
     const examTopics = topics.filter(t => sourcesInDept.includes(t));
@@ -432,7 +432,7 @@ function ExamContent() {
     );
   }
 
-  // ─── DISCLAIMER MODAL ───
+  // --- DISCLAIMER MODAL ---
   if (!isDisclaimerAccepted) {
     return (
       <ExamDisclaimerModal
@@ -450,7 +450,7 @@ function ExamContent() {
     );
   }
 
-  // ─── RESULTS VIEW ───
+  // --- RESULTS VIEW ---
   if (isFinished) {
     return (
       <ExamResultsView
@@ -469,7 +469,7 @@ function ExamContent() {
     );
   }
 
-  // ─── LIVE EXAM ───
+  // --- LIVE EXAM ---
   return (
     <div className="flex flex-col h-full">
       {/* Sticky Header Bar */}

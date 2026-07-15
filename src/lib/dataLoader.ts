@@ -1,6 +1,6 @@
 import { supabase } from './supabaseClient';
 
-// ─── Types ───
+// --- Types ---
 
 export interface Question {
   id: string;
@@ -56,7 +56,7 @@ export interface Byte {
 
 export type Topic = string;
 
-// ─── Cache ───
+// --- Cache ---
 
 let questionsCache: Question[] | null = null;
 let notesCache: Note[] | null = null;
@@ -83,7 +83,7 @@ export const DEFAULT_COURSES = [
   "Introduction to Artificial Intelligence"
 ];
 
-// ─── Questions (Supabase ONLY) ───
+// --- Questions (Supabase ONLY) ---
 
 // Department groupings for exam organization
 export const DEPARTMENT_SOURCES: Record<string, string[]> = {
@@ -364,7 +364,7 @@ export async function getRandomQuestions(count: number): Promise<Question[]> {
   return shuffled.slice(0, count);
 }
 
-// ─── Notes (Supabase + localStorage + static, unchanged) ───
+// --- Notes (Supabase + localStorage + static, unchanged) ---
 
 function getCustomNotes(): Note[] {
   if (typeof window === 'undefined') return [];

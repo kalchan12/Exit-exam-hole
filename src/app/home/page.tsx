@@ -7,7 +7,7 @@ import Link from 'next/link';
 import { useAuth } from '@/components/AuthProvider';
 import { useTheme } from '@/components/ThemeProvider';
 
-/* ── animated counter hook ─────────────────────────────── */
+/* -- animated counter hook ------------------------------- */
 function useCounter(target: number, duration = 1800, started: boolean) {
   const [value, setValue] = useState(0);
   useEffect(() => {
@@ -25,7 +25,7 @@ function useCounter(target: number, duration = 1800, started: boolean) {
   return value;
 }
 
-/* ── feature cards data ─────────────────────────────────── */
+/* -- feature cards data ----------------------------------- */
 const features = [
   {
     emoji: '📚',
@@ -65,7 +65,7 @@ const features = [
   },
 ];
 
-/* ── main component ─────────────────────────────────────── */
+/* -- main component --------------------------------------- */
 export default function HomePage() {
   const { user, isGuest, loading } = useAuth();
   const { theme, toggleTheme } = useTheme();
@@ -154,7 +154,7 @@ export default function HomePage() {
   return (
     <div className="min-h-screen bg-background text-on-background overflow-x-hidden selection:bg-primary-container selection:text-on-primary-container">
 
-      {/* ── background ── */}
+      {/* -- background -- */}
       <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
         <div className="absolute inset-0 grid-bg opacity-30" />
         <div className="orb orb-1" />
@@ -164,9 +164,9 @@ export default function HomePage() {
           style={{ background: 'color-mix(in srgb, var(--secondary) 8%, transparent)', filter: 'blur(100px)', top: '55%', left: '10%', animation: 'breathe 14s ease-in-out infinite 1s' }} />
       </div>
 
-      {/* ════════════════════════════════════
+      {/* ====================================
           NAVBAR
-      ════════════════════════════════════ */}
+      ==================================== */}
       <nav className="fixed top-0 left-0 right-0 z-50 flex justify-center px-4 pt-4">
         <div className="w-full max-w-6xl glass rounded-2xl shadow-lg px-5 py-3 flex items-center justify-between"
           style={{ boxShadow: 'inset 0 1px 0 rgb(255 255 255 / 0.5), inset 1px 0 0 rgb(255 255 255 / 0.2), 0 4px 24px rgb(0 0 0 / 0.08), 0 1px 4px rgb(0 0 0 / 0.06)' }}>
@@ -239,13 +239,13 @@ export default function HomePage() {
         </div>
       </nav>
 
-      {/* ════════════════════════════════════
+      {/* ====================================
           HERO  — always visible, no reveal
-      ════════════════════════════════════ */}
+      ==================================== */}
       <section className="relative z-10 min-h-screen flex items-center pt-28 pb-20 px-4 sm:px-6">
         <div className="max-w-6xl mx-auto w-full grid lg:grid-cols-2 gap-14 lg:gap-20 items-center">
 
-          {/* ── left: copy ── */}
+          {/* -- left: copy -- */}
           <div>
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-primary-container/70 text-on-primary-container text-[11px] font-bold uppercase tracking-widest mb-7"
               style={{ animation: 'fadeUp 0.55s ease forwards 0.1s', opacity: 0, boxShadow: 'inset 0 1px 0 rgb(255 255 255 / 0.25), 0 1px 3px rgb(66 49 207 / 0.15)' }}>
@@ -297,7 +297,7 @@ export default function HomePage() {
             </div>
           </div>
 
-          {/* ── right: mock card ── */}
+          {/* -- right: mock card -- */}
           <div className="relative hidden lg:flex items-center justify-center py-10">
             <div className="relative w-full max-w-[360px] mx-auto">
               {/* main card */}
@@ -355,9 +355,9 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ════════════════════════════════════
+      {/* ====================================
           STATS  (id="stats" for nav anchor)
-      ════════════════════════════════════ */}
+      ==================================== */}
       <section id="stats" className="relative z-10 py-10" ref={statsRef}>
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -379,9 +379,9 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ════════════════════════════════════
+      {/* ====================================
           FEATURES  (id="features" for nav anchor)
-      ════════════════════════════════════ */}
+      ==================================== */}
       <section id="features" className="relative z-10 py-24 md:py-32 px-4 sm:px-6">
         <div className="max-w-6xl mx-auto">
 
@@ -421,9 +421,9 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ════════════════════════════════════
+      {/* ====================================
           HOW IT WORKS
-      ════════════════════════════════════ */}
+      ==================================== */}
       <section className="relative z-10 py-20 px-4 sm:px-6">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-14" data-reveal>
@@ -464,9 +464,9 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ════════════════════════════════════
+      {/* ====================================
           CTA  (id="cta" for nav anchor)
-      ════════════════════════════════════ */}
+      ==================================== */}
       <section id="cta" className="relative z-10 py-20 px-4 sm:px-6">
         <div className="max-w-4xl mx-auto" data-reveal>
           <div className="relative overflow-hidden rounded-3xl">
@@ -506,9 +506,9 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ════════════════════════════════════
+      {/* ====================================
           FOOTER
-      ════════════════════════════════════ */}
+      ==================================== */}
       <footer className="relative z-10 px-4 sm:px-6 pb-10">
         <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 pt-8"
           style={{ borderTop: '1px solid color-mix(in srgb, var(--on-surface) 8%, transparent)' }}>
