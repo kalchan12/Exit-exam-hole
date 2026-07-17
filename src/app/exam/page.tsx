@@ -14,6 +14,7 @@ import ExamDisclaimerModal from '@/components/exam/ExamDisclaimerModal';
 import ExamResultsView from '@/components/exam/ExamResultsView';
 import ExamNavigator from '@/components/exam/ExamNavigator';
 import ExamQuestionPanel from '@/components/exam/ExamQuestionPanel';
+import { PageSkeleton } from '@/components/ui/LoadingSkeleton';
 import { Search, Timer, X, X as XIcon, ChevronLeft, BookOpen, Zap, Flame, FileText } from 'lucide-react';
 
 const topicMeta: Record<string, { icon: string; gradient: string; border: string }> = {
@@ -580,14 +581,7 @@ function ExamContent() {
 
 export default function ExamPage() {
   return (
-    <Suspense fallback={
-      <div className="flex items-center justify-center h-40">
-        <div className="flex items-center gap-3 text-on-surface-variant">
-          <div className="w-5 h-5 rounded-full border-2 border-primary border-t-transparent animate-spin" />
-          <span className="text-label-sm">Loading Exam...</span>
-        </div>
-      </div>
-    }>
+    <Suspense fallback={<PageSkeleton />}>
       <ExamContent />
     </Suspense>
   );
