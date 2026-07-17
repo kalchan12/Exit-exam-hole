@@ -16,17 +16,8 @@ import ExamNavigator from '@/components/exam/ExamNavigator';
 import ExamQuestionPanel from '@/components/exam/ExamQuestionPanel';
 import { PageSkeleton } from '@/components/ui/LoadingSkeleton';
 import { Search, Timer, X, X as XIcon, ChevronLeft, BookOpen, Zap, Flame, FileText } from 'lucide-react';
-
-const topicMeta: Record<string, { icon: string; gradient: string; border: string }> = {
-  'Algorithms': { icon: '⚡', gradient: 'from-purple-500/20 to-indigo-500/20', border: 'border-purple-500/30' },
-  'Operating Systems': { icon: '🖥️', gradient: 'from-cyan-500/20 to-blue-500/20', border: 'border-cyan-500/30' },
-  'Database Systems': { icon: '🗄️', gradient: 'from-emerald-500/20 to-teal-500/20', border: 'border-emerald-500/30' },
-  'Networking': { icon: '🌐', gradient: 'from-orange-500/20 to-amber-500/20', border: 'border-orange-500/30' },
-  'Software Engineering': { icon: '🛠️', gradient: 'from-rose-500/20 to-pink-500/20', border: 'border-rose-500/30' },
-  'Data Structures': { icon: '🧱', gradient: 'from-violet-500/20 to-purple-500/20', border: 'border-violet-500/30' },
-  'Computer Architecture': { icon: '🔧', gradient: 'from-sky-500/20 to-blue-500/20', border: 'border-sky-500/30' },
-};
-const defaultMeta = { icon: '📝', gradient: 'from-primary/20 to-surface-container-highest', border: 'border-primary/30' };
+import { topicMeta, defaultMeta, TIMER_WARNING_SECONDS, TIMER_URGENT_SECONDS, BACK_LINK_CLASSES } from '@/lib/constants/exam';
+import { PINNED_DEPARTMENTS } from '@/lib/constants/game';
 
 function ExamContent() {
   const router = useRouter();
@@ -50,7 +41,7 @@ function ExamContent() {
   const [searchQuery, setSearchQuery] = useState('');
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
-  const PINNED_DEPTS = useMemo(() => ['Computer Science', 'Software Engineering'], []);
+  const PINNED_DEPTS = PINNED_DEPARTMENTS;
 
   const sortedDeptEntries = useMemo(() => {
     return Object.entries(DEPARTMENT_SOURCES).sort(([a], [b]) => {
@@ -236,7 +227,7 @@ function ExamContent() {
       <div className="space-y-6 py-4">
         <Link 
           href="/dashboard"
-          className="inline-flex items-center gap-2 text-label-xs text-on-surface-variant hover:text-primary transition-colors font-medium"
+          className={BACK_LINK_CLASSES}
         >
           <ChevronLeft className="w-4 h-4" />
           Return to Dashboard
@@ -344,7 +335,7 @@ function ExamContent() {
     if (examTopics.length === 0) {
       return (
         <div className="space-y-10 py-4">
-          <button onClick={() => router.push('/exam')} className="inline-flex items-center gap-2 text-label-xs text-on-surface-variant hover:text-primary transition-colors font-medium">
+          <button onClick={() => router.push('/exam')} className={BACK_LINK_CLASSES}>
             <ChevronLeft className="w-4 h-4" />
             All Departments
           </button>
@@ -357,7 +348,7 @@ function ExamContent() {
 
     return (
       <div className="space-y-6 py-4">
-        <button onClick={() => router.push('/exam')} className="inline-flex items-center gap-2 text-label-xs text-on-surface-variant hover:text-primary transition-colors font-medium">
+        <button onClick={() => router.push('/exam')} className={BACK_LINK_CLASSES}>
           <ChevronLeft className="w-4 h-4" />
           All Departments
         </button>
@@ -503,15 +494,15 @@ function ExamContent() {
           <span className="text-body-base text-on-surface-variant font-medium">Question {currentIndex + 1} of {filteredQuestions.length}</span>
           {timeLeft !== null && (
             <div className={`flex items-center gap-2 px-3 py-1.5 rounded-lg border transition-all ${
-              timeLeft <= 60
+              timeLeft <= TIMER_WARNING_SECONDS
                 ? 'bg-error-container/30 border-error/40'
-                : timeLeft <= 300
+                : timeLeft <= TIMER_URGENT_SECONDS
                   ? 'bg-tertiary-fixed-dim/30 border-tertiary/40'
                   : 'bg-secondary-fixed-dim/30 border-secondary/40'
             }`}>
-              <Timer className={`w-4 h-4 ${timeLeft <= 60 ? 'text-error' : timeLeft <= 300 ? 'text-tertiary' : 'text-secondary'}`} />
+              <Timer className={`w-4 h-4 ${timeLeft <= TIMER_WARNING_SECONDS ? 'text-error' : timeLeft <= TIMER_URGENT_SECONDS ? 'text-tertiary' : 'text-secondary'}`} />
               <span className={`font-mono text-sm font-bold tabular-nums tracking-tight ${
-                timeLeft <= 60 ? 'text-error' : timeLeft <= 300 ? 'text-tertiary' : 'text-secondary'
+                timeLeft <= TIMER_WARNING_SECONDS ? 'text-error' : timeLeft <= TIMER_URGENT_SECONDS ? 'text-tertiary' : 'text-secondary'
               }`}>
                 {formatTime(timeLeft)}
               </span>
@@ -522,8 +513,8 @@ function ExamContent() {
         <div className="flex items-center gap-3">
           {timeLeft !== null && (
             <div className="sm:hidden flex items-center gap-2 px-3 py-1.5 rounded-lg bg-surface-container border border-outline-variant">
-              <Timer className={`w-3.5 h-3.5 ${timeLeft <= 60 ? 'text-error' : timeLeft <= 300 ? 'text-tertiary' : 'text-secondary'}`} />
-              <span className={`font-mono text-xs font-bold tabular-nums ${timeLeft <= 60 ? 'text-error' : timeLeft <= 300 ? 'text-tertiary' : 'text-secondary'}`}>
+              <Timer className={`w-3.5 h-3.5 ${timeLeft <= TIMER_WARNING_SECONDS ? 'text-error' : timeLeft <= TIMER_URGENT_SECONDS ? 'text-tertiary' : 'text-secondary'}`} />
+              <span className={`font-mono text-xs font-bold tabular-nums ${timeLeft <= TIMER_WARNING_SECONDS ? 'text-error' : timeLeft <= TIMER_URGENT_SECONDS ? 'text-tertiary' : 'text-secondary'}`}>
                 {formatTime(timeLeft)}
               </span>
             </div>

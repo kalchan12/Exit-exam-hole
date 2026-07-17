@@ -4,12 +4,7 @@ import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { Check, X as XIcon, ChevronLeft, ChevronRight } from 'lucide-react';
 import type { Question } from '@/lib/dataLoader';
-
-const DIFFICULTY_COLORS: Record<string, string> = {
-  easy: 'badge-easy',
-  medium: 'badge-medium',
-  hard: 'badge-hard',
-};
+import { DIFFICULTY_COLORS } from '@/lib/constants/exam';
 
 interface ExamQuestionPanelProps {
   question: Question;

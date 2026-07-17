@@ -5,6 +5,7 @@ import { useMounted } from '@/hooks/useMounted';
 import Link from 'next/link';
 import { getProgress } from '@/lib/progressManager';
 import { ChevronLeft, Zap } from 'lucide-react';
+import { BACK_LINK_CLASSES } from '@/lib/constants/exam';
 
 export default function QuestionsPage() {
   const mounted = useMounted();
@@ -17,7 +18,7 @@ export default function QuestionsPage() {
     <div className="space-y-8 py-4">
       <Link 
         href="/dashboard" 
-        className="inline-flex items-center gap-2 text-label-xs text-on-surface-variant hover:text-primary transition-colors font-medium"
+        className={BACK_LINK_CLASSES}
       >
         <ChevronLeft className="w-4 h-4" />
         Return to Dashboard

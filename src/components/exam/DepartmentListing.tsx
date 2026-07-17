@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { ChevronLeft, Zap, Flame, FileText, Search } from 'lucide-react';
 
-import { defaultMeta } from '@/lib/constants/exam';
+import { defaultMeta, BACK_LINK_CLASSES } from '@/lib/constants/exam';
 
 interface DepartmentListingProps {
   xp: number;
@@ -29,7 +29,7 @@ export default function DepartmentListing({
     <div className="space-y-6 py-4">
       <Link
         href="/dashboard"
-        className="inline-flex items-center gap-2 text-label-xs text-on-surface-variant hover:text-primary transition-colors font-medium"
+        className={BACK_LINK_CLASSES}
       >
         <ChevronLeft className="w-4 h-4" />
         Return to Dashboard

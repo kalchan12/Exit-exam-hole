@@ -20,3 +20,5 @@ export const DIFFICULTY_COLORS: Record<string, string> = {
   medium: 'badge-medium',
   hard: 'badge-hard',
 };
+
+export const BACK_LINK_CLASSES = 'inline-flex items-center gap-2 text-label-xs text-on-surface-variant hover:text-primary transition-colors font-medium';
