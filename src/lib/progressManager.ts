@@ -1,3 +1,4 @@
+/** User progress state persisted to localStorage. */
 export interface ProgressState {
   answeredQuestions: Record<string, boolean>;
   correctAnswers: Record<string, boolean>;
@@ -37,6 +38,7 @@ function isValidProgress(data: unknown): data is ProgressState {
   );
 }
 
+/** Load progress state from localStorage. */
 export function getProgress(): ProgressState {
   if (typeof window === 'undefined') return { ...defaultState };
 
@@ -63,6 +65,7 @@ export function getProgress(): ProgressState {
   }
 }
 
+/** Persist progress state to localStorage. */
 export function saveProgress(state: ProgressState): void {
   if (typeof window === 'undefined') return;
 
@@ -73,6 +76,7 @@ export function saveProgress(state: ProgressState): void {
   }
 }
 
+/** Record an answer and update XP/streak. */
 export function recordAnswer(
   questionId: string,
   isCorrect: boolean,
@@ -108,16 +112,19 @@ function updateStreak(state: ProgressState, topic: string): void {
   state.lastTopic = topic;
 }
 
+/** Get total number of answered questions. */
 export function getAnsweredCount(): number {
   const state = getProgress();
   return Object.keys(state.answeredQuestions).length;
 }
 
+/** Get total number of correct answers. */
 export function getCorrectCount(): number {
   const state = getProgress();
   return Object.values(state.correctAnswers).filter(Boolean).length;
 }
 
+/** Mark a note as completed and award XP. */
 export function recordNoteCompleted(noteId: string): void {
   const state = getProgress();
   if (!state.completedNotes[noteId]) {
@@ -128,6 +135,7 @@ export function recordNoteCompleted(noteId: string): void {
   }
 }
 
+/** Mark a byte as completed and award XP. */
 export function recordByteCompleted(byteId: string): void {
   const state = getProgress();
   if (!state.completedBytes[byteId]) {
@@ -138,16 +146,19 @@ export function recordByteCompleted(byteId: string): void {
   }
 }
 
+/** Get number of completed notes. */
 export function getCompletedNotesCount(): number {
   const state = getProgress();
   return Object.keys(state.completedNotes || {}).length;
 }
 
+/** Get number of completed bytes. */
 export function getCompletedBytesCount(): number {
   const state = getProgress();
   return Object.keys(state.completedBytes || {}).length;
 }
 
+/** Record exam completion and award XP. */
 export function recordExamCompleted(correct: number, total: number): void {
   const state = getProgress();
   state.xp += XP_EXAM_COMPLETED;
@@ -157,6 +168,7 @@ export function recordExamCompleted(correct: number, total: number): void {
   saveProgress(state);
 }
 
+/** Clear all locally stored progress. */
 export function resetProgress(): void {
   if (typeof window === 'undefined') return;
   try {
@@ -167,6 +179,7 @@ export function resetProgress(): void {
 // Theme persistence
 const THEME_KEY = 'cs_exam_prep_theme';
 
+/** Get the current theme from localStorage. */
 export function getTheme(): 'dark' | 'light' {
   if (typeof window === 'undefined') return 'dark';
   try {
@@ -176,6 +189,7 @@ export function getTheme(): 'dark' | 'light' {
   }
 }
 
+/** Persist the theme preference to localStorage. */
 export function setTheme(theme: 'dark' | 'light'): void {
   if (typeof window === 'undefined') return;
   try {
@@ -200,6 +214,7 @@ let isSyncing = false;
 type SyncCallback = (status: 'syncing' | 'synced' | 'error') => void;
 let syncStatusCallback: SyncCallback | null = null;
 
+/** Register a callback for sync status updates. */
 export function onSyncStatus(cb: SyncCallback | null) {
   syncStatusCallback = cb;
 }

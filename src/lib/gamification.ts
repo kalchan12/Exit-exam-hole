@@ -1,14 +1,17 @@
 import { getProgress, saveProgress, ProgressState } from './progressManager';
 import { ACCURACY_WEIGHT, LEVELS } from './constants/game';
 
+/** Get the total XP from the progress state. */
 export function calculateXP(state: ProgressState): number {
   return state.xp;
 }
 
+/** Get the current streak from the progress state. */
 export function calculateStreak(state: ProgressState): number {
   return state.streak;
 }
 
+/** Calculate mastery percentage for a specific topic. */
 export function calculateTopicMastery(
   topic: string,
   answeredQuestions: Record<string, boolean>,
@@ -25,6 +28,7 @@ export function calculateTopicMastery(
   return Math.round((correct / topicQuestionIds.length) * 100);
 }
 
+/** Calculate overall answer accuracy percentage. */
 export function calculateOverallAccuracy(state: ProgressState): number {
   const total = Object.keys(state.answeredQuestions).length;
   if (total === 0) return 0;
@@ -33,6 +37,7 @@ export function calculateOverallAccuracy(state: ProgressState): number {
   return Math.round((correct / total) * 100);
 }
 
+/** Get topics with accuracy below a threshold, sorted weakest first. */
 export function getWeakTopics(
   accuracyByTopic: Record<string, number>,
   threshold: number = 50
@@ -43,6 +48,7 @@ export function getWeakTopics(
     .sort((a, b) => (accuracyByTopic[a] || 0) - (accuracyByTopic[b] || 0));
 }
 
+/** Update accuracy for a topic using exponential moving average. */
 export function updateTopicAccuracy(
   topic: string,
   isCorrect: boolean
@@ -66,6 +72,7 @@ export function updateTopicAccuracy(
   return state.accuracyByTopic;
 }
 
+/** Generate deterministic question indices for the daily challenge. */
 export function getDailyChallenge(totalQuestions: number): number[] {
   // Generate consistent daily indices based on date
   const today = new Date().toISOString().split('T')[0];
@@ -85,6 +92,7 @@ export function getDailyChallenge(totalQuestions: number): number[] {
   return Array.from(new Set(indices)); // Remove duplicates
 }
 
+/** Get level info (level, title, progress to next level) based on XP. */
 export function getLevel(xp: number): { level: number; title: string; nextLevelXP: number; progress: number } {
   let currentLevel = 0;
   for (let i = LEVELS.length - 1; i >= 0; i--) {
